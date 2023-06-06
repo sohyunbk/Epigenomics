@@ -16,4 +16,4 @@ OutFileList=(1_A619_Re2 1_A619_Re1 3_bif3_Re2 3_bif3_Re1)
 python /home/sb14489/SingleCell_Pipelines/scATAC-seq/0_CoreScript/UploadJbrowser/Tn5InsertionByCelltype_RunningMacs2.py \
 -BedFile /scratch/sb14489/3.scATAC/4.Bif3Ref/4.Bam_FixingBarcode/"${BedList[SLURM_ARRAY_TASK_ID]}" \
 -Outfile /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2/"${OutFileList[SLURM_ARRAY_TASK_ID]}" \
--MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/"${MetaData[SLURM_ARRAY_TASK_ID]}
+-MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/"${MetaData[SLURM_ARRAY_TASK_ID]}"
