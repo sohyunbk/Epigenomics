@@ -16,7 +16,7 @@ BedList=(1_A619_2_Unique.bed 1_A619_Unique.bed 3_bif3_2_Unique.bed 3_bif3_Unique
 MetaData=(Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt  Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt)
 OutFileList=(1_A619_Re2 1_A619_Re1 3_bif3_Re2 3_bif3_Re1)
 
-python /home/sb14489/SingleCell_Pipelines/scATAC-seq/0_CoreScript/UploadJbrowser/Tn5InsertionByCelltype_RunningMacs2.py \
+~/.conda/envs/r_env/bin/python /home/sb14489/SingleCell_Pipelines/scATAC-seq/0_CoreScript/UploadJbrowser/Tn5InsertionByCelltype_RunningMacs2.py \
 -BedFile /scratch/sb14489/3.scATAC/4.Bif3Ref/4.Bam_FixingBarcode/"${BedList[SLURM_ARRAY_TASK_ID]}" \
 -Outfile /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2/"${OutFileList[SLURM_ARRAY_TASK_ID]}" \
 -MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/"${MetaData[SLURM_ARRAY_TASK_ID]}"
