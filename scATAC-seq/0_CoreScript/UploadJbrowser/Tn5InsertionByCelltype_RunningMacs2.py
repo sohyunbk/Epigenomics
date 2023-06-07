@@ -17,6 +17,7 @@ import errno
 import datetime
 import random
 import string
+import glob
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -47,41 +48,61 @@ def get_parser():
     args = vars(parser.parse_args())
     return parser
 
-args = get_parser().parse_args()
-BedFile = args.bed
-MetaFile = args.m
-Outfile =args.Outfile
+def MakeBarcode_CellTypeDic(MetaFile):
+    ##### Start
+    infile = open(MetaFile,"r")
+    infile.readline()
+    Dic ={}
+    #CellTypeDic = {}
+    ## To be easy, annotation column is the last col
+    for sLine in infile:
+        sList =sLine.strip().split("\t")
+        CellType = sList[len(sList)-1]
+        Barcode = sList[0]
+        #Dic.setdefault(CellType,[])
+        #Dic[CellType].append(Barcode)
+        Dic[Barcode]=CellType
+        #CellTypeDic.setdefault(CellType,"")
+    infile.close()
+    return Dic
 
-infile = open(MetaFile,"r")
-infile.readline()
-Dic ={}
-CellTypeDic = {}
-## To be easy, annotation column is the last col
-for sLine in infile:
-    sList =sLine.strip().split("\t")
-    CellType = sList[len(sList)-1]
-    Barcode = sList[0]
-    #Dic.setdefault(CellType,[])
-    #Dic[CellType].append(Barcode)
-    Dic[Barcode]=CellType
-    CellTypeDic.setdefault(CellType,"")
-infile.close()
+def ReadTn5BedFile(BedFile,Dic):
+    Tn5BedFile = open(BedFile,"r")
+    #outfile = open(Outfile,"w")
+    AllDic ={}
+    for sLine in Tn5BedFile:
+        sList =sLine.strip().split("\t")
+        # Barcode = sList[3]
+        if sList[3] in Dic.keys():
+            AssignedCell = Dic[sList[3]]
+            AllDic.setdefault(AssignedCell,[])
+            AllDic[AssignedCell].append(sLine)
+    Tn5BedFile.close()
+    return AllDic
 
-Tn5BedFile = open(BedFile,"r")
-#outfile = open(Outfile,"w")
-AllDic ={}
-for sLine in Tn5BedFile:
-    sList =sLine.strip().split("\t")
-    # Barcode = sList[3]
-    if sList[3] in Dic.keys():
-        AssignedCell = Dic[sList[3]]
-        AllDic.setdefault(AssignedCell,[])
-        AllDic[AssignedCell].append(sLine)
-Tn5BedFile.close()
+def WriteBedFiles(Outfile,AllDic):
+    for sCelltypes in AllDic.keys():
+        outfile = open(Outfile+"_"+sCelltypes+".bed","w")
+        for sNewLine in AllDic[sCelltypes]:
+            outfile.write(sNewLine)
+        outfile.close()
 
-#outfile.close()
-for sCelltypes in AllDic.keys():
-    outfile = open(Outfile+"_"+sCelltypes+".bed","w")
-    for sNewLine in AllDic[sCelltypes]:
-        outfile.write(sNewLine)
-    outfile.close()
+
+if __name__ == "__main__":
+    args = get_parser().parse_args()
+    BedFile = args.bed
+    MetaFile = args.m
+    Outfile =args.Outfile
+
+
+    #Dic = MakeBarcode_CellTypeDic(MetaFile) #Dic -- Barcode : Cell type.
+    #AllDic = ReadTn5BedFile(BedFile,Dic)
+    #WriteBedFiles(Outfile,AllDic)
+
+    for sBedFiles in glob.glob(Outfile+"/*"):
+        print(sBedFiles)
+        Cmd = "macs2 callpeak -t %s -f BED --nomodel \
+                    --keep-dup all --extsize 150 --shift -50 --qvalue .05 --outdir {final_output_dir_name} --bdg \
+                    -n %s"%(sBedFiles,sBedFiles.replace("bed",""))
+        print(Cmd)
+        os.system(Cmd)
