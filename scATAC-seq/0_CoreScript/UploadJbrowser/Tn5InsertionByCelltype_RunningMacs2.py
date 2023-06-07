@@ -32,6 +32,13 @@ def get_parser():
         dest="bed",
     )
     parser.add_argument(
+        "-GenomeSize",
+        "--GenomeSize",
+        help="GenomeSize",
+        required=True,
+        dest="fai",
+    )
+    parser.add_argument(
         "-MetaFile",
         "--MetaFile",
         help="MetaFile",
@@ -95,14 +102,62 @@ def RunMACS2(Outfile):
                     -n %s"%(sBedFiles,sBedFiles.replace(".bed",""),sBedFiles.replace(".bed",""))
         print(Cmd)
         os.system(Cmd)
+def Normalize_bdg(Outfile,FaiFile):
+    infile = open(FaiFile,"r")
+    Fai = {}
+    for sLine in infile:
+        Fai[sLine.split("\t")[0]] = int(sLine.split("\t")[1])
+    ## Make Depth Dic ###
+    WD = "/".join(Outfile.split("/")[0:len(Outfile.split("/"))-1])+"/"
+    FileList = []
+    TotalReadDic = {}
+    for Dir in os.listdir(WD):
+        d = os.path.join(WD, Dir)
+        if os.path.isdir(d) in Dir:
+            #print(d)
+            FileName = d+"/"+Dir+"_treat_pileup.bdg"
+            FileList.append(FileName)
+            #infile = open(FileName,"r")
+        else :
+            #print(Dir.replace(".bed",""))
+            TotalBed = open(d,"r")
+            Length = len(TotalBed.readlines())
+            #print(Length)
+            TotalReadDic[Dir.replace(".bed","")] = Length
+            TotalBed.close()
+
+    ### Outfile the statistics of the reads numbers!
+    StatOut = open(WD+"NumberofTn5_byReplicates_byCT.txt","w")
+    print("DoneStats!")
+    for i in TotalReadDic:
+        StatOut.write(i+"\t"+str(TotalReadDic[i])+"\n")
+    StatOut.close()
+
+    for Files in FileList:
+        infile = open(Files,"r")
+        outfile = open(Files.replace(".bdg","_CPM.bdg"),"w")
+        DicName = Files.split("/")[len(Files.split("/"))-1].replace("_treat_pileup.bdg","")
+        print(DicName)
+        for sLine in infile:
+
+            sList = sLine.strip().split("\t")
+            if int(sList[2]) < Fai[sList[0]]:
+                nAbundance = float(sList[3])
+                Normalized = (nAbundance/int(TotalReadDic[DicName]))*1000000
+                outfile.write("\t".join(sList[0:3])+"\t"+str(Normalized)+"\n")
+        infile.close()
+        outfile.close()
 
 if __name__ == "__main__":
     args = get_parser().parse_args()
     BedFile = args.bed
     MetaFile = args.m
     Outfile =args.Outfile
+    FaiFile = args.fai
 
     #Dic = MakeBarcode_CellTypeDic(MetaFile) #Dic -- Barcode : Cell type.
     #AllDic = ReadTn5BedFile(BedFile,Dic)
     #WriteBedFiles(Outfile,AllDic)
     #RunMACS2(Outfile)
+
+    Normalize_bdg(Outfile,FaiFile)
