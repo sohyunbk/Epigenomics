@@ -99,7 +99,7 @@ if __name__ == "__main__":
     #AllDic = ReadTn5BedFile(BedFile,Dic)
     #WriteBedFiles(Outfile,AllDic)
 
-    for sBedFiles in glob.glob(Outfile+"/*"):
+    for sBedFiles in glob.glob(Outfile+"*"):
         print(sBedFiles)
         Cmd = "macs2 callpeak -t %s -f BED --nomodel \
                     --keep-dup all --extsize 150 --shift -50 --qvalue .05 --outdir {final_output_dir_name} --bdg \
