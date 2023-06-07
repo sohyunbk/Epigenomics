@@ -87,18 +87,7 @@ def WriteBedFiles(Outfile,AllDic):
             outfile.write(sNewLine)
         outfile.close()
 
-
-if __name__ == "__main__":
-    args = get_parser().parse_args()
-    BedFile = args.bed
-    MetaFile = args.m
-    Outfile =args.Outfile
-
-
-    #Dic = MakeBarcode_CellTypeDic(MetaFile) #Dic -- Barcode : Cell type.
-    #AllDic = ReadTn5BedFile(BedFile,Dic)
-    #WriteBedFiles(Outfile,AllDic)
-
+def RunMACS2(Outfile):
     for sBedFiles in glob.glob(Outfile+"*"):
         print(sBedFiles)
         Cmd = "macs2 callpeak -t %s -f BED --nomodel \
@@ -106,3 +95,14 @@ if __name__ == "__main__":
                     -n %s"%(sBedFiles,sBedFiles.replace(".bed",""),sBedFiles.replace(".bed",""))
         print(Cmd)
         os.system(Cmd)
+
+if __name__ == "__main__":
+    args = get_parser().parse_args()
+    BedFile = args.bed
+    MetaFile = args.m
+    Outfile =args.Outfile
+
+    #Dic = MakeBarcode_CellTypeDic(MetaFile) #Dic -- Barcode : Cell type.
+    #AllDic = ReadTn5BedFile(BedFile,Dic)
+    #WriteBedFiles(Outfile,AllDic)
+    #RunMACS2(Outfile)
