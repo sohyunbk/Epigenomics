@@ -115,7 +115,7 @@ def Normalize_bdg(Outfile,FaiFile):
     for FileName in os.glob(WD+"*_treat_pileup.bdg"):
         FileList.append(FileName)
             #infile = open(FileName,"r")
-    for d in os.glob(WD+"*.bed"):
+    for d in glob.glob(WD+"*.bed"):
         #print(Dir.replace(".bed",""))
         TotalBed = open(d,"r")
         Length = len(TotalBed.readlines())
