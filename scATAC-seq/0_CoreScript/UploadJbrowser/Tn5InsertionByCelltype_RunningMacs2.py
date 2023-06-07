@@ -98,10 +98,11 @@ def RunMACS2(Outfile):
     for sBedFiles in glob.glob(Outfile+"*"):
         print(sBedFiles)
         Cmd = "macs2 callpeak -t %s -f BED --nomodel \
-                    --keep-dup all --extsize 150 --shift -50 --qvalue .05 --outdir %s --bdg \
-                    -n %s"%(sBedFiles,sBedFiles.replace(".bed",""),sBedFiles.replace(".bed",""))
+                    --keep-dup all --extsize 150 --shift -50 --qvalue .05 --bdg \
+                    -n %s"%(sBedFiles,sBedFiles.replace(".bed",""))
         print(Cmd)
         os.system(Cmd)
+
 def Normalize_bdg(Outfile,FaiFile):
     infile = open(FaiFile,"r")
     Fai = {}
@@ -111,21 +112,16 @@ def Normalize_bdg(Outfile,FaiFile):
     WD = "/".join(Outfile.split("/")[0:len(Outfile.split("/"))-1])+"/"
     FileList = []
     TotalReadDic = {}
-    for Dir in os.listdir(WD):
-        d = os.path.join(WD, Dir)
-        if os.path.isdir(d) in Dir:
-            #print(d)
-            FileName = d+"/"+Dir+"_treat_pileup.bdg"
-            FileList.append(FileName)
+    for FileName in os.glob(WD+"*_treat_pileup.bdg"):
+        FileList.append(FileName)
             #infile = open(FileName,"r")
-        else :
-            #print(Dir.replace(".bed",""))
-            TotalBed = open(d,"r")
-            Length = len(TotalBed.readlines())
-            #print(Length)
-            TotalReadDic[Dir.replace(".bed","")] = Length
-            TotalBed.close()
-
+    for d in os.glob(WD+"*.bed"):
+        #print(Dir.replace(".bed",""))
+        TotalBed = open(d,"r")
+        Length = len(TotalBed.readlines())
+        #print(Length)
+        TotalReadDic[Dir.replace(".bed","")] = Length
+        TotalBed.close()
     ### Outfile the statistics of the reads numbers!
     StatOut = open(WD+"NumberofTn5_byReplicates_byCT.txt","w")
     print("DoneStats!")
@@ -139,7 +135,6 @@ def Normalize_bdg(Outfile,FaiFile):
         DicName = Files.split("/")[len(Files.split("/"))-1].replace("_treat_pileup.bdg","")
         print(DicName)
         for sLine in infile:
-
             sList = sLine.strip().split("\t")
             if int(sList[2]) < Fai[sList[0]]:
                 nAbundance = float(sList[3])
@@ -159,5 +154,4 @@ if __name__ == "__main__":
     #AllDic = ReadTn5BedFile(BedFile,Dic)
     #WriteBedFiles(Outfile,AllDic)
     #RunMACS2(Outfile)
-
     Normalize_bdg(Outfile,FaiFile)
