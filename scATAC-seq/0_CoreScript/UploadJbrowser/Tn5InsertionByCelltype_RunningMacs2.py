@@ -102,7 +102,7 @@ if __name__ == "__main__":
     for sBedFiles in glob.glob(Outfile+"*"):
         print(sBedFiles)
         Cmd = "macs2 callpeak -t %s -f BED --nomodel \
-                    --keep-dup all --extsize 150 --shift -50 --qvalue .05 --outdir {final_output_dir_name} --bdg \
-                    -n %s"%(sBedFiles,sBedFiles.replace("bed",""))
+                    --keep-dup all --extsize 150 --shift -50 --qvalue .05 --outdir %s --bdg \
+                    -n %s"%(sBedFiles,sBedFiles.replace(".bed",""),sBedFiles.replace(".bed",""))
         print(Cmd)
         os.system(Cmd)
