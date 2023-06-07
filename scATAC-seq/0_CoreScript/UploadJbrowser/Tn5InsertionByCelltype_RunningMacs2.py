@@ -120,7 +120,7 @@ def Normalize_bdg(Outfile,FaiFile):
         TotalBed = open(d,"r")
         Length = len(TotalBed.readlines())
         #print(Length)
-        TotalReadDic[Dir.replace(".bed","")] = Length
+        TotalReadDic[d.replace(".bed","")] = Length
         TotalBed.close()
     ### Outfile the statistics of the reads numbers!
     StatOut = open(WD+"NumberofTn5_byReplicates_byCT.txt","w")
@@ -132,7 +132,7 @@ def Normalize_bdg(Outfile,FaiFile):
     for Files in FileList:
         infile = open(Files,"r")
         outfile = open(Files.replace(".bdg","_CPM.bdg"),"w")
-        DicName = Files.split("/")[len(Files.split("/"))-1].replace("_treat_pileup.bdg","")
+        DicName = Files.replace("_treat_pileup.bdg","")
         print(DicName)
         for sLine in infile:
             sList = sLine.strip().split("\t")
