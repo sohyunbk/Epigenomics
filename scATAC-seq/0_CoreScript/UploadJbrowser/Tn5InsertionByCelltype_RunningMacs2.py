@@ -95,7 +95,7 @@ def WriteBedFiles(Outfile,AllDic):
         outfile.close()
 
 def RunMACS2(Outfile):
-    for sBedFiles in glob.glob(Outfile+"*"):
+    for sBedFiles in os.glob(Outfile+"*"):
         print(sBedFiles)
         Cmd = "macs2 callpeak -t %s -f BED --nomodel \
                     --keep-dup all --extsize 150 --shift -50 --qvalue .05 --bdg \
@@ -115,7 +115,7 @@ def Normalize_bdg(Outfile,FaiFile):
     for FileName in os.glob(WD+"*_treat_pileup.bdg"):
         FileList.append(FileName)
             #infile = open(FileName,"r")
-    for d in glob.glob(WD+"*.bed"):
+    for d in os.glob(WD+"*.bed"):
         #print(Dir.replace(".bed",""))
         TotalBed = open(d,"r")
         Length = len(TotalBed.readlines())
