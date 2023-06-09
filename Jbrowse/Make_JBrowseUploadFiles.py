@@ -1,10 +1,9 @@
 ### This script has the whole functions for whatever input like bam or bdg or bed
-### It should load "ml Anaconda3/2020.02" "/home/sb14489/.conda/envs/ucsc"
+### It should load "ml Anaconda3/2020.02" "activate /home/sb14489/.conda/envs/ucsc"
 
 import argparse
 import sys
 import os
-import pybedtools ##
 import pandas as pd
 import numpy
 from multiprocessing import Pool, Manager
