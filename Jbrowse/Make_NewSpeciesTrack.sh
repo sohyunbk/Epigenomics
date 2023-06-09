@@ -13,10 +13,11 @@ source activate Jbrowse
 
 ## log in to Sapelo2
 ## Fa file and giff should have same chromosome name
+NewDir=
 
-/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta --out
-/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff --trackLabel genes --out
-/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/generate-names.pl -v --out
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta --out "$NewDir"
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff --trackLabel genes --out "$NewDir"
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/generate-names.pl -v --out "$NewDir"
 #Using 1 chars for sort log names (16 sort logs) --> means Success!!
 
 ## SCP with password
