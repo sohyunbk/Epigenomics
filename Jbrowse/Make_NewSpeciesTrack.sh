@@ -14,9 +14,9 @@ source activate Jbrowse
 ## log in to Sapelo2
 ## Fa file and giff should have same chromosome name
 
-#/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta --out
-#/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff --trackLabel genes --out
-#/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/generate-names.pl -v --out
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta --out
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff --trackLabel genes --out
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/generate-names.pl -v --out
 #Using 1 chars for sort log names (16 sort logs) --> means Success!!
 
 ## SCP with password
@@ -26,3 +26,18 @@ sshpass -p Schmacct5$ scp  -r /scratch/sb14489/0.Reference/Maize_B73/Jbrowse_Bif
 #ssh schmitzlab1@heredity.genetics.uga.edu
 #pw: Schmacct5$
 #cd /data01/epigenome/JBrowse/
+
+#vi jbrowse.conf --> then write
+#[datasets."$NewDir"]
+#url = ?data="$NewDir"
+#name = "$NewDir"
+
+#cd /data01/epigenome/JBrowse/"$NewDir" --> add
+#vi tracks.conf
+#[general]
+#dataset_id = "$NewDir"
+
+#cd /data01/epigenome/JBrowse/
+#git add jbrowse.conf
+#git add "$NewDir"
+#git commit -m 'added "$NewDir"'
