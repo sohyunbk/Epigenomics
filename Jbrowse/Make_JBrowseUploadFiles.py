@@ -61,6 +61,8 @@ def get_parser():
 def From_bdgfile_to_bwfile(BdgFile,OutFileName,Fai):
     Cmd_sort = "bedSort %s %s"%(BdgFile,BdgFile+"_Sorted")
     Cmd = "bedGraphToBigWig %s %s %s"%(BdgFile+"_Sorted",Fai, OutFileName+".bw")
+    os.system(Cmd_sort)
+    os.system(Cmd)
 
 if __name__ == "__main__":
     args = get_parser().parse_args()
