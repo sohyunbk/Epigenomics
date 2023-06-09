@@ -1,5 +1,8 @@
 ### This script has the whole functions for whatever input like bam or bdg or bed
-### It should load "ml Anaconda3/2020.02" "activate /home/sb14489/.conda/envs/ucsc"
+### It should load "ml Anaconda3/2020.02" "source activate /home/sb14489/.conda/envs/Jbrowse"
+#ml Anaconda3/2020.02
+#source activate /home/sb14489/.conda/envs/Jbrowse
+
 
 import argparse
 import sys
@@ -20,7 +23,9 @@ import glob
 def get_parser():
     parser = argparse.ArgumentParser(
         description="Make JBrowseUpload File.\
-        1: From bdg file to bw file: -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} "
+        1: From bdg file to bw file: \
+            python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+            -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} "
     )
     parser.add_argument(
         "-Step",
