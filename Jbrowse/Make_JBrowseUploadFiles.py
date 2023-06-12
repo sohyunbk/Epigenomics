@@ -7,7 +7,6 @@
 import argparse
 import sys
 import os
-import pandas as pd
 import numpy
 from multiprocessing import Pool, Manager
 import multiprocessing
@@ -25,12 +24,14 @@ def get_parser():
         description="Make JBrowseUpload File.\
         1: From bdg file to bw file: \
             python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
-            -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} "
+            -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
+        2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+          -Step BedToTrack /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --tracklabel InsertedSeq"
     )
     parser.add_argument(
         "-Step",
         "--Step",
-        help="Step: bdgTobw or ",
+        help="Step: bdgTobw or BedToTrack",
         required=False,
         dest="Step",
     )
