@@ -38,7 +38,7 @@ def get_parser():
     return parser
 
 def BWFiles(Dir,BW,GithubDir,TiedName):
-    for sFiles in glob.glob(BringFilesPath+"*.bw"):
+    for sFiles in glob.glob(Dir+"*.bw"):
         FileNamewithE = os.path.basename(sFiles)
         FileName = ".".join(FileNamewithE.split(".")[0])
         #SampleName = FileName.split("_")[0]
