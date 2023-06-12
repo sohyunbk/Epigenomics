@@ -26,7 +26,7 @@ def get_parser():
             python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
             -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
         2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
-          -Step BedToTrack /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --tracklabel InsertedSeq"
+          -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq"
     )
     parser.add_argument(
         "-Step",
@@ -74,7 +74,7 @@ def From_bdgfile_to_bwfile(BdgFile,OutFileName,Fai):
 
 def From_bedfile_to_dirforTrack(BedFile,OutFileName):
     #/home/sb14489/jbrowse/bin/flatfile-to-json.pl --bed ./"$SampleName"/"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_narrow_peaks --trackLabel "$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_narrow_peaks --out ./
-    Cmd = "/home/sb14489/jbrowse/bin/flatfile-to-json.p --bed %s --trackLabel %s --out ./"%(BedFile,OutFileName)
+    Cmd = "/home/sb14489/jbrowse/bin/flatfile-to-json.pl --bed %s --trackLabel %s --out ./"%(BedFile,OutFileName)
     os.system(Cmd)
 
 if __name__ == "__main__":
