@@ -55,6 +55,7 @@ def get_parser():
             required=False,
             dest="Fai",
     )
+
     args = vars(parser.parse_args())
     return parser
 

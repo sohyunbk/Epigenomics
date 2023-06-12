@@ -34,6 +34,13 @@ def get_parser():
             required=False,
             dest="GitHubDir",
     )
+    parser.add_argument(
+                "-bed",
+                "--bed",
+                help="bed",
+                required=False,
+                dest="bed",
+    )
     args = vars(parser.parse_args())
     return parser
 
@@ -47,8 +54,18 @@ def BWFiles(Dir,BW,GithubDir,TiedName):
         cmd = "%s,%s,%s,%s,,,%s,,,,,,,"%(GithubDir,FileName,FileName,TiedName,FileNamewithE)
         print(cmd)
 
+def bedFiles(Dir,Bed,GithubDir,TiedName):
+    #peaks,HB122_WUS2_B73v5_Q30_default_finalBl.GEM,WUS2_peak,DAP_Sohyun,,,,,,,,,,
+    for sFiles in glob.glob(Dir+"/*.bw"):
+        FileNamewithE = os.path.basename(sFiles)
+        FileName = FileNamewithE.split(".")[0]
+        cmd = "%s,%s,%s,%s,,,,,,,,,,"%(GithubDir,FileName,FileName,TiedName)
+        print(cmd)
+
 if __name__ == "__main__":
     args = get_parser().parse_args()
-    if args.bw != None:
+    if args.bw == "yes":
         BWFiles(args.DirForFiles,args.bw,args.GitHubDir,args.TiedName)
-        #python PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw Yes -TiedName scATAC -GitHubDir atac
+        #python PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atac
+    elif args.bed == "yes":
+        bedFiles(args.DirForFiles,args.bed,args.GitHubDir,args.TiedName)
