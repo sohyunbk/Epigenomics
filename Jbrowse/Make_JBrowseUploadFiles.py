@@ -55,7 +55,13 @@ def get_parser():
             required=False,
             dest="Fai",
     )
-
+    parser.add_argument(
+            "-bed",
+            "--bed",
+            help="bed",
+            required=False,
+            dest="bed",
+    )
     args = vars(parser.parse_args())
     return parser
 
@@ -65,7 +71,14 @@ def From_bdgfile_to_bwfile(BdgFile,OutFileName,Fai):
     os.system(Cmd_sort)
     os.system(Cmd)
 
+def From_bedfile_to_dirforTrack(BedFile,OutFileName):
+    #/home/sb14489/jbrowse/bin/flatfile-to-json.pl --bed ./"$SampleName"/"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_narrow_peaks --trackLabel "$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_narrow_peaks --out ./
+    Cmd = "/home/sb14489/jbrowse/bin/flatfile-to-json.p --bed %s --trackLabel %s --out ./"%(BedFile,OutFileName)
+    os.system(Cmd)
+
 if __name__ == "__main__":
     args = get_parser().parse_args()
     if args.Step == "bdgTobw":
         From_bdgfile_to_bwfile(args.bdgFile,args.OutputName,args.Fai)
+    if args.Step == "BedToTrack":
+        From_bedfile_to_dirforTrack(args.bed,args.OutputName)
