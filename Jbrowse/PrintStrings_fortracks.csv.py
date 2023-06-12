@@ -43,7 +43,8 @@ def BWFiles(Dir,BW,GithubDir,TiedName):
         FileName = ".".join(FileNamewithE.split(".")[0])
         #SampleName = FileName.split("_")[0]
         #CellName = "_".join(FileName.split("_")[1:]).split(".")[0]
-        cmd = "%s,%s,%s,%s,,,,,,,,,,"%(GithubDir,FileNamewithE,FileNamewithE,TiedName)
+        #atac,3_bif3_Re2_G2_M,3_bif3_Re2_G2_M,scATACMutantsV3/G2_M,,,scATACMutantsV3/3_bif3_Re2_G2_M.bw,,,,,,,
+        cmd = "%s,%s,%s,%s,,,%s,,,,,,,"%(GithubDir,FileName,FileName,TiedName,FileNamewithE)
         print(cmd)
 
 if __name__ == "__main__":
