@@ -27,10 +27,17 @@ def get_parser():
             required=False,
             dest="TiedName",
     )
+    parser.add_argument(
+            "-GitHubDir",
+            "--GitHubDir",
+            help="GitHubDir: atac",
+            required=False,
+            dest="GitHubDir",
+    )
     args = vars(parser.parse_args())
     return parser
 
-def BWFiles(Dir,BW,TiedName):
+def BWFiles(Dir,BW,GithubDir,TiedName):
     for sFiles in glob.glob(BringFilesPath+"*.bw"):
         FileNamewithE = os.path.basename(sFiles)
         FileName = ".".join(FileNamewithE.split(".")[0])
@@ -42,4 +49,4 @@ def BWFiles(Dir,BW,TiedName):
 if __name__ == "__main__":
     args = get_parser().parse_args()
     if args.bw != None:
-        BWFiles(args.DirForFiles,args.bw,args.TiedName)
+        BWFiles(args.DirForFiles,args.bw,args.GitHubDir,args.TiedName)
