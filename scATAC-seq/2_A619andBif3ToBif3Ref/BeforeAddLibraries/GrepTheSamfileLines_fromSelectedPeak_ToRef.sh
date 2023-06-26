@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=30            # Number of CPU cores per task
 #SBATCH --mem=80gb                   # Job memory request
-#SBATCH --time=14:00:00               # Time limit hrs:min:sec
+#SBATCH --time=60:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/FindSamLines.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/FindSamLines.%j.err    # Standard error log
 
