@@ -15,8 +15,11 @@ Path="/scratch/sb14489/3.scATAC/4.Bif3Ref/6.Compare_Reads_inTwoRegions/"
 #!/bin/bash
 
 cd $Path
-# Input files
-#samtools view -@ 30 /scratch/sb14489/3.scATAC/4.Bif3Ref/3.SortedBam/3_bif3_2_Markingpcr.bam "chr2:3679079-3679413"
-samtools view -@ 30  --output-fmt SAM -h /scratch/sb14489/3.scATAC/4.Bif3Ref/3.SortedBam/3_bif3_2_Markingpcr.bam  \
+
+samtools view -@ 30  --output-fmt SAM -h /scratch/sb14489/3.scATAC/4.Bif3Ref/4.Bam_FixingBarcode/3_bif3_2_Markingpcr.bam  \
  -L ZmWUS1PromoterRegions.bed \
- -o Bif3Re2_ToBif3Ref.sam
+ -o Bif3Re2_ToRef_ZmWUSPromoterRegions.sam
+
+#samtools view -@ 30  --output-fmt SAM -h /scratch/sb14489/3.scATAC/4.Bif3Ref/3.SortedBam/3_bif3_2_Markingpcr.bam  \
+# -L ZmWUS1PromoterRegions.bed \
+# -o Bif3Re2_ToBif3Ref_ZmWUSPromoterRegions.sam
