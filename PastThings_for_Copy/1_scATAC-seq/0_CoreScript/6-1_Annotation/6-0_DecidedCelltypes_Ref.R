@@ -1,0 +1,69 @@
+## Make metafile & plot for estimated annotation
+library(ggplot2)
+library(stringr)
+
+## Make new metafile bycombining all the meta
+setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/")
+meta <- "Ref_RemoveBLonlyMitoChloroChIP.REF_CELLs.metadata.txt"
+loaded_meta_data <- read.table(meta)
+
+#Cluster7 <- read.table("Cluster7_Recluster_Sub_res1_knear100_Partmetadata.txt")
+#head(Cluster7)
+Cluster1 <- read.table("Cluster1_Recluster_Sub_res1_knear100_Partmetadata.txt")
+Cluster3 <- read.table("Cluster3_Recluster_Sub_res1_knear100_Partmetadata.txt")
+#Cluster4 <- read.table("Cluster4_Recluster_Sub_res1_knear100_Partmetadata.txt")
+
+head(loaded_meta_data)
+#levels(factor(loaded_meta_data$LouvainClusters))
+loaded_meta_data[rownames(Cluster1),]$LouvainClusters <- Cluster1$LouvainClusters
+loaded_meta_data[rownames(Cluster3),]$LouvainClusters <- Cluster3$LouvainClusters
+#loaded_meta_data[rownames(Cluster4),]$LouvainClusters <- Cluster4$LouvainClusters
+#loaded_meta_data[rownames(Cluster7),]$LouvainClusters <- Cluster7$LouvainClusters
+levels(factor(loaded_meta_data$LouvainClusters))
+
+NewMeta <- loaded_meta_data
+NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="1"),]
+NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="3"),]
+#NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="4"),]
+#NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="7"),]
+dim(loaded_meta_data)
+dim(NewMeta)
+levels(factor(NewMeta$LouvainClusters))
+NewMeta$Ann_v3 <- "Ann_v3"
+levels(factor(NewMeta$Ann_v3))
+NewMeta[which(NewMeta$LouvainClusters =="1_1"),]$Ann_v3 <- "CalloseRelated"
+NewMeta[which(NewMeta$LouvainClusters =="1_2"),]$Ann_v3 <- "BundleSheath_VascularSchrenchyma"
+NewMeta[which(NewMeta$LouvainClusters =="1_3"),]$Ann_v3 <- "BundleSheath_VascularSchrenchyma"
+NewMeta[which(NewMeta$LouvainClusters =="1_4"),]$Ann_v3 <- "CalloseRelated"
+NewMeta[which(NewMeta$LouvainClusters =="2"),]$Ann_v3 <- "PhloemPrecursor"
+NewMeta[which(NewMeta$LouvainClusters =="3_1"),]$Ann_v3 <- "IM-OC"
+NewMeta[which(NewMeta$LouvainClusters =="3_3"),]$Ann_v3 <- "IM-OC"
+NewMeta[which(NewMeta$LouvainClusters =="3_2"),]$Ann_v3 <- "FloralMeristem_SuppressedBract"
+NewMeta[which(NewMeta$LouvainClusters =="3_4"),]$Ann_v3 <- "FloralMeristem_SuppressedBract"
+NewMeta[which(NewMeta$LouvainClusters =="4"),]$Ann_v3 <- "XylemParenchyma_PithParenchyma"
+NewMeta[which(NewMeta$LouvainClusters =="5"),]$Ann_v3 <- "IM_SPM_SM"
+NewMeta[which(NewMeta$LouvainClusters =="6"),]$Ann_v3 <- "L1atFloralMeristem"
+NewMeta[which(NewMeta$LouvainClusters =="7"),]$Ann_v3 <- "ProcambialMeristem_ProtoXylem_MetaXylem"
+NewMeta[which(NewMeta$LouvainClusters =="8"),]$Ann_v3 <- "IM_SPM_SM"
+NewMeta[which(NewMeta$LouvainClusters =="9"),]$Ann_v3 <- "G2_M"
+NewMeta[which(NewMeta$LouvainClusters =="10"),]$Ann_v3 <- "SPM-base_SM-base"
+NewMeta[which(NewMeta$LouvainClusters =="11"),]$Ann_v3 <- "L1"
+NewMeta[which(NewMeta$LouvainClusters =="12"),]$Ann_v3 <- "ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma"
+length(which(NewMeta$LouvainClusters =="13"))
+length(which(NewMeta$LouvainClusters =="13"))
+NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="13"),]
+levels(factor(NewMeta$Ann_v3))
+table(NewMeta$Ann_v3)
+colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
+            "#876b58","#800000", "#800075","#e8cf4f","#0bd43d","#fc53b6",
+            "#deadce","#adafde","#5703ff")
+length(colorr)
+
+ggplot(NewMeta, aes(x=umap1, y=umap2, color=factor(Ann_v3))) +
+  geom_point(size=0.02) +
+  scale_color_manual(values=colorr)+theme_minimal()+
+  guides(colour = guide_legend(override.aes = list(size=10)))
+ggsave("Ref_AnnV3.pdf", width=13, height=10)
+
+write.table(NewMeta, file=paste0("Ref_AnnV3_metadata.txt"),
+            quote=F, row.names=T, col.names=T, sep="\t")
