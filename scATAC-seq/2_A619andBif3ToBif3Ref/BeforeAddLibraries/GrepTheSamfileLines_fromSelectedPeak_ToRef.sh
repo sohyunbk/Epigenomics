@@ -29,6 +29,7 @@ num_processes=30
 
 # Search for matching lines in B.sam using multiple parallel processes
 xargs -P "$num_processes" -a patterns.txt -I {} grep -w {} "$input_file_b" >> "$output_file"
+xargs -P 3 -a patterns.txt -I {} grep -w {} Bif3_Re2_ToA619Ref_ZmWUS1PromoterPeak.sam
 
 # Cleanup: Remove the temporary pattern file
 rm "$Path"patterns.txt
