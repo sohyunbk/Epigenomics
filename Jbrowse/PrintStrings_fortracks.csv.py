@@ -57,8 +57,11 @@ def BWFiles(Dir,BW,GithubDir,TiedName):
 def bedFiles(Dir,Bed,GithubDir,TiedName):
     #peaks,HB122_WUS2_B73v5_Q30_default_finalBl.GEM,WUS2_peak,DAP_Sohyun,,,,,,,,,,
     for sFiles in glob.glob(Dir+"/*"):
-        FileNamewithE = os.path.basename(sFiles)
-        FileName = FileNamewithE.split(".")[0]
+        if sFiles.endswith(".bed"):
+            FileNamewithE = os.path.basename(sFiles)
+            FileName = FileNamewithE.split(".")[0]
+        else:
+            FileName = os.path.basename(sFiles)
         cmd = "%s,%s,%s,%s,,,,,,,,,,"%(GithubDir,FileName,FileName,TiedName)
         print(cmd)
 
