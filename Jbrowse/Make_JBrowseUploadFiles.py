@@ -115,4 +115,4 @@ if __name__ == "__main__":
     if args.Step == "BedToTrack":
         From_bedfile_to_dirforTrack(args.bed,args.OutputName)
     if args.Step == "SamToBed":
-        Make_bed_fromSamfile(args.Samfile,args.readlength,args.OutputName)
+        Make_bed_fromSamfile(args.sam,args.readlength,args.OutputName)
