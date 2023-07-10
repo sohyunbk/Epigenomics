@@ -3,11 +3,9 @@
 #ml Anaconda3/2020.02
 #source activate /home/sb14489/.conda/envs/Jbrowse
 
-
 import argparse
 import sys
 import os
-import numpy
 from multiprocessing import Pool, Manager
 import multiprocessing
 from functools import partial
@@ -26,7 +24,11 @@ def get_parser():
             python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
             -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
         2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
-          -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq"
+          -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq\
+        3: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+         -readlength 151 -sam Final_Bif3Ref_AddedSeqInfo_Overlapped.txt  \
+         -OutputName Final_Bif3Ref_AddedSeqInfo_Overlapped.bed -Step SamToBed"
+
     )
     parser.add_argument(
         "-Step",
