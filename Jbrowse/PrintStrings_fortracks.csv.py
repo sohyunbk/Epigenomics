@@ -56,7 +56,7 @@ def BWFiles(Dir,BW,GithubDir,TiedName):
 
 def bedFiles(Dir,Bed,GithubDir,TiedName):
     #peaks,HB122_WUS2_B73v5_Q30_default_finalBl.GEM,WUS2_peak,DAP_Sohyun,,,,,,,,,,
-    for sFiles in glob.glob(Dir+"/*.bed"):
+    for sFiles in glob.glob(Dir+"/*"):
         FileNamewithE = os.path.basename(sFiles)
         FileName = FileNamewithE.split(".")[0]
         cmd = "%s,%s,%s,%s,,,,,,,,,,"%(GithubDir,FileName,FileName,TiedName)
@@ -69,4 +69,4 @@ if __name__ == "__main__":
         #python PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atac
     elif args.bed == "yes":
         bedFiles(args.DirForFiles,args.bed,args.GitHubDir,args.TiedName)
-        #python PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/ -bed yes -TiedName InsertedSeq119+445bp -GitHubDir peak
+        #python /home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/ -bed yes -TiedName InsertedSeq119+445bp -GitHubDir peak
