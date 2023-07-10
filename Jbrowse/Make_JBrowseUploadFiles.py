@@ -96,14 +96,14 @@ def Make_bed_fromSamfile(Samfile,readlength,OutFileName):
     outfile = open(OutFileName,"w")
     Infile = open(Samfile,"r")
     for i in Infile:
-        list = i.strip().split("\t")
-        nFragment = abs(list[5])
+        List = i.strip().split("\t")
+        nFragment = abs(int(List[5]))
         if nFragment < int(readlength):
             nlength = nFragment
         else:
             nlength = int(readlength)
-        nStart=int(list[3])
-        sChr=list[2]
+        nStart=int(List[3])
+        sChr=List[2]
         outfile.write(sChr+"\t"+str(nStart)+"\t"+str(nStart+nlength)+"\n")
     outfile.close()
     Infile.close()
