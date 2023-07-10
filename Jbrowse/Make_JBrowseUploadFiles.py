@@ -89,9 +89,10 @@ def From_bdgfile_to_bwfile(BdgFile,OutFileName,Fai):
     os.system(Cmd)
 
 def From_bedfile_to_dirforTrack(BedFile,OutFileName):
-    Path=os.path.dirname(BedFile)
+    Path=os.path.dirname(OutFileName)
+    Prefix = os.path.basename(OutFileName)
     #/home/sb14489/jbrowse/bin/flatfile-to-json.pl --bed ./"$SampleName"/"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_narrow_peaks --trackLabel "$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_narrow_peaks --out ./
-    Cmd = "/home/sb14489/jbrowse/bin/flatfile-to-json.pl --bed %s --trackLabel %s --out %s"%(BedFile,OutFileName,Path)
+    Cmd = "/home/sb14489/jbrowse/bin/flatfile-to-json.pl --bed %s --trackLabel %s --out %s"%(BedFile,Prefix,Path)
     os.system(Cmd)
 
 def Make_bed_fromSamfile(Samfile,readlength,OutFileName):
