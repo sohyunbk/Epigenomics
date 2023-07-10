@@ -97,7 +97,7 @@ def Make_bed_fromSamfile(Samfile,readlength,OutFileName):
     Infile = open(Samfile,"r")
     for i in Infile:
         List = i.strip().split("\t")
-        nFragment = abs(int(List[5]))
+        nFragment = abs(int(List[8]))
         if nFragment < int(readlength):
             nlength = nFragment
         else:
