@@ -63,6 +63,20 @@ def get_parser():
             required=False,
             dest="bed",
     )
+    parser.add_argument(
+            "-sam",
+            "--sam",
+            help="sam",
+            required=False,
+            dest="sam",
+    )
+    parser.add_argument(
+            "-readlength",
+            "--readlength",
+            help="readlength",
+            required=False,
+            dest="readlength",
+    )
     args = vars(parser.parse_args())
     return parser
 
@@ -78,9 +92,27 @@ def From_bedfile_to_dirforTrack(BedFile,OutFileName):
     Cmd = "/home/sb14489/jbrowse/bin/flatfile-to-json.pl --bed %s --trackLabel %s --out %s"%(BedFile,OutFileName,Path)
     os.system(Cmd)
 
+def Make_bed_fromSamfile(Samfile,readlength,OutFileName):
+    outfile = open(OutFileName,"w")
+    Infile = open(Samfile,"r")
+    for i in Infile:
+        list = i.strip().split("\t")
+        nFragment = abs(list[5])
+        if nFragment < int(readlength):
+            nlength = nFragment
+        else:
+            nlength = int(readlength)
+        nStart=int(list[3])
+        sChr=list[2]
+        outfile.write(sChr+"\t"+str(nStart)+"\t"+str(nStart+nlength)+"\n")
+    outfile.close()
+    Infile.close()
+
 if __name__ == "__main__":
     args = get_parser().parse_args()
     if args.Step == "bdgTobw":
         From_bdgfile_to_bwfile(args.bdgFile,args.OutputName,args.Fai)
     if args.Step == "BedToTrack":
         From_bedfile_to_dirforTrack(args.bed,args.OutputName)
+    if args.Step == "SamToBed":
+        Make_bed_fromSamfile(args.Samfile,args.readlength,args.OutputName)
