@@ -31,7 +31,7 @@ parse_args() {
                 shift
                 ;;
             -Ref|--Ref)
-                fai=$2
+                ref=$2
                 shift
                 ;;
             -Outfile|--Outfile)

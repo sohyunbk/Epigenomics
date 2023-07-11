@@ -18,4 +18,6 @@ bedtools intersect -a /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3
 -wa > /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/A619/A619.500bp_peaks_Intergenic_OverlappedWithWUS1DAP.bed
 
 
-/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/A619/A619.500bp_peaks_Intergenic_OverlappedWithWUS1DAP.bed
+sh FindMotif_FromPeak.sh -BedFile /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/A619/A619.500bp_peaks_Intergenic_OverlappedWithWUS1DAP.bed \
+ -Ref /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa  \
+ -Outfile /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/
