@@ -1,0 +1,59 @@
+---
+ops: [train, evaluate]
+model: {
+    path: /home/sb14489/ACR_ML_caQTLs/Deep_Former/HumanExample/DanQ_JASPAR_model.py,
+    class: DanQ_JASPAR,
+    class_args: {
+        sequence_length: 1000,
+        n_targets: 919
+    },
+    non_strand_specific: mean
+}
+sampler: !obj:selene_sdk.samplers.MultiFileSampler {
+    train_sampler: !obj:selene_sdk.samplers.file_samplers.MatFileSampler {
+        filepath: /scratch/sb14489/8.ML_ACR/DanQ_Ex/deepsea_train/train.mat,
+        sequence_key: trainxdata,
+        targets_key: traindata,
+        sequence_batch_axis: 2,
+        sequence_alphabet_axis: 1,
+        targets_batch_axis: 1,
+        shuffle: True,
+        random_seed: 12
+    },
+    validate_sampler: !obj:selene_sdk.samplers.file_samplers.MatFileSampler {
+        filepath: /scratch/sb14489/8.ML_ACR/DanQ_Ex/deepsea_train/valid.mat,
+        sequence_key: validxdata,
+        targets_key: validdata,
+        sequence_batch_axis: 0,
+        sequence_alphabet_axis: 1,
+        targets_batch_axis: 0,
+        shuffle: False
+    },
+    test_sampler: !obj:selene_sdk.samplers.file_samplers.MatFileSampler {
+        filepath: /scratch/sb14489/8.ML_ACR/DanQ_Ex/deepsea_train/test.mat,
+        sequence_key: testxdata,
+        targets_key: testdata,
+        sequence_batch_axis: 0,
+        sequence_alphabet_axis: 1,
+        targets_batch_axis: 0,
+        shuffle: False
+    },
+    features: !obj:selene_sdk.utils.load_features_list {
+        input_path: /scratch/sb14489/8.ML_ACR/DanQ_Ex/deepsea_train/FeatureNames_Temp.txt
+    }
+}
+train_model: !obj:selene_sdk.TrainModel {
+    batch_size: 256,
+    max_steps: 687500,
+    report_stats_every_n_steps: 2000,
+    n_validation_samples: 8000,
+    n_test_samples: 455024,
+    use_cuda: False,
+    data_parallel: False,
+    report_gt_feature_n_positives: 50,
+    logging_verbosity: 2
+}
+output_dir: /scratch/sb14489/8.ML_ACR/TestMat/DanQJASPAR
+random_seed: 1447
+create_subdirectory: False
+...
