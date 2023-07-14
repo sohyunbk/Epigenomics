@@ -1,14 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=Alignment        # Job name
-#SBATCH --partition=highmem_30d_p         # Partition (queue) name
+#SBATCH --partition=hugemem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=30             # Number of CPU cores per task
 #SBATCH --mem=600gb                   # Job memory request #For normal fastq : 600gb
-#SBATCH --time=200:00:04               # Time limit hrs:min:sec #For normal fastq : 80 hours
+#SBATCH --time=35:00:04               # Time limit hrs:min:sec #For normal fastq : 80 hours
 #SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
-#SBATCH --array=0
+#SBATCH --array=0-1
 
 Sample=(Sohyun_A619-2 Sohyun_BIF3-1 Sohyun_BIF3-2)
 
