@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=Alignment        # Job name
-#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
+#SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=30             # Number of CPU cores per task
 #SBATCH --mem=600gb                   # Job memory request #For normal fastq : 600gb
@@ -10,7 +10,7 @@
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --array=0
 
-Sample=(Sohyun_A619-1)
+Sample=(Sohyun_A619-2 Sohyun_BIF3-1 Sohyun_BIF3-2)
 
 module load CellRanger-ATAC/2.0.0
 
