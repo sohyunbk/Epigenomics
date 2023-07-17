@@ -111,6 +111,14 @@ def Make_bed_fromSamfile(Samfile,readlength,OutFileName):
     outfile.close()
     Infile.close()
 
+def From_Bam_to_bwfile():
+    samtools index -@ 24 "$SampleName"_Rmpcr.bam
+
+    python /home/bth29393/jbscripts/file_to_bigwig_pe.py "$Reference" "$SampleName"_Rmpcr.bam
+    bedtools bamtobed -i "$SampleName"_Rmpcr.bam > "$SampleName"_Rmpcr.bed
+    bedtools genomecov -i "$SampleName"_Rmpcr.bed -split -bg -g "$Reference" > "$SampleName"_Rmpcr.bg
+    wigToBigWig "$SampleName"_Rmpcr.bg "$Reference" "$SampleName"_Rmpcr.bw
+
 if __name__ == "__main__":
     args = get_parser().parse_args()
     if args.Step == "bdgTobw":

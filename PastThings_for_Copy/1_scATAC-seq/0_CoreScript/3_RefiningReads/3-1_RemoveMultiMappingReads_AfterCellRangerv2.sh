@@ -27,14 +27,17 @@ samtools view -@ 12 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$SampleName"/outs/possor
 #-f, --require-flags FLAG   ...have all of the FLAGs present
 # -q, --min-MQ INT           ...have mapping quality >= INT
 # -v -e : exclude the lines : XA:Z: SA:Z:(rname ,pos ,strand ,CIGAR ,mapQ ,NM ;)+ Other canonical alignments in a chimeric alignment, formatted as a semicolon-delimited list. Each element in the list represents a part of the chimeric alignment. Conventionally, at a supplementary line, the first element points to the primary line. Strand is either ‘+’ or ‘-’, indicating forward/reverse strand, corresponding to FLAG bit 0x10. Pos is a 1-based coordinate.
-#Alternative hits; format: (chr,pos,CIGAR,NM;)*
+
+# XA: Alternative hits; format: (chr,pos,CIGAR,NM;)*
+# SA: Z, not sure what it is but, it almost always coincides with the 256 flag = not primary alignment
 
 ## Edited Version
 #samtools view -@ 32 -h -f 3 -q 20 "$Path"/"$MappedDir"/"$SampleName"/outs/possorted_bam.bam | samtools view -@ 12 -bS - > "$Path"/3.SortedBam/"$SampleName"_Sorted.bam
 
 # E.g.
 # sbatch 3-1_RemoveMultiMappingReads.sh /scratch/sb14489/3.scATAC/2.Maize_ear 2.Mapped_CellRangerv2 1_A619
-
+# Check the fragmentsize
+#awk '$9 > 2000 || $9 < -2000' 3_bif3_BarcodeFixed.sam 
 ##########################################################################################
 ## Check and change Header for PICARD and Cellrangerv2
 ##########################################################################################

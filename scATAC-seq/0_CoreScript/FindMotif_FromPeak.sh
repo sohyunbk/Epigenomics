@@ -7,6 +7,8 @@ Meme_fromPeakBedFile() {
     eval $CMD2
 }
 
+### Below is for easy use.
+
 get_parser() {
     cat <<EOF
     Usage: $0 [options]
