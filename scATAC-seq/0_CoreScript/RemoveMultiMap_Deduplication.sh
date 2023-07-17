@@ -43,7 +43,6 @@ done
 
 # Function 1: Remove Multimap
 remove_multimap() {
-    cd "$Path"
     mkdir -p 3.SortedBam
 
     samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$SampleName"/outs/possorted_bam.bam |
@@ -69,4 +68,4 @@ deduplication() {
 
 # Call the functions
 remove_multimap
-deduplication
+#deduplication

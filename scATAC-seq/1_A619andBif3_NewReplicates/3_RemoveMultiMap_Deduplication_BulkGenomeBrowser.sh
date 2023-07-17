@@ -19,6 +19,6 @@ module load picard/2.16.0-Java-1.8.0_144
 module load  SAMtools/1.10-iccifort-2019.5.281
 module load BEDTools/2.29.2-GCC-8.3.0
 
-sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/RemoveMultiMap_Deduplication.sh --path /scratch/sb14489/3.scATAC/2.Maize_ear \
+sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/RemoveMultiMap_Deduplication.sh --path /scratch/sb14489/3.scATAC/2.Maize_ear/ \
 --MappedDir 2.Mapped_CellRangerv2  --OGSampleName "${OGSampleNameList[SLURM_ARRAY_TASK_ID]}" \
  --NewSampleName_forBam "${NewSampleNameList[SLURM_ARRAY_TASK_ID]}"
