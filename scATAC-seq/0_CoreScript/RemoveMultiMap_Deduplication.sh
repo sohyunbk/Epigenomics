@@ -25,12 +25,12 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --OGSampleName)
-            MappedDir="$2"
+            OGSampleName="$2"
             shift
             shift
             ;;
         --NewSampleName_forBam)
-            SampleName="$2"
+            NewSampleName_forBam="$2"
             shift
             shift
             ;;
@@ -45,13 +45,22 @@ done
 remove_multimap() {
     mkdir -p 3.SortedBam
 
-    samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$SampleName"/outs/possorted_bam.bam |
+    samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
     grep -v -e 'XA:Z:' -e 'SA:Z:' |
     samtools view -@ 24 -bS - > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam
     ### -v -e : exclude the lines
     # XA:Z: SA:Z:(rname ,pos ,strand ,CIGAR ,mapQ ,NM ;)+ Other canonical alignments in a chimeric alignment,
     # XA: Alternative hits; format: (chr,pos,CIGAR,NM;)*
     # SA: Z, not sure what it is but, it almost always coincides with the 256 flag = not primary alignment
+
+    ##########################################################################################
+    ## Check and change Header for PICARD and Cellrangerv2
+    ##########################################################################################
+    samtools view -H "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
+    sed -i '1d' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
+    sed -i '1i @HD\tVN:1.5\tSO:coordinate' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
+    samtools reheader "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam  "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF.bam
+
 }
 
 # Function 2: Deduplication
