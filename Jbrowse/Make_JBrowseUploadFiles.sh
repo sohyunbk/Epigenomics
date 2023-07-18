@@ -1,10 +1,12 @@
-##Transfer python script to #!/usr/bin/env bash
 #!/bin/bash
 
 ### This script has the whole functions for whatever input like bam or bdg or bed
 ### It should load "ml Anaconda3/2020.02" "source activate /home/sb14489/.conda/envs/Jbrowse"
 #ml Anaconda3/2020.02
 #source activate /home/sb14489/.conda/envs/Jbrowse
+#!/bin/bash
+
+# Function definitions
 
 function from_bdgfile_to_bwfile() {
     local BdgFile=$1
@@ -63,24 +65,35 @@ function from_bam_to_bwfile() {
     wigToBigWig "${Bamfile%.bam}.bg" "$Fai"  "${Bamfile%.bam}.bw"
 }
 
-Step="${Step:-}"
-OutputName="${OutputName:-}"
-BdgFile="${bdgFile:-}"
-Fai="${Fai:-}"
-BedFile="${bed:-}"
-Samfile="${sam:-}"
-Bamfile="${bam:-}"
-ReadLength="${readlength:-}"
+# Parse command-line arguments
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -Step) Step="$2"; shift ;;
+        -OutputName) OutputName="$2"; shift ;;
+        -bdgFile) BdgFile="$2"; shift ;;
+        -Fai) Fai="$2"; shift ;;
+        -bed) BedFile="$2"; shift ;;
+        -sam) Samfile="$2"; shift ;;
+        -bam) Bamfile="$2"; shift ;;
+        -readlength) ReadLength="$2"; shift ;;
+        *) echo "Invalid option: $1" >&2 ;;
+    esac
+    shift
+done
+
+# Function calls based on Step
 
 if [[ $Step == "bdgTobw" ]]; then
-    from_bdgfile_to_bwfile $BdgFile $OutputName $Fai
+    from_bdgfile_to_bwfile "${BdgFile:-}" "${OutputName:-}" "${Fai:-}"
 elif [[ $Step == "BedToTrack" ]]; then
-    from_bedfile_to_dirforTrack $BedFile $OutputName
+    from_bedfile_to_dirforTrack "${BedFile:-}" "${OutputName:-}"
 elif [[ $Step == "SamToBed" ]]; then
-    make_bed_from_samfile $Samfile $ReadLength $OutputName
+    make_bed_from_samfile "${Samfile:-}" "${ReadLength:-}" "${OutputName:-}"
 elif [[ $Step == "BamTobw" ]]; then
-    from_bam_to_bwfile $Bamfile $Fai
+    from_bam_to_bwfile "${Bamfile:-}" "${Fai:-}"
 fi
+
 
 #bash script.sh -Step <Step> -OutputName <OutputName> -bdgFile <BdgFile> -Fai <Fai> -bed <BedFile> -sam <Samfile> -bam <Bamfile> -readlength <ReadLength>
 : '
