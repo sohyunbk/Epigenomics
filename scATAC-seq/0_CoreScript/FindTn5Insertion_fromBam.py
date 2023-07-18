@@ -20,9 +20,9 @@ def process_read(read):
     except KeyError:
         return None
 
-def read_bam_file(bam_file, exp_name, BarcodedFixedSamFileName, num_threads):
+def read_bam_file(bam_file, exp_name, outputName, num_threads):
     read_bam_file = pysam.AlignmentFile(bam_file, "rb")
-    outfile = pysam.AlignmentFile(BarcodedFixedSamFileName, "wh", template=read_bam_file.header)
+    outfile = pysam.AlignmentFile(outputName+"_BarcodeFixed.sam", "wh", template=read_bam_file.header)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
         processed_reads = executor.map(process_read, read_bam_file)
@@ -55,7 +55,7 @@ def makeTn5bed(input_sam_fl, output_dir):
     store_final_line_list = []
 
     #with open (input_sam_fl, 'r') as ipt:
-    opt = open(output_dir,"w")
+    opt = open(output_dir+"_Unique.bed","w")
     for eachline in input_sam_fl:
         col = eachline.strip().split() #['A00600:145:HCVY7DSX2:2:2524:25265:24048', '163', 'chr1', '11483', '31', '131M', '=', '11483', '131', 'GTGTACGAGCCTCTGGTCGATGATCAATGGCCACACAACCCCCAATTTTTATGAAAATAGCCATGAGAGACCATTTTCAATAATACTAGAGGCTAAGACCTACAGATTTTTGACCAAGAAATGGTCTCCAC', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', 'BC:Z:GCCTCCGT', 'MC:Z:131M', 'MD:Z:103G27', 'PG:Z:MarkDuplicates', #'RG:Z:3_bif3:MissingLibrary:1:HCVY7DSX2:2', 'NM:i:1', 'GP:i:11482', 'MP:i:11613', 'MQ:i:31', 'TQ:Z:FFFFFFF,FFFFFFFFFFF:', 'CR:Z:GAACTTGGTTTAGAAG', 'TR:Z:CTGTCTCTTATACACATCTG', 'AS:i:126', 'XS:i:123', 'QT:Z:FFFFFFFF', 'CY:Z:FFFFFFFFFFFFFFF,', 'CB:Z:GAACTTGGTTTAGAAG-Ex']
 
@@ -149,7 +149,7 @@ def get_parser():
         for later assembly.')
     parser.add_argument('-BAM', "--bam_file", help="Bam file to pull reads from.", required=True, dest='bam_f')
     parser.add_argument('-exp_name', "--experiment_name", help="10x config file to pull scaffold names of nuclear and non-nuclear scaffolds", required=True, dest='exp')
-    parser.add_argument('-output_file', "--output", help="Output file to write to. If none given, output writes to stdout.", required=False, dest='o')
+    parser.add_argument('-output_file', "--output", help="Output is Path + prefix.", required=False, dest='o')
     parser.add_argument('-threads', "--num_threads", type=int, help="Number of threads to use for processing (default: 1).", default=1)
     args = vars(parser.parse_args())
     return parser
@@ -157,6 +157,5 @@ def get_parser():
 if __name__ == "__main__":
     args = get_parser().parse_args()
 
-    BarcodedFixedSamFileName = args.bam_f.replace(".bam", "_BarcodeFixed.sam")
-    read_bam_file(args.bam_f, args.exp, BarcodedFixedSamFileName, args.num_threads)
+    read_bam_file(args.bam_f, args.exp, args.o, args.num_threads)
     makeTn5bed(BarcodedFixedSamFileName, args.o)
