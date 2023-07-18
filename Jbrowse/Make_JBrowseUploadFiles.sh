@@ -1,6 +1,11 @@
 ##Transfer python script to #!/usr/bin/env bash
 #!/bin/bash
 
+### This script has the whole functions for whatever input like bam or bdg or bed
+### It should load "ml Anaconda3/2020.02" "source activate /home/sb14489/.conda/envs/Jbrowse"
+#ml Anaconda3/2020.02
+#source activate /home/sb14489/.conda/envs/Jbrowse
+
 function from_bdgfile_to_bwfile() {
     local BdgFile=$1
     local OutFileName=$2
@@ -48,8 +53,9 @@ function make_bed_from_samfile() {
 function from_bam_to_bwfile() {
     local Bamfile=$1
     local Fai=$2
-
-    samtools index -@ 24 $Bamfile
+    if [[ ! -f "$Bamfile.bai" ]]; then
+    samtools index -@ 24 "$Bamfile"
+    fi
     python /home/bth29393/jbscripts/file_to_bigwig_pe.py $Fai $Bamfile
     BedName="${Bamfile%.bam}.bed"
     bedtools bamtobed -i $Bamfile > $BedName
@@ -77,3 +83,14 @@ elif [[ $Step == "BamTobw" ]]; then
 fi
 
 #bash script.sh -Step <Step> -OutputName <OutputName> -bdgFile <BdgFile> -Fai <Fai> -bed <BedFile> -sam <Samfile> -bam <Bamfile> -readlength <ReadLength>
+: '
+Make JBrowseUpload File.\
+    1: From bdg file to bw file: \
+        python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+        -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
+    2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+      -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq\
+    3: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+     -readlength 151 -sam Final_Bif3Ref_AddedSeqInfo_Overlapped.txt  \
+     -OutputName Final_Bif3Ref_AddedSeqInfo_Overlapped.bed -Step SamToBed
+'
