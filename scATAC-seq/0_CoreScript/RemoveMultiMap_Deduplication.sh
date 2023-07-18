@@ -68,14 +68,15 @@ remove_multimap() {
 deduplication() {
     cd "$Path"/3.SortedBam
     java -jar $EBROOTPICARD/picard.jar MarkDuplicates \
-        MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=100 REMOVE_DUPLICATES=true METRICS_FILE="./$NewSampleName_forBam"_dups_Markingpcr.txt \
+        MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 MAX_RECORDS_IN_RAM=1500000\
+        REMOVE_DUPLICATES=true METRICS_FILE="./$NewSampleName_forBam"_dups_Markingpcr.txt \
         I="./$NewSampleName_forBam"_Sorted_HF.bam \
         O="./$NewSampleName_forBam"_Markingpcr.bam \
         BARCODE_TAG=CB \
         ASSUME_SORT_ORDER=coordinate \
-        USE_JDK_DEFLATER=true USE_JDK_INFLATER=true TMP_DIR="/scratch/sb14489/0.log/"
+        USE_JDK_DEFLATER=true USE_JDK_INFLATER=true"
 }
 
 # Call the functions
-remove_multimap
+#remove_multimap
 deduplication
