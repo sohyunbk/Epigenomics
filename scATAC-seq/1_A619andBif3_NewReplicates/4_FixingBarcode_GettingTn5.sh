@@ -10,7 +10,7 @@
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --array=0-3
 
-SampleNameList=(A619_Re3 A619_Re4 bif3_Re3 bif3_Re4)
+List=(A619_Re3 A619_Re4 bif3_Re3 bif3_Re4)
 
 
 module load Anaconda3/2020.02
@@ -21,9 +21,11 @@ module load  SAMtools/1.10-iccifort-2019.5.281
 #samtools index -@ 20 /scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam
 
 #FixingBarcode
-python /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/4_BarcodeArrange/4-1_FixingBarcodeName.py \
- -BAM ./3.SortedBam/"${List[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam -exp_name "${List[SLURM_ARRAY_TASK_ID]}" | samtools view -@ 12 - > ./4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_BarcodeFixed.sam
+python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/FixingBarcodeName.py \
+ -BAM /scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${List[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam \
+ -exp_name "${List[SLURM_ARRAY_TASK_ID]}" | samtools view -@ 12 - > /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_BarcodeFixed.sam
 
  #FixingBarcode
- python /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/4_BarcodeArrange/4-2_makeTn5bed.py \
- -sam ./4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_BarcodeFixed.sam -output_file ./4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_Unique.bed
+ python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MakeTn5bed_fromBam.py \
+ -sam /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_BarcodeFixed.sam \
+ -output_file /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_Unique.bed
