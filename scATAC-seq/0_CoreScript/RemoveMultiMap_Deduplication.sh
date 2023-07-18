@@ -74,7 +74,7 @@ deduplication() {
         O="./$NewSampleName_forBam"_Markingpcr.bam \
         BARCODE_TAG=CB \
         ASSUME_SORT_ORDER=coordinate \
-        USE_JDK_DEFLATER=true USE_JDK_INFLATER=true"
+        USE_JDK_DEFLATER=true
 }
 
 # Call the functions
