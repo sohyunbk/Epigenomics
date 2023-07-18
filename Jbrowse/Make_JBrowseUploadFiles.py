@@ -73,6 +73,13 @@ def get_parser():
             dest="sam",
     )
     parser.add_argument(
+            "-bam",
+            "--bam",
+            help="bam",
+            required=False,
+            dest="bam",
+    )
+    parser.add_argument(
             "-readlength",
             "--readlength",
             help="readlength",
@@ -111,13 +118,11 @@ def Make_bed_fromSamfile(Samfile,readlength,OutFileName):
     outfile.close()
     Infile.close()
 
-def From_Bam_to_bwfile():
-    samtools index -@ 24 "$SampleName"_Rmpcr.bam
-
-    python /home/bth29393/jbscripts/file_to_bigwig_pe.py "$Reference" "$SampleName"_Rmpcr.bam
-    bedtools bamtobed -i "$SampleName"_Rmpcr.bam > "$SampleName"_Rmpcr.bed
-    bedtools genomecov -i "$SampleName"_Rmpcr.bed -split -bg -g "$Reference" > "$SampleName"_Rmpcr.bg
-    wigToBigWig "$SampleName"_Rmpcr.bg "$Reference" "$SampleName"_Rmpcr.bw
+def From_Bam_to_bwfile(Bamfile,Fai):
+    os.system("samtools index -@ 24 "+Bamfile)
+    os.system("python /home/bth29393/jbscripts/file_to_bigwig_pe.py %s %s"%(Fai,Bamfile))
+    BedName =  Bamfile.replace(".bam",".bed")
+    os.system("bedtools bamtobed -i %s > %s"%(Bamfile,BedName))
 
 if __name__ == "__main__":
     args = get_parser().parse_args()
@@ -127,3 +132,5 @@ if __name__ == "__main__":
         From_bedfile_to_dirforTrack(args.bed,args.OutputName)
     if args.Step == "SamToBed":
         Make_bed_fromSamfile(args.sam,args.readlength,args.OutputName)
+    if args.Step == "BamTobw":
+        From_Bam_to_bwfile(args.bam,args.Fai)

@@ -59,7 +59,8 @@ remove_multimap() {
     samtools view -H "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
     sed -i '1d' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
     sed -i '1i @HD\tVN:1.5\tSO:coordinate' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
-    samtools reheader "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam  "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF.bam
+    samtools reheader "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam  "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam \
+    > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF.bam
 
 }
 
@@ -77,4 +78,4 @@ deduplication() {
 
 # Call the functions
 remove_multimap
-#deduplication
+deduplication
