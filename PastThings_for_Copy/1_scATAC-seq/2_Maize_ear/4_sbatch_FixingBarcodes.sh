@@ -28,6 +28,3 @@ python /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/4_BarcodeArrange/4-1
  #FixingBarcode
  python /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/4_BarcodeArrange/4-2_makeTn5bed.py \
  -sam ./4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_BarcodeFixed.sam -output_file ./4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_Unique.bed
-
- python /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/4_BarcodeArrange/4-1_FixingBarcodeName.py \
-  -BAM ./3.SortedBam/Ex_Rmpcr.bam -exp_name Ex | samtools view -@ 12 - > ./4.Bam_FixingBarcode/Ex_BarcodeFixed.sam
