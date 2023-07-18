@@ -24,8 +24,8 @@ def read_bam_file(bam_file,exp_name,BarcodedFixedSamFileName):
     #read_bam_file = pysam.AlignmentFile(bam_file,"rb", ignore_truncation=True)
     #pysam.set_verbosity(save)
     read_bam_file = pysam.AlignmentFile(bam_file,"rb")
-
     outfile = pysam.AlignmentFile(BarcodedFixedSamFileName, "wh", template=read_bam_file.header)
+
     for read in read_bam_file :
         #For each read alter CB tag
         try:
