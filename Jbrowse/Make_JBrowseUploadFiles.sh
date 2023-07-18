@@ -6,7 +6,26 @@
 #source activate /home/sb14489/.conda/envs/Jbrowse
 #!/bin/bash
 
-# Function definitions
+: '
+ml Anaconda3/2020.02
+source activate /home/sb14489/.conda/envs/Jbrowse
+
+module load  SAMtools/1.10-iccifort-2019.5.281
+module load BEDTools/2.29.2-GCC-8.3.0
+
+Make JBrowseUpload File.\
+    1: From bdg file to bw file: \
+        python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+        -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
+    2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+      -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq\
+    3: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+     -readlength 151 -sam Final_Bif3Ref_AddedSeqInfo_Overlapped.txt  \
+     -OutputName Final_Bif3Ref_AddedSeqInfo_Overlapped.bed -Step SamToBed
+     4: bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh -Step BamTobw  \
+      -Fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
+       -bam /scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/bif3_Re3_Rmpcr.bam
+'
 
 function from_bdgfile_to_bwfile() {
     local BdgFile=$1
@@ -96,14 +115,3 @@ fi
 
 
 #bash script.sh -Step <Step> -OutputName <OutputName> -bdgFile <BdgFile> -Fai <Fai> -bed <BedFile> -sam <Samfile> -bam <Bamfile> -readlength <ReadLength>
-: '
-Make JBrowseUpload File.\
-    1: From bdg file to bw file: \
-        python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
-        -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
-    2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
-      -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq\
-    3: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
-     -readlength 151 -sam Final_Bif3Ref_AddedSeqInfo_Overlapped.txt  \
-     -OutputName Final_Bif3Ref_AddedSeqInfo_Overlapped.bed -Step SamToBed
-'
