@@ -54,7 +54,7 @@ function from_bam_to_bwfile() {
     local Bamfile=$1
     local Fai=$2
     if [[ ! -f "$Bamfile.bai" ]]; then
-    samtools index -@ 24 "$Bamfile"
+      samtools index -@ 24 "$Bamfile"
     fi
     python /home/bth29393/jbscripts/file_to_bigwig_pe.py $Fai $Bamfile
     BedName="${Bamfile%.bam}.bed"
