@@ -71,7 +71,7 @@ deduplication() {
         MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 MAX_RECORDS_IN_RAM=1500000\
         REMOVE_DUPLICATES=true METRICS_FILE="./$NewSampleName_forBam"_dups_Markingpcr.txt \
         I="./$NewSampleName_forBam"_Sorted_HF.bam \
-        O="./$NewSampleName_forBam"_Markingpcr.bam \
+        O="./$NewSampleName_forBam"_Rmpcr.bam \
         BARCODE_TAG=CB \
         ASSUME_SORT_ORDER=coordinate \
         USE_JDK_DEFLATER=true

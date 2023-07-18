@@ -1,5 +1,9 @@
 ##### This is after RemoveMulitiMap_Deduplication.sh
 ## From pablo # Sohyun edited for cellranger v2 and do not consider non nuclear configs
+#Use : python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/FindTn5Insertion_fromBam.py  \
+#-BAM //scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam \
+#-exp_name "${SampleNameList[SLURM_ARRAY_TASK_ID]}" -threads 10 \
+#-output_file /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"
 
 import pysam
 import argparse
