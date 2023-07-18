@@ -78,5 +78,5 @@ deduplication() {
 }
 
 # Call the functions
-#remove_multimap
+remove_multimap
 deduplication

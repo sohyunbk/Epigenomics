@@ -11,3 +11,7 @@
 #SBATCH --array=0-3
 
 SampleNameList=(A619_Re3 A619_Re4 bif3_Re3 bif3_Re4)
+parser.add_argument('-BAM', "--bam_file", help="Bam file to pull reads from.", required=True, dest='bam_f')
+parser.add_argument('-exp_name', "--experiment_name", help="10x config file to pull scaffold names of nuclear and non-nuclear scaffolds", required=True, dest='exp')
+parser.add_argument('-output_file', "--output", help="Output file to write to. If none given, output writes to stdout.", required=False, dest='o')
+parser.add_argument('-threads', "--num_threads", type=int, help="Number of threads to use for processing (default: 1).", default=1)
