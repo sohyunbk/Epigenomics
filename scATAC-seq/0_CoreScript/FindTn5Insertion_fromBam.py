@@ -1,12 +1,20 @@
 ##### This is after RemoveMulitiMap_Deduplication.sh
 ## From pablo # Sohyun edited for cellranger v2 and do not consider non nuclear configs
-#Use :
-#module load Anaconda3/2020.02
-#source activate /home/sb14489/.conda/envs/ucsc
-#python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/FindTn5Insertion_fromBam.py  \
-#-BAM //scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam \
-#-exp_name "${SampleNameList[SLURM_ARRAY_TASK_ID]}" -threads 10 \
-#-output_file /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"
+"""
+Use :
+module load Anaconda3/2020.02
+source activate /home/sb14489/.conda/envs/ucsc
+
+#it should have index!
+module load  SAMtools/1.10-iccifort-2019.5.281
+samtools index -@ 20 /scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam
+
+
+python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/FindTn5Insertion_fromBam.py  \
+-BAM //scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam \
+-exp_name "${SampleNameList[SLURM_ARRAY_TASK_ID]}" -threads 10 \
+-output_file /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"
+"""
 
 import pysam
 import argparse
