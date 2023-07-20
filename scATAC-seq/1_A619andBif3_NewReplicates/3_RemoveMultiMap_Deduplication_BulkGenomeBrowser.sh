@@ -20,13 +20,15 @@ module load  SAMtools/1.10-iccifort-2019.5.281
 module load BEDTools/2.29.2-GCC-8.3.0
 
 ## RemovemultiMap & deduplication
-sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/RemoveMultiMap_Deduplication.sh --path /scratch/sb14489/3.scATAC/2.Maize_ear/ \
---MappedDir 2.Mapped_CellRangerv2  --OGSampleName "${OGSampleNameList[SLURM_ARRAY_TASK_ID]}" \
- --NewSampleName_forBam "${NewSampleNameList[SLURM_ARRAY_TASK_ID]}"
+#sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/RemoveMultiMap_Deduplication.sh --path /scratch/sb14489/3.scATAC/2.Maize_ear/ \
+#--MappedDir 2.Mapped_CellRangerv2  --OGSampleName "${OGSampleNameList[SLURM_ARRAY_TASK_ID]}" \
+# --NewSampleName_forBam "${NewSampleNameList[SLURM_ARRAY_TASK_ID]}"
 
 ## GenomeBrowser
 ml Anaconda3/2020.02
-source activate /home/sb14489/.conda/envs/Jbrowse
+source activate /home/sb14489/.conda/envs/ucsc
+module load SAMtools/1.10-iccifort-2019.5.281
+module load BEDTools/2.29.2-GCC-8.3.0
 
 bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh -Step BamTobw  \
  -Fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
