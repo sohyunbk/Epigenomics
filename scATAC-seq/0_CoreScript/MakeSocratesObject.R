@@ -5,6 +5,9 @@ load_all('/home/sb14489/Socrates')
 library("optparse")
 library(rlang)
 library(ggplot2)
+
+## Editing the previous scripts. The thing is it should be matched with the samples using previous pipelines..
+
 option_list = list(
   make_option(c("--WD"), type="character", 
               help="WD", metavar="character"),
@@ -32,15 +35,16 @@ Name <- opt$Name
 minimumtn5counts <- opt$MinTn5
 
 Example <- function(){
-  Name <- as.character("4_relk1")
-  WD <- "/scratch/sb14489/3.scATAC/1.MaizeExample/6.CellClustering/"
+  Name <- as.character("bif3_Re4")
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping//"
   BinSize <- as.character("500")
-  bed <- "/scratch/sb14489/3.scATAC/1.MaizeExample/4.Bam_FixingBarcode/Ex_4_relk1_Unique.bed"
+  bed <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/bif3_Re4_Unique.bed"
   ann <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_MtPtAdd_Rsf.gtf"
   chr <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai"
   minimumtn5counts <- "1000"
 }
 
+#chr4:9929296..9936240 (6.95 Kb)
 ### Make wd and setwd
 if (!dir.exists(WD)){
   dir.create(WD)
@@ -57,7 +61,12 @@ if (!dir.exists(WDir)){
 setwd(WDir)
 
 obj <- loadBEDandGenomeData(bed, ann, chr)  ## Takes long
-obj <- countRemoveOrganelle(obj,org_scaffolds=c("Mt","Pt"),remove_reads=TRUE) ## This function only add meta$MtPt and remove reads from bed file in Mtpt
+str(obj)
+
+obj <- countRemoveOrganelle(obj,org_scaffolds=c("Mt","Pt"),remove_reads=TRUE) 
+## This function only add meta$MtPt and remove reads from bed file in Mtpt
+## Now I even do not think that it removes the reads considering callACR function call the peaks in Pt/Mt
+tail(obj$PtMt)
 
 obj <- callACRs(obj, genomesize=2.5e9,
                 shift= -50,
@@ -72,11 +81,12 @@ obj <- buildMetaData(obj, tss.window=2000, verbose=TRUE,organelle_scaffolds=c("M
 str(obj)
 
 ## Check the cells MtPt ratio with plot
-obj$meta$pPtMt <- obj$meta$ptmt/(obj$meta$total+obj$meta$ptmt)
+obj$meta$pPtMt <- obj$meta$ptmt / (obj$meta$total+obj$meta$ptmt)
 PlotData <- obj$meta
+str(PlotData)
+
 HighDepthnumber <- length(which(PlotData$total>=1000&PlotData$pPtMt>0.2))
 LowDepthnumber <- length(which(PlotData$total<1000&PlotData$pPtMt>0.2))
-
 PlotData$Tn5Number <- paste0("<1000 # Tn5\n (#Cells < 0.2 of rMtPt: ",
                              as.character(LowDepthnumber),")")
 PlotData[which(PlotData$total>1000),]$Tn5Number <- paste0(">1000 # Tn5 \n( #Cells < 0.2 of rMtPt: ",
@@ -84,18 +94,18 @@ PlotData[which(PlotData$total>1000),]$Tn5Number <- paste0(">1000 # Tn5 \n( #Cell
 #str(obj)
 ggplot(PlotData, aes(y=pPtMt,x=Tn5Number)) + 
   geom_violin()+
-  geom_jitter(shape=16, position=position_jitter(0.2))+
   ggtitle(paste0("Total barcodeNumber :" ,as.character(length(rownames(PlotData)))))
   
 ggsave(paste0(Name,"_OrgRatio_VioletPlot.pdf"), width=8, height=7)	
 
+
 ##########################
 ##Filter Cells with high MtPt Ratio
-Cells_lowMtPt <- rownames(obj$meta)[which(obj$meta$pPtMt<0.2)]
+#Cells_lowMtPt <- rownames(obj$meta)[which(obj$meta$pPtMt<0.2)]
 #str(obj)
 #head(obj$acr)
-obj$meta <-obj$meta[Cells_lowMtPt,]
-obj$bed <- obj$bed[obj$bed$V4%in%Cells_lowMtPt,]
+#obj$meta <-obj$meta[Cells_lowMtPt,]
+#obj$bed <- obj$bed[obj$bed$V4%in%Cells_lowMtPt,]
 #dim(obj$meta)
 
 
@@ -109,36 +119,13 @@ if (BinSize == "peak"){
 
 
 ## Save reds up to load data
-#NewFileName <- paste0(Name,"_loadData.rds") 
-#saveRDS(obj, file=NewFileName)
+NewFileName <- paste0(Name,"_loadData.rds") 
+saveRDS(obj, file=NewFileName)
 
+## I removed "is cell" function
 #soc.obj <- convertSparseData(obj, verbose=T)
 #isCells <- dget("/home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/5_CellClustering/isCells.R")
 
-str(obj)
-
-obj <- isCell(obj, num.test=16000,  
-                      num.tn5=NULL, 
-                      num.ref=5000, 
-                      background.cutoff=500,
-                      min.pTSS=0.2,
-                      min.FRiP=0.2,
-                      min.pTSS.z= -2,
-                      min.FRiP.z= -2,
-                      verbose=F) #background.cutoff: Tn5 insertions for bad cells
-#ForExData
-#obj <- isCell(obj, num.test=100,  
-#              num.tn5=NULL, 
-#              num.ref=50, 
-#              background.cutoff=20000,
-#              min.pTSS=0.1,
-#              min.FRiP=0.1,
-#              min.pTSS.z= -2,
-#              min.FRiP.z= -2,
-#              verbose=F) #background.cutoff: Maximumnumber of Tn5 insertions for bad cells 
-
-#fit <- smooth.spline(rank, depth, spar=0.1)  
-str(obj)
 NewFileName <- paste(Name,"_Tn5Cut",minimumtn5counts,sep="")
 pdf(file=paste(NewFileName,".pdf",sep=""),width=14,height=4)
 obj$meta$acr <- obj$meta$acrs ##Fix the error from the variable
@@ -152,12 +139,13 @@ obj <- findCells(obj,
                  tss.min.freq = 0.2,
                  frip.min.freq = 0.35,
                  frip.z.thresh = 2,
+                 filt.org=FALSE,
                  filt.tss=TRUE,
                  filt.frip=TRUE)
 
 dev.off()
 str(obj)
-obj <- convertSparseData(obj, verbose=T)
 
+obj <- convertSparseData(obj, verbose=T)
 NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds") 
 saveRDS(obj, file=NewFileName)

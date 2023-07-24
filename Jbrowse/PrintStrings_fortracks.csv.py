@@ -69,7 +69,7 @@ if __name__ == "__main__":
     args = get_parser().parse_args()
     if args.bw == "yes":
         BWFiles(args.DirForFiles,args.bw,args.GitHubDir,args.TiedName)
-        #python PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atac
+        #python //home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atac
     elif args.bed == "yes":
         bedFiles(args.DirForFiles,args.bed,args.GitHubDir,args.TiedName)
         #python /home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/ -bed yes -TiedName InsertedSeq119+445bp -GitHubDir peak
