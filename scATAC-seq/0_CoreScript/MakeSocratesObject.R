@@ -40,8 +40,8 @@ ann <- opt$ann
 chr <- opt$chr
 Name <- opt$Name
 minimumtn5counts <- opt$MinTn5
-TSS_sd <- opt$TSS_sd
-FRiP_sd <- opt$FRiP_sd
+TSS_sd <- as.integer(opt$TSS_sd)
+FRiP_sd <- as.integer(opt$FRiP_sd)
 
 Example <- function(){
   Name <- as.character("bif3_Re4")
