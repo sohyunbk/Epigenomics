@@ -21,4 +21,5 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MakeSocratesObject.R  
  --BinSize 500 --Name "${List[SLURM_ARRAY_TASK_ID]}" \
  --bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
  --ann /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_MtPtAdd_Rsf.gtf \
- --chr /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai --MinTn5 1000
+ --chr /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
+ --MinTn5 1000 --TSS_sd 3 --FRiP_sd 5

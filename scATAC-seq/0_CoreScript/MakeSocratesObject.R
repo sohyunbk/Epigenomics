@@ -9,20 +9,24 @@ library(ggplot2)
 ## Editing the previous scripts. The thing is it should be matched with the samples using previous pipelines..
 
 option_list = list(
-  make_option(c("--WD"), type="character", 
+  make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
-  make_option(c("--BinSize"), type="character", 
+  make_option(c("--BinSize"), type="character",
               help="Binsize it should be 100, 500, 1000bp or peak", metavar="character"),
   make_option(c("--bed"), type="character",
               help="bed file from Tn5 insertion", metavar="character"),
-  make_option(c("--ann"), type="character", 
+  make_option(c("--ann"), type="character",
               help="GTF", metavar="character"),
-  make_option(c("--chr"), type="character", 
+  make_option(c("--chr"), type="character",
               help=".fai file", metavar="character"),
-  make_option(c("--Name"), type="character", 
+  make_option(c("--Name"), type="character",
               help="Sample file", metavar="character"),
-  make_option(c("--MinTn5"), type="character", 
-              help="Sample file", metavar="character")
+  make_option(c("--MinTn5"), type="character",
+              help="Sample file", metavar="character"),
+  make_option(c("--TSS_sd"), type="character",
+            help="TSS_sd", metavar="character"),
+    make_option(c("--FRiP_sd"), type="character",
+            help="FRiP_sd", metavar="character")
   );
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
@@ -33,6 +37,8 @@ ann <- opt$ann
 chr <- opt$chr
 Name <- opt$Name
 minimumtn5counts <- opt$MinTn5
+TSS_sd <- opt$TSS_sd
+FRiP_sd <- opt$FRiP_sd
 
 Example <- function(){
   Name <- as.character("bif3_Re4")
@@ -63,7 +69,7 @@ setwd(WDir)
 obj <- loadBEDandGenomeData(bed, ann, chr)  ## Takes long
 str(obj)
 
-obj <- countRemoveOrganelle(obj,org_scaffolds=c("Mt","Pt"),remove_reads=TRUE) 
+obj <- countRemoveOrganelle(obj,org_scaffolds=c("Mt","Pt"),remove_reads=TRUE)
 ## This function only add meta$MtPt and remove reads from bed file in Mtpt
 ## Now I even do not think that it removes the reads considering callACR function call the peaks in Pt/Mt
 tail(obj$PtMt)
@@ -74,8 +80,8 @@ obj <- callACRs(obj, genomesize=2.5e9,
                 fdr=0.05,
                 output="bulk_peaks",
                 tempdir="./macs2_temp",
-                verbose=T) ## It should be run to get the Ratio of Tn5s in ACR 
-##Q how the peaks can be generated in MtPt although we deleted all the reads 
+                verbose=T) ## It should be run to get the Ratio of Tn5s in ACR
+##Q how the peaks can be generated in MtPt although we deleted all the reads
 
 obj <- buildMetaData(obj, tss.window=2000, verbose=TRUE,organelle_scaffolds=c("Mt","Pt"))
 str(obj)
@@ -92,11 +98,11 @@ PlotData$Tn5Number <- paste0("<1000 # Tn5\n (#Cells < 0.2 of rMtPt: ",
 PlotData[which(PlotData$total>1000),]$Tn5Number <- paste0(">1000 # Tn5 \n( #Cells < 0.2 of rMtPt: ",
                                                           as.character(HighDepthnumber),")")
 #str(obj)
-ggplot(PlotData, aes(y=pPtMt,x=Tn5Number)) + 
+ggplot(PlotData, aes(y=pPtMt,x=Tn5Number)) +
   geom_violin()+
   ggtitle(paste0("Total barcodeNumber :" ,as.character(length(rownames(PlotData)))))
-  
-ggsave(paste0(Name,"_OrgRatio_VioletPlot.pdf"), width=8, height=7)	
+
+ggsave(paste0(Name,"_OrgRatio_VioletPlot.pdf"), width=8, height=7)
 
 
 ##########################
@@ -119,7 +125,7 @@ if (BinSize == "peak"){
 
 
 ## Save reds up to load data
-NewFileName <- paste0(Name,"_loadData.rds") 
+NewFileName <- paste0(Name,"_loadData.rds")
 saveRDS(obj, file=NewFileName)
 
 ## I removed "is cell" function
@@ -135,10 +141,10 @@ obj <- findCells(obj,
                  max.cells=16000,
                  set.tn5.cutoff=as.numeric(minimumtn5counts), #Override spline fitting to set minimum tn5 cout per cell.
                  min.tn5=1000, #Default:1000
-                 tss.z.thresh = 3,
+                 tss.z.thresh = TSS_sd,
                  tss.min.freq = 0.2,
                  frip.min.freq = 0.35,
-                 frip.z.thresh = 2,
+                 frip.z.thresh = FriP_sd,
                  filt.org=FALSE,
                  filt.tss=TRUE,
                  filt.frip=TRUE)
@@ -147,5 +153,5 @@ dev.off()
 str(obj)
 
 obj <- convertSparseData(obj, verbose=T)
-NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds") 
+NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds")
 saveRDS(obj, file=NewFileName)
