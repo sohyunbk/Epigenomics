@@ -26,7 +26,10 @@ option_list = list(
   make_option(c("--TSS_sd"), type="character",
             help="TSS_sd", metavar="character"),
     make_option(c("--FRiP_sd"), type="character",
-            help="FRiP_sd", metavar="character")
+            help="FRiP_sd", metavar="character"),
+            make_option(c("--Step"), type="character",
+                    help="Step can be 'OnlyQC'", metavar="character")
+
   );
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
@@ -66,7 +69,7 @@ if (!dir.exists(WDir)){
 }
 setwd(WDir)
 
-Load_Data <- (){
+Load_Data <- function(){
 obj <- loadBEDandGenomeData(bed, ann, chr)  ## Takes long
 str(obj)
 
@@ -137,6 +140,8 @@ saveRDS(obj, file=NewFileName)
 #soc.obj <- convertSparseData(obj, verbose=T)
 #isCells <- dget("/home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/5_CellClustering/isCells.R")
 
+QC <- function(){
+obj <- readRDS(paste0(Name,"_loadData.rds"))
 NewFileName <- paste(Name,"_Tn5Cut",minimumtn5counts,sep="")
 pdf(file=paste(NewFileName,".pdf",sep=""),width=14,height=4)
 obj$meta$acr <- obj$meta$acrs ##Fix the error from the variable
@@ -160,3 +165,11 @@ str(obj)
 obj <- convertSparseData(obj, verbose=T)
 NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds")
 saveRDS(obj, file=NewFileName)
+}
+
+if (opt$Step == "OnlyQC"){
+  QC()
+}else{
+Load_Data()
+QC()
+}
