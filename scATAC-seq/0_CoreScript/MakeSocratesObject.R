@@ -66,6 +66,7 @@ if (!dir.exists(WDir)){
 }
 setwd(WDir)
 
+Load_Data <- (){
 obj <- loadBEDandGenomeData(bed, ann, chr)  ## Takes long
 str(obj)
 
@@ -128,6 +129,10 @@ if (BinSize == "peak"){
 NewFileName <- paste0(Name,"_loadData.rds")
 saveRDS(obj, file=NewFileName)
 
+}
+
+############*************************************************************************************
+############*************************************************************************************
 ## I removed "is cell" function
 #soc.obj <- convertSparseData(obj, verbose=T)
 #isCells <- dget("/home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/5_CellClustering/isCells.R")
@@ -144,7 +149,7 @@ obj <- findCells(obj,
                  tss.z.thresh = TSS_sd,
                  tss.min.freq = 0.2,
                  frip.min.freq = 0.35,
-                 frip.z.thresh = FriP_sd,
+                 frip.z.thresh = FRiP_sd,
                  filt.org=FALSE,
                  filt.tss=TRUE,
                  filt.frip=TRUE)
