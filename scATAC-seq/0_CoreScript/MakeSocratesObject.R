@@ -101,6 +101,9 @@ PlotData$Tn5Number <- paste0("<1000 # Tn5\n (#Cells < 0.2 of rMtPt: ",
                              as.character(LowDepthnumber),")")
 PlotData[which(PlotData$total>1000),]$Tn5Number <- paste0(">1000 # Tn5 \n( #Cells < 0.2 of rMtPt: ",
                                                           as.character(HighDepthnumber),")")
+
+
+
 #str(obj)
 ggplot(PlotData, aes(y=pPtMt,x=Tn5Number)) +
   geom_violin()+
@@ -165,6 +168,53 @@ dev.off()
 str(obj)
 
 obj <- convertSparseData(obj, verbose=T)
+
+### Filtered Cells by MtPt
+#obj <- readRDS(paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds"))
+Cutoffcell<- sum(obj$meta$pPtMt < 0.25)
+
+# Bin size control + color palette
+# Create the ggplot with the desired aesthetics
+p <- ggplot(obj$meta, aes(x = log10nSites, y = pPtMt)) +
+  geom_bin2d(bins = 100) +
+  scale_fill_continuous(type = "viridis") +
+  xlab("Tn5 integration sites per barcode (log10)") +
+  ylab("Organelle Ratio") +
+  theme_bw() +
+  theme(legend.text = element_blank())
+
+# Add the line across y = 0.25
+p <- p + geom_hline(yintercept = 0.25, linetype = "dashed", color = "red")
+
+# Calculate the position to place the custom text on the right top corner
+x_pos <- max(obj$meta$log10nSites) - 0.1
+y_pos <- max(obj$meta$pPtMt) - 0.03
+
+# Add the custom text on the right top corner
+p <- p + annotate(
+  "text",
+  x = x_pos, y = y_pos,
+  label = paste0("# Cell = ", Cutoffcell),
+  hjust = 1, vjust = 1,
+  size = 4, color = "black"
+)
+
+# Save the plot as a PDF
+ggsave(
+  paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/",
+         SampleName,"/",SampleName,"Org.pdf"),
+  p,
+  width = 7, height = 5,
+  units = "in", dpi = 300
+)
+#str(obj)
+
+obj$meta <- obj$meta[obj$meta$pPtMt < 0.25,]
+str(obj)
+head(obj$meta$cellID)
+head(obj$counts[,c(1:10)])
+obj$counts <- obj$counts[,colnames(obj$counts)%in%obj$meta$cellID]
+
 NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds")
 saveRDS(obj, file=NewFileName)
 }
