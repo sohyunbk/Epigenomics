@@ -202,7 +202,7 @@ p <- p + annotate(
 # Save the plot as a PDF
 ggsave(
   paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/",
-         SampleName,"/",SampleName,"Org.pdf"),
+         Name,"/",Name,"Org.pdf"),
   p,
   width = 7, height = 5,
   units = "in", dpi = 300
