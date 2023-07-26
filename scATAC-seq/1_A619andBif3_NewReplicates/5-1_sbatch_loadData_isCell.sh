@@ -9,7 +9,7 @@
 #SBATCH --error=/scratch/sb14489/0.log/5-1_QC.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
-#SBATCH --array=0-4                   # Array range
+#SBATCH --array=0-3                   # Array range
 
 List=(A619_Re3 A619_Re4 bif3_Re3 bif3_Re4)
 
