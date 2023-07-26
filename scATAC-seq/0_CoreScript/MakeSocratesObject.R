@@ -25,6 +25,8 @@ option_list = list(
               help="Sample file", metavar="character"),
   make_option(c("--TSS"), type="character",
             help="TSS_sd", metavar="character"),
+  make_option(c("--Org"), type="character",
+              help="Org ratio cutoff", metavar="character"),  
     make_option(c("--FRiP"), type="character",
             help="FRiP_sd", metavar="character"),
             make_option(c("--Step"), type="character",
@@ -42,6 +44,7 @@ Name <- opt$Name
 minimumtn5counts <- opt$MinTn5
 nTSS <- as.numeric(opt$TSS)
 nFRiP <- as.numeric(opt$FRiP)
+nOrg <- as.numeric(opt$Org)
 
 Example <- function(){
   Name <- as.character("bif3_Re4")
@@ -171,7 +174,7 @@ obj <- convertSparseData(obj, verbose=T)
 
 ### Filtered Cells by MtPt
 #obj <- readRDS(paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds"))
-Cutoffcell<- sum(obj$meta$pPtMt < 0.25)
+Cutoffcell<- sum(obj$meta$pPtMt < nOrg)
 
 # Bin size control + color palette
 # Create the ggplot with the desired aesthetics
@@ -184,7 +187,7 @@ p <- ggplot(obj$meta, aes(x = log10nSites, y = pPtMt)) +
   theme(legend.text = element_blank())
 
 # Add the line across y = 0.25
-p <- p + geom_hline(yintercept = 0.25, linetype = "dashed", color = "red")
+p <- p + geom_hline(yintercept = nOrg, linetype = "dashed", color = "red")
 
 # Calculate the position to place the custom text on the right top corner
 x_pos <- max(obj$meta$log10nSites) - 0.1
@@ -209,9 +212,12 @@ ggsave(
 )
 #str(obj)
 
-obj$meta <- obj$meta[obj$meta$pPtMt < 0.25,]
+obj$meta <- obj$meta[obj$meta$pPtMt < nOrg,]
 str(obj)
 head(obj$meta$cellID)
+for( i in c(1:10)){
+  print(obj$meta$cellID[i])
+}
 head(obj$counts[,c(1:10)])
 obj$counts <- obj$counts[,colnames(obj$counts)%in%obj$meta$cellID]
 
