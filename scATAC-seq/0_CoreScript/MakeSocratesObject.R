@@ -23,9 +23,9 @@ option_list = list(
               help="Sample file", metavar="character"),
   make_option(c("--MinTn5"), type="character",
               help="Sample file", metavar="character"),
-  make_option(c("--TSS_sd"), type="character",
+  make_option(c("--TSS"), type="character",
             help="TSS_sd", metavar="character"),
-    make_option(c("--FRiP_sd"), type="character",
+    make_option(c("--FRiP"), type="character",
             help="FRiP_sd", metavar="character"),
             make_option(c("--Step"), type="character",
                     help="Step can be 'OnlyQC'", metavar="character")
@@ -40,8 +40,8 @@ ann <- opt$ann
 chr <- opt$chr
 Name <- opt$Name
 minimumtn5counts <- opt$MinTn5
-TSS_sd <- as.integer(opt$TSS_sd)
-FRiP_sd <- as.integer(opt$FRiP_sd)
+nTSS <- as.numeric(opt$TSS)
+nFRiP <- as.numeric(opt$FRiP)
 
 Example <- function(){
   Name <- as.character("bif3_Re4")
@@ -141,7 +141,9 @@ saveRDS(obj, file=NewFileName)
 #isCells <- dget("/home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/5_CellClustering/isCells.R")
 
 QC <- function(){
+
 obj <- readRDS(paste0(Name,"_loadData.rds"))
+
 NewFileName <- paste(Name,"_Tn5Cut",minimumtn5counts,sep="")
 pdf(file=paste(NewFileName,".pdf",sep=""),width=14,height=4)
 obj$meta$acr <- obj$meta$acrs ##Fix the error from the variable
@@ -151,10 +153,10 @@ obj <- findCells(obj,
                  max.cells=16000,
                  set.tn5.cutoff=as.numeric(minimumtn5counts), #Override spline fitting to set minimum tn5 cout per cell.
                  min.tn5=1000, #Default:1000
-                 tss.z.thresh = TSS_sd,
-                 tss.min.freq = 0.2,
-                 frip.min.freq = 0.35,
-                 frip.z.thresh = FRiP_sd,
+                 tss.z.thresh = 2,
+                 tss.min.freq = nTSS,
+                 frip.min.freq = nFRiP,
+                 frip.z.thresh = 3,
                  filt.org=FALSE,
                  filt.tss=TRUE,
                  filt.frip=TRUE)

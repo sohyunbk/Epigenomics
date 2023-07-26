@@ -87,4 +87,10 @@ Org_Frip <-function(SampleName) {
            SampleName, "/", SampleName,
            "_org_FRiP.pdf"),width = 7, height = 5)
     
- }
+}
+
+Org_Frip("A619_Re3")
+Org_Frip("A619_Re4")
+
+Org_Frip("bif3_Re3")
+Org_Frip("bif3_Re4")
