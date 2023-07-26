@@ -223,6 +223,8 @@ obj$counts <- obj$counts[,colnames(obj$counts)%in%obj$meta$cellID]
 
 NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds")
 saveRDS(obj, file=NewFileName)
+writeLines(obj$meta$cellID, paste0(Name,"_FilteredCellBarcode.txt"))
+
 }
 
 if (opt$Step == "OnlyQC"){
