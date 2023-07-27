@@ -40,11 +40,9 @@ function from_bdgfile_to_bwfile() {
     # Filter the BED file
     awk -v lengthFile="${Fai}_length.txt" \
      'BEGIN{while(getline k < lengthFile){split(k,a); len[a[1]]=a[2];}} {if($3 <= len[$1]) print $0;}' \
-     ${BdgFile} > RemoveLinesOutofRange_${BdgFile}
-    # Remove the temporary file
-    rm ${Fai}_length.txt
+     ${BdgFile} > ${BdgFile}.RemoveLinesOutofRange
 
-    Cmd_sort="bedSort RemoveLinesOutofRange_${BdgFile} ${BdgFile}_Sorted"
+    Cmd_sort="bedSort ${BdgFile}.RemoveLinesOutofRange ${BdgFile}_Sorted"
     Cmd="bedGraphToBigWig ${BdgFile}_Sorted ${Fai} ${OutFileName}.bw"
 
     $Cmd_sort
