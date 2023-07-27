@@ -21,7 +21,7 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description="Make JBrowseUpload File.\
         1: From bdg file to bw file: \
-            python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+            python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
             -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
         2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
           -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq\

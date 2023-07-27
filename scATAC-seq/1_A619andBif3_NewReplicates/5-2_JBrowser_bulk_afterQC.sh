@@ -20,17 +20,28 @@ DataDir="/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
 BedDir="/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"
 
 ## 1) Filter_Bedfile_onlyfor high quality cells
-#cat "$DataDir""${List[SLURM_ARRAY_TASK_ID]}"/"${List[SLURM_ARRAY_TASK_ID]}"_FilteredCellBarcode.txt | parallel \
-# -j16 --pipe grep {} "$BedDir""${List[SLURM_ARRAY_TASK_ID]}""_Unique.bed" > \
-# "$DataDir"/"${List[SLURM_ARRAY_TASK_ID]}"/Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed
-
-fgrep -f "$DataDir""${List[SLURM_ARRAY_TASK_ID]}"/"${List[SLURM_ARRAY_TASK_ID]}"_FilteredCellBarcode.txt \
-  "$BedDir""${List[SLURM_ARRAY_TASK_ID]}""_Unique.bed" > \
-  "$DataDir"/"${List[SLURM_ARRAY_TASK_ID]}"/Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed
+#fgrep -f "$DataDir""${List[SLURM_ARRAY_TASK_ID]}"/"${List[SLURM_ARRAY_TASK_ID]}"_FilteredCellBarcode.txt \
+#  "$BedDir""${List[SLURM_ARRAY_TASK_ID]}""_Unique.bed" > \
+#  "$DataDir"/"${List[SLURM_ARRAY_TASK_ID]}"/Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed
 
 ## 2) Macs2
-module load MACS2/2.2.7.1-foss-2019b-Python-3.7.4
+#module load MACS2/2.2.7.1-foss-2019b-Python-3.7.4
 cd "$DataDir"/"${List[SLURM_ARRAY_TASK_ID]}"/
-macs2 callpeak -t Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed -f BED --nomodel \
-                --keep-dup all --extsize 150 --shift -50 --qvalue .05 --bdg \
-                -n Filtered"${List[SLURM_ARRAY_TASK_ID]}"_macs2
+
+#macs2 callpeak -t Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed -f BED --nomodel \
+#                --keep-dup all --extsize 150 --shift -50 --qvalue .05 --bdg \
+#                -n Filtered"${List[SLURM_ARRAY_TASK_ID]}"_macs2
+
+
+### 3) bdg --> bw
+
+ml Anaconda3/2020.02
+source activate /home/sb14489/.conda/envs/Jbrowse
+
+module load  SAMtools/1.10-iccifort-2019.5.281
+module load BEDTools/2.29.2-GCC-8.3.0
+
+sh /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
+  -Step bdgTobw -bdgFile Filtered"${List[SLURM_ARRAY_TASK_ID]}"_macs2_treat_pileup.bdg \
+ -Fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
+  -OutputName Filtered"${List[SLURM_ARRAY_TASK_ID]}"_macs2_treat_pileup

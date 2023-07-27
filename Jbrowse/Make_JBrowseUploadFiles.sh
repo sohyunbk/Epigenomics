@@ -4,7 +4,6 @@
 ### It should load "ml Anaconda3/2020.02" "source activate /home/sb14489/.conda/envs/Jbrowse"
 #ml Anaconda3/2020.02
 #source activate /home/sb14489/.conda/envs/Jbrowse
-#!/bin/bash
 
 : '
 ml Anaconda3/2020.02
@@ -15,7 +14,7 @@ module load BEDTools/2.29.2-GCC-8.3.0
 
 Make JBrowseUpload File.\
     1: From bdg file to bw file: \
-        python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
+        python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
         -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
     2: python /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.py \
       -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq\
@@ -26,7 +25,7 @@ Make JBrowseUpload File.\
      source activate /home/sb14489/.conda/envs/ucsc
      module load SAMtools/1.10-iccifort-2019.5.281
      module load BEDTools/2.29.2-GCC-8.3.0
-     
+
      bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh -Step BamTobw  \
       -Fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
        -bam /scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/bif3_Re3_Rmpcr.bam
