@@ -20,17 +20,17 @@ DataDir="/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
 BedDir="/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"
 
 ## 1) Filter_Bedfile_onlyfor high quality cells
-#fgrep -f "$DataDir""${List[SLURM_ARRAY_TASK_ID]}"/"${List[SLURM_ARRAY_TASK_ID]}"_FilteredCellBarcode.txt \
-#  "$BedDir""${List[SLURM_ARRAY_TASK_ID]}""_Unique.bed" > \
-#  "$DataDir"/"${List[SLURM_ARRAY_TASK_ID]}"/Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed
+fgrep -f "$DataDir""${List[SLURM_ARRAY_TASK_ID]}"/"${List[SLURM_ARRAY_TASK_ID]}"_FilteredCellBarcode.txt \
+  "$BedDir""${List[SLURM_ARRAY_TASK_ID]}""_Unique.bed" > \
+  "$DataDir"/"${List[SLURM_ARRAY_TASK_ID]}"/Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed
 
 ## 2) Macs2
 #module load MACS2/2.2.7.1-foss-2019b-Python-3.7.4
 cd "$DataDir"/"${List[SLURM_ARRAY_TASK_ID]}"/
 
-#macs2 callpeak -t Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed -f BED --nomodel \
-#                --keep-dup all --extsize 150 --shift -50 --qvalue .05 --bdg \
-#                -n Filtered"${List[SLURM_ARRAY_TASK_ID]}"_macs2
+macs2 callpeak -t Filtered_"${List[SLURM_ARRAY_TASK_ID]}".bed -f BED --nomodel \
+                --keep-dup all --extsize 150 --shift -50 --qvalue .05 --bdg \
+                -n Filtered"${List[SLURM_ARRAY_TASK_ID]}"_macs2
 
 
 ### 3) bdg --> bw
