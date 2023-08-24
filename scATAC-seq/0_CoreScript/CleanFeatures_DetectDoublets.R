@@ -31,10 +31,10 @@ WD <- opt$WD
 NumberOfPC <- opt$nPC
 
 Ex <- function(){
-  Name <- as.character("1_A619")
+  Name <- as.character("bif3_Re3")
   MinT<- as.character(0.01)
   MaxT <- as.character(0.05)
-  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.CellClustering/Organelle5Per_CombineLater/"
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
   PreOptions <- "Tn5Cut1000_Binsize500"
   #NumbeerOfWindow <- as.character(140000)
   #SVDorNMF <-as.character("SVD")
@@ -102,6 +102,8 @@ NewFileName<-paste0(Name,"_",PreOptions,"_MinT",MinT,"_MaxT",MaxT,"_PC",NumberOf
 pdf(paste0(NewFileName,"_BeforeRemovingDoublets.pdf"), width=10, height=10)
 plotUMAP(obj_Cluster_beforeD, cluster_slotName="Clusters", cex=0.2)
 dev.off()
+
+saveRDS(obj_UMAP, file=paste(NewFileName,"_beforeRemovingDoublets.rds",sep=""))
 
 ## 3) Remove Doublets
 obj_UMAP$meta$lib_ID <- "1"
