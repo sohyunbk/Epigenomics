@@ -69,16 +69,19 @@ dev.off()
 obj_AfterClean <- cleanData(obj, min.c=1000,
                             min.t=as.numeric(MinT), max.t=as.numeric(MaxT), verbose=T)
 
-
+#########################
 ## 1) Normalization-tfidf
-
+#########################
 NumberOfWindow <- as.character(140000)
 SVDorNMF <-as.character("SVD")
 
 
 obj_new <- tfidf(obj_AfterClean)
 #print("Done with normalization")
+
+#########################
 ## 2) Reducing dimension
+#########################
 obj_MatrixDecomposition <- reduceDims(obj_new,method=SVDorNMF,n.pcs=as.numeric(NumberOfPC),
                                       num.var=as.numeric(NumberOfWindow),
                                       svd_slotName="MatrixDecomposition")
@@ -104,7 +107,7 @@ plotUMAP(obj_Cluster_beforeD, cluster_slotName="Clusters", cex=0.2)
 dev.off()
 
 saveRDS(obj_UMAP, file=paste(NewFileName,"_beforeRemovingDoublets.rds",sep=""))
-
+#obj_UMAP <- readRDS(paste(NewFileName,"_beforeRemovingDoublets.rds",sep=""))
 ## 3) Remove Doublets
 obj_UMAP$meta$lib_ID <- "1"
 head(obj_UMAP$meta)
