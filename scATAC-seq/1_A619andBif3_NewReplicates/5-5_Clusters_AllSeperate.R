@@ -9,7 +9,7 @@ library(symphony)
 SampleS <- "A619"
 
 Ex <- function(){
-  Prefix <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100"
+  Prefix <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05"
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater"
   NumbeerOfWindow <- as.character(0)
 }
@@ -75,16 +75,14 @@ if (file.exists(file.path(SampleS))){
 getwd()
 #######################
 SVDorNMF <-as.character("SVD")
-NumberOfPC <- as.character(100)
+NumberOfPC <- as.character(300)
 NumbeerOfWindow <- as.character(0)
-NumbeerOfWindow <- as.character(50000)
+NumbeerOfWindow <- as.character(97886)
 
 ###########################
-
-out <-  paste0(SampleS,"_",Prefix,"_RemoveBLonlyMitoChloroChIP")
 #out <-  paste0("Ref_",Prefix,"_RemoveMitoChloroChIP500bpCC")
-
-saveRDS(obj, file=paste0(out,".tfidf.rds"))
+out <-  paste0(SampleS,"_",Prefix,"_RemoveBLonlyMitoChloroChIP")
+#saveRDS(obj, file=paste0(out,".tfidf.rds"))
 #obj <- readRDS()
 print("DonewithTfidf")
 str(obj)
@@ -92,10 +90,9 @@ str(obj)
 dim(obj$residuals)
 #obj_A619_merged <- readRDS(paste0(out,".tfidf.rds"))
 
-
 # project with NMF -----------------------------------
 obj <- reduceDims(obj,method=SVDorNMF,
-                              n.pcs=100,
+                              n.pcs=as.numeric(NumberOfPC),
                               cor.max=0.7,
                               num.var=as.numeric(NumbeerOfWindow),
                               verbose=T,
@@ -141,9 +138,7 @@ obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony,
                                         cleanCluster=F,
                                         e.thresh=5)
 
-
-
-
+str(obj_Cluster_WithHarmony)
 out_final <- paste0(out,"_k",K,"_res",RES)
 pdf(paste0(out_final,"_WithHarmony.pdf"), width=10, height=10)
 plotUMAP(obj_Cluster_WithHarmony, cluster_slotName="Clusters", cex=0.2)
