@@ -140,10 +140,9 @@ obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony,
 str(obj_Cluster_WithHarmony)
 str(obj_UMAP_WithHarmony)
 out_final <- paste0(out,"_k",K,"_res",RES)
-pdf(paste0(out_final,"_WithHarmony.pdf"), width=10, height=10)
-plotUMAP(obj_UMAP_WithHarmony, cex=0.2)
-#plotUMAP(obj_Cluster_WithHarmony, cluster_slotName="Clusters", cex=0.2)
 
+pdf(paste0(out_final,"_WithHarmony.pdf"), width=10, height=10)
+plotUMAP(obj_Cluster_WithHarmony, cluster_slotName="Clusters", cex=0.2)
 dev.off()
 
 colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
