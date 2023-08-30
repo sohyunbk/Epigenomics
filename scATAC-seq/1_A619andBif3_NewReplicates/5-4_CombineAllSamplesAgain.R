@@ -9,7 +9,7 @@ library("RColorBrewer")
 
 Ex <- function(){
   Dir <- as.character("CombineAll") #NewDir name
-  Prefix <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100"
+  Prefix <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100"
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
 }
 
@@ -22,6 +22,8 @@ MaxT <- as.character(args[5])
 SVDorNMF <- as.character(args[6])
 NumberOfPC <- as.character(args[7])
 
+#Ex <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/1_A619_2/1_A619_2_Tn5Cut1000_Binsize500_Mt0.05.rds")
+#Ex2 <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/1_A619_2/1_A619_2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.rds")
 
 # functions --------------------------------------------------------------
 
@@ -43,8 +45,8 @@ NotIntersectNumber <- function(Avector,Bvector){
 #############===================================================================
 ## Combine All together in the begening!!
 
-obj_A619_Re1 <- LoadPreviousRds("A619_Re3","Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100","A619_Re3","A619")
-obj_A619_Re2 <- LoadPreviousRds("A619_Re4","Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100","A619_Re4","A619")
+obj_A619_Re1 <- LoadPreviousRds("A619_Re3",Prefix,"A619_Re3","A619")
+obj_A619_Re2 <- LoadPreviousRds("A619_Re4",Prefix,"A619_Re4","A619")
 ## tfidf was performed by eash sample. I will combine the replicates and then tfidf again
 ## Extract only meta/counts for merging! ##
 #obj_A619_Re1$meta$lib_ID <- "1"
@@ -55,8 +57,8 @@ str(obj_A619_Re2)
 #Temp <- obj_A619_Re2$counts[Matrix::rowSums(obj_A619_Re2$counts) > 0,]
 
 
-obj_bif3_Re1 <- LoadPreviousRds("bif3_Re3","Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100","bif3_Re3","bif3")
-obj_bif3_Re2 <- LoadPreviousRds("bif3_Re4","Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100","bif3_Re4","bif3")
+obj_bif3_Re1 <- LoadPreviousRds("bif3_Re3",Prefix,"bif3_Re3","bif3")
+obj_bif3_Re2 <- LoadPreviousRds("bif3_Re4",Prefix,"bif3_Re4","bif3")
 str(obj_bif3_Re1)
 str(obj_bif3_Re2)
 
@@ -88,7 +90,6 @@ if (file.exists(file.path(Dir))){
 } else {
   dir.create(file.path(Dir))
   setwd(file.path(Dir))
-  
 }
 getwd()
 str(merged.obj)

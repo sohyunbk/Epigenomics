@@ -32,8 +32,8 @@ NumberOfPC <- opt$nPC
 
 Ex <- function(){
   Name <- as.character("bif3_Re3")
-  MinT<- as.character(0.01)
-  MaxT <- as.character(0.05)
+  MinT<- as.character(0.005)
+  MaxT <- as.character(0.01)
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
   PreOptions <- "Tn5Cut1000_Binsize500"
   #NumbeerOfWindow <- as.character(140000)

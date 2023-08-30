@@ -7,14 +7,11 @@ library(harmony)
 library(symphony)
 
 SampleS <- "A619"
+Prefix <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100"
+WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/A619"
+#obj_All <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/CombineAll/Combined_Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100.rds")
+obj_All <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/CombineAll/Combined_Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100.rds")
 
-Ex <- function(){
-  Prefix <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05"
-  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater"
-  NumbeerOfWindow <- as.character(0)
-}
-
-obj_All <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/CombineAll/Combined_Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100.rds")
 str(obj_All)
 dim(subset(obj_All$meta, obj_All$meta$library=="A619_Re3"))
 dim(subset(obj_All$meta, obj_All$meta$library=="A619_Re4"))
@@ -77,7 +74,7 @@ getwd()
 SVDorNMF <-as.character("SVD")
 NumberOfPC <- as.character(300)
 NumbeerOfWindow <- as.character(0)
-NumbeerOfWindow <- as.character(97886)
+NumbeerOfWindow <- as.character(200000)
 
 ###########################
 #out <-  paste0("Ref_",Prefix,"_RemoveMitoChloroChIP500bpCC")
@@ -128,6 +125,8 @@ obj_UMAP_WithHarmony <- projectUMAP(obj, verbose=T, k.near=50,
 K <- "50"
 RES <- "0.9"
 
+#saveRDS(obj_UMAP_WithHarmony, file=paste0(out,".afterHarmony.rds"))
+#obj_UMAP_WithHarmony <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/A619/A619_Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.afterHarmony.rds")
 obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony, 
                                         res=as.numeric(RES),
                                         verbose=T,
@@ -139,9 +138,12 @@ obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony,
                                         e.thresh=5)
 
 str(obj_Cluster_WithHarmony)
+str(obj_UMAP_WithHarmony)
 out_final <- paste0(out,"_k",K,"_res",RES)
 pdf(paste0(out_final,"_WithHarmony.pdf"), width=10, height=10)
-plotUMAP(obj_Cluster_WithHarmony, cluster_slotName="Clusters", cex=0.2)
+plotUMAP(obj_UMAP_WithHarmony, cex=0.2)
+#plotUMAP(obj_Cluster_WithHarmony, cluster_slotName="Clusters", cex=0.2)
+
 dev.off()
 
 colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
