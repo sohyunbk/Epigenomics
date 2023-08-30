@@ -13,4 +13,4 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MakeSocratesObject.R
+Rscript /home/sb14489/Epigenomics/scATAC-seq/1_A619andBif3_NewReplicates/5-5_Clusters_AllSeperate.R
