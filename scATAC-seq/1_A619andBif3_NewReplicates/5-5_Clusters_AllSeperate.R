@@ -8,7 +8,7 @@ library(symphony)
 
 SampleS <- "A619"
 Prefix <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100"
-WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/A619"
+WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
 #obj_All <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/CombineAll/Combined_Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100.rds")
 obj_All <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/CombineAll/Combined_Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100.rds")
 
@@ -74,7 +74,6 @@ getwd()
 SVDorNMF <-as.character("SVD")
 NumberOfPC <- as.character(300)
 NumbeerOfWindow <- as.character(0)
-NumbeerOfWindow <- as.character(200000)
 
 ###########################
 #out <-  paste0("Ref_",Prefix,"_RemoveMitoChloroChIP500bpCC")
@@ -139,7 +138,7 @@ obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony,
 
 str(obj_Cluster_WithHarmony)
 str(obj_UMAP_WithHarmony)
-out_final <- paste0(out,"_k",K,"_res",RES)
+out_final <- paste0(out,"_FeaturesN",NumbeerOfWindow,"_k",K,"_res",RES)
 
 pdf(paste0(out_final,"_WithHarmony.pdf"), width=10, height=10)
 plotUMAP(obj_Cluster_WithHarmony, cluster_slotName="Clusters", cex=0.2)
