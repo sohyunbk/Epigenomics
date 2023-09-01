@@ -75,10 +75,10 @@ setwd(WDir)
 Load_Data <- function(){
 obj <- loadBEDandGenomeData(bed, ann, chr)  ## Takes long
 str(obj)
-
+head(obj$bed)
 ### Remove BlackList here : In the new sample, old sample I removed blacklist after QC.
 ########################=====================
-## 1) Blacklist removal
+## 1) Blacklist removal --> It should be after binning!!!!
 ########################=====================
 blacklist_r <- read.table("/scratch/sb14489/3.scATAC/0.Data/BlackList/Zm.final_blaclist.final.withOutCellCycle.txt")
 head(blacklist_r)
@@ -88,24 +88,28 @@ blacklist.gr <- GRanges(seqnames=as.character(blacklist_r$V1),
                         names=as.character(blacklist_r$V4))
 
 head(blacklist.gr)
-chr.seq.lengths_load <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai")
-chr.seq.lengths <- as.numeric(chr.seq.lengths_load$V2)
-names(chr.seq.lengths) <- chr.seq.lengths_load$V1
-intervals <- tileGenome(seqlengths=chr.seq.lengths, tilewidth=500, cut.last.tile.in.chrom=TRUE)
-head(intervals)
-intervals <- intervals[-queryHits(findOverlaps(intervals, blacklist.gr, type="any")),]
-str(intervals)
-regions <- as.data.frame(intervals)
+Bed_granges <- GRanges(seqnames=as.character(obj$bed$V1),
+                       ranges=IRanges(start=as.numeric(obj$bed$V2),
+                                      end=as.numeric(obj$bed$V3)),
+                       names=as.character(obj$bed$V4),
+                       strand=as.character(obj$bed$V5))
+
+
+Bed_NotBlacklist <- Bed_granges[-queryHits(findOverlaps(Bed_granges, blacklist.gr, type="any")),]
+str(Bed_NotBlacklist)
+
+regions <- as.data.frame(Bed_NotBlacklist)
+dim(regions)
+dim(obj$bed)
+
+head(obj$bed)
 head(regions)
-regions <- paste(regions$seqnames, regions$start, regions$end, sep="_")
-head(regions)
 
-Temp <- obj$counts[rownames(obj$counts) %in% regions,]
-dim(Temp)
-dim(obj$counts)
-obj$counts <- Temp
+regions_new <- regions %>%
+  select(V1 = seqnames, V2 = start, V3 = end, V4 = names, V5 = strand)
+head(regions_new)
 
-
+obj$bed  <- regions_new
 
 obj <- countRemoveOrganelle(obj,org_scaffolds=c("Mt","Pt"),remove_reads=TRUE)
 ## This function only add meta$MtPt and remove reads from bed file in Mtpt
