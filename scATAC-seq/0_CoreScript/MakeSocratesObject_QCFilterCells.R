@@ -5,7 +5,7 @@ load_all('/home/sb14489/Socrates')
 library("optparse")
 library(rlang)
 library(ggplot2)
-
+library(dplyr)
 ## Editing the previous scripts. The thing is it should be matched with the samples using previous pipelines..
 
 option_list = list(
