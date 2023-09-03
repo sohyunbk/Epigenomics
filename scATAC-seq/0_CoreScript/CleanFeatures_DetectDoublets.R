@@ -32,9 +32,9 @@ NumberOfPC <- opt$nPC
 
 Ex <- function(){
   Name <- as.character("bif3_Re3")
-  MinT<- as.character(0.005)
-  MaxT <- as.character(0.01)
-  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
+  MinT<- as.character(0.01)
+  MaxT <- as.character(0.05)
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
   PreOptions <- "Tn5Cut1000_Binsize500"
   #NumbeerOfWindow <- as.character(140000)
   #SVDorNMF <-as.character("SVD")
@@ -49,18 +49,45 @@ str(obj)
 dim(obj$counts)
 
 cell.counts <- Matrix::colSums(obj$counts)
-site.freq <- Matrix::rowMeans(obj$counts)
+#site.freq <- Matrix::rowMeans(obj$counts)
 
 head(cell.counts)
-head(site.freq)
+#head(site.freq)
 
-tiff(file=paste(Name,"_",PreOptions,"_Distribution.tiff",sep=""),type="cairo")
-layout(matrix(c(1:2), ncol=2))
-par(mar=c(3,3,1,1))
-plot(density(cell.counts), main="log10 cell counts", log="x")
-abline(v=1000, col="red")
-plot(density(site.freq), main="peak accessibility frequency", log="x")
-dev.off()
+### 1) Check Tn5 Counts per cell or Cell counts per Tn5.
+############ * Frequency of Tn5 per cells
+df <- data.frame(counts = as.numeric(cell.counts))
+ggplot(df, aes(x=counts)) +
+  geom_histogram(binwidth = 500, # You can adjust binwidth as needed
+                 fill="skyblue", color="black", alpha=0.7) +
+  theme_minimal() +
+  geom_vline(aes(xintercept=1000), color="red", linetype="dashed", linewidth=1)+
+  labs(title="Frequency of Tn5 per cells",
+       x="Counts", y="Frequency")
+ggsave(filename = paste0(Name,"_",PreOptions,"_FrequencyofTn5perCells.pdf"), 
+        width = 10, height = 7)
+############ * Frequency of cells per window
+x <- obj$counts
+CellCountsByWindow <- Matrix::rowSums(x)
+MininumCellNumber <- (ncol(x)*as.numeric(MinT))
+MaximumCellNumber <-as.numeric(quantile(Matrix::rowSums(x), c(1-as.numeric(MaxT))))
+as.numeric(MaximumCellNumber)
+#quantile_value_Upper <- quantile(CellCountsByWindow, probs = 0.95)
+#quantile_value_Lower <- quantile(CellCountsByWindow, probs = 0.01)
+sum(MininumCellNumber<CellCountsByWindow & CellCountsByWindow < MaximumCellNumber)
+
+dens <- density(CellCountsByWindow)
+
+dens_df <- data.frame(x = dens$x, y = dens$y)
+head(dens_df)
+ggplot(dens_df, aes(x = x, y = y)) +
+  geom_line(color = "blue") +
+  labs(title = "Frequency of Tn5-Cell perWindow",
+       x = "Frequency",
+       y = "Density") +
+  theme_minimal()
+ggsave(filename = paste0(Name,"_",PreOptions,"_FrequencyofTn5perWindow.pdf"), 
+       width = 10, height = 7)
 
 ### remove cells with less than 1,000 open peaks
 ### The distribution of average peak accessibilities doesnt show any clear (lower-tail) cut-offs,
@@ -69,6 +96,7 @@ dev.off()
 
 obj_AfterClean <- cleanData(obj, min.c=1000,
                             min.t=as.numeric(MinT), max.t=as.numeric(MaxT), verbose=T)
+
 
 #########################
 ## 1) Normalization-tfidf
