@@ -42,6 +42,7 @@ Ex <- function(){
 }
 
 ##### Clean First ########################################################
+print(Name)
 setwd(paste0(WD,"/",Name))
 obj <- readRDS(paste0(Name,"_",PreOptions,".rds"))
 str(obj)
