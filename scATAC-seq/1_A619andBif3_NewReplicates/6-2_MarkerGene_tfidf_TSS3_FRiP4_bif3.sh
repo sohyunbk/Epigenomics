@@ -14,9 +14,9 @@ ml Anaconda3/2020.02
 source activate r_env
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MarkerGenes_Tfidf_SubmitScript.R \
- --WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/bif3_Re3Re4_TSS3_FRiP4_MinT0.007_MaxT0.005 \
- --Name bif3_Re3Re4_TSS3_FRiP4_MinT0.007_MaxT0.005 \
- --meta //scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/bif3/bif3_Tn5Cut1000_Binsize500_MinT0.007_MaxT0.005_PC100_FeaturesN2e+05_k50_res0.9.AfterHarmony.metadata.txt \
+ --WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/bif3_Re3Re4_TSS3_FRiP4_MinT0.01_MaxT0.01 \
+ --Name bif3_Re3Re4_TSS3_FRiP4_MinT0.01_MaxT0.01 \
+ --meta //scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/bif3/bif3_Tn5Cut1000_Binsize500_MinT0.01_MaxT0.01_PC100_FeaturesN2e+05_k50_res0.9.AfterHarmony.metadata.txt \
  --geneact /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_bif3_Re3Re4.txt \
- --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/bif3/bif3_Tn5Cut1000_Binsize500_MinT0.007_MaxT0.005_PC100.AfterHarmony.PCA.txt \
+ --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/bif3/bif3_Tn5Cut1000_Binsize500_MinT0.01_MaxT0.01_PC100.AfterHarmony.PCA.txt \
  --markers /scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt
