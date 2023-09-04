@@ -123,6 +123,7 @@ SVDorNMF <-as.character("SVD")
 
 obj_new <- tfidf(obj_AfterClean)
 #print("Done with normalization")
+NewFileName <-paste0(Name,"_",PreOptions,"_MinT",MinT,"_MaxT",MaxT,"_PC",NumberOfPC)
 
 #########################
 ## 2) Reducing dimension
