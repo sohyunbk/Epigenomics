@@ -13,7 +13,7 @@ option_list = list(
   make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
   make_option(c("--OldRDS"), type="character",
-              help="OldRDS"),
+              help="OldRDS", metavar="character"),
   make_option(c("--Re1"), type="character",
               help="Re1", metavar="character"),
   make_option(c("--Re2"), type="character",
