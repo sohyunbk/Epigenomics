@@ -100,7 +100,7 @@ plot_all <- ggplot(df, aes(x=row_sums)) +
 # Then set the x limits to 0 to 20
 PlotPart <- plot_all + coord_cartesian(xlim=c(0, 20))
 
-pdf(paste0(Name,"_",NewFileName1,"_FrequencyofTn5perWindow.pdf"), width = 14, height = 7)  # Adjust width and height as needed
+pdf(paste0(NewFileName1,"_FrequencyofTn5perWindow.pdf"), width = 14, height = 7)  # Adjust width and height as needed
 grid.arrange(plot_all, PlotPart, ncol=2)
 dev.off()
 

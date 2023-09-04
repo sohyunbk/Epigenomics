@@ -17,7 +17,7 @@ option_list = list(
   make_option(c("--Re1"), type="character",
               help="Re1", metavar="character"),
   make_option(c("--Re2"), type="character",
-              help="Re2", metavar="character"),
+              help="Re2", metavar="character")
 
 );
 
