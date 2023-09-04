@@ -23,4 +23,4 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/GeneBodyA_Submit.R \
  --ChrFai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
  --Re1_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re1[SLURM_ARRAY_TASK_ID]}" \
  --Re2_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re2[SLURM_ARRAY_TASK_ID]}" \
- --OutFileName /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_"${Re2[SLURM_ARRAY_TASK_ID]}".txt
+ --OutFileName /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_"${Sample[SLURM_ARRAY_TASK_ID]}".txt
