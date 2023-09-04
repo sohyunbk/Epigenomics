@@ -9,18 +9,13 @@
 #SBATCH --error=/scratch/sb14489/0.log/5-4_UMAP_Comb2Re.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
-#SBATCH --array=0-1                   # Array range
-
-List=(A619 bif3)
-
-List1=(A619_Re3 bif3_Re3)
-List2=(A619_Re4 bif3_Re4)
 
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/UMAP_2Replicates.R \
- --PreFix_name Tn5Cut1000_Binsize500_MinT0.007_MaxT0.005_PC100 \
- --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/ \
- --SampleS "${List[SLURM_ARRAY_TASK_ID]}"  \
-  --Re1  "${List1[SLURM_ARRAY_TASK_ID]}" --Re2 "${List2[SLURM_ARRAY_TASK_ID]}"
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/UMAP_4Replicates.R \
+ --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/4Replicates/Combined_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.rds \
+ --OldRDS /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/CombineAll/Combined_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.rds \
+ --Re1 A619_Re1  --Re2 A619_Re2 --Re3 A619_Re3 --Re4 A619_Re4 \
+ --SampleS A619 --PreOptions_forRe3Re4 Tn5Cut1000_Binsize500_MinT0.005_MaxT0.01_PC100 \
+ --WD_forRe3Re4 /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/
