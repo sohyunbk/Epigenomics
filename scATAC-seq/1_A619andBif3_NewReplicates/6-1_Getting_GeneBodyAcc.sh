@@ -9,13 +9,18 @@
 #SBATCH --error=/scratch/sb14489/0.log/6_MarkerGene.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
+#SBATCH --array=0-3                   # Array range
 
 ml Anaconda3/2020.02
 source activate r_env
 #Zm00001eb999999
-Rscript /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/6-1_Annotation/6-1_GeneBodyA_Submit.R \
+Re1=(A619_Re3_Unique.bed bif3_Re3_Unique.bed)
+Re2=(A619_Re4_Unique.bed bif3_Re4_Unique.bed)
+Sample=(A619_Re3Re4 bif3_Re3Re4)
+
+Rscript /home/sb/home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/GeneBodyA_Submit.R \
  --Ann /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_MtPtAdd_Rsf_AddZmCLE7.gtf \
  --ChrFai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
- --Re1_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/1_A619_Unique.bed \
- --Re2_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/1_A619_2_Unique.bed \
- --OutFileName /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re.txt
+ --Re1_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re1[SLURM_ARRAY_TASK_ID]}" \
+ --Re2_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re2[SLURM_ARRAY_TASK_ID]}" \
+ --OutFileName /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_"${Re2[SLURM_ARRAY_TASK_ID]}".txt
