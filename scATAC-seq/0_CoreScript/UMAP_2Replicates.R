@@ -10,24 +10,53 @@ library("optparse")
 option_list = list(
   make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
-  make_option(c("--Name"), type="character",
+  make_option(c("--SampleS"), type="character",
               help="Name", metavar="character"),
   make_option(c("--PreFix"), type="character",
               help="PreFix", metavar="character"),
-  make_option(c("--MinT"), type="character",
-              help="MinT", metavar="character"),
-  make_option(c("--MaxT"), type="character",
-              help="MaxT", metavar="character"),
-  make_option(c("--nPC"), type="character",
-              help="nPC", metavar="character")
+  make_option(c("--Re1"), type="character",
+              help="Re1", metavar="character"),
+  make_option(c("--Re2"), type="character",
+              help="Re2", metavar="character"),
+
 );
 
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
 
-SampleS <- "A619"
-Prefix <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100"
-WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/"
-#obj_All <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/CombineAll/Combined_Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100.rds")
-obj_All <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/CombineAll/Combined_Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100.rds")
+WD <- opt$WD
+SampleS <- opt$SampleS
+PreFix<- opt$PreFix
+Re1 <- opt$Re1
+Re2 <- opt$Re2
+
+Ex <- function(){
+  SampleS <- "A619"
+  Prefix <- "Tn5Cut1000_Binsize500_MinT0.001_MaxT0.05_PC100"
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
+  Re1 <- "A619_Re3"
+  Re2 <- "A619_Re4"
+}
+
+## 1) Combine the data and features!
+## Two replicates should be in the same WD dir and naming rules.
+obj_Re1 <- readRDS(paste0(WD,"/",Re1,"/",Re1,"_",Prefix,".rds"))
+obj_Re2 <- readRDS(paste0(WD,"/",Re2,"/",Re2,"_",Prefix,".rds"))
+
+SharedFeatures <- Reduce(intersect, list(rownames(obj_Re1$counts),rownames(obj_Re2$counts)))
+
+length(SharedFeatures)
+print(SharedFeatures[1:5])
+#print(SharedFeatures)
+
+files <- list(obj_A619_Re1,obj_A619_Re2, 
+              obj_bif3_Re1, obj_bif3_Re2)
+names(files) <- c("A619_Re3", "A619_Re4",
+                  "bif3_Re3","bif3_Re4")
+
+merged.obj <- mergeSocratesRDS(obj.list=files)
+
+
 
 str(obj_All)
 dim(subset(obj_All$meta, obj_All$meta$library=="A619_Re3"))
