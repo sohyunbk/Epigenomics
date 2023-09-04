@@ -157,17 +157,17 @@ Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(Louvain
   geom_point(size=0.02, color="blue") + 
   theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
-  labs(title = "Re1") 
+  labs(title = paste0("Re1 : ",nrow(ClustersTable_Re1))) 
 ClustersTable_Re2 <- subset(obj_Cluster_WithHarmony$Clusters, sampleID == Re2)
 Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
   geom_point(size=0.02, color="red") + 
   theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
-  labs(title = "Re2") 
+  labs(title = paste0("Re2 : ",nrow(ClustersTable_Re2))) 
 
 library(gridExtra)
 pdf(paste0(out_final,"_WithHarmony.pdf"), width=15, height=5) 
-grid.arrange(All, Re1_plot, Re2_plot, ncol=3, widths=c(1.5,1,1))  
+grid.arrange(All, Re1_plot, Re2_plot, ncol=3, widths=c(1.7,1,1))  
 dev.off()
 
 saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".AfterHarmony.rds"))
