@@ -13,8 +13,8 @@
 
 List=(A619 bif3)
 
-List1=(A619_Re3 A619_Re4)
-List2=(bif3_Re3 bif3_Re4)
+List1=(A619_Re3 bif3_Re3)
+List2=(A619_Re4 bif3_Re4)
 
 ml Anaconda3/2020.02
 source activate r_env
