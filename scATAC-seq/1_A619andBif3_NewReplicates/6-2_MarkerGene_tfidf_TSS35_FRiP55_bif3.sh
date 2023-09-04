@@ -2,7 +2,7 @@
 #SBATCH --job-name=MarkerGene_bif3        # Job name
 #SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
-#SBATCH --cpus-per-task=10             # Number of CPU cores per task
+#SBATCH --cpus-per-task=20             # Number of CPU cores per task
 #SBATCH --mem=90gb                   # Job memory request ## Should have more than 300 here
 #SBATCH --time=5:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/6_MarkerGene.%j.out   # Standard output log
