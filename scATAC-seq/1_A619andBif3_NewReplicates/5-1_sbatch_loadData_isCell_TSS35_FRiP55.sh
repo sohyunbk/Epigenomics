@@ -17,9 +17,9 @@ ml Anaconda3/2020.02
 source activate r_env
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MakeSocratesObject_QCFilterCells.R  \
- --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/ \
+ --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/ \
  --BinSize 500 --Name "${List[SLURM_ARRAY_TASK_ID]}" \
  --bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
  --ann /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_MtPtAdd_Rsf.gtf \
  --chr /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
- --MinTn5 1000 --TSS 0.3 --FRiP 0.4 --Org 0.1 --Step All
+ --MinTn5 1000 --TSS 0.35 --FRiP 0.55 --Org 0.1 --Step All
