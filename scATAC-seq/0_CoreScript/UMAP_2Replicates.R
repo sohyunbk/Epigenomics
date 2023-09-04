@@ -32,81 +32,12 @@ Re2 <- opt$Re2
 
 Ex <- function(){
   SampleS <- "A619"
-  Prefix <- "Tn5Cut1000_Binsize500_MinT0.001_MaxT0.05_PC100"
+  Prefix <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100"
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
   Re1 <- "A619_Re3"
   Re2 <- "A619_Re4"
 }
 
-## 1) Combine the data and features!
-## Two replicates should be in the same WD dir and naming rules.
-obj_Re1 <- readRDS(paste0(WD,"/",Re1,"/",Re1,"_",Prefix,".rds"))
-obj_Re2 <- readRDS(paste0(WD,"/",Re2,"/",Re2,"_",Prefix,".rds"))
-
-SharedFeatures <- Reduce(intersect, list(rownames(obj_Re1$counts),rownames(obj_Re2$counts)))
-
-length(SharedFeatures)
-print(SharedFeatures[1:5])
-#print(SharedFeatures)
-
-files <- list(obj_A619_Re1,obj_A619_Re2, 
-              obj_bif3_Re1, obj_bif3_Re2)
-names(files) <- c("A619_Re3", "A619_Re4",
-                  "bif3_Re3","bif3_Re4")
-
-merged.obj <- mergeSocratesRDS(obj.list=files)
-
-
-
-str(obj_All)
-dim(subset(obj_All$meta, obj_All$meta$library=="A619_Re3"))
-dim(subset(obj_All$meta, obj_All$meta$library=="A619_Re4"))
-dim(subset(obj_All$meta, obj_All$meta$library=="bif3_Re3"))
-dim(subset(obj_All$meta, obj_All$meta$library=="bif3_Re4"))
-
-## Substract Sample
-
-obj <- list()
-obj$meta <- subset(obj_All$meta, obj_All$meta$SampleName==SampleS)
-head(obj$meta)
-head(obj_All$counts)[,c(2000:2021)]
-obj$counts <- obj_All$counts[,colnames(obj_All$counts) %in% rownames(obj$meta)]
-obj$counts <- obj$counts[Matrix::rowSums(obj$counts)>0,]
-
-str(obj)
-
-########################
-## * Blacklist removal
-blacklist_r <- read.table("/scratch/sb14489/3.scATAC/0.Data/BlackList/Zm.final_blaclist.final.withOutCellCycle.txt")
-#blacklist_r <- read.table("/scratch/sb14489/3.scATAC/0.Data/BlackList/Zm.final_blaclist.Mito_Chloro_Chip_CCUpDown500.txt")
-head(blacklist_r)
-blacklist.gr <- GRanges(seqnames=as.character(blacklist_r$V1),
-                        ranges=IRanges(start=as.numeric(blacklist_r$V2),
-                                       end=as.numeric(blacklist_r$V3)),
-                        names=as.character(blacklist_r$V4))
-
-head(blacklist.gr)
-chr.seq.lengths_load <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai")
-chr.seq.lengths <- as.numeric(chr.seq.lengths_load$V2)
-names(chr.seq.lengths) <- chr.seq.lengths_load$V1
-intervals <- tileGenome(seqlengths=chr.seq.lengths, tilewidth=500, cut.last.tile.in.chrom=TRUE)
-head(intervals)
-intervals <- intervals[-queryHits(findOverlaps(intervals, blacklist.gr, type="any")),]
-str(intervals)
-regions <- as.data.frame(intervals)
-head(regions)
-regions <- paste(regions$seqnames, regions$start, regions$end, sep="_")
-head(regions)
-
-Temp <- obj$counts[rownames(obj$counts) %in% regions,]
-dim(Temp)
-dim(obj$counts)
-obj$counts <- Temp
-## Humm I thought that I filtered out the bins overlapped with blacklist in the very begining.
-
-obj <- tfidf(obj, doL2=T)
-str(obj)
-#######################
 setwd(WD)
 ## Make directory
 if (file.exists(file.path(SampleS))){
@@ -116,14 +47,34 @@ if (file.exists(file.path(SampleS))){
   setwd(file.path(SampleS))
 }
 getwd()
-#######################
+
+## 1) Combine the data and features!
+## Two replicates should be in the same WD dir and naming rules.
+obj_Re1 <- readRDS(paste0(WD,"/",Re1,"/",Re1,"_",Prefix,".rds"))
+obj_Re2 <- readRDS(paste0(WD,"/",Re2,"/",Re2,"_",Prefix,".rds"))
+length(rownames(obj_Re1$counts))
+SharedFeatures <- Reduce(intersect, list(rownames(obj_Re1$counts),rownames(obj_Re2$counts)))
+length(SharedFeatures)
+print(SharedFeatures[1:5])
+#print(SharedFeatures)
+files <- list(obj_Re1,obj_Re2)
+names(files) <- c(Re1,Re2)
+merged.obj <- mergeSocratesRDS(obj.list=files)
+str(merged.obj)
+merged.obj$counts <- merged.obj$counts[rownames(merged.obj$counts) %in% SharedFeatures,]
+str(merged.obj)
+
+
+## 2) Harmony
+####################### 
 SVDorNMF <-as.character("SVD")
 NumberOfPC <- as.character(300)
 NumbeerOfWindow <- as.character(0)
 
 ###########################
+obj <- tfidf(merged.obj, doL2=T)
 #out <-  paste0("Ref_",Prefix,"_RemoveMitoChloroChIP500bpCC")
-out <-  paste0(SampleS,"_",Prefix,"_RemoveBLonlyMitoChloroChIP")
+out <-  paste0(SampleS,"_",Prefix)
 #saveRDS(obj, file=paste0(out,".tfidf.rds"))
 #obj <- readRDS()
 print("DonewithTfidf")
@@ -146,10 +97,8 @@ obj <- reduceDims(obj,method=SVDorNMF,
 
 getwd()
 head(obj$meta)
-
-
 harmony_embeddings <- HarmonyMatrix(obj$PCA, meta_data=obj$meta,
-                         vars_use="library", do_pca=F,
+                         vars_use="sampleID", do_pca=F,
                          #theta=c(3, 2),
                          sigma=0.1,
                          nclust=30,
@@ -193,11 +142,33 @@ dev.off()
 colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
             "#876b58","#800000", "#800075","#e8cf4f","#f7366d","#0bd43d",
             "#deadce","#adafde","#5703ff")
-ggplot(obj_Cluster_WithHarmony$Clusters, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
+head(obj_Cluster_WithHarmony$Clusters)
+All <- ggplot(obj_Cluster_WithHarmony$Clusters, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
   geom_point(size=0.02) + 
   scale_color_manual(values=colorr)+theme_minimal()+
-  guides(colour = guide_legend(override.aes = list(size=10)))
-ggsave(paste0(out_final,"_WithHarmonyggplotUMAP.pdf"), width=13, height=10)	
+  guides(colour = guide_legend(override.aes = list(size=10)))+
+  labs(title = paste0("Re1+R2 \n FeatureNumbers :",nrow(obj$counts),
+                      "\n CellNumber: ",ncol(obj$counts)),
+       x = "UMAP1",
+       y = "UMAP2") 
+
+ClustersTable_Re1 <- subset(obj_Cluster_WithHarmony$Clusters, sampleID == Re1)
+Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
+  geom_point(size=0.02, color="blue") + 
+  theme_minimal()+
+  guides(colour = guide_legend(override.aes = list(size=10)))+
+  labs(title = "Re1") 
+ClustersTable_Re2 <- subset(obj_Cluster_WithHarmony$Clusters, sampleID == Re2)
+Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
+  geom_point(size=0.02, color="red") + 
+  theme_minimal()+
+  guides(colour = guide_legend(override.aes = list(size=10)))+
+  labs(title = "Re2") 
+
+library(gridExtra)
+pdf(paste0(out_final,"_WithHarmony.pdf"), width=15, height=5) 
+grid.arrange(All, Re1_plot, Re2_plot, ncol=3, widths=c(1.5,1,1))  
+dev.off()
 
 saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".AfterHarmony.rds"))
 #obj_UMAP_WithHarmony <-readRDS("bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.rds")

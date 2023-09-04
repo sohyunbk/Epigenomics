@@ -32,7 +32,7 @@ NumberOfPC <- opt$nPC
 
 Ex <- function(){
   Name <- as.character("bif3_Re3")
-  MinT<- as.character(0.007)
+  MinT<- as.character(0.01)
   MaxT <- as.character(0.005)
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
   PreOptions <- "Tn5Cut1000_Binsize500"
@@ -164,6 +164,7 @@ obj_detectDoublets <- detectDoublets(obj_UMAP, threads=10, nTrials=5,
 dim(obj_detectDoublets$meta)
 table(obj_detectDoublets$meta$doubletscore)
 
+## Doublet score explain: 
 obj_filterDoublets <- filterDoublets(obj=obj_detectDoublets,umap_slotname = "UMAP",
                                      embedding = "UMAP",filterRatio=1.5,
                                      removeDoublets=T, libraryVar="lib_ID",
