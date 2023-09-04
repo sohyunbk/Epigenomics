@@ -5,6 +5,23 @@ library(stringr)
 load_all('/home/sb14489/Socrates')
 library(harmony)
 library(symphony)
+library("optparse")
+
+option_list = list(
+  make_option(c("--WD"), type="character",
+              help="WD", metavar="character"),
+  make_option(c("--Name"), type="character",
+              help="Name", metavar="character"),
+  make_option(c("--PreFix"), type="character",
+              help="PreFix", metavar="character"),
+  make_option(c("--MinT"), type="character",
+              help="MinT", metavar="character"),
+  make_option(c("--MaxT"), type="character",
+              help="MaxT", metavar="character"),
+  make_option(c("--nPC"), type="character",
+              help="nPC", metavar="character")
+);
+
 
 SampleS <- "A619"
 Prefix <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100"
