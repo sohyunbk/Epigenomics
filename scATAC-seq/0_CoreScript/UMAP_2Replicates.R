@@ -71,7 +71,7 @@ str(merged.obj)
 ####################### 
 SVDorNMF <-as.character("SVD")
 NumberOfPC <- as.character(300)
-NumbeerOfWindow <- as.character(0)
+NumbeerOfWindow <- as.character(150000)
 
 ###########################
 obj <- tfidf(merged.obj, doL2=T)
