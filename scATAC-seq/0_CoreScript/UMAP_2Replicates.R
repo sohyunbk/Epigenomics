@@ -12,8 +12,8 @@ option_list = list(
               help="WD", metavar="character"),
   make_option(c("--SampleS"), type="character",
               help="Name", metavar="character"),
-  make_option(c("--PreFix"), type="character",
-              help="PreFix", metavar="character"),
+  make_option(c("--PreFix_name"), type="character",
+              help="PreFix_name", metavar="character"),
   make_option(c("--Re1"), type="character",
               help="Re1", metavar="character"),
   make_option(c("--Re2"), type="character",
@@ -26,7 +26,7 @@ opt = parse_args(opt_parser);
 
 WD <- opt$WD
 SampleS <- opt$SampleS
-PreFix<- opt$PreFix
+PreFix<- opt$PreFix_name
 Re1 <- opt$Re1
 Re2 <- opt$Re2
 

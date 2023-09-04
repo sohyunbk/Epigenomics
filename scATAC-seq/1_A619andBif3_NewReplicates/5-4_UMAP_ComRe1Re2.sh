@@ -20,6 +20,6 @@ ml Anaconda3/2020.02
 source activate r_env
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/UMAP_2Replicates.R \
---PreFix Tn5Cut1000_Binsize500_MinT0.007_MaxT0.005_PC100 --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/ \
+ --PreFix_name Tn5Cut1000_Binsize500_MinT0.007_MaxT0.005_PC100 --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/ \
  --SampleS "${List[SLURM_ARRAY_TASK_ID]}"  \
   --Re1  "${List1[SLURM_ARRAY_TASK_ID]}" --Re2 "${List2[SLURM_ARRAY_TASK_ID]}"
