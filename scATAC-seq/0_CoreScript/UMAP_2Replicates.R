@@ -50,6 +50,8 @@ getwd()
 
 ## 1) Combine the data and features!
 ## Two replicates should be in the same WD dir and naming rules.
+print(Prefix)
+print(paste0(WD,"/",Re1,"/",Re1,"_",Prefix,".rds"))
 obj_Re1 <- readRDS(paste0(WD,"/",Re1,"/",Re1,"_",Prefix,".rds"))
 obj_Re2 <- readRDS(paste0(WD,"/",Re2,"/",Re2,"_",Prefix,".rds"))
 length(rownames(obj_Re1$counts))
