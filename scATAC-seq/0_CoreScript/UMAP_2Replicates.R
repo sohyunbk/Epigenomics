@@ -37,11 +37,11 @@ Ex <- function(){
   Re1 <- "A619_Re3"
   Re2 <- "A619_Re4"
   
-  SampleS <- "A619"
+  SampleS <- "bif3"
   PreOptions <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.01_PC100"
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/"
-  Re1 <- "A619_Re3"
-  Re2 <- "A619_Re4"
+  Re1 <- "bif3_Re3"
+  Re2 <- "bif3_Re4"
 }
 
 setwd(WD)
@@ -105,6 +105,14 @@ obj <- reduceDims(obj,method=SVDorNMF,
 
 getwd()
 head(obj$meta)
+#- identifying variable features for clustering ...
+#- keeping 200000 variable features for dimensionality reduction ...
+#- reduce dimensions with SVD ... 
+#Warning in irlba(t(M), nv = n.pcs) :
+#  did not converge--results might be invalid!; try increasing work or maxit
+#- removing components correlated to read depth...
+#- normalizing reduced dimensions...
+
 harmony_embeddings <- HarmonyMatrix(obj$PCA, meta_data=obj$meta,
                          vars_use="sampleID", do_pca=F,
                          #theta=c(3, 2),
@@ -129,6 +137,7 @@ RES <- "0.9"
 
 #saveRDS(obj_UMAP_WithHarmony, file=paste0(out,".afterHarmony.rds"))
 #obj_UMAP_WithHarmony <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/A619/A619_Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.afterHarmony.rds")
+## I don't why but :callClusters: does not work in the terminal,..
 obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony, 
                                         res=as.numeric(RES),
                                         verbose=T,
@@ -142,10 +151,7 @@ obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony,
 str(obj_Cluster_WithHarmony)
 str(obj_UMAP_WithHarmony)
 out_final <- paste0(out,"_FeaturesN",NumbeerOfWindow,"_k",K,"_res",RES)
-
-pdf(paste0(out_final,"_WithHarmony.pdf"), width=10, height=10)
-plotUMAP(obj_Cluster_WithHarmony, cluster_slotName="Clusters", cex=0.2)
-dev.off()
+saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".afterHarmony.rds"))
 
 colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
             "#876b58","#800000", "#800075","#e8cf4f","#f7366d","#0bd43d",
