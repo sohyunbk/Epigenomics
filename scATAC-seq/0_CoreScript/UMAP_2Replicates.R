@@ -26,13 +26,13 @@ opt = parse_args(opt_parser);
 
 WD <- opt$WD
 SampleS <- opt$SampleS
-PreFix<- opt$PreFix_name
+PreOptions<- opt$PreFix_name
 Re1 <- opt$Re1
 Re2 <- opt$Re2
 
 Ex <- function(){
   SampleS <- "A619"
-  Prefix <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100"
+  PreOptions <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100"
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
   Re1 <- "A619_Re3"
   Re2 <- "A619_Re4"
@@ -50,10 +50,10 @@ getwd()
 
 ## 1) Combine the data and features!
 ## Two replicates should be in the same WD dir and naming rules.
-print(Prefix)
-print(paste0(WD,"/",Re1,"/",Re1,"_",Prefix,".rds"))
-obj_Re1 <- readRDS(paste0(WD,"/",Re1,"/",Re1,"_",Prefix,".rds"))
-obj_Re2 <- readRDS(paste0(WD,"/",Re2,"/",Re2,"_",Prefix,".rds"))
+print(PreOptions)
+print(paste0(WD,"/",Re1,"/",Re1,"_",PreOptions,".rds"))
+obj_Re1 <- readRDS(paste0(WD,"/",Re1,"/",Re1,"_",PreOptions,".rds"))
+obj_Re2 <- readRDS(paste0(WD,"/",Re2,"/",Re2,"_",PreOptions,".rds"))
 length(rownames(obj_Re1$counts))
 SharedFeatures <- Reduce(intersect, list(rownames(obj_Re1$counts),rownames(obj_Re2$counts)))
 length(SharedFeatures)
@@ -76,7 +76,7 @@ NumbeerOfWindow <- as.character(0)
 ###########################
 obj <- tfidf(merged.obj, doL2=T)
 #out <-  paste0("Ref_",Prefix,"_RemoveMitoChloroChIP500bpCC")
-out <-  paste0(SampleS,"_",Prefix)
+out <-  paste0(SampleS,"_",PreOptions)
 #saveRDS(obj, file=paste0(out,".tfidf.rds"))
 #obj <- readRDS()
 print("DonewithTfidf")
