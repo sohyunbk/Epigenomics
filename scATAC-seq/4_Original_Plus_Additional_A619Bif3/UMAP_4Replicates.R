@@ -12,8 +12,8 @@ library(ggplot2)
 option_list = list(
   make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
-  make_option(c("--oldRDS"), type="character",
-              help="oldRDS"),
+  make_option(c("--OldRDS"), type="character",
+              help="OldRDS"),
   make_option(c("--Re1"), type="character",
               help="Re1", metavar="character"),
   make_option(c("--Re2"), type="character",
@@ -33,7 +33,7 @@ opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
 WD <- opt$WD
-oldRDS <- opt$oldRDS
+OldRDS <- opt$OldRDS
 Re1 <- opt$Re1
 Re2 <- opt$Re2
 SampleS <- opt$SampleS

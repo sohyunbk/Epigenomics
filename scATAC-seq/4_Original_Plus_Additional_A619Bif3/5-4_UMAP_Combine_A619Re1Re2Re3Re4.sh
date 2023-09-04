@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=4_UMAP        # Job name
+#SBATCH --job-name=4_UMAP_A619        # Job name
 #SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=4             # Number of CPU cores per task
 #SBATCH --mem=300gb                   # Job memory request ## Should have more than 300 here
 #SBATCH --time=2:00:00               # Time limit hrs:min:sec
-#SBATCH --output=/scratch/sb14489/0.log/5-4_UMAP_Comb2Re.%j.out   # Standard output log
-#SBATCH --error=/scratch/sb14489/0.log/5-4_UMAP_Comb2Re.%j.err    # Standard error log
+#SBATCH --output=/scratch/sb14489/0.log/5-4_UMAP_Comb4Re_A619.%j.out   # Standard output log
+#SBATCH --error=/scratch/sb14489/0.log/5-4_UMAP_Comb4Re_A619.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 
