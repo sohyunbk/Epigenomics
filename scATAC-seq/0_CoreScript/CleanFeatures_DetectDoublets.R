@@ -6,7 +6,7 @@ library("optparse")
 library(rlang)
 library(ggplot2)
 library("RColorBrewer")
-
+library(gridExtra)
 option_list = list(
   make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
@@ -32,8 +32,8 @@ NumberOfPC <- opt$nPC
 
 Ex <- function(){
   Name <- as.character("bif3_Re3")
-  MinT<- as.character(0.01)
-  MaxT <- as.character(0.05)
+  MinT<- as.character(0.007)
+  MaxT <- as.character(0.005)
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
   PreOptions <- "Tn5Cut1000_Binsize500"
   #NumbeerOfWindow <- as.character(140000)
@@ -67,27 +67,43 @@ ggplot(df, aes(x=counts)) +
 ggsave(filename = paste0(Name,"_",PreOptions,"_FrequencyofTn5perCells.pdf"), 
         width = 10, height = 7)
 ############ * Frequency of cells per window
+NewFileName1 <-paste0(Name,"_",PreOptions,"_MinT",MinT,"_MaxT",MaxT)
 x <- obj$counts
-CellCountsByWindow <- Matrix::rowSums(x)
-MininumCellNumber <- (ncol(x)*as.numeric(MinT))
-MaximumCellNumber <-as.numeric(quantile(Matrix::rowSums(x), c(1-as.numeric(MaxT))))
-as.numeric(MaximumCellNumber)
-#quantile_value_Upper <- quantile(CellCountsByWindow, probs = 0.95)
-#quantile_value_Lower <- quantile(CellCountsByWindow, probs = 0.01)
-sum(MininumCellNumber<CellCountsByWindow & CellCountsByWindow < MaximumCellNumber)
+PreviousFeatureNumber <- nrow(x)
+Cutoff1 <- ncol(x)*as.numeric(MinT)
+dim(x)
+x <- x[Matrix::rowSums(x)>(ncol(x)*as.numeric(MinT)),]
+dim(x)
+Cutoff2 <- quantile(Matrix::rowSums(x), c(1-as.numeric(MaxT)))
+x <- x[Matrix::rowSums(x)<(quantile(Matrix::rowSums(x), c(1-as.numeric(MaxT)))),]
+NewFeatureNumber <- nrow(x)
+head(rowSums(obj$counts))
 
-dens <- density(CellCountsByWindow)
+row_sums_data <- rowSums(obj$counts)
+df <- data.frame(row_sums=row_sums_data)
 
-dens_df <- data.frame(x = dens$x, y = dens$y)
-head(dens_df)
-ggplot(dens_df, aes(x = x, y = y)) +
-  geom_line(color = "blue") +
+plot_all <- ggplot(df, aes(x=row_sums)) +
+  geom_histogram(fill="orange", color="black", binwidth=1, alpha=0.7) +  # Setting binwidth to 1 for discrete values
   labs(title = "Frequency of Tn5-Cell perWindow",
        x = "Frequency",
-       y = "Density") +
-  theme_minimal()
-ggsave(filename = paste0(Name,"_",PreOptions,"_FrequencyofTn5perWindow.pdf"), 
-       width = 10, height = 7)
+       y = "Count") +
+  theme_minimal() +
+  geom_vline(aes(xintercept=Cutoff1), color="red", linetype="dashed", linewidth=1) +
+  geom_vline(aes(xintercept=Cutoff2), color="green", linetype="dashed", linewidth=1) +  
+  annotate("text", x = Inf, y = Inf, label =
+             paste0("Before window filter:", PreviousFeatureNumber, "\n",
+                    "After window filter:", NewFeatureNumber,
+                    "\n Cutoff1: ",Cutoff1,"\n",
+                    "Cutoff2: ",Cutoff2), 
+           hjust = "right", vjust = "top", size = 5)
+
+# Then set the x limits to 0 to 20
+PlotPart <- plot_all + coord_cartesian(xlim=c(0, 20))
+
+pdf(paste0(Name,"_",NewFileName1,"_FrequencyofTn5perWindow.pdf"), width = 14, height = 7)  # Adjust width and height as needed
+grid.arrange(plot_all, PlotPart, ncol=2)
+dev.off()
+
 
 ### remove cells with less than 1,000 open peaks
 ### The distribution of average peak accessibilities doesnt show any clear (lower-tail) cut-offs,
@@ -101,7 +117,7 @@ obj_AfterClean <- cleanData(obj, min.c=1000,
 #########################
 ## 1) Normalization-tfidf
 #########################
-NumberOfWindow <- as.character(140000)
+NumberOfWindow <- as.character(150000)
 SVDorNMF <-as.character("SVD")
 
 
@@ -129,7 +145,6 @@ obj_Cluster_beforeD <- callClusters(obj_UMAP,
                                     cleanCluster=F,
                                     e.thresh=5)
 
-NewFileName<-paste0(Name,"_",PreOptions,"_MinT",MinT,"_MaxT",MaxT,"_PC",NumberOfPC)
 
 pdf(paste0(NewFileName,"_BeforeRemovingDoublets.pdf"), width=10, height=10)
 plotUMAP(obj_Cluster_beforeD, cluster_slotName="Clusters", cex=0.2)
