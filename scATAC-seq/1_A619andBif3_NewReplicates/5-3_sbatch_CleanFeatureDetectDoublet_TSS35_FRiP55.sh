@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=3_QC        # Job name
-#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
+#SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=10             # Number of CPU cores per task
 #SBATCH --mem=300gb                   # Job memory request ## Should have more than 300 here
@@ -18,7 +18,8 @@ source activate r_env
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/CleanFeatures_DetectDoublets.R \
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/ \
- --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.007 --MaxT 0.005 --nPC 100
+ --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.001 --MaxT 0.05 --nPC 100
+# --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.007 --MaxT 0.005 --nPC 100
 # --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.01 --MaxT 0.05 --nPC 100
 
 #Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/CleanFeatures_DetectDoublets.R \
