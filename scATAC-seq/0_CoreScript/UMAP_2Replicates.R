@@ -137,7 +137,7 @@ RES <- "0.9"
 
 #saveRDS(obj_UMAP_WithHarmony, file=paste0(out,".afterHarmony.rds"))
 #obj_UMAP_WithHarmony <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/A619/A619_Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.afterHarmony.rds")
-## I don't why but :callClusters: does not work in the terminal,..
+## I don't why but :callClusters: does not work in the terminal,.. --> figure out it takes really long in terminal.
 obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony, 
                                         res=as.numeric(RES),
                                         verbose=T,
@@ -179,9 +179,52 @@ Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(Louvain
   guides(colour = guide_legend(override.aes = list(size=10)))+
   labs(title = paste0("Re2 : ",nrow(ClustersTable_Re2))) 
 
+## Add some plots to see the cell quality
+InputMeata <- obj_Cluster_WithHarmony$Clusters
+### * Tn5 log
+library("RColorBrewer")
+myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
+sc <- scale_colour_gradientn(colours = myPalette(100),
+                             limits=c(min(InputMeata$log10nSites),
+                                      max(InputMeata$log10nSites)))
+Q_Tn5 <- ggplot(InputMeata, aes(x=umap1, y=umap2, 
+                color=log10nSites)) +
+  geom_point(size=0.02) + 
+  theme_minimal()+
+  scale_x_continuous(expand=c(0.02,0)) +
+  scale_y_continuous(expand=c(0.02,0)) +
+  labs(title = "LogTn5")+sc 
+## * Doublets
+sc <- scale_colour_gradientn(colours = myPalette(100),
+                             limits=c(min(InputMeata$doubletscore),
+                                      max(InputMeata$doubletscore)))
+Q_doubletscore <-ggplot(InputMeata, aes(x=umap1, y=umap2, 
+                                        color=doubletscore)) +
+  geom_point(size=0.02) + 
+  theme_minimal()+
+  scale_x_continuous(expand=c(0.02,0)) +
+  scale_y_continuous(expand=c(0.02,0)) +
+  labs(title = "Doublet score")+sc 
+## Tss ratio 
+head(InputMeata)
+InputMeata$rTSS <- InputMeata$tss/InputMeata$total
+sc <- scale_colour_gradientn(colours = myPalette(100),
+                             limits=c(min(InputMeata$rTSS),
+                                      max(InputMeata$rTSS)))
+Q_rTSS <-ggplot(InputMeata, aes(x=umap1, y=umap2, 
+                                        color=rTSS)) +
+  geom_point(size=0.02) + 
+  theme_minimal()+
+  scale_x_continuous(expand=c(0.02,0)) +
+  scale_y_continuous(expand=c(0.02,0)) +
+  labs(title = "TSS ratio")+sc 
+
+
 library(gridExtra)
-pdf(paste0(out_final,"_WithHarmony.pdf"), width=15, height=5) 
-grid.arrange(All, Re1_plot, Re2_plot, ncol=3, widths=c(1.7,1,1))  
+pdf(paste0(out_final,"_WithHarmony.pdf"), width=30, height=5) 
+grid.arrange(All, Re1_plot, Re2_plot,
+             Q_Tn5, Q_doubletscore,Q_rTSS,
+             ncol=6, widths=c(1.7,1,1,1,1,1))  
 dev.off()
 
 saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".AfterHarmony.rds"))
@@ -201,20 +244,21 @@ head(obj_Cluster_WithHarmony$Clusters)
 #2 A619_Re2  667  9.976069 BundleSheath_VascularSchrenchyma
 #3 bif3_Re1   88  4.853833 BundleSheath_VascularSchrenchyma
 META <- obj_Cluster_WithHarmony$Clusters
+head(META)
 ClusterLevel <- levels(factor(obj_Cluster_WithHarmony$Clusters$LouvainClusters))
-RE1Meta <- META[which(META$library == paste0(SampleS,"_Re1")),]
-RE2Meta <- META[which(META$library == paste0(SampleS,"_Re2")),]
+RE1Meta <- META[which(META$sampleID == Re1),]
+RE2Meta <- META[which(META$sampleID == Re2),]
 head(RE1Meta)
 
 RE1Plot <- data.frame(t(table(RE1Meta$LouvainClusters)))
-RE1Plot$Var1 <- "Re1"
+RE1Plot$Var1 <- Re1
 RE1Plot$Ratio <- (RE1Plot$Freq/sum(RE1Plot$Freq))*100
 RE2Plot <- data.frame(t(table(RE2Meta$LouvainClusters)))
-RE2Plot$Var1 <- "Re2"
+RE2Plot$Var1 <- Re2
 RE2Plot$Ratio <- (RE2Plot$Freq/sum(RE2Plot$Freq))*100
 PlotData <- rbind(RE1Plot,RE2Plot)
 PlotData$Ratio <- round(PlotData$Ratio,2)
-
+head(PlotData)
 library(plyr)
 PlotData <- ddply(PlotData, .(Var1),
                   transform, pos = cumsum(Ratio) - (0.5 * Ratio))
