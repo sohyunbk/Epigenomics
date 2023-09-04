@@ -32,8 +32,8 @@ Re2 <- opt$Re2
 
 Ex <- function(){
   SampleS <- "A619"
-  PreOptions <- "Tn5Cut1000_Binsize500_MinT0.01_MaxT0.05_PC100"
-  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
+  PreOptions <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.01_PC100"
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/"
   Re1 <- "A619_Re3"
   Re2 <- "A619_Re4"
 }
