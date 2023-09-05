@@ -14,7 +14,7 @@ ml Anaconda3/2020.02
 source activate r_env
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/UMAP_4Replicates.R \
- --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/4Replicates/Combined_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.rds \
+ --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/4Replicates/ \
  --OldRDS /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/CombineAll/Combined_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.rds \
  --Re1 A619_Re1  --Re2 A619_Re2 --Re3 A619_Re3 --Re4 A619_Re4 \
  --SampleS A619 --PreOptions_forRe3Re4 Tn5Cut1000_Binsize500_MinT0.005_MaxT0.01_PC100 \
