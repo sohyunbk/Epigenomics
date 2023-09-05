@@ -55,7 +55,7 @@ if (!dir.exists(WD)){
 }
 setwd(WD)
 
-threads <- 20
+threads <- 40
 target_cluster <- "LouvainClusters"
 plot_each_CT<-"no"
 

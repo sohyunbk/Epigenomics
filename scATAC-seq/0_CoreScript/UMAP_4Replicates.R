@@ -268,7 +268,7 @@ row2 <- grid.arrange(Re4_plot, Q_Tn5, Q_doubletscore, Q_rTSS,
 grid.arrange(row1, row2, nrow=2)
 dev.off()
 
-saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".AfterHarmony.rds"))
+#saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".AfterHarmony.rds"))
 #obj_UMAP_WithHarmony <-readRDS("bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.rds")
 
 head(obj_Cluster_WithHarmony$meta)
