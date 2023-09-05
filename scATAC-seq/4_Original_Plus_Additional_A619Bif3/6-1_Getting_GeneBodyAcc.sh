@@ -11,3 +11,5 @@
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 
 ##Just combinding
+cat GA_A619_Re.txt GA_A619_Re3Re4.txt > GA_A619_Re1Re2Re3Re4_withUpdatedGTF.txt
+sort -k1,1 GA_A619_Re1Re2Re3Re4_withUpdatedGTF.txt > GA_A619_Re1Re2Re3Re4_withUpdatedGTF_sorted.txt
