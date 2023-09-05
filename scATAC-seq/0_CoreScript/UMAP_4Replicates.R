@@ -45,7 +45,7 @@ Re4 <- opt$Re4
 
 Ex <- function(){
   ##OutputDir
-  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/4Replicates/Combined_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.rds"
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/4Replicates/"
   ## old data
   OldRDS <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/CombineAll/Combined_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.rds"
   Re1 <-"A619_Re1"
@@ -76,6 +76,7 @@ str(obj_Re4)
 head(obj_Re4$meta)
 ## Old data open
 obj_All <- readRDS(OldRDS)
+levels(as.factor(obj_All$meta$sampleID))
 obj_Re1 <- list()
 obj_Re1$meta <- subset(obj_All$meta, obj_All$meta$sampleID==Re1)
 head(obj_Re1$meta)
@@ -195,7 +196,7 @@ All <- ggplot(obj_Cluster_WithHarmony$Clusters, aes(x=umap1, y=umap2, color=fact
   geom_point(size=0.02) + 
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
-  labs(title = paste0("Re1+R2 \n FeatureNumbers :",nrow(obj$counts),
+  labs(title = paste0("Re1+Re2+Re3+Re4 \n FeatureNumbers :",nrow(obj$counts),
                       "\n CellNumber: ",ncol(obj$counts)),
        x = "UMAP1",
        y = "UMAP2") 
@@ -258,9 +259,9 @@ Q_rTSS <-ggplot(InputMeata, aes(x=umap1, y=umap2,
 
 library(gridExtra)
 pdf(paste0(out_final, "_WithHarmony.pdf"), width=20, height=5)
-row1 <- grid.arrange(All, Re1_plot, Re2_plot, ncol=3, widths=c(1.7, 1, 1))
-row2 <- grid.arrange(Re3_plot, Re4_plot, Q_Tn5, Q_doubletscore, Q_rTSS,
-                     ncol=5, widths=c(1, 1, 1, 1, 1))
+row1 <- grid.arrange(All, Re1_plot, Re2_plot,Re3_plot, ncol=4, widths=c(1.3, 1, 1,1))
+row2 <- grid.arrange(Re4_plot, Q_Tn5, Q_doubletscore, Q_rTSS,
+                     ncol=4, widths=c(1, 1, 1, 1))
 grid.arrange(row1, row2, nrow=2)
 dev.off()
 
@@ -305,7 +306,7 @@ PlotData <- addPositionForLabels(PlotData)
 ClusterLevel <- levels(factor(obj_Cluster_WithHarmony$Clusters$LouvainClusters))
 
 library(ggplot2)
-p <- ggplot(PlotData, aes(fill=Var2, y=Ratio, x=Var1)) + 
+ggplot(PlotData, aes(fill=Var2, y=Ratio, x=Var1)) + 
   geom_bar(stat = "identity") +
   scale_fill_manual(values = colorr[1:length(ClusterLevel)]) +
   geom_text(aes(label = paste(round(Ratio, 1), "%")), position = position_stack(vjust = 0.5)) +
