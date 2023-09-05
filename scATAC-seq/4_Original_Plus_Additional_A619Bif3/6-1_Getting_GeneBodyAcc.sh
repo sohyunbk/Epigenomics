@@ -13,5 +13,9 @@
 ##Just combinding
 #cat GA_A619_Re.txt GA_A619_Re3Re4.txt > GA_A619_Re1Re2Re3Re4_withUpdatedGTF.txt
 #sort -k1,1 GA_A619_Re1Re2Re3Re4_withUpdatedGTF.txt > GA_A619_Re1Re2Re3Re4_withUpdatedGTF_sorted.txt
-sort -k1,1 --parallel=40 /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re1Re2Re3Re4_withUpdatedGTF.txt \
- -o /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re1Re2Re3Re4_withUpdatedGTF_sorted.txt
+#sort -k1,1 --parallel=40 /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re1Re2Re3Re4_withUpdatedGTF.txt \
+# -o /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re1Re2Re3Re4_withUpdatedGTF_sorted.txt
+
+#cat GA_Bif3_Re.txt GA_bif3_Re3Re4.txt > GA_bif3_Re1Re2Re3Re4_withUpdatedGTF.txt
+sort -k1,1 --parallel=40 /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_bif3_Re1Re2Re3Re4_withUpdatedGTF.txt \
+ -o /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_bif3_Re1Re2Re3Re4_withUpdatedGTF_sorted.txt
