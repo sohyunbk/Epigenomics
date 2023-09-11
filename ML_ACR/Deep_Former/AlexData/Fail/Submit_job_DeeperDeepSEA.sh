@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH --job-name=DeeperDeepsea        # Job name
+#SBATCH --partition=gpu_p         # Partition (queue) name
+#SBATCH --ntasks=1                    # Run a single task
+#SBATCH --cpus-per-task=10             # Number of CPU cores per task
+#SBATCH --mem=90gb                   # Job memory request
+#SBATCH --time=3:00:00               # Time limit hrs:min:sec
+#SBATCH --gres=gpu:A100:1
+#SBATCH --output=/scratch/sb14489/0.log/Pytorch_Seedling_DeeperDeepsea.%j.out   # Standard output log
+#SBATCH --error=/scratch/sb14489/0.log/Pytorch_Seedling_DeeperDeepsea.%j.err    # Standard error log
+
+
+module load CUDA/11.1.1-GCC-10.2.0
+
+cd /scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ
+
+/home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/ACR_ML_caQTLs/Deep_Former/AlexData/deeperdeepsea_Run.py

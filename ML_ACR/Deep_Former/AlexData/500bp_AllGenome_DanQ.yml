@@ -1,0 +1,52 @@
+---
+ops: [train, evaluate]
+model: {
+    # TODO: update this line with the absolute path to the file.
+    path: /home/sb14489/ACR_ML_caQTLs/Deep_Former/Maize_ExampleData/DanQ_model.py,
+    class: DanQ,
+    class_args: {
+        sequence_length: 1000,
+        n_targets: 33,
+    },
+    non_strand_specific: mean
+}
+sampler: !obj:selene_sdk.samplers.IntervalsSampler {
+    reference_sequence: !obj:selene_sdk.sequences.Genome {
+        # we include relative paths here, but we recommend using absolute
+        # paths for future configuration files
+        input_path: /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
+    },
+    features: !obj:selene_sdk.utils.load_features_list {
+        input_path: /scratch/sb14489/8.ML_ACR/1.InputBed/Seedling_distinct_features.txt
+    },
+    target_path: /scratch/sb14489/8.ML_ACR/1.InputBed/sorted_Seedling_Peaks.bed.gz,
+    intervals_path: /scratch/sb14489/0.Reference/Maize_B73/zm_genome_interval.bed,
+    seed: 127,
+    # A positive example is an 1000bp sequence with at least 1 class/feature annotated to it.
+    # A negative sample has no classes/features annotated to the sequence.
+    sample_negative: False,
+    sequence_length: 1000,
+    center_bin_to_predict: 500,
+    test_holdout: [chr8],
+    validation_holdout: [chr6],
+    # The feature must take up 50% of the bin (200bp) for it to be considered
+    # a feature annotated to that sequence.
+    feature_thresholds: 0.5,
+    mode: train,
+    save_datasets: [validate, test]
+}
+train_model: !obj:selene_sdk.TrainModel {
+    batch_size: 64,
+    max_steps: 8000,  # update this value for longer training
+    report_stats_every_n_steps: 1000,
+    n_validation_samples: 320,
+    n_test_samples: 1200,
+    cpu_n_threads: 32,
+    use_cuda: True,  # TODO: update this if CUDA is not on your machine
+    data_parallel: False
+}
+random_seed: 1447
+output_dir: ./500bp_AllGenome_DanQ
+create_subdirectory: False
+load_test_set: False
+...

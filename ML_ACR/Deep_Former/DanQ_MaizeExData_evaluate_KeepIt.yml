@@ -1,0 +1,42 @@
+---
+ops: [evaluate]
+model: {
+    path: /home/sb14489/ACR_ML_caQTLs/Deep_Former/DanQ_model.py,
+    class: DanQ,
+    class_args: {
+        sequence_length: 1000,
+        n_targets: 19,
+    },
+    non_strand_specific: mean
+}
+
+sampler: !obj:selene_sdk.samplers.IntervalsSampler {
+    reference_sequence: !obj:selene_sdk.sequences.Genome {
+        input_path: /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/data/Zea_mays.B73_RefGen_v4.dna.toplevel.fa
+    },
+    features: !obj:selene_sdk.utils.load_features_list {
+        input_path: /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/data/distinct_features.txt
+    },
+    target_path: /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/data/sorted_zm.bed.gz,
+    intervals_path: /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/data/zm_genome_interval.bed,
+    test_holdout: [chr06],
+    seed: 127,
+    sample_negative: True,
+    sequence_length: 1000,
+    center_bin_to_predict: 200,
+    feature_thresholds: 0.5
+}
+
+evaluate_model: !obj:selene_sdk.EvaluateModel {
+    batch_size: 64,
+    n_test_samples: 455024,
+    features:  !obj:selene_sdk.utils.load_features_list {
+        input_path: /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/data/distinct_features.txt
+    },
+    use_cuda: True,
+    report_gt_feature_n_positives: 50,
+    trained_model_path: /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/maize_code/DanQ/best_model.pth.tar,
+    output_dir: DanQ_ExData/evaluation_outputs
+}
+random_seed: 123
+...

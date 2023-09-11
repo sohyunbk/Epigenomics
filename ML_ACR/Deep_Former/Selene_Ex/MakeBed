@@ -1,0 +1,5 @@
+module load tabix/0.2.6-GCCcore-8.3.0
+
+bgzip -c sorted_GM12878_CTCF_AddedClass1_sorted.bed > sorted_GM12878_CTCF_AddedClass1_sorted.bed.gz
+tabix -p bed sorted_GM12878_CTCF_AddedClass1_sorted.bed.gz
+cut -f 4 sorted_GM12878_CTCF.bed | sort -u > distinct_features.txt
