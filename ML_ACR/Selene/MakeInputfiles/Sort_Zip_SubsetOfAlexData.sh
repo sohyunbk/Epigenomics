@@ -11,19 +11,14 @@
 
 ## More info here: https://github.com/FunctionLab/selene/blob/master/tutorials/getting_started_with_selene/getting_started_with_selene.ipynb
 
+## To use part of the sample:
+cd /scratch/sb14489/8.ML_ACR/1.InputBed
+cat phloem_SE_procambial_precursors.accessible_ACRs.bed.500 mesophyll_precursors.accessible_ACRs.bed.500 \
+ axillary_meristem.accessible_ACRs.bed.500 guard_cell.accessible_ACRs.bed.500 mesophyll.accessible_ACRs.bed.500 > \
+ Seedling_FiveClasses.500.bed
+input_file=Seedling_FiveClasses.500.bed
 
-while getopts "b:" opt; do
-  case $opt in
-    b)
-      input_file="$OPTARG"
-      FileName="${input_file%.bed}"
-      ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1
-      ;;
-  esac
-done
+conda activate /home/sb14489/miniconda3/envs/pytorch
 
 sort -k1V -k2n -k3n "$input_file" > "$input_file".sorted
 
