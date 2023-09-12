@@ -48,8 +48,8 @@ option_list = list(
               help="Markov", metavar="character"),
   make_option(c("--SampleName"), type="character", 
               help="SampleName", metavar="character"),
-  make_option(c("--IntergenicPeak"), type="character", 
-              help="IntergenicPeak", metavar="character")
+  make_option(c("--IGPeak"), type="character", 
+              help="IGPeak", metavar="character")
 
 );
 
@@ -62,7 +62,7 @@ pcs <- read.table(opt$pcs)
 MarkovFile <- opt$Markov
 SampleName <- opt$SampleName
 WD <- opt$WD
-InterGenic_peak <- read.table(opt$IntergenicPeak,header=F)
+InterGenic_peak <- read.table(opt$IGPeak,header=F)
 if (!dir.exists(WD)){
   dir.create(WD)
 } else {
