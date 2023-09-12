@@ -64,7 +64,7 @@ ggplot(df, aes(x=counts)) +
   geom_vline(aes(xintercept=1000), color="red", linetype="dashed", linewidth=1)+
   labs(title="Frequency of Tn5 per cells",
        x="Counts", y="Frequency")
-ggsave(filename = paste0(Name,"_",PreOptions,"_FrequencyofTn5perCells.pdf"), 
+ggsave(filename = paste0(Name,"_",PreOptions,"_FrequencyofTn5perCells.pdf"),
         width = 10, height = 7)
 ############ * Frequency of cells per window
 NewFileName1 <-paste0(Name,"_",PreOptions,"_MinT",MinT,"_MaxT",MaxT)
@@ -89,12 +89,12 @@ plot_all <- ggplot(df, aes(x=row_sums)) +
        y = "Count") +
   theme_minimal() +
   geom_vline(aes(xintercept=Cutoff1), color="red", linetype="dashed", linewidth=1) +
-  geom_vline(aes(xintercept=Cutoff2), color="green", linetype="dashed", linewidth=1) +  
+  geom_vline(aes(xintercept=Cutoff2), color="green", linetype="dashed", linewidth=1) +
   annotate("text", x = Inf, y = Inf, label =
              paste0("Before window filter:", PreviousFeatureNumber, "\n",
                     "After window filter:", NewFeatureNumber,
                     "\n Cutoff1: ",Cutoff1,"\n",
-                    "Cutoff2: ",Cutoff2), 
+                    "Cutoff2: ",Cutoff2),
            hjust = "right", vjust = "top", size = 5)
 
 # Then set the x limits to 0 to 20
@@ -117,7 +117,7 @@ obj_AfterClean <- cleanData(obj, min.c=1000,
 #########################
 ## 1) Normalization-tfidf
 #########################
-NumberOfWindow <- as.character(150000)
+NumberOfWindow <- as.character(as.character(nrow(obj_AfterClean$counts)))
 SVDorNMF <-as.character("SVD")
 
 
@@ -164,7 +164,7 @@ obj_detectDoublets <- detectDoublets(obj_UMAP, threads=10, nTrials=5,
 dim(obj_detectDoublets$meta)
 table(obj_detectDoublets$meta$doubletscore)
 
-## Doublet score explain: 
+## Doublet score explain:
 obj_filterDoublets <- filterDoublets(obj=obj_detectDoublets,umap_slotname = "UMAP",
                                      embedding = "UMAP",filterRatio=1.5,
                                      removeDoublets=T, libraryVar="lib_ID",
