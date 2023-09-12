@@ -6,7 +6,7 @@ model: {
     class: DanQ,
     class_args: {
         sequence_length: 500,
-        n_targets: 33,
+        n_targets: 5,
     },
     non_strand_specific: mean
 }
