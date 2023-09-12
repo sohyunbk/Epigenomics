@@ -21,7 +21,7 @@ source activate JASPAR_act
 # --Markov /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/A619_Markov/A619.MarkovMatrix.rds \
 # --SampleName A619 --IntergenicPeak /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed
 
- Rscript /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/10_MotifAnalysis/10-1_MotifAnalysis_ChromVar_AllMotifs_SmoothData.R \
+ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R \
   --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/WSUMotif_HighCutoff \
   --Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse \
   --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt \
