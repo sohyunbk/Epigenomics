@@ -26,7 +26,6 @@ load_all('/home/sb14489/Socrates')
 library(dplyr)
 library(RANN)
 
-
 library(JASPAR2022)
 library(TFBSTools)
 library(motifmatchr)
@@ -48,7 +47,9 @@ option_list = list(
   make_option(c("--Markov"), type="character", 
               help="Markov", metavar="character"),
   make_option(c("--SampleName"), type="character", 
-              help="SampleName", metavar="character")
+              help="SampleName", metavar="character"),
+  make_option(c("--IntergenicPeak"), type="character", 
+              help="IntergenicPeak", metavar="character")
 
 );
 
@@ -61,8 +62,9 @@ pcs <- read.table(opt$pcs)
 MarkovFile <- opt$Markov
 SampleName <- opt$SampleName
 WD <- opt$WD
-
+InterGenic_peak <- read.table(opt$IntergenicPeak,header=F)
 setwd(WD)
+
 #"/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/Intergenic_Summit"
 #SampleName <- "A619"
 #SampleName <- "Bif3"
@@ -73,6 +75,7 @@ setwd(WD)
 #  MerkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/A619_Markov/A619.MarkovMatrix.rds"
 #  meta_data <- read.table(MetaFileA619, header=TRUE)
 #  Sparse <- read.table(Sparse_A619,header=F)
+# InterGenic_peak <-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed",header=F)
 #} else if (SampleName == "Bif3") {
 #  Sparse_Bif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse"
 #  MetaFileBif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
@@ -80,6 +83,7 @@ setwd(WD)
 #  MerkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3_Markov/Bif3.MarkovMatrix.rds"
 #  Sparse <- read.table(Sparse_Bif3,header=F)  
 #  meta_data <- read.table(MetaFileBif3, header=TRUE)
+# InterGenic_peak <-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed",header=F)
 #}
 
 ############################
@@ -89,7 +93,6 @@ head(Sparse)
 head(meta_data)
 dim(Sparse)
 
-InterGenic_peak <-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed",header=F)
 dim(InterGenic_peak)
 
 #Genic_peak_Pos <- paste(Genic_peak$V1,Genic_peak$V2,Genic_peak$V3,sep="_")
