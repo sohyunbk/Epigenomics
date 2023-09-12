@@ -13,11 +13,35 @@
 
 ## To use part of the sample:
 cd /scratch/sb14489/8.ML_ACR/1.InputBed
-cat phloem_SE_procambial_precursors.accessible_ACRs.bed.500 mesophyll_precursors.accessible_ACRs.bed.500 \
- axillary_meristem.accessible_ACRs.bed.500 guard_cell.accessible_ACRs.bed.500 mesophyll.accessible_ACRs.bed.500 > \
- Seedling_FiveClasses.500.bed
-input_file=Seedling_FiveClasses.500.bed
 
+output_file="Seedling_FiveClasses.500.bed"
+
+# Check if output file exists and remove it
+if [ -f "$output_file" ]; then
+    rm "$output_file"
+fi
+
+# List of specified filenames
+files=(
+    "phloem_SE_procambial_precursors.accessible_ACRs.bed.500"
+    "mesophyll_precursors.accessible_ACRs.bed.500"
+    "axillary_meristem.accessible_ACRs.bed.500"
+    "guard_cell.accessible_ACRs.bed.500"
+    "mesophyll.accessible_ACRs.bed.500"
+)
+
+# For each specified file
+for file in "${files[@]}"; do
+    # Extract the name before the first '.' as label
+    label=$(echo $file | cut -f 1 -d '.')
+
+    # Append the label as the fourth column and write to the output file
+    awk -v label="$label" '{print $1 "\t" $2 "\t" $3 "\t" label}' $file >> $output_file
+done
+
+
+input_file=Seedling_FiveClasses.500.bed
+FileName=Seedling_FiveClasses
 conda activate /home/sb14489/miniconda3/envs/pytorch
 
 sort -k1V -k2n -k3n "$input_file" > "$input_file".sorted
