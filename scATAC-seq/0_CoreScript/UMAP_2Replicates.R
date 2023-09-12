@@ -77,7 +77,8 @@ str(merged.obj)
 #######################
 SVDorNMF <-as.character("SVD")
 NumberOfPC <- as.character(300)
-NumbeerOfWindow <- as.character(0)
+FeatureN <- nrow(merged.obj$counts)
+NumberOfWindow <- as.character(round(FeatureN/3))
 
 ###########################
 obj <- tfidf(merged.obj, doL2=T)
@@ -95,7 +96,7 @@ dim(obj$residuals)
 obj <- reduceDims(obj,method=SVDorNMF,
                               n.pcs=as.numeric(NumberOfPC),
                               cor.max=0.7,
-                              num.var=as.numeric(NumbeerOfWindow),
+                              num.var=as.numeric(NumberOfWindow),
                               verbose=T,
                               scaleVar=T,
                               doSTD=F,
@@ -150,7 +151,7 @@ obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony,
 
 str(obj_Cluster_WithHarmony)
 str(obj_UMAP_WithHarmony)
-out_final <- paste0(out,"_FeaturesN",NumbeerOfWindow,"_k",K,"_res",RES)
+out_final <- paste0(out,"_FeaturesN",NumberOfWindow,"_k",K,"_res",RES)
 saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".afterHarmony.rds"))
 
 colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
