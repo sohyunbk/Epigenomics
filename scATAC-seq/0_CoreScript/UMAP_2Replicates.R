@@ -36,7 +36,7 @@ Ex <- function(){
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/"
   Re1 <- "A619_Re3"
   Re2 <- "A619_Re4"
-  
+
   SampleS <- "bif3"
   PreOptions <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.01_PC100"
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/"
@@ -74,10 +74,10 @@ str(merged.obj)
 
 
 ## 2) Harmony
-####################### 
+#######################
 SVDorNMF <-as.character("SVD")
 NumberOfPC <- as.character(300)
-NumbeerOfWindow <- as.character(200000)
+NumbeerOfWindow <- as.character(0)
 
 ###########################
 obj <- tfidf(merged.obj, doL2=T)
@@ -107,7 +107,7 @@ getwd()
 head(obj$meta)
 #- identifying variable features for clustering ...
 #- keeping 200000 variable features for dimensionality reduction ...
-#- reduce dimensions with SVD ... 
+#- reduce dimensions with SVD ...
 #Warning in irlba(t(M), nv = n.pcs) :
 #  did not converge--results might be invalid!; try increasing work or maxit
 #- removing components correlated to read depth...
@@ -127,8 +127,8 @@ harmony_embeddings[seq_len(5), seq_len(5)]
 obj[['HM_EMBS']] <- harmony_embeddings
 str(obj)
 
-obj_UMAP_WithHarmony <- projectUMAP(obj, verbose=T, k.near=50, 
-                                    m.dist=0.01, 
+obj_UMAP_WithHarmony <- projectUMAP(obj, verbose=T, k.near=50,
+                                    m.dist=0.01,
                                     svd_slotName="HM_EMBS",
                                     umap_slotName="UMAP")
 
@@ -138,7 +138,7 @@ RES <- "0.9"
 #saveRDS(obj_UMAP_WithHarmony, file=paste0(out,".afterHarmony.rds"))
 #obj_UMAP_WithHarmony <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AfterMtMapping/A619/A619_Tn5Cut1000_Binsize500_MinT0.005_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.afterHarmony.rds")
 ## I don't why but :callClusters: does not work in the terminal,.. --> figure out it takes really long in terminal.
-obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony, 
+obj_Cluster_WithHarmony <- callClusters(obj_UMAP_WithHarmony,
                                         res=as.numeric(RES),
                                         verbose=T,
                                         k.near=as.numeric(K),
@@ -158,26 +158,26 @@ colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888
             "#deadce","#adafde","#5703ff")
 head(obj_Cluster_WithHarmony$Clusters)
 All <- ggplot(obj_Cluster_WithHarmony$Clusters, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
-  geom_point(size=0.02) + 
+  geom_point(size=0.02) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
   labs(title = paste0("Re1+R2 \n FeatureNumbers :",nrow(obj$counts),
                       "\n CellNumber: ",ncol(obj$counts)),
        x = "UMAP1",
-       y = "UMAP2") 
+       y = "UMAP2")
 
 ClustersTable_Re1 <- subset(obj_Cluster_WithHarmony$Clusters, sampleID == Re1)
 Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
-  geom_point(size=0.02, color="blue") + 
+  geom_point(size=0.02, color="blue") +
   theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
-  labs(title = paste0("Re1 : ",nrow(ClustersTable_Re1))) 
+  labs(title = paste0("Re1 : ",nrow(ClustersTable_Re1)))
 ClustersTable_Re2 <- subset(obj_Cluster_WithHarmony$Clusters, sampleID == Re2)
 Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
-  geom_point(size=0.02, color="red") + 
+  geom_point(size=0.02, color="red") +
   theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
-  labs(title = paste0("Re2 : ",nrow(ClustersTable_Re2))) 
+  labs(title = paste0("Re2 : ",nrow(ClustersTable_Re2)))
 
 ## Add some plots to see the cell quality
 InputMeata <- obj_Cluster_WithHarmony$Clusters
@@ -187,44 +187,44 @@ myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
 sc <- scale_colour_gradientn(colours = myPalette(100),
                              limits=c(min(InputMeata$log10nSites),
                                       max(InputMeata$log10nSites)))
-Q_Tn5 <- ggplot(InputMeata, aes(x=umap1, y=umap2, 
+Q_Tn5 <- ggplot(InputMeata, aes(x=umap1, y=umap2,
                 color=log10nSites)) +
-  geom_point(size=0.02) + 
+  geom_point(size=0.02) +
   theme_minimal()+
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
-  labs(title = "LogTn5")+sc 
+  labs(title = "LogTn5")+sc
 ## * Doublets
 sc <- scale_colour_gradientn(colours = myPalette(100),
                              limits=c(min(InputMeata$doubletscore),
                                       max(InputMeata$doubletscore)))
-Q_doubletscore <-ggplot(InputMeata, aes(x=umap1, y=umap2, 
+Q_doubletscore <-ggplot(InputMeata, aes(x=umap1, y=umap2,
                                         color=doubletscore)) +
-  geom_point(size=0.02) + 
+  geom_point(size=0.02) +
   theme_minimal()+
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
-  labs(title = "Doublet score")+sc 
-## Tss ratio 
+  labs(title = "Doublet score")+sc
+## Tss ratio
 head(InputMeata)
 InputMeata$rTSS <- InputMeata$tss/InputMeata$total
 sc <- scale_colour_gradientn(colours = myPalette(100),
                              limits=c(min(InputMeata$rTSS),
                                       max(InputMeata$rTSS)))
-Q_rTSS <-ggplot(InputMeata, aes(x=umap1, y=umap2, 
+Q_rTSS <-ggplot(InputMeata, aes(x=umap1, y=umap2,
                                         color=rTSS)) +
-  geom_point(size=0.02) + 
+  geom_point(size=0.02) +
   theme_minimal()+
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
-  labs(title = "TSS ratio")+sc 
+  labs(title = "TSS ratio")+sc
 
 
 library(gridExtra)
-pdf(paste0(out_final,"_WithHarmony.pdf"), width=30, height=5) 
+pdf(paste0(out_final,"_WithHarmony.pdf"), width=30, height=5)
 grid.arrange(All, Re1_plot, Re2_plot,
              Q_Tn5, Q_doubletscore,Q_rTSS,
-             ncol=6, widths=c(1.7,1,1,1,1,1))  
+             ncol=6, widths=c(1.7,1,1,1,1,1))
 dev.off()
 
 saveRDS(obj_UMAP_WithHarmony, file=paste0(out_final,".AfterHarmony.rds"))
@@ -236,7 +236,7 @@ head(obj_Cluster_WithHarmony$HM_EMBS)
 write.table(obj_Cluster_WithHarmony$HM_EMBS, paste0(out,".AfterHarmony.PCA.txt"), quote=F, row.names=T, col.names=T, sep="\t")
 
 ####################################################################################
-## Draw the barplot by Replicates 
+## Draw the barplot by Replicates
 head(obj_Cluster_WithHarmony$Clusters)
 #> head(Plotdata)
 #library  Fre     Ratio                         Celltype
@@ -264,11 +264,9 @@ PlotData <- ddply(PlotData, .(Var1),
                   transform, pos = cumsum(Ratio) - (0.5 * Ratio))
 
 
-ggplot(PlotData, aes(fill=Var2, y=Ratio, x=Var1)) + 
+ggplot(PlotData, aes(fill=Var2, y=Ratio, x=Var1)) +
   geom_bar(stat = "identity")+
   scale_fill_manual(values = colorr[1:length(ClusterLevel)]) +
   geom_text(aes(label = paste(round(Ratio,1),"%")), position = position_stack(vjust =  0.5))+
   theme_minimal()
 ggsave(paste0(out_final,"_StackedBarplotByRe.pdf"), width=4, height=5)
-
-
