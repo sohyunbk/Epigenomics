@@ -63,16 +63,20 @@ MarkovFile <- opt$Markov
 SampleName <- opt$SampleName
 WD <- opt$WD
 InterGenic_peak <- read.table(opt$IntergenicPeak,header=F)
+if (!dir.exists(WD)){
+  dir.create(WD)
+} else {
+  print("Dir already exists!")
+}
 setwd(WD)
-
-#"/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/Intergenic_Summit"
+#WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/WSUMotif_HighCutoff"
 #SampleName <- "A619"
 #SampleName <- "Bif3"
 #if (SampleName == "A619"){
 #  Sparse_A619 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/A619_toComPeak.sparse"
 #  MetaFileA619 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
 #  pcs <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_RemoveBLonlyMitoChloroChIP.REF_CELLs.reduced_dimensions.txt")
-#  MerkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/A619_Markov/A619.MarkovMatrix.rds"
+#  MarkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/A619_Markov/A619.MarkovMatrix.rds"
 #  meta_data <- read.table(MetaFileA619, header=TRUE)
 #  Sparse <- read.table(Sparse_A619,header=F)
 # InterGenic_peak <-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed",header=F)
@@ -80,7 +84,7 @@ setwd(WD)
 #  Sparse_Bif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse"
 #  MetaFileBif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
 #  pcs <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt")    
-#  MerkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3_Markov/Bif3.MarkovMatrix.rds"
+#  MarkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3_Markov/Bif3.MarkovMatrix.rds"
 #  Sparse <- read.table(Sparse_Bif3,header=F)  
 #  meta_data <- read.table(MetaFileBif3, header=TRUE)
 # InterGenic_peak <-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed",header=F)
@@ -138,7 +142,7 @@ ChromVarInput_counts <- SummarizedExperiment(assays =
                                         rowRanges = peaks)
 
 
-SampleName
+
 
 saveRDS(Peak_Cell_Count, file=paste0(SampleName,"_Peak_perCell_Counts.rds"))
 saveRDS(ChromVarInput_counts, file=paste0(SampleName,"_ChromVarInput.rds"))
