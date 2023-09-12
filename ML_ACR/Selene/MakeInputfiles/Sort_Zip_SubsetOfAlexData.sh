@@ -27,7 +27,8 @@ files=(
     "mesophyll_precursors.accessible_ACRs.bed.500"
     "axillary_meristem.accessible_ACRs.bed.500"
     "guard_cell.accessible_ACRs.bed.500"
-    "mesophyll.accessible_ACRs.bed.500"
+    "leaf_primordia.accessible_ACRs.bed.500"
+    "L1_leaf_primordia_boundary.accessible_ACRs.bed.500"
 )
 
 # For each specified file
