@@ -11,6 +11,6 @@
 cd /scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ
 
 /home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/ACR_ML_caQTLs/Deep_Former/AlexData/Run.py \
- -wmlFile /home/sb14489/Epigenomics/ML_ACR/Deep_Former/AlexData/500bp_MappableRegions_DanQ_withoutCuda_FiveClasses.yml \
+ -wmlFile /home/sb14489/Epigenomics/ML_ACR/Deep_Former/AlexData/500bp_MappableRegions_DanQ_withoutCuda_18Classes.yml \
  -learningRate 0.0005
 #Segmentation fault (core dumped)
