@@ -8,6 +8,13 @@
 #MemeMotifDB="/scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt"
 #OutfilePathName="/scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/IM_OC_dACR_JASPARMotif"
 
+# Initialize variables
+Infile_Bed=""
+Fafile=""
+MemeMotifDB=""
+OutfilePathName=""
+
+# Process arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --infile_Bed) Infile_Bed="$2"; shift ;;
@@ -19,7 +26,8 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-Infile_FA="${Infile_Bed%.bed}.fa"
+# Convert Infile_Bed to Infile_FA format
+Infile_FA="${Infile_Bed%.Bed}.fa"
 
 if [ -e "$Infile_FA" ]; then
     echo "$Infile_FA exists."
@@ -27,4 +35,4 @@ else
     bedtools getfasta -fo "$Infile_FA" -fi "$Fafile" -bed "$Infile_Bed"
 fi
 
-fimo --o "$OutfilePathName" "$MemeMotifDB" "$Infile_FA"
+fimo --o "$OutfilePathName" "$MemeMotifDB"  "$Infile_FA"
