@@ -8,7 +8,6 @@
 #MemeMotifDB="/scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt"
 #OutfilePathName="/scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/IM_OC_dACR_JASPARMotif"
 
-
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --infile_Bed) Infile_Bed="$2"; shift ;;
