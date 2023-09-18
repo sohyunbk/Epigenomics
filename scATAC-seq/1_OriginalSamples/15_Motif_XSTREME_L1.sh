@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
 #SBATCH --mem=100gb                   # Job memory request ## Should have more than 300 here
-#SBATCH --time=3:00:00               # Time limit hrs:min:sec
+#SBATCH --time=10:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/Meme_motif.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Meme_motif.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
