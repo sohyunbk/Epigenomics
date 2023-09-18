@@ -34,6 +34,7 @@ for i in Dic_byMotif["STREME-1"]:
         nA619Higher+=1
     elif i in Bif3Higher:
         nBif3Higher+=1
+print(Dic_byMotif.keys())
 print(len(Dic_byMotif["STREME-1"]))
 print(nA619Higher)
 print(nBif3Higher)
