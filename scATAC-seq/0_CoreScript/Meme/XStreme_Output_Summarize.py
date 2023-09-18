@@ -21,6 +21,7 @@ Dic_byMotif={}
 for sLine in infile:
     sList = sLine.strip().split("\t")
     if len(sList)>2:
+        Dic_byMotif.setdefault(sList[1],[])
         Dic_byMotif[sList[1]].append(sList[3])
 infile.close()
 
@@ -30,7 +31,7 @@ Bif3Higher = Open_Peak_bed("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_
 nA619Higher = 0
 nBif3Higher = 0
 print(Dic_byMotif.keys())
-'''
+
 for i in Dic_byMotif["STREME-1"]:
     if i in A619Higher:
         nA619Higher+=1
@@ -39,4 +40,3 @@ for i in Dic_byMotif["STREME-1"]:
 print(len(Dic_byMotif["STREME-1"]))
 print(nA619Higher)
 print(nBif3Higher)
-'''
