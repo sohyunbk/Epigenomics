@@ -4,6 +4,7 @@ from sklearn.metrics import confusion_matrix
 from numpy import load
 import numpy as np
 from sklearn.metrics import roc_auc_score
+import numpy
 
 data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_RemoveRedundantACR_Try500bp/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_RemoveRedundantACR_Try500bp/test_targets.npz')
@@ -16,6 +17,10 @@ target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions
 
 data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions_DanQ_withoutCuda_SameNumberNegative/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions_DanQ_withoutCuda_SameNumberNegative/test_targets.npz')
+
+
+data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_18Classes/test_predictions.npz')
+target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_18Classes/test_targets.npz')
 
 unique, counts = numpy.unique(target['data'], return_counts=True)
 dict(zip(unique, counts))
