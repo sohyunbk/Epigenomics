@@ -126,7 +126,7 @@ if __name__ == "__main__":
     substract_peak_bed_GCContent = substract_peak_bed.replace(".bed",".GCRatio")
     if os.path.exists(substract_peak_bed_GCContent):
         infile = open(substract_peak_bed_GCContent,"r")
-        mean_cell_type_gc_score = float(infile.readline())
+        mean_cell_type_gc_score = float(infile.readline().strip())
     else:
         print("The file does not exist.")
         Gc_content = capture_gc_content(bed_file,Genome) ## It takes long like 30 min...
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         take_len = bed_file.field_count()
         mean_cell_type_gc_score = calcualte_mean_GC_content(Gc_content, take_len)
         OutGC = open(substract_peak_bed_GCContent,"w")
-        OutGC.write(mean_cell_type_gc_score)
+        OutGC.write(str(mean_cell_type_gc_score))
         OutGC.close()
 
     lower_bound = round(mean_cell_type_gc_score * 0.90, 3)
