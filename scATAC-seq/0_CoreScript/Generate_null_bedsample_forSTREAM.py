@@ -46,25 +46,6 @@ def generate_matching_GC(ControlRegion,all_length, Genome, mean_cell_type_gc_sco
         return generate_matching_GC(acr_bed, count, genome_file, GC_mean, max_attempts, current_attempt + 1)
 
 
-def get_parser():
-    parser = argparse.ArgumentParser(description='Finds peaks shared between \
-        replicate peak calls, as well as unqiue peaks to each replicate and \
-        outputs said peaks. ')
-    parser.add_argument('-bed','--bed_file', help='Bed File to Mimic',\
-        required=True, dest='bed'),
-    #parser.add_argument('-TFs','--TF_file', help='TF file in bed',\
-    #    required=True, dest='TF_b'),
-    #parser.add_argument('-exclusion_beds','--excl_files', help='Bed File to Mimic',\
-    #    nargs="+", required=True, dest='exl'),
-    parser.add_argument('-genome','--genome_file', help='Genome File to use', \
-        required=True, dest='gn'),
-    parser.add_argument('-genome_index','--genome_index', help='Genome File to use', \
-        required=True, dest='gni'),
-    parser.add_argument('-o','--output_name', help='output',
-        required=False, dest='o')
-    args = vars(parser.parse_args())
-    return parser
-
 def interval_length(interval):
     return len(interval)
 
@@ -93,18 +74,40 @@ def compute_gc_ratio_OneSequence(sequence):
     gc_ratio = gc_count / total_length
     return gc_ratio
 
+def get_parser():
+    parser = argparse.ArgumentParser(description='Finds peaks shared between \
+        replicate peak calls, as well as unqiue peaks to each replicate and \
+        outputs said peaks. ')
+    parser.add_argument('-bed','--bed_file', help='Bed File Target',\
+        required=True, dest='bed'),
+    parser.add_argument('-genome','--genome_file', help='Genome File to use', \
+        required=True, dest='gn'),
+    parser.add_argument('-genome_index','--genome_index', help='Genome File to use Do not have MtPt', \
+        required=True, dest='gni'),
+    parser.add_argument('-AllPeakForControl','--AllPeakForControl', help='Genome File to use Do not have MtPt', \
+        required=True, dest='AllPeakForControl'),
+    parser.add_argument('-o','--output_name', help='output',
+        required=False, dest='o')
+    args = vars(parser.parse_args())
+    return parser
+
 if __name__ == "__main__":
     #python scripts/gen_null_bed_sample.py
     # -bed {input.classified_acrs} -genome {params.fasta_file}
     # -genome_index {params.fai} -o {params.control_bed    _output_base}
-    #args = get_parser().parse_args()
-
+    args = get_parser().parse_args()
+    bed = args.bed
+    Genome = args.gn
+    Genome_fai = args.gni
+    all_peak_minus_for_control=args.AllPeakForControl
+    ControlFile= args.o
     #Read Files
-    bed = "/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.FDR0.05.Bed"
-    Genome = "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa"
-    Genome_fai="/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai"
-    all_peak_minus_for_control="/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/Cat_A619_Bif3_500bpPeak.bed"
-    ControlFile="/scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/Control_for_IM_OC.fa"
+
+    #bed = "/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.FDR0.05.Bed"
+    #Genome = "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa"
+    #Genome_fai="/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai"
+    #all_peak_minus_for_control="/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/Cat_A619_Bif3_500bpPeak.bed"
+    #ControlFile="/scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/Control_for_IM_OC.fa"
 
     substract_peak_bed=all_peak_minus_for_control.replace(".bed",".Substract.bed")
     bed_file = pybedtools.BedTool(bed)
