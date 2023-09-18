@@ -22,7 +22,8 @@ for sLine in infile:
     sList = sLine.strip().split("\t")
     if len(sList)>2:
         Dic_byMotif.setdefault(sList[1],[])
-        Dic_byMotif[sList[1]].append(sList[3])
+        if sList[3] not in Dic_byMotif[sList[1]]:
+            Dic_byMotif[sList[1]].append(sList[3])
 infile.close()
 
 A619Higher = Open_Peak_bed("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.A619Higher.Bed")
@@ -37,6 +38,7 @@ for i in Dic_byMotif["STREME-1"]:
         nA619Higher+=1
     elif i in Bif3Higher:
         nBif3Higher+=1
-print(len(Dic_byMotif["STREME-1"]))
-print(nA619Higher)
-print(nBif3Higher)
+
+#print(len(Dic_byMotif["STREME-1"]))
+#print(nA619Higher)
+#print(nBif3Higher)
