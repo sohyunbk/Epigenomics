@@ -14,8 +14,7 @@ source activate r_env
 module load MEME/5.5.0-gompi-2021b
 module load BEDTools/2.30.0-GCC-11.3.0
 
-python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Generate_null_bedsample_forSTREAM.py \
-bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Generate_null_bedsample_forSTREAM.py \
+~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Generate_null_bedsample_forSTREAM.py \
 --bed_file /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.Bed \
 --genome_file /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --genome_index /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \
