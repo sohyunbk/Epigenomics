@@ -14,7 +14,7 @@ while [[ "$#" -gt 0 ]]; do
         --infile_Bed) Infile_Bed="$2"; shift ;;
         --Fa) Fafile="$2"; shift ;;
         --MemeMotifDB) MemeMotifDB="$2"; shift ;;
-        --AllPeak_ToSubstractForControl) AllPeakMinusForControl="$2"; shift ;;
+        --AllPeakFA_ToSubstractForControl) AllPeakMinusForControl="$2"; shift ;;
         --OutfilePath) OutfilePathName="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -31,7 +31,7 @@ else
 fi
 
 #### 2)XSTREAM
-xstreme  --p "$Infile_FA" --m "$MemeMotifDB" --o "$OutfilePathName"
+xstreme  --p "$Infile_FA" --m "$MemeMotifDB" --o "$OutfilePathName" --n "$AllPeakMinusForControl"
 
 ## *** denovo motif search
 #if [ -z "$MemeMotifDB" ]; then
