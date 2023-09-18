@@ -32,8 +32,8 @@ nBif3Higher = 0
 for i in Dic_byMotif["STREME-1"]:
     if i in A619Higher:
         nA619Higher+=1
-    else if i in Bif3Higher:
+    elif i in Bif3Higher:
         nBif3Higher+=1
 print(len(Dic_byMotif["STREME-1"]))
 print(nA619Higher)
-print(nBif3Higher)        
+print(nBif3Higher)
