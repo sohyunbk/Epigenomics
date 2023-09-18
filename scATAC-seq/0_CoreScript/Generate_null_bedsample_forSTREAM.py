@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
     ## Target Sequence GC content distribution #####
     substract_peak_bed_GCContent = substract_peak_bed.replace(".bed",".GCRatio")
-    if os.path.exists(bed):
+    if os.path.exists(substract_peak_bed_GCContent):
         infile = open(substract_peak_bed_GCContent,"r")
         mean_cell_type_gc_score = float(infile.readline())
     else:
