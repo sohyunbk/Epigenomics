@@ -123,11 +123,21 @@ if __name__ == "__main__":
     ControlRegion.saveas(substract_peak_bed)
 
     ## Target Sequence GC content distribution #####
-    Gc_content = capture_gc_content(bed_file,Genome) ## It takes long like 30 min...
-    #print(GC_content[1]):
-    #chr1	105053790	105055096	0.420368	0.579632	269	398	359	280	0	1306
-    take_len = bed_file.field_count()
-    mean_cell_type_gc_score = calcualte_mean_GC_content(Gc_content, take_len)
+    substract_peak_bed_GCContent = substract_peak_bed.replace(".bed",".GCRatio")
+    if os.path.exists(bed):
+        infile = open(substract_peak_bed_GCContent,"r")
+        mean_cell_type_gc_score = float(infile.readline())
+    else:
+        print("The file does not exist.")
+        Gc_content = capture_gc_content(bed_file,Genome) ## It takes long like 30 min...
+        #print(GC_content[1]):
+        #chr1	105053790	105055096	0.420368	0.579632	269	398	359	280	0	1306
+        take_len = bed_file.field_count()
+        mean_cell_type_gc_score = calcualte_mean_GC_content(Gc_content, take_len)
+        OutGC = open(substract_peak_bed_GCContent,"w")
+        OutGC.write(mean_cell_type_gc_score)
+        OutGC.close()
+
     lower_bound = round(mean_cell_type_gc_score * 0.90, 3)
     upper_bound = round(mean_cell_type_gc_score * 1.10, 3)
 
