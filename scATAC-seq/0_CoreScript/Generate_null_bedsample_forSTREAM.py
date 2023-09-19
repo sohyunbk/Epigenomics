@@ -157,7 +157,7 @@ if __name__ == "__main__":
                 ControlSequence = f.readline().strip()
             Gc_content_Control = compute_gc_ratio_OneSequence(ControlSequence)
             if lower_bound <  Gc_content_Control <upper_bound :
-                outfile.write(ControlRegionPos[0]+":"+ControlRegionPos[1]+"-"+ControlRegionPos[2]+"\n")
+                outfile.write(">"+ControlRegionPos[0]+":"+ControlRegionPos[1]+"-"+ControlRegionPos[2]+"\n")
                 outfile.write(ControlSequence+"\n")
                 Fulfill+=1
 

@@ -15,7 +15,6 @@ target = load('/scratch/sb14489/8.ML_ACR/2.DeeperDeepSea_Test/500bp_AllGenome_wi
 data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions_DanQ_withoutCuda_WithNegative/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions_DanQ_withoutCuda_WithNegative/test_targets.npz')
 
-data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions_DanQ_withoutCuda_SameNumberNegative/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions_DanQ_withoutCuda_SameNumberNegative/test_targets.npz')
 
 
@@ -78,3 +77,9 @@ print(TP)
 print(TN)
 print(FP)
 print(FN)
+
+
+
+###### Matfile
+import scipy.io
+data = scipy.io.loadmat('/scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/data/test.mat')
