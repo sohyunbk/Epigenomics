@@ -36,19 +36,19 @@ library(rlang)
 library(ggplot2)
 
 option_list = list(
-  make_option(c("--WD"), type="character", 
+  make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
-  make_option(c("--Sparse"), type="character", 
+  make_option(c("--Sparse"), type="character",
               help="Sparse", metavar="character"),
   make_option(c("--Meta"), type="character",
               help="Meta", metavar="character"),
-  make_option(c("--pcs"), type="character", 
+  make_option(c("--pcs"), type="character",
               help="pcs", metavar="character"),
-  make_option(c("--Markov"), type="character", 
+  make_option(c("--Markov"), type="character",
               help="Markov", metavar="character"),
-  make_option(c("--SampleName"), type="character", 
+  make_option(c("--SampleName"), type="character",
               help="SampleName", metavar="character"),
-  make_option(c("--IGPeak"), type="character", 
+  make_option(c("--IGPeak"), type="character",
               help="IGPeak", metavar="character")
 
 );
@@ -83,9 +83,9 @@ setwd(WD)
 #} else if (SampleName == "Bif3") {
 #  Sparse_Bif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse"
 #  MetaFileBif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
-#  pcs <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt")    
+#  pcs <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt")
 #  MarkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3_Markov/Bif3.MarkovMatrix.rds"
-#  Sparse <- read.table(Sparse_Bif3,header=F)  
+#  Sparse <- read.table(Sparse_Bif3,header=F)
 #  meta_data <- read.table(MetaFileBif3, header=TRUE)
 # InterGenic_peak <-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed",header=F)
 #}
@@ -129,7 +129,7 @@ peaks <-  GRanges(seqnames = PeakPos$Chr,
                        ranges = IRanges(start = as.numeric(PeakPos$Start),
                         end = as.numeric(PeakPos$End)))
 
-## 3) Make ChromVar input 
+## 3) Make ChromVar input
 #Peak_Cell_Count <- readRDS("Bif3_Peak_perCell_Counts.rds")
 #str(Peak_Cell_Count)
 Peak_Cell_Count_Input <- as.matrix(Peak_Cell_Count[,-1])
@@ -137,7 +137,7 @@ str(Peak_Cell_Count_Input)
 #head(Peak_Cell_Count_Input)[,c(1:10)]
 dim(Peak_Cell_Count_Input)
 
-ChromVarInput_counts <- SummarizedExperiment(assays = 
+ChromVarInput_counts <- SummarizedExperiment(assays =
                                           list(counts = Peak_Cell_Count_Input),
                                         rowRanges = peaks)
 
@@ -159,7 +159,7 @@ saveRDS(ChromVarInput_counts, file=paste0(SampleName,"_ChromVarInput.rds"))
 str(ChromVarInput_counts)
 ## Remove!! chr6	181356755	181357256	1.10868807050461
 
-## Get motif 
+## Get motif
 opts <- list()
 #Zea mays Taxonomy ID: 4577 , Ara  Taxonomy ID: 3702
 opts[["species"]] <- 3702 #NCBI tax IDs (9606).
@@ -176,33 +176,34 @@ WUSmatrix1 <- rbind(A=c(11,6,78,34,7,0,70,52),
                     C=c(0,79,14,1,0,65,18,13),
                     G=c(1,1,1,0,0,1,0,3),
                     T=c(86,12,5,64,91,32,10,30))
-WUS1_1 <- PFMatrix(ID="Unknown", name="ZmWUS1_1", matrixClass="Unknown", 
-                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25), 
+WUS1_1 <- PFMatrix(ID="Unknown", name="ZmWUS1_1", matrixClass="Unknown",
+                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                    tags=list(), profileMatrix=WUSmatrix1)
 #WUS1@name
-## HB67_WUS1_B73v5_Q30_qval5_finalBl_2.all.PFM_MEME.txt 
+
+## HB67_WUS1_B73v5_Q30_qval5_finalBl_2.all.PFM_MEME.txt
 WUSmatrix2 <- rbind(A=c(0,0,99,74,0,19,72,46),
                     C=c(0,0,0,1,0,0,0,12),
                     G=c(0,99,0,0,0,70,12,3),
                     T=c(99,0,0,1,99,6,7,37))
-WUS1_2 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM1", matrixClass="Unknown", 
-                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25), 
+WUS1_2 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM1", matrixClass="Unknown",
+                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                    tags=list(), profileMatrix=WUSmatrix2)
 ## "TCA" !
 WUSmatrix3 <- rbind(A=c(12,26,23,0,0,92,53,8,5),
                     C=c(0,0,2,0,99,0,3,73,66),
                     G=c(0,0,56,0,0,0,0,3,6),
                     T=c(87,73,17,99,0,7,43,80,20))
-WUS1_3 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM2", matrixClass="Unknown", 
-                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25), 
+WUS1_3 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM2", matrixClass="Unknown",
+                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                    tags=list(), profileMatrix=WUSmatrix2)
 
 WUSmatrix4 <- rbind(A=c(1,12,99,86,0,2,82,73,3,7,79,36,9),
                     C=c(0,0,0,8,0,0,12,15,0,38,3,32,3),
                     G=c(1,87,0,2,1,97,1,1,0,53,2,1,1),
                     T=c(97,0,0,0,98,0,2,9,95,0,14,29,85))
-WUS1_4 <- PFMatrix(ID="Unknown", name="ZmWUS1_MemeChip", matrixClass="Unknown", 
-                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25), 
+WUS1_4 <- PFMatrix(ID="Unknown", name="ZmWUS1_MemeChip", matrixClass="Unknown",
+                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                    tags=list(), profileMatrix=WUSmatrix3)
 PFMatrixList_Maize
 PFMatrixList_Maize[['ZmWUS1_GEM1']] <- WUS1_1 ## 42th
@@ -213,7 +214,7 @@ PFMatrixList <- c(PFMatrixList_Ara,PFMatrixList_Maize)
 
 
 ## Make BSgenome --> very annoying.... ## The chromosome should be perfectly match with input
-#my_file <- read.dcf("seed_file_maizeV5.txt", fields = NULL, all = FALSE, keep.white = NULL) 
+#my_file <- read.dcf("seed_file_maizeV5.txt", fields = NULL, all = FALSE, keep.white = NULL)
 #my_file
 #write.dcf(my_file , file = "seed.dcf", append = FALSE, useBytes = FALSE, indent = 0.1 * getOption("width"), width = 0.9 * getOption("width"), keep.white = NULL)
 #unlink(c("BSgenome.maizeV5"), recursive = TRUE, force = TRUE)
@@ -225,15 +226,15 @@ PFMatrixList <- c(PFMatrixList_Ara,PFMatrixList_Maize)
 library(BSgenome.maizeV5)
 rowData(ChromVarInput_counts)
 
-ChromVarInput_counts_addGC <- addGCBias(ChromVarInput_counts, 
+ChromVarInput_counts_addGC <- addGCBias(ChromVarInput_counts,
                             genome = BSgenome.maizeV5)
 head(rowData(ChromVarInput_counts_addGC))
 
 
 ############ All motifs
-motif_ix_Maize <- matchMotifs(PFMatrixList_Maize, ChromVarInput_counts_addGC, 
+motif_ix_Maize <- matchMotifs(PFMatrixList_Maize, ChromVarInput_counts_addGC,
                     genome = BSgenome.maizeV5)
-motif_ix_Arabidopsis <- matchMotifs(PFMatrixList_Ara, ChromVarInput_counts_addGC, 
+motif_ix_Arabidopsis <- matchMotifs(PFMatrixList_Ara, ChromVarInput_counts_addGC,
                         genome = BSgenome.maizeV5)
 
 #str(motif_ix)
@@ -252,7 +253,7 @@ motif_ix_Arabidopsis <- matchMotifs(PFMatrixList_Ara, ChromVarInput_counts_addGC
 dev_Maize <- computeDeviations(object = ChromVarInput_counts_addGC, annotations = motif_ix_Maize) ## It takes long when it has lots of motifs
 dev_Ara <- computeDeviations(object = ChromVarInput_counts_addGC, annotations = motif_ix_Arabidopsis) ## It takes long when it has lots of motifs
 
-#Error in reducer$value.cache[[as.character(idx)]] <- values : 
+#Error in reducer$value.cache[[as.character(idx)]] <- values :
 #  wrong args for environment subassignment
 #In addition: Warning message:
 #  In parallel::mccollect(wait = FALSE, timeout = 1) :
@@ -298,7 +299,7 @@ DrawFigure_ForMotifs <- function(dev,MarkovFile,DBName) {
   NumberOfLoop <- (nrow(Dev_imputed)%/%50)+1
   for (i in c(1:NumberOfLoop)){
     if (i*50 > nrow(Dev_imputed)){
-      EndLength =nrow(Dev_imputed) 
+      EndLength =nrow(Dev_imputed)
     }else{EndLength = i*50}
     StartLength <- (i*50)-49
     MotifVectors <- rownames(Dev_imputed)[c(StartLength:EndLength)]
@@ -311,17 +312,17 @@ DrawFigure_ForMotifs <- function(dev,MarkovFile,DBName) {
         scale_color_gradient2(low = "blue",
                               mid = "#b0d9f5",
                               high = "red")+
-        theme_minimal() + ggtitle(paste0(PFMatrixList[[Motif]]@name,"_",Motif)) 
+        theme_minimal() + ggtitle(paste0(PFMatrixList[[Motif]]@name,"_",Motif))
     }
-    
+
     library(cowplot)
-    
+
     captured_final_plot <- plot_grid(plotlist = Plotlist, ncol = 6)
     width_cal <- 6 * 5
     length_cal <- (length(MotifVectors)/6 * 5)
-    
-    ggsave(paste0(SampleName,"_",DBName,"sAllMotifs","_Set",i,"_Imputed.pdf"), plot = captured_final_plot, 
-           width = width_cal, height = length_cal, 
+
+    ggsave(paste0(SampleName,"_",DBName,"sAllMotifs","_Set",i,"_Imputed.pdf"), plot = captured_final_plot,
+           width = width_cal, height = length_cal,
            units = c('in'), limitsize = FALSE,
            dpi = 300)
   }
@@ -329,7 +330,7 @@ DrawFigure_ForMotifs <- function(dev,MarkovFile,DBName) {
 
 DrawFigure_ForMotifs(dev_Maize,MarkovFile,"Maize")
 DrawFigure_ForMotifs(dev_Ara,MarkovFile,"Ara")
- 
+
 #######################
 ### Smooth Data!!!!! --> Probably to smooth data, we need tfidf--------------------------------------------------------------------
 ## 1) Make Markov matrix from UMAP already have
@@ -375,6 +376,3 @@ DrawFigure_ForMotifs(dev_Ara,MarkovFile,"Ara")
 #  }
 #}
 #saveRDS(A,file=paste0(SampleName,"_MarkovMatrix.rds"))
-
-
-
