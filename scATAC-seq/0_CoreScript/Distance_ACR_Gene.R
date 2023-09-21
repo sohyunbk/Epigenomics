@@ -55,15 +55,15 @@ PieChart <- function(DistanceTable,OutputName){
   
 # Print the output
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn")
-A619Higher <- "/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.A619Higher.Bed"
-Bif3Higher <- "/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.Bif3Higher.Bed"
+A619Higher <- "/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC_FDR.0.01_A619Higher.Bed"
+Bif3Higher <- "/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC_FDR.0.01_Bif3Higher.Bed"
 AnnBed <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene.bed"
 
 A619Higher_GeneDistance <- GetDistance(A619Higher,AnnBed)
 Bif3Higher_GeneDistance <- GetDistance(Bif3Higher,AnnBed)
 
-PieChart(A619Higher_GeneDistance,"IM_OC.A619Higher.GeneDistancePieChart.pdf")
-PieChart(Bif3Higher_GeneDistance,"IM_OC.Bif3Higher.GeneDistancePieChart.pdf")
+PieChart(A619Higher_GeneDistance,"IM_OC_FDR.0.01_A619Higher.GeneDistancePieChart.pdf")
+PieChart(Bif3Higher_GeneDistance,"IM_OC_FDR.0.01_Bif3Higher.GeneDistancePieChart.pdf")
 
 
 NonZeroTable <- rbind(
@@ -72,13 +72,13 @@ NonZeroTable <- rbind(
   data.frame(Distance = Bif3Higher_GeneDistance$Distance[Bif3Higher_GeneDistance$Distance != 0], 
              dACR = "Bif3Higher")
 )
-
+dim(NonZeroTable)
 ## Density plot
 
 upper_limit <- 150000
 
 ggplot(NonZeroTable, aes(x = Distance, fill = dACR)) +
-  geom_density(alpha = 0.7) +
+  geom_density(alpha = 0.4) +
   coord_cartesian(xlim = c(0, upper_limit)) + # Set the x-axis limits
   theme_minimal() +
   scale_fill_manual(values = c("A619Higher" = "blue", "Bif3Higher" = "red")) + 
@@ -86,5 +86,5 @@ ggplot(NonZeroTable, aes(x = Distance, fill = dACR)) +
        x = "Distance",
        y = "Density")
 
-ggsave("IM_OC.DensityPlot.pdf", width=5, height=5)
+ggsave("IM_OC_FDR.0.01_DensityPlot.pdf", width=7, height=5)
 
