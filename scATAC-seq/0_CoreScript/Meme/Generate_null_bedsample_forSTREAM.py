@@ -23,29 +23,6 @@ def calcualte_mean_GC_content(bed_file_nuc, start_index):
     mean_gc_cont = statistics.mean(GC_cont_all)
     return(mean_gc_cont)
 
-def generate_matching_GC(ControlRegion,all_length, Genome, mean_cell_type_gc_score):
-    print(f"Attempt {current_attempt} out of {max_attempts}")
-    if current_attempt > max_attempts:
-        raise ValueError("Exceeded maximum attempts to sample matching GC content")
-    #SHuffle these regions
-    grab_equal_features = acr_bed.random_subset(count)
-    #Count the number of fields present after this region survives (for use
-    #later when calclating GC()
-    surv_index = grab_equal_features.field_count()
-    #Calc GC content
-    rand_GC_content = capture_gc_content(grab_equal_features, genome_file)
-    sample_mean_gc_score = calcualte_mean_GC_content(rand_GC_content,  surv_index)
-    print(GC_mean)
-    print(sample_mean_gc_score)
-    lower_bound = round(GC_mean * 0.90,3)
-    upper_bound = round(GC_mean * 1.1,3)
-    print(lower_bound, upper_bound)
-    if lower_bound <= float(sample_mean_gc_score) <= upper_bound:
-        return grab_equal_features
-    else:
-        return generate_matching_GC(acr_bed, count, genome_file, GC_mean, max_attempts, current_attempt + 1)
-
-
 def interval_length(interval):
     return len(interval)
 
@@ -120,53 +97,33 @@ if __name__ == "__main__":
     max_length_value = len(max_length)
 
     ## Calculate GC ratio in input bed.
+    if os.path.exists(bed+".GCRatio"):
+        infile = open(bed+".GCRatio","r")
+        gc_ratio = float(infile.readline().strip())
+    else:
+        print("The file does not exist.")
+        Gc_content = capture_gc_content(bed_file,Genome) ## It takes long like 30 min...
+        #print(GC_content[1]):
+        #chr1	105053790	105055096	0.420368	0.579632	269	398	359	280	0	1306
+        take_len = bed_file.field_count()
+        gc_ratio = calcualte_mean_GC_content(Gc_content, take_len)
+        OutGC = open(bed+".GCRatio","w")
+        OutGC.write(str(gc_ratio))
+        OutGC.close()
+
 
     if Option == "Outside" :
         windows = pybedtools.BedTool().window_maker(g=Genome_fai, w=max_length_value)
-        all_peak_bed = pybedtools.BedTool(all_peak_minus_for_control)
-        substract_peak_bed_GCContent = all_peak_minus_for_control+".GCRatio"
+        all_peak_bed = pybedtools.BedTool(ControlCandidate)
+        ControlRegion = windows.subtract(all_peak_bed)
+        ControlRegion.saveas(ControlCandidate.replace(".bed",".Substract.bed"))
 
-    ## Target Sequence GC content distribution #####
-
-        if os.path.exists(substract_peak_bed_GCContent):
-            infile = open(substract_peak_bed_GCContent,"r")
-            mean_cell_type_gc_score = float(infile.readline().strip())
-        else:
-            print("The file does not exist.")
-            Gc_content = capture_gc_content(bed_file,Genome) ## It takes long like 30 min...
-            #print(GC_content[1]):
-            #chr1	105053790	105055096	0.420368	0.579632	269	398	359	280	0	1306
-            take_len = bed_file.field_count()
-            mean_cell_type_gc_score = calcualte_mean_GC_content(Gc_content, take_len)
-            OutGC = open(substract_peak_bed_GCContent,"w")
-            OutGC.write(str(mean_cell_type_gc_score))
-            OutGC.close()
     elif Option == "Within":
         windows = pybedtools.BedTool().window_maker(g=Genome_fai, w=max_length_value)
-        all_peak_bed = pybedtools.BedTool(all_peak_minus_for_control)
-        ControlRegion = windows.subtract(all_peak_bed)
-        substract_peak_bed=all_peak_minus_for_control.replace(".bed",".Substract.bed")
-        ControlRegion.saveas(substract_peak_bed)
-        substract_peak_bed_GCContent = substract_peak_bed.replace(".bed",".GCRatio")
+        ControlRegion = pybedtools.BedTool(ControlCandidate)
 
-    ## Target Sequence GC content distribution #####
-
-        if os.path.exists(substract_peak_bed_GCContent):
-            infile = open(substract_peak_bed_GCContent,"r")
-            mean_cell_type_gc_score = float(infile.readline().strip())
-        else:
-            print("The file does not exist.")
-            Gc_content = capture_gc_content(bed_file,Genome) ## It takes long like 30 min...
-            #print(GC_content[1]):
-            #chr1	105053790	105055096	0.420368	0.579632	269	398	359	280	0	1306
-            take_len = bed_file.field_count()
-            mean_cell_type_gc_score = calcualte_mean_GC_content(Gc_content, take_len)
-            OutGC = open(substract_peak_bed_GCContent,"w")
-            OutGC.write(str(mean_cell_type_gc_score))
-            OutGC.close()
-
-    lower_bound = round(mean_cell_type_gc_score * 0.90, 3)
-    upper_bound = round(mean_cell_type_gc_score * 1.10, 3)
+    lower_bound = round(gc_ratio * 0.90, 3)
+    upper_bound = round(gc_ratio * 1.10, 3)
 
     ## RandomSampling
     random.seed(42); RandomN = [random.randint(0, len(all_length)*100) for _ in range(len(ControlRegion))]
