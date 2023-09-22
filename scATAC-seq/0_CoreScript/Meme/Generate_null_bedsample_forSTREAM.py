@@ -134,7 +134,7 @@ if __name__ == "__main__":
     Fulfill = 0
     outfile = open(ControlFile,"w")
     for nRandom in RandomN:
-        print(nRandom)
+        #print(nRandom)
         if Fulfill < len(all_length):
             TargetLegnth = len(bed_file[Fulfill])
             ControlRegionPos = ControlRegion[nRandom]
