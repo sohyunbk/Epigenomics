@@ -126,10 +126,15 @@ if __name__ == "__main__":
     upper_bound = round(gc_ratio * 1.10, 3)
 
     ## RandomSampling
-    random.seed(42); RandomN = [random.randint(0, len(all_length)*100) for _ in range(len(ControlRegion))]
+    if len(all_length)*100 > len(ControlRegion):
+        nRandomNumber = len(ControlRegion)
+    else :
+        nRandomNumber = len(all_length)
+    random.seed(42); RandomN = [random.randint(0,nRandomNumber) for _ in range(len(ControlRegion))]
     Fulfill = 0
     outfile = open(ControlFile,"w")
     for nRandom in RandomN:
+        print(nRandom)
         if Fulfill < len(all_length):
             TargetLegnth = len(bed_file[Fulfill])
             ControlRegionPos = ControlRegion[nRandom]
