@@ -18,7 +18,7 @@ module load BEDTools/2.30.0-GCC-11.3.0
 --genome_file /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --genome_index /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \
 --AllPeakForControl /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/A619/A619_bif3_For_dACR/IM-OC_ComA619Bif3_BLRemove.bed \
---output_name /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.FDR0.01_A619Higher_Control.fa \
+--output_name /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.FDR0.01_Bif3Higher_Control.fa \
 --Region Within
 
 bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Motif_Meme_FromACRBed.sh \
