@@ -13,7 +13,7 @@
 
 List=(A619_Re3 A619_Re4 bif3_Re3 bif3_Re4)
 
-ml Anaconda3/2020.02
+ml Anaconda3/2022.10
 source activate r_env
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MakeSocratesObject_QCFilterCells.R  \
