@@ -9,15 +9,17 @@
 ml Anaconda3/2020.02
 source activate /home/sb14489/.conda/envs/Jbrowse
 
-module load  SAMtools/1.10-iccifort-2019.5.281
-module load BEDTools/2.29.2-GCC-8.3.0
+module load SAMtools/1.16.1-GCC-11.3.0
+module load BEDTools/2.30.0-GCC-12.2.0
+
 
 Make JBrowseUpload File.\
     1: From bdg file to bw file: \
         bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
         -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
-    2: bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
-      -Step BedToTrack -bed /scratch/sb14489/3.scATAC/4.Bif3Ref/InsertedSeq.bed --OutputName InsertedSeq\
+    2: bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh     \
+      -Step BedToTrack -bed /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.FDR0.01.Bed \
+      -OutputName IM-OC.FDR0.01
     3: bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
      -readlength 151 -sam Final_Bif3Ref_AddedSeqInfo_Overlapped.txt  \
      -OutputName Final_Bif3Ref_AddedSeqInfo_Overlapped.bed -Step SamToBed
