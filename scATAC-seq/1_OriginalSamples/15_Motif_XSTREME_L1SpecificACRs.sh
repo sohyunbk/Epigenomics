@@ -13,16 +13,17 @@
 module load MEME/5.5.0-gompi-2021b
 module load BEDTools/2.30.0-GCC-11.3.0
 
-~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Generate_null_bedsample_forSTREAM.py \
---bed_file /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/L1.FDR0.05.Bed \
+~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Meme/Generate_null_bedsample_forSTREAM.py \
+--bed_file  \
 --genome_file /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --genome_index /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \
---AllPeakForControl /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/Cat_A619_Bif3_500bpPeak.bed \
---output_name /scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/Control_for_L1_OC_dACR.fa
+--AllPeakForControl /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/A619/A619.500bp_peaks_Intergenic.bed \
+--output_name /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/A619/A619.500bp_peaks_Intergenic_Control.fa \
+--Region Within
 
 bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Motif_Meme_FromACRBed.sh \
---infile_Bed /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/L1.FDR0.05.Bed \
+--infile_Bed /scratch/sb14489/3.scATAC/2.Maize_ear/14.CellTypeSpecificACRs/CellTypeACRs.A619.bif3.L1.cts.ACRs.bed \
 --Fa /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --MemeMotifDB /scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt \
---AllPeakFA_ToSubstractForControl  /scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/Control_for_L1_OC_dACR.fa \
---OutfilePath /scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/L1_dACR_XSTREME
+--ControlFA /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.FDR0.01_A619Higher_Control.fa \
+--OutfilePath /scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/IM_OC_dACR_FDR0.01_A619Higher_ControlIMOC_XSTREME

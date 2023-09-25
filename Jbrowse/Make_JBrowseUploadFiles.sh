@@ -18,8 +18,8 @@ Make JBrowseUpload File.\
         bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
         -Step bdgTobw -bdgFile {Path+Name} -Fai {chrFai} -OutputName {Path+NamePreFix} \
     2: bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh     \
-      -Step BedToTrack -bed /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.FDR0.01.Bed \
-      -OutputName IM-OC.FDR0.01
+      -Step BedToTrack -bed /scratch/sb14489/3.scATAC/0.Data/MarkerGene/CLV3_ZmCLE7_MaizeV5.bed \
+      -OutputName CLV3_ZmCLE7_MaizeV5
     3: bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh \
      -readlength 151 -sam Final_Bif3Ref_AddedSeqInfo_Overlapped.txt  \
      -OutputName Final_Bif3Ref_AddedSeqInfo_Overlapped.bed -Step SamToBed
