@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=3_QC        # Job name
-#SBATCH --partition=highmem_p         # Partition (queue) name
+#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=10             # Number of CPU cores per task
 #SBATCH --mem=500gb                   # Job memory request ## Should have more than 300 here
