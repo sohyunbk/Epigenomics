@@ -1,0 +1,25 @@
+module load SRA-Toolkit/2.11.1-centos_linux64
+
+cd /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/1.SRADownload/
+
+prefetch SRR8192660
+prefetch SRR8192661
+
+fasterq-dump --split-files SRR8192660.sra
+fasterq-dump --split-files SRR8192661.sra
+
+module load FastQC/0.11.9-Java-11
+
+module load MEME/5.4.1-foss-2019b-Python-3.7.4
+
+meme-chip FastaFile -minw 4 -maxw 15 -fimo-skip  -o Ex_meme
+
+
+module load BEDTools/2.30.0-GCC-10.2.0
+
+bedtools getfasta -fi /scratch/sb14489/0.Reference/TAIR10/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa -bed GSM3474971_WUS_Treatment_vs_Control.bed > GSM3474971_WUS_Treatment_vs_Control.fa
+bedtools getfasta -fi
+
+/scratch/sb14489/7.DAPorChIP/DAPseq_WUS/HB67_WUS1_B73v5_Q30_qval5_finalBl/HB67_WUS1_B73v5_Q30_qval5_finalBl.GEM_events.narrowPeak.fa
+
+/scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/GSM3474971_WUS_Treatment_vs_Control.fa
