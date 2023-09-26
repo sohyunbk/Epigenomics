@@ -11,7 +11,7 @@
 
 module load MACS2/2.2.7.1-foss-2021b
 
-mkdir /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/3.PeakCalling_HighCutoff_NonModel
+mkdir /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/3.PeakCalling_HighCutoff_Q0.00001
 
 macs2 callpeak \
  -t /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/2.Mapped/SRR8192660_unique_bowtie2_algn.bam \
