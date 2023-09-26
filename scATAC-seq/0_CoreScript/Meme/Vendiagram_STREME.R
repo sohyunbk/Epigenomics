@@ -43,6 +43,14 @@ p_value
 
 library(ggvenn)
 library(ggplot2)
-p <- ggvenn(list(STREME_4_ATWAT = STREME_4, STREME_5_CATG = STREME_5))
+p <- ggvenn(list(STREME_4_ATWAT = STREME_4_Filtered, STREME_5_CATG = STREME_5_Filtered))
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/IM_OC_dACR_FDR0.01_Bif3Higher_ControlIMOC_XSTREME")
 ggsave("Bif3Higher_STREME4_STREME5.pdf", plot = p, width = 6, height = 4) 
+
+
+
+STREME_1 <- Bif3Higher$seq_ID[Bif3Higher$motif_ALT_ID =="STREME-1"]
+STREME_1_Filtered <- intersect(STREME_1,All)
+length(STREME_1_Filtered)
+
+intersect(STREME_4_Filtered,STREME_1_Filtered)
