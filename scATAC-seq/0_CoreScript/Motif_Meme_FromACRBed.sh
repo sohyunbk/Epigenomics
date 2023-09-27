@@ -22,7 +22,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 ## 1) prepare fa
-Infile_FA="${Infile_Bed%%.*}.fa"
+Infile_FA="$Infile_Bed".fa
 
 if [ -e "$Infile_FA" ]; then
     echo "$Infile_FA exists."
