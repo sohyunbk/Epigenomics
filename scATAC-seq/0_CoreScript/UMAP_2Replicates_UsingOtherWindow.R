@@ -32,7 +32,8 @@ Re2 <- opt$Re2
 
 Ex <- function(){
   SampleS <- "A619"
-  PreOptions <- "Tn5Cut1000_Binsize500_MinT0.005_MaxT0.01_PC100"
+  PreOptions <- "Tn5Cut1000_Binsize500_MinT0.007_MaxT0.005_PC100"
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/"
   WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS3_FRiP4/"
   Re1 <- "A619_Re3"
   Re2 <- "A619_Re4"
@@ -72,7 +73,10 @@ SharedFeatures1 <- Reduce(intersect, list(rownames(obj_Re1$counts),RefWindows))
 SharedFeatures2 <- Reduce(intersect, list(rownames(obj_Re2$counts),RefWindows))
 SharedFeatures <- Reduce(intersect,list(SharedFeatures1,SharedFeatures2))
 
+length(SharedFeatures1)
 length(SharedFeatures2)
+length(SharedFeatures)
+
 print(SharedFeatures[1:5])
 #print(SharedFeatures)
 files <- list(obj_Re1,obj_Re2)
@@ -86,7 +90,7 @@ str(merged.obj)
 ## 2) Harmony
 #######################
 SVDorNMF <-as.character("SVD")
-NumberOfPC <- as.character(300)
+NumberOfPC <- as.character(100)
 FeatureN <- nrow(merged.obj$counts)
 NumberOfWindow <- as.character(0)
 
