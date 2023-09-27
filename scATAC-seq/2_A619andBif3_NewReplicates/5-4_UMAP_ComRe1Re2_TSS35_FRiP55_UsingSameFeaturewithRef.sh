@@ -19,7 +19,7 @@ List2=(A619_Re4 bif3_Re4)
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/UMAP_2Replicates.R \
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/UMAP_2Replicates_UsingOtherWindow.R \
  --PreFix_name Tn5Cut1000_Binsizepeak_MinT0.001_MaxT0.05_PC100 \
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55_PeakClustering// \
  --SampleS "${List[SLURM_ARRAY_TASK_ID]}"  \
