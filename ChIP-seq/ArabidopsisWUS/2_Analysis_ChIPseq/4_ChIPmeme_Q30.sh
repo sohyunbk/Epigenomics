@@ -12,10 +12,10 @@
 module load MEME/5.5.0-gompi-2021b
 module load BEDTools/2.30.0-GCC-12.2.0
 
-cd /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/3.PeakCalling_HighCutoff
 
 bedtools getfasta -fi /scratch/sb14489/0.Reference/TAIR10/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa \
- -bed WUS_GS_Q0.001_peaks.narrowPeak_Chr_Q30  > WUS_GS_Q0.001_peaks.narrowPeak_Chr_Q30.fa
+ -bed /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/3.PeakCalling_HighCutoff/WUS_GS_Q0.001_peaks.narrowPeak_Q30  \
+ > /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/3.PeakCalling_HighCutoff/WUS_GS_Q0.001_peaks.narrowPeak_Chr_Q30.fa
 
-meme-chip WUS_GS_Q0.001_peaks.narrowPeak_Chr_Q30.fa \
+meme-chip /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/3.PeakCalling_HighCutoff/WUS_GS_Q0.001_peaks.narrowPeak_Chr_Q30.fa \
  -minw 4 -maxw 15 -fimo-skip  -o /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/4.MemeChip/WUS_GS_Q0.001_peaks.narrowPeak_Chr_Q30
