@@ -11,5 +11,5 @@ for CT in CellTypes:
     Overlap = CommonPeak.intersect(CTSummit,wa=True)
     Overlap = Overlap.merge()
     for i in Overlap:
-        outfile.write(i[0]+"\t"+i[1]+"\t"+i[2]+"\t"+CT+"\n")
+        outfile.write(i[0]+"\t"+str(int(i[1])+1)+"\t"+i[2]+"\t"+CT+"\n")
 outfile.close()
