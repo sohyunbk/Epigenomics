@@ -25,8 +25,8 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     # A positive example is an 1000bp sequence with at least 1 class/feature annotated to it.
     # A negative sample has no classes/features annotated to the sequence.
     sample_negative: False,
-    sequence_length: 500,
-    center_bin_to_predict: 500,
+    sequence_length: 501,
+    center_bin_to_predict: 501,
     test_holdout: [chr1,chr2,chr5,chr8],
     validation_holdout: [chr3,chr6,chr7],
     # The feature must take up 50% of the bin (200bp) for it to be considered
