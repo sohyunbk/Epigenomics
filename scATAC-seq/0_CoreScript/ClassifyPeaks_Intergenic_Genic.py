@@ -6,7 +6,7 @@ import argparse
 #~/.conda/envs/r_env/bin/python
 ###
 '''
-~/.conda/envs/r_env/bin/python ClassifyPeaks_Intergenic_Genic.py \
+~/.conda/envs/r_env/bin/python ~/Epigenomics/scATAC-seq/0_CoreScript/ClassifyPeaks_Intergenic_Genic.py/ClassifyPeaks_Intergenic_Genic.py \
 -PeakFile /scratch/sb14489/3.scATAC/2.Maize_ear/14.CellTypeSpecificACRs/CellTypeACRs.A619.bif3.L1.cts.ACRs.bed \
 -BlackListFile /scratch/sb14489/0.Reference/Maize_B73/Zm.final_blaclist.Mito_Chloro_Chip.txt \
 -FaiFile /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \

@@ -6,8 +6,8 @@ import numpy as np
 from sklearn.metrics import roc_auc_score
 import numpy
 
-data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_RemoveRedundantACR_Try500bp/test_predictions.npz')
-target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_RemoveRedundantACR_Try500bp/test_targets.npz')
+data = load('/scratch/sb14489/8.ML_ACR/2.MaizeEar/2.Selene/DanQ/test_predictions.npz')
+target = load('/scratch/sb14489/8.ML_ACR/2.MaizeEar/2.Selene/DanQ/test_targets.npz')
 
 data = load('/scratch/sb14489/8.ML_ACR/2.DeeperDeepSea_Test/500bp_AllGenome_withBigN/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/2.DeeperDeepSea_Test/500bp_AllGenome_withBigN/test_targets.npz')
@@ -31,8 +31,8 @@ dict(zip(unique, counts))
 #    TargetArray[i] = target['data'][i][7]
 #    PredictionArray[i] = data['data'][i][7]
 
-TargetArray = target['data'][:,0]
-PredictionArray = data['data'][:,0]
+TargetArray = target['data'][:,8]
+PredictionArray = data['data'][:,8]
 
 #TargetArray = target['data'][:,14]
 #PredictionArray = data['data'][:,14]
@@ -50,7 +50,7 @@ from numpy import load
 import numpy
 from sklearn.metrics import confusion_matrix
 
-cutoff = 0.8
+cutoff = 0.7
 y_pred_classes = np.zeros(len(PredictionArray))
 y_pred_classes[PredictionArray > cutoff] = 1
 
