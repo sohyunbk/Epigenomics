@@ -228,6 +228,22 @@ OC_Bif3HigherMotif3 <- rbind(A=c(4,37,0,99,0,0,0,54),
 OC_Bif3HigherMotif3_PFM <- PFMatrix(ID="Unknown", name="TRCATGYA_Bif3HigherMotif3", matrixClass="Unknown",
                                     bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                                     tags=list(), profileMatrix=OC_Bif3HigherMotif3)
+######### TGAATGAA
+TGAA <- rbind(A=c(0,0,100,100),
+              C=c(0,0,0,0),
+              G=c(0,100,0,0),
+              T=c(100,0,0,0))
+TGAA_PFM <- PFMatrix(ID="Unknown", name="TGAA", matrixClass="Unknown",
+                    bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
+                    tags=list(), profileMatrix=TGAA)
+TGAATGAA <- rbind(A=c(0,0,100,100,0,0,100,100),
+              C=c(0,0,0,0,0,0,0,0),
+              G=c(0,100,0,0,0,100,0,0),
+              T=c(100,0,0,0,100,0,0,0))
+TGAATGAA_PFM <- PFMatrix(ID="Unknown", name="TGAATGAA", matrixClass="Unknown",
+                          bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
+                          tags=list(), profileMatrix=TGAATGAA)
+
 
 
 PFMatrixList_Maize
@@ -239,6 +255,9 @@ PFMatrixList_Maize[['ZmWUS1_memeChIP']] <- WUS1_4 ## 42th
 PFMatrixList_Maize[['ATCATGC']] <- OC_Bif3HigherMotif1_PFM
 PFMatrixList_Maize[['SMATWATKS']] <- OC_Bif3HigherMotif2_PFM
 PFMatrixList_Maize[['TRCATGYA']] <- OC_Bif3HigherMotif3_PFM
+
+PFMatrixList_Maize[['TGAA']] <- TGAA_PFM
+PFMatrixList_Maize[['TGAATGAA']] <- TGAATGAA_PFM
 
 PFMatrixList <- c(PFMatrixList_Ara,PFMatrixList_Maize)
 
