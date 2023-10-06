@@ -205,11 +205,41 @@ WUSmatrix4 <- rbind(A=c(1,12,99,86,0,2,82,73,3,7,79,36,9),
 WUS1_4 <- PFMatrix(ID="Unknown", name="ZmWUS1_MemeChip", matrixClass="Unknown",
                    bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                    tags=list(), profileMatrix=WUSmatrix3)
+#######
+OC_Bif3HigherMotif1 <- rbind(A=c(87,0,6,99,1,11,4),
+                    C=c(0,0,88,0,3,15,79),
+                    G=c(12,0,2,0,0,68,0),
+                    T=c(0,99,2,0,94,4,15))
+OC_Bif3HigherMotif1_PFM <- PFMatrix(ID="Unknown", name="ATCATGC_Bif3HigherMotif1", matrixClass="Unknown",
+                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
+                   tags=list(), profileMatrix=OC_Bif3HigherMotif1)
+
+OC_Bif3HigherMotif2 <- rbind(A=c(7,63,99,0,35,99,0,0,20),
+                             C=c(47,36,0,0,14,0,0,0,25),
+                             G=c(25,0,0,0,14,0,0,36,47),
+                             T=c(20,0,0,99,35,0,99,63,7))
+OC_Bif3HigherMotif2_PFM <- PFMatrix(ID="Unknown", name="SMATWATKS_Bif3HigherMotif2", matrixClass="Unknown",
+                                    bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
+                                    tags=list(), profileMatrix=OC_Bif3HigherMotif2)
+OC_Bif3HigherMotif3 <- rbind(A=c(4,37,0,99,0,0,0,54),
+                             C=c(22,0,99,0,0,0,62,18),
+                             G=c(18,62,0,0,0,99,0,22),
+                             T=c(54,0,0,0,99,0,37,4))
+OC_Bif3HigherMotif3_PFM <- PFMatrix(ID="Unknown", name="TRCATGYA_Bif3HigherMotif3", matrixClass="Unknown",
+                                    bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
+                                    tags=list(), profileMatrix=OC_Bif3HigherMotif3)
+
+
 PFMatrixList_Maize
 PFMatrixList_Maize[['ZmWUS1_GEM1']] <- WUS1_1 ## 42th
 PFMatrixList_Maize[['ZmWUS1_qval5_GEM1']] <- WUS1_2 ## 42th
 PFMatrixList_Maize[['ZmWUS1_qval5_GEM2']] <- WUS1_3 ## 42th
 PFMatrixList_Maize[['ZmWUS1_memeChIP']] <- WUS1_4 ## 42th
+
+PFMatrixList_Maize[['ATCATGC']] <- OC_Bif3HigherMotif1_PFM
+PFMatrixList_Maize[['SMATWATKS']] <- OC_Bif3HigherMotif2_PFM
+PFMatrixList_Maize[['TRCATGYA']] <- OC_Bif3HigherMotif3_PFM
+
 PFMatrixList <- c(PFMatrixList_Ara,PFMatrixList_Maize)
 
 
