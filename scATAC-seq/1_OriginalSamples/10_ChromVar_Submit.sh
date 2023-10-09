@@ -14,7 +14,7 @@ ml Anaconda3/2020.02
 source activate JASPAR_act
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R  \
- --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AddOCdACRMotif \
+ --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AddOCdACRMotif_ArtificalMotif \
  --Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/A619_toComPeak.sparse \
  --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt \
  --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_RemoveBLonlyMitoChloroChIP.REF_CELLs.reduced_dimensions.txt \
@@ -22,7 +22,7 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifAnalysis_ChromVar
  --SampleName A619 --IGPeak /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R \
-  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AddOCdACRMotif \
+  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AddOCdACRMotif_ArtificalMotif \
   --Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse \
   --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt \
   --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt \
