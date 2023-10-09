@@ -327,6 +327,8 @@ saveRDS(dev_Ara, file=paste0(SampleName,"_ChromVarDev_Ara.rds"))
 #MarkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/A619_Markov/A619.MarkovMatrix.rds"
 #MarkovFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/Past/NotNearPromoter/A619_MarkovMatrix.rds"
 DrawFigure_ForMotifs <- function(dev,MarkovFile,DBName) {
+  #dev <- dev_Ara
+  
   Dev <- deviations(dev)
   #Dev_ZScore <- deviationScores(dev)
   #dim(Dev_ZScore)
@@ -378,6 +380,7 @@ DrawFigure_ForMotifs <- function(dev,MarkovFile,DBName) {
 }
 
 DrawFigure_ForMotifs(dev_Maize,MarkovFile,"Maize")
+print("DoneMaize")
 DrawFigure_ForMotifs(dev_Ara,MarkovFile,"Ara")
 
 #######################
