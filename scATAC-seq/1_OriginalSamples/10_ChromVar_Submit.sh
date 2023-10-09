@@ -21,10 +21,10 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifAnalysis_ChromVar
  --Markov /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/A619_Markov/A619.MarkovMatrix.rds \
  --SampleName A619 --IGPeak /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed
 
-#Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R \
-#  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AddOCdACRMotif \
-#  --Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse \
-#  --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt \
-#  --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt \
-#  --Markov /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3_Markov/Bif3.MarkovMatrix.rds \
-#  --SampleName Bif3 --IGPeak /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R \
+  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AddOCdACRMotif \
+  --Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse \
+  --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt \
+  --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt \
+  --Markov /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3_Markov/Bif3.MarkovMatrix.rds \
+  --SampleName Bif3 --IGPeak /scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_Intergenic.bed
