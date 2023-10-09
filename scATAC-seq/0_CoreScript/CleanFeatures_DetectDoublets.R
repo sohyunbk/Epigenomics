@@ -153,11 +153,11 @@ colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888
             "#876b58","#800000", "#800075","#e8cf4f","#0bd43d","#fc53b6",
             "#deadce","#adafde","#5703ff")
 ggplot(obj_Cluster_beforeD$Clusters, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
-  geom_point(size=0.05) +
+  geom_point(size=0.1) + # for popular it's 0.1
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
   labs(title =paste0(Name,", CellNumber: ",nrow(obj_Cluster_beforeD$Clusters)))
-ggsave(paste0(NewFileName,"_BeforeRemovingDoublets.pdf"), width=7, height=6)
+ggsave(paste0(NewFileName,"_BeforeRemovingDoublets.pdf"), width=7.5, height=6)
 
 saveRDS(obj_Cluster_beforeD, file=paste(NewFileName,"_beforeRemovingDoublets.rds",sep=""))
 #obj_UMAP <- readRDS(paste(NewFileName,"_beforeRemovingDoublets.rds",sep=""))
