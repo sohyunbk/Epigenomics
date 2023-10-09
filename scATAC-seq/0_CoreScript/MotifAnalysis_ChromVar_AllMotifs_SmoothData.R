@@ -310,7 +310,7 @@ dev_Ara <- computeDeviations(object = ChromVarInput_counts_addGC, annotations = 
 
 saveRDS(dev_Maize, file=paste0(SampleName,"_ChromVarDev_Maize.rds"))
 saveRDS(dev_Ara, file=paste0(SampleName,"_ChromVarDev_Ara.rds"))
-
+#dev_Ara <- readRDS("A619_ChromVarDev_Ara.rds")
 #dev <- readRDS(paste0(SampleName,"_ChromVarDev.rds"))
 
 #str(dev@elementMetadata@listData$fractionMatches)
