@@ -2,6 +2,16 @@ from selene_sdk.utils import load_path
 from selene_sdk.utils import parse_configs_and_run
 import argparse
 
+'''
+/home/sb14489/miniconda3/envs/pytorch/bin/python Run_Selene_MakeYMLFile.py \
+ --wmlFile /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/Standard_DanQ_WithoutCuda_SeqLength1000bp.yml \
+--learningRate 0.005 \
+--bedfile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/Seedling_18Celltypes.500.RestrictACR6CT_Sorted.bed.gz \
+--featurefile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/Seedling_18Celltypes.500.RestrictACR6CT_distinctfeatures.txt \
+--OutwmlfileName /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Test.wml \
+--NewOutputDir /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Test
+'''
+
 def get_parser():
     parser = argparse.ArgumentParser(description='args')
     parser.add_argument('-wmlFile', "--wmlFile", help="It should be Model_wmlFile.", required=True, dest='wml')
@@ -17,7 +27,7 @@ def get_parser():
 def Modify_ymlFiles():
     infile = open(args.wml,"r")
     outfile = open(args.Outwml,"w")
-    nFeatures = len(open(args.featurefile,"r").readlines())
+    nFeatures = len(open(args.feature,"r").readlines())
     for sLine in infile:
         if "n_targets" in sLine:
             outfile.write(sLine.replace("n_targets:","n_targets: "+str(nFeatures)))
