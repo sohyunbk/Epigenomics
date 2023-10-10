@@ -29,7 +29,7 @@ SampleName=(NonRedundantACRs_18Cells.500bp
 
 WD="/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/"
 
-module load tabix/0.2.6-GCCcore-8.3.0
+module load tabix/0.2.6-GCCcore-11.3.0
 
 sort -k1V -k2n -k3n "$WD""${SampleName[SLURM_ARRAY_TASK_ID]}".bed > "$WD""${SampleName[SLURM_ARRAY_TASK_ID]}"_Sorted.bed
 
