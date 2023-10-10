@@ -31,11 +31,11 @@ def Modify_ymlFiles():
     for sLine in infile:
         if "n_targets" in sLine:
             outfile.write(sLine.replace("n_targets:","n_targets: "+str(nFeatures)))
-        if "input_path" in sLine:
+        elif "input_path" in sLine:
             outfile.write(sLine.replace("input_path:","input_path: "+str(args.feature)))
-        if "target_path:" in sLine:
+        elif "target_path:" in sLine:
             outfile.write(sLine.replace("target_path:","target_path: "+str(args.bed)))
-        if "output_dir:" in sLine:
+        elif "output_dir:" in sLine:
             outfile.write(sLine.replace("output_dir:","output_dir: "+str(args.OutDir)))
         else:
             outfile.write(sLine)
