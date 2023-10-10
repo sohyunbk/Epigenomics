@@ -20,11 +20,11 @@ def Modify_ymlFiles():
     nFeatures = len(open(args.featurefile,"r").readlines())
     for sLine in infile:
         if "n_targets" in sLine:
-            outfile.write(sLine.replace("n_targets:","n_targets: "+str(nFeatures))
+            outfile.write(sLine.replace("n_targets:","n_targets: "+str(nFeatures)))
         if "input_path" in sLine:
-            outfile.write(sLine.replace("input_path:","input_path: "+str(args.feature))
+            outfile.write(sLine.replace("input_path:","input_path: "+str(args.feature)))
         if "target_path:" in sLine:
-            outfile.write(sLine.replace("target_path:","target_path: "+str(args.bed))
+            outfile.write(sLine.replace("target_path:","target_path: "+str(args.bed)))
         if "output_dir:" in sLine:
             outfile.write(sLine.replace("output_dir:","output_dir: "+str(args.OutDir)))
         else:
