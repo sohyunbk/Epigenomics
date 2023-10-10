@@ -17,7 +17,8 @@ unique(CellType18$celltype)
 #dim(CellType18_Past)
 write.table(CellType18[,c(1:4)],
             file ="NonRedundantACRs_18Cells.500bp.bed",
-            col.names=FALSE)
+            col.names=FALSE, sep="\t",
+            quote=F, row.names=F)
 
 DrawHistogram_forCelltypeRestrictACR <- function(CellType18,SavingName){
   colnames(CellType18) <- c("chr","start","end","celltype")
@@ -47,7 +48,8 @@ Filter_Cells <- function(CellType18,freq_df,CutOff){
   FilteredBed <- CellType18[CellType18$Pos %in% FilteredACRs,]
   write.table(FilteredBed[,c(1:4)],
               file =paste0("Seedling_18Celltypes.500.RestrictACR",CutOff,"CT.bed"),
-              col.names=FALSE)
+              col.names=FALSE, sep="\t",
+              quote=F, row.names=F)
 }
 
 for (cutoff in c(2:18)){
