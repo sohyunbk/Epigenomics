@@ -46,6 +46,6 @@ def Modify_ymlFiles():
 args = get_parser().parse_args()
 Modify_ymlFiles()
 
-#configs = load_path(args.Outwml)
+configs = load_path(args.Outwml)
 # deeperdeepsea was lr=0.01
-#parse_configs_and_run(configs, lr=args.lr)
+parse_configs_and_run(configs, lr=args.lr)
