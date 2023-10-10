@@ -30,7 +30,7 @@ SampleName=(NonRedundantACRs_18Cells.500bp
  /home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/Run_Selene_MakeYMLFile.py \
   --wmlFile /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/Standard_DanQ_WithoutCuda_SeqLength1000bp.yml \
  --learningRate 0.0005 \
- --bedfile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/"${SampleName[SLURM_ARRAY_TASK_ID]}".bed.gz \
+ --bedfile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/"${SampleName[SLURM_ARRAY_TASK_ID]}"_Sorted.bed.gz \
  --featurefile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/"${SampleName[SLURM_ARRAY_TASK_ID]}"_distinctfeatures.txt \
  --OutwmlfileName /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${SampleName[SLURM_ARRAY_TASK_ID]}".wml \
  --NewOutputDir /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${SampleName[SLURM_ARRAY_TASK_ID]}"_DanQ
