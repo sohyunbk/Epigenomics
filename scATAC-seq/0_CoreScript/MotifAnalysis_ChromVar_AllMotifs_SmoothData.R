@@ -255,9 +255,8 @@ PFMatrixList_Maize[['ZmWUS1_memeChIP']] <- WUS1_4 ## 42th
 PFMatrixList_Maize[['ATCATGC']] <- OC_Bif3HigherMotif1_PFM
 PFMatrixList_Maize[['SMATWATKS']] <- OC_Bif3HigherMotif2_PFM
 PFMatrixList_Maize[['TRCATGYA']] <- OC_Bif3HigherMotif3_PFM
-
-PFMatrixList_Maize[['TGAA']] <- TGAA_PFM
-PFMatrixList_Maize[['TGAATGAA']] <- TGAATGAA_PFM
+PFMatrixList_Maize[['TGAA_Arti']] <- TGAA_PFM
+PFMatrixList_Maize[['TGAATGAA_Arti']] <- TGAATGAA_PFM
 
 PFMatrixList <- c(PFMatrixList_Ara,PFMatrixList_Maize)
 
@@ -307,10 +306,11 @@ dev_Ara <- computeDeviations(object = ChromVarInput_counts_addGC, annotations = 
 #In addition: Warning message:
 #  In parallel::mccollect(wait = FALSE, timeout = 1) :
 #  1 parallel job did not deliver a result
-
+#setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AddOCdACRMotif_ArtificalMotif")
 saveRDS(dev_Maize, file=paste0(SampleName,"_ChromVarDev_Maize.rds"))
 saveRDS(dev_Ara, file=paste0(SampleName,"_ChromVarDev_Ara.rds"))
 #dev_Ara <- readRDS("A619_ChromVarDev_Ara.rds")
+#dev_Maize <- readRDS("A619_ChromVarDev_Ara.rds")
 #dev <- readRDS(paste0(SampleName,"_ChromVarDev.rds"))
 
 #str(dev@elementMetadata@listData$fractionMatches)
