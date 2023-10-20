@@ -21,6 +21,20 @@ target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions
 data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_18Classes/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_18Classes/test_targets.npz')
 
+
+data = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/test_predictions.npz')
+target = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/test_targets.npz')
+#{0.0: 139701, 1.0: 399435}
+#>>> confusion_matrix(TargetArray, y_pred_classes)
+#array([[ 5583,  2484],
+#       [ 7971, 13914]])
+
+data = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Seedling_18Celltypes.500.RestrictACR17CT_DanQ/test_predictions.npz')
+target = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Seedling_18Celltypes.500.RestrictACR17CT_DanQ/test_targets.npz')
+# {0.0: 235953, 1.0: 303183}
+#array([[10715,  2915],
+#       [10714,  5608]])
+
 unique, counts = numpy.unique(target['data'], return_counts=True)
 dict(zip(unique, counts))
 
