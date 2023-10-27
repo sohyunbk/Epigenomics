@@ -16,7 +16,7 @@ Intergenic_ACR <- c()
 Higher_Bif3 <- c()
 Higher_WT <- c()
 CutOffFDR <- 0.01
-for (ct in CellTypeOrder){
+for (ct in Celltype){
   Data <- read.table(paste0(ct,FileEnd),header=TRUE)
   Sig <- c(Sig,sum(Data$FDR<CutOffFDR))
   Intergenic_ACR <- c(Intergenic_ACR,nrow(Data))
@@ -43,19 +43,20 @@ library(ggplot2)
 custom_colors <- c("#4d0505","#092691", "#ad8c09") 
 FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
 ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
-  geom_point(aes(colour = factor(Color)),alpha=0.4)+  # New geom_point for Higher_Bif3Ratio
-  scale_size_continuous(range = c(1, 5)) +
+  geom_point(aes(colour = factor(Color)),alpha=0.5)+  # New geom_point for Higher_Bif3Ratio
+  scale_size_continuous(range = c(1, 15)) +
   scale_color_manual(values = custom_colors) + 
   theme_minimal() +
   labs(x = "The number of dACR", y = "Cell type", title = " ", size = "dACR Ratio") +
-  theme(axis.text.y = element_text(size = 8),
-        legend.text = element_text(size = 8),  # Adjust legend text size if needed
-        legend.title = element_text(size = 8), # Adjust legend title size if needed
-        axis.title.y = element_text(size = 8), # Adjust y-axis title size if needed
-        axis.title.x = element_text(size = 8), # Adjust x-axis title size if needed
-        title = element_text(size = 12), # Adjust title size if needed
-        plot.title = element_text(size = 14), # Adjust plot title size if needed
-        strip.text = element_text(size = 8), # Adjust facet strip text size if needed
+  theme(axis.text.y = element_text(size = 16),
+        axis.text.y = element_text(size = 8),
+        legend.text = element_text(size = 16),  # Adjust legend text size if needed
+        legend.title = element_text(size = 16), # Adjust legend title size if needed
+        axis.title.y = element_text(size = 16), # Adjust y-axis title size if needed
+        axis.title.x = element_text(size = 16), # Adjust x-axis title size if needed
+        title = element_text(size = 24), # Adjust title size if needed
+        plot.title = element_text(size = 28), # Adjust plot title size if needed
+        strip.text = element_text(size = 16), # Adjust facet strip text size if needed
         axis.ticks = element_blank(), # Remove axis tick marks
         axis.line = element_line(colour = "black"), # Add axis lines
         axis.line.x = element_line(), # Customize x-axis line separately
@@ -63,6 +64,6 @@ ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
   )+labs(color = " ")
 
 ggsave("dACRNumber_FDR0.01.pdf"
-       , width=7, height=3)
+       , width=15, height=7)
 
 

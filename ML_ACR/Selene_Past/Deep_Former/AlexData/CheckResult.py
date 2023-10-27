@@ -26,6 +26,11 @@ data = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedunda
 target = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/test_targets.npz')
 #{0.0: 139701, 1.0: 399435}
 #>>> confusion_matrix(TargetArray, y_pred_classes)
+## cut off 0.5
+#array([[ 2829,  5238],
+#       [ 2139, 19746]])
+
+#Cut off 0.7
 #array([[ 5583,  2484],
 #       [ 7971, 13914]])
 
@@ -64,7 +69,7 @@ from numpy import load
 import numpy
 from sklearn.metrics import confusion_matrix
 
-cutoff = 0.7
+cutoff = 0.5
 y_pred_classes = np.zeros(len(PredictionArray))
 y_pred_classes[PredictionArray > cutoff] = 1
 
