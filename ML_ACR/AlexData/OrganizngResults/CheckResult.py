@@ -17,10 +17,8 @@ target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions
 
 target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/500bp_MappableRegions_DanQ_withoutCuda_SameNumberNegative/test_targets.npz')
 
-
 data = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_18Classes/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/2.DeepFormer_DanQ/DanQ_18Classes/test_targets.npz')
-
 
 data = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/test_predictions.npz')
 target = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/test_targets.npz')
@@ -34,8 +32,8 @@ target = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedun
 #array([[ 5583,  2484],
 #       [ 7971, 13914]])
 
-data = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Seedling_18Celltypes.500.RestrictACR17CT_DanQ/test_predictions.npz')
-target = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Seedling_18Celltypes.500.RestrictACR17CT_DanQ/test_targets.npz')
+data = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Seedling_18Celltypes.500.RestrictACR16CT_DanQ/test_predictions.npz')
+target = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Seedling_18Celltypes.500.RestrictACR16CT_DanQ/test_targets.npz')
 # Cut off 0.7
 # {0.0: 235953, 1.0: 303183}
 #array([[10715,  2915],
@@ -56,8 +54,8 @@ dict(zip(unique, counts))
 #    TargetArray[i] = target['data'][i][7]
 #    PredictionArray[i] = data['data'][i][7]
 
-TargetArray = target['data'][:,8]
-PredictionArray = data['data'][:,8]
+TargetArray = target['data'][:,2]
+PredictionArray = data['data'][:,2]
 
 #TargetArray = target['data'][:,14]
 #PredictionArray = data['data'][:,14]
@@ -82,7 +80,13 @@ y_pred_classes[PredictionArray > cutoff] = 1
 np.count_nonzero(TargetArray)
 len(TargetArray)-np.count_nonzero(TargetArray)
 confusion_matrix(TargetArray, y_pred_classes)
+count_ones = np.count_nonzero(TargetArray == 1)
 
+# Count the number of 0s
+count_zeros = np.count_nonzero(TargetArray == 0)
+
+print("Number of 1s:", count_ones)
+print("Number of 0s:", count_zeros)
 
 
 TP = 0
