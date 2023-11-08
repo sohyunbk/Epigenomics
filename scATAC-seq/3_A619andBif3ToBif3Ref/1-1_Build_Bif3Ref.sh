@@ -10,5 +10,5 @@
 Path=/scratch/sb14489/0.Reference/Maize_Ki3
 
 cd $Path
-module load CellRanger-ATAC/2.0.0
+module load CellRanger-ATAC/2.0.2
 cellranger-atac mkref --config=CellRangerv2-ATAC_Ki3_Bif3.config ## In protocl they are saying it should be gtf but gff seems fine in v1 but in v2 it should be gtf
