@@ -13,7 +13,7 @@
 #sbatch /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/2_Alignment/2-1_Alignment_CellRangerv2.sh
 cd /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/1.Mapped
 Sample=(1_A619 3_bif3 1_A619_2 3_bif3_2)
-module load CellRanger-ATAC/2.0.0
+module load CellRanger-ATAC/2.1.0
 
 cellranger-atac count \
    --id="${Sample[SLURM_ARRAY_TASK_ID]}"  \
