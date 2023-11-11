@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=Alignment        # Job name
 #SBATCH --partition=highmem_p         # Partition (queue) name
-#SBATCH --ntasks=1                  # Run a single task
+#SBATCH --ntasks=4                    # Run a single task
 #SBATCH --cpus-per-task=10             # Number of CPU cores per task
 #SBATCH --mem=600gb                   # Job memory request #For normal fastq : 600gb
-#SBATCH --time=150:00:04               # Time limit hrs:min:sec #For normal fastq : 80 hours -for mapping CellRanger
+#SBATCH --time=100:00:04               # Time limit hrs:min:sec #For normal fastq : 80 hours -for mapping CellRanger
 #SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
@@ -17,7 +17,7 @@ module load CellRanger-ATAC/2.1.0
 
 cellranger-atac count \
    --id="${Sample[SLURM_ARRAY_TASK_ID]}"  \
+   --maxjobs=4 \
    --reference=/scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3_OnlyChr_scATACCellRangerv2_Bif3  \
    --fastqs=/scratch/sb14489/3.scATAC/2.Maize_ear/1.Rawdata/"${Sample[SLURM_ARRAY_TASK_ID]}"  \
    --localcores=14
-   #--maxjobs=4 \
