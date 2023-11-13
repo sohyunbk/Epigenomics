@@ -61,4 +61,3 @@ ggsave("Bif3_AnnV3.pdf", width=13, height=10)
 
 write.table(NewMeta, file=paste0("Bif3_AnnV3_metadata.txt"),
             quote=F, row.names=T, col.names=T, sep="\t")
-
