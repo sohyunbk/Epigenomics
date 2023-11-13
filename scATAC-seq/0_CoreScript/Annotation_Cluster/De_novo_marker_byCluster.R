@@ -3,7 +3,6 @@ library(here)
 library(DESeq2)
 library(tidyverse)
 library(rlang)
-library("optparse")
 
 ## v2 From Pablo 
 
@@ -11,47 +10,25 @@ library("optparse")
 args <- commandArgs(trailingOnly=T)
 
 #args    
-option_list = list(
-  make_option(c("--meta"), type="character",
-              help="meta", metavar="character"),
-  make_option(c("--GeneBA"), type="character",
-              help="GeneBA", metavar="character"),
-  make_option(c("--marker"), type="character",
-              help="marker", metavar="character"),
-  make_option(c("--bed"), type="character",
-              help="bed", metavar="character"),
-  make_option(c("--Ann_ColumnName"), type="character",
-              help="Ann_ColumnName", metavar="character"),
-  make_option(c("--Species"), type="character",
-              help="Species", metavar="character"),
-  make_option(c("--OutputBaseName"), type="character",
-              help="OutputBaseName", metavar="character"),
-  make_option(c("--OutputPath"), type="character",
-              help="OutputPath", metavar="character")
-);
-opt_parser = OptionParser(option_list=option_list);
-opt = parse_args(opt_parser);
-meta_data_file <- opt$meta
-gene_accessability_file <- opt$GeneBA
-marker_gene_file <- opt$marker
-all_genes_bed <- opt$bed
-column_name_inp <- opt$Ann_ColumnName
-species <- opt$Species
-output_base <- opt$OutputBaseName
-output_location <- opt$OutputPath
+meta_data_file <- as.character(args[1])
+gene_accessability_file <- as.character(args[2])
+marker_gene_file <- as.character(args[3])
+all_genes_bed <- as.character(args[4])
+column_name_inp <- as.character(args[5])
+species <- as.character(args[6])
+output_base <- as.character(args[7])
+output_location <- as.character(args[8])
 
 
-
-#meta_data_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
-#gene_accessability_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619.txt"
-#marker_gene_file <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt"
-#all_genes_bed <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed"
-#column_name_inp <- "Ann_v3"
-#species <- "maize"
-#output_base <- "Ref_AnnV3"
-#output_location <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV3"
-#WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV3"
-
+meta_data_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
+gene_accessability_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619.txt"
+marker_gene_file <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt"
+all_genes_bed <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed"
+column_name_inp <- "Ann_v3"
+species <- "maize"
+output_base <- "Ref_AnnV3"
+output_location <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV3"
+WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV3"
 if (!dir.exists(paste0(WD))){
   dir.create(paste0(WD))
 } else {
