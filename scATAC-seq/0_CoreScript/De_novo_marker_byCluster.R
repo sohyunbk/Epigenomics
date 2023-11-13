@@ -52,12 +52,12 @@ output_location <- opt$OutputPath
 #output_location <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV3"
 #WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV3"
 
-if (!dir.exists(paste0(WD))){
-  dir.create(paste0(WD))
+if (!dir.exists(paste0(output_location))){
+  dir.create(paste0(output_location))
 } else {
   print("Dir already exists!")
 }
-setwd(paste0(WD))
+setwd(paste0(output_location))
 
   
 #Local Development Files
