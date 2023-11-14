@@ -12,6 +12,7 @@
 
 List=(2_rel2_2)
 
+## Idk why but 2_rel2_2_Unique.bed was missing
 
 module load Anaconda3/2020.02
 source activate /home/sb14489/.conda/envs/ucsc
