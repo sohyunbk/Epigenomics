@@ -19,7 +19,7 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Sub
 --ObjAfterHarmony /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.rds \
 --AnnSlot LouvainClusters \
 --TargetClusterName 3 \
---WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2
+--OutputDir /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2
 
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Subclustering.R \
@@ -28,4 +28,4 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Sub
 --ObjAfterHarmony /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.rds \
 --AnnSlot LouvainClusters \
 --TargetClusterName 4 \
---WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2
+--OutputDir /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2
