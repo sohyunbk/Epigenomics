@@ -13,9 +13,7 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/
-
-/home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/De_novo_marker_byCluster.R \
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Subclustering.R \
 --SampleName rel2 \
 --MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.metadata.txt \
 --ObjAfterHarmony /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.rds \
@@ -24,7 +22,7 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/
 --WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2
 
 
-/home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/De_novo_marker_byCluster.R \
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Subclustering.R \
 --SampleName rel2 \
 --MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.metadata.txt \
 --ObjAfterHarmony /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.rds \
