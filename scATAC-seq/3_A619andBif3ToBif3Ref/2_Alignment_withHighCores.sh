@@ -3,7 +3,7 @@
 #SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=28             # Number of CPU cores per task
-#SBATCH --mem=380gb                   # Job memory request #For normal fastq : 600gb
+#SBATCH --mem=360gb                   # Job memory request #For normal fastq : 600gb
 #SBATCH --time=400:00:04               # Time limit hrs:min:sec #For normal fastq : 80 hours -for mapping CellRanger
 #SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
