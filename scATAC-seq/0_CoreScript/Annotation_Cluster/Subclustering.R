@@ -37,17 +37,17 @@ option_list = list(
               help="AnnSlot", metavar="character"),
   make_option(c("--TargetClusterName"), type="character",
               help="TargetClusterName", metavar="character"),
-  make_option(c("--WD"), type="character",
-              help="WD", metavar="character")
+  make_option(c("--OutputDir"), type="character",
+              help="OutputDir", metavar="character")
 );
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 SampleName <- opt$SampleName
 meta <- opt$MetaFile
-obj_merged <- opt$ObjAfterHarmony
+obj_mergedFile <- opt$ObjAfterHarmony
 Ann_Slot <- opt$AnnSlot
 sCluster <- opt$TargetClusterName
-WD <- opt$WD
+OutputDir <- opt$OutputDir
 
 ## Ex - Bif3
 #SampleName <- "bif3"
@@ -64,10 +64,12 @@ WD <- opt$WD
 #Ann_Slot <- "LouvainClusters"
 #sCluster <- "1"
 
+obj_merged <- readRDS(obj_mergedFile)
 loaded_meta_data <- read.table(meta)
 head(loaded_meta_data)
-loaded_meta_data[,Ann_Slot]
+#loaded_meta_data[,Ann_Slot]
 
+setwd(OutputDir)
 ### Function Start!! ###
 RunSubClustering <- function(sCluster){
 SelectedCluster <- loaded_meta_data[which(loaded_meta_data[,Ann_Slot]==sCluster),]
