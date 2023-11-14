@@ -69,6 +69,7 @@ head(loaded_meta_data)
 #loaded_meta_data[,Ann_Slot]
 
 setwd(OutputDir)
+
 ### Function Start!! ###
 RunSubClustering <- function(sCluster){
 SelectedCluster <- loaded_meta_data[which(loaded_meta_data[,Ann_Slot]==sCluster),]
@@ -103,7 +104,7 @@ ggsave(paste0("Cluster",sCluster,"_Sub_res0.2_knear50.pdf"), width=7, height=5)
 write.table(obj_Cluster$Clusters, file=paste0("Cluster",sCluster,"_Sub_res0.2_knear50_Partmetadata.txt"),
             quote=F, row.names=T, col.names=T, sep="\t")
 
-###### Make new UMAP
+###### Make new UMAP <-- I am using the results from here!
 obj_sub_reRun <- list()
 obj_sub_reRun$meta <- obj_merged$meta[rownames(SelectedCluster),]
 obj_sub_reRun$counts <- obj_merged$counts[,rownames(SelectedCluster)]
