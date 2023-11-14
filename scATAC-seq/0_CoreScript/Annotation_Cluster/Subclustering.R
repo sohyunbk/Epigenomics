@@ -1,7 +1,6 @@
 library(ggplot2)
 library(RColorBrewer)
 library(stringr)
-head(loaded_meta_data)
 library(viridis)
 library(mclust)
 library(irlba)
