@@ -20,4 +20,4 @@ cellranger-atac count \
    --id="${Sample[SLURM_ARRAY_TASK_ID]}"  \
    --reference=/scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3_OnlyChr_scATACCellRangerv2_Bif3  \
    --fastqs=/scratch/sb14489/3.scATAC/2.Maize_ear/1.Rawdata/"${Sample[SLURM_ARRAY_TASK_ID]}"  \
-   --localcores=32
+   --localcores=70
