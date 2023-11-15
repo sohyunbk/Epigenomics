@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=24             # Number of CPU cores per task
 #SBATCH --mem=300gb                   # Job memory request #For normal fastq : 600gb
-#SBATCH --time=167:00:00               # Time limit hrs:min:sec #For normal fastq : 80 hours -for mapping CellRanger
+#SBATCH --time=100:00:04               # Time limit hrs:min:sec #For normal fastq : 80 hours -for mapping CellRanger
 #SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
