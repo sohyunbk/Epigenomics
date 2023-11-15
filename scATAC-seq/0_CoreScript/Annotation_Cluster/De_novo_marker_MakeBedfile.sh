@@ -11,6 +11,7 @@
 #chr1	260696094	260705322	Zm00001eb257620	Zm00001eb257620_pval_0_G2_M	G2_M
 
 #!/bin/bash
+#!/bin/bash
 
 # Check if the correct number of arguments was provided
 if [ "$#" -ne 2 ]; then
@@ -22,7 +23,7 @@ fi
 input_file="$1"
 output_file="$2"
 
-# Process the file
+# Process the file and sort by the last column
 awk '
 BEGIN { FS=OFS="\t" }
 NR == 1 { print; next } # Print the header and skip to the next record
@@ -47,6 +48,6 @@ END {
     for (key in data) {
         print data[key];
     }
-}' "$input_file" > "$output_file"
+}' "$input_file" | sort -t$'\t' -k6,6 > "$output_file"
 
 echo "Processed file saved as $output_file"
