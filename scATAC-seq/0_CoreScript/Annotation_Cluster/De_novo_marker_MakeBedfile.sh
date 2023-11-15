@@ -11,7 +11,6 @@
 #chr1	260696094	260705322	Zm00001eb257620	Zm00001eb257620_pval_0_G2_M	G2_M
 
 #!/bin/bash
-#!/bin/bash
 
 # Check if the correct number of arguments was provided
 if [ "$#" -ne 2 ]; then
@@ -23,31 +22,32 @@ fi
 input_file="$1"
 output_file="$2"
 
-# Process the file and sort by the last column
-awk '
-BEGIN { FS=OFS="\t" }
-NR == 1 { print; next } # Print the header and skip to the next record
-{
-    # Change the 5th column to match the 4th column
-    $5 = $4;
+# Output the header line, then process the file and sort by the last column, excluding the header
+( head -n 1 "$input_file"; \
+  awk '
+    BEGIN { FS=OFS="\t" }
+    NR == 1 { next } # Skip the header
+    {
+        # Change the 5th column to match the 4th column
+        $5 = $4;
 
-    # Create a key based on the fourth column
-    key = $4;
+        # Create a key based on the fourth column
+        key = $4;
 
-    # Concatenate types with a comma for matching keys
-    if (key in data) {
-        split(data[key], line, FS);
-        line[6] = line[6] "," $6;
-        data[key] = line[1] FS line[2] FS line[3] FS line[4] FS line[5] FS line[6];
-    } else {
-        data[key] = $0;
+        # Concatenate types with a comma for matching keys
+        if (key in data) {
+            split(data[key], line, FS);
+            line[6] = line[6] "," $6;
+            data[key] = line[1] FS line[2] FS line[3] FS line[4] FS line[5] FS line[6];
+        } else {
+            data[key] = $0;
+        }
     }
-}
-END {
-    # Print the merged rows
-    for (key in data) {
-        print data[key];
-    }
-}' "$input_file" | sort -t$'\t' -k6,6 > "$output_file"
+    END {
+        # Print the merged rows
+        for (key in data) {
+            print data[key];
+        }
+    }' "$input_file" | sort -t$'\t' -k6,6 ) > "$output_file"
 
 echo "Processed file saved as $output_file"
