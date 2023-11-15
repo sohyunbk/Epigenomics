@@ -27,15 +27,17 @@ awk '
 BEGIN { FS=OFS="\t" }
 NR == 1 { print; next } # Print the header and skip to the next record
 {
-    # Change the 5th column to match the 3rd column
-    $5 = $3;
+    # Change the 5th column to match the 4th column
+    $5 = $4;
 
-    # Create a key based on the first five columns
-    key = $1 FS $2 FS $3 FS $4 FS $5;
+    # Create a key based on the fourth column
+    key = $4;
 
     # Concatenate types with a comma for matching keys
     if (key in data) {
-        data[key] = data[key] "," $6;
+        split(data[key], line, FS);
+        line[6] = line[6] "," $6;
+        data[key] = line[1] FS line[2] FS line[3] FS line[4] FS line[5] FS line[6];
     } else {
         data[key] = $0;
     }
@@ -43,8 +45,7 @@ NR == 1 { print; next } # Print the header and skip to the next record
 END {
     # Print the merged rows
     for (key in data) {
-        split(data[key], line, FS);
-        print line[1], line[2], line[3], line[4], line[5], data[key];
+        print data[key];
     }
 }' "$input_file" > "$output_file"
 
