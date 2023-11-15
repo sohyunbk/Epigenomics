@@ -9,23 +9,19 @@
 #SBATCH --error=/scratch/sb14489/0.log/SubCluster.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
+#SBATCH --array=0-3
 
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Subclustering.R \
---SampleName rel2 \
---MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.metadata.txt \
---ObjAfterHarmony /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.rds \
---AnnSlot LouvainClusters \
---TargetClusterName 3 \
---OutputDir /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2
+Cluesters=(1 3 4)
 
+module load CellRanger-ATAC/2.0.0
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Subclustering.R \
 --SampleName rel2 \
 --MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.metadata.txt \
 --ObjAfterHarmony /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/rel2/rel2_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.rds \
 --AnnSlot LouvainClusters \
---TargetClusterName 4 \
+--TargetClusterName "${Cluesters[SLURM_ARRAY_TASK_ID]}" \
 --OutputDir /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2

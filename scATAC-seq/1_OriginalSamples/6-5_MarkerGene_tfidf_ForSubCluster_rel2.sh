@@ -13,7 +13,7 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/6_Annotation/6-5-2_plot_markers0.bare.global_values_functions.R \
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/MarkerGenes_ForSubCluster.R \
  --imputed_sparse /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3AllMarkers_withCyc/opt_allgenes_impute.activity.rds \
  --meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Cluster1_Recluster_Sub_res1_knear100_Partmetadata.txt \
  --gene /scratch/sb14489/3.scATAC/0.Data/MarkerGene/221130_EarMarker.txt \
