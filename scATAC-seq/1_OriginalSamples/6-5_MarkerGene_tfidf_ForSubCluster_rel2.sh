@@ -21,7 +21,7 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Mar
  --meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2/Cluster"${Cluesters[SLURM_ARRAY_TASK_ID]}"_Sub_res0.2_knear50_Partmetadata.txt \
  --gene /scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt \
  --OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/5.Subcluster_markergene/rel2_SubCluster/ \
- --prefix rel2_SubCluster"${Cluesters[SLURM_ARRAY_TASK_ID]}"_InsituMarkerGenes
+ --prefix rel2_NotRe_SubCluster"${Cluesters[SLURM_ARRAY_TASK_ID]}"_InsituMarkerGenes
 
 
  Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/MarkerGenes_UMAPVisual_ForSubCluster.R \
@@ -29,4 +29,4 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Mar
   --meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subclustering/rel2/Cluster"${Cluesters[SLURM_ARRAY_TASK_ID]}"_Sub_res0.2_knear50_Partmetadata.txt \
   --gene /scratch/sb14489/3.scATAC/0.Data/MarkerGene/231113_Top5DenovoGenesinA619_NoRedundant.txt \
   --OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/5.Subcluster_markergene/rel2_SubCluster/ \
-  --prefix rel2_SubCluster"${Cluesters[SLURM_ARRAY_TASK_ID]}"_DenovoA619Genes
+  --prefix rel2_NotRe_SubCluster"${Cluesters[SLURM_ARRAY_TASK_ID]}"_DenovoA619Genes
