@@ -121,6 +121,25 @@ write.table(obj_Cluster$Clusters, file=paste0("Cluster",sCluster,"_Sub_res0.2_kn
         ggsave(paste0("Cluster",sCluster,"_Sub_res1_knear100.pdf"), width=7, height=5)
  write.table(obj_Cluster$Clusters, file=paste0("Cluster",sCluster,"_Sub_res1_knear100_Partmetadata.txt"),
                         quote=F, row.names=T, col.names=T, sep="\t")
+
+  ## With different res and k.near option! - Increase resolution.
+    obj_Cluster <- callClusters(obj_sub,
+                    res=2,
+                    k.near=100,
+                    verbose=T,
+                    min.reads=5e4,
+                    e.thresh=3,
+                    m.clst=25,
+                    cleanCluster=F,
+                    cl.method=2)
+    ggplot(obj_Cluster$Clusters, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
+          geom_point(size=0.4) +
+          theme_minimal()+
+          guides(colour = guide_legend(override.aes = list(size=10)))
+          ggsave(paste0("Cluster",sCluster,"_Sub_res2_knear100.pdf"), width=7, height=5)
+     write.table(obj_Cluster$Clusters, file=paste0("Cluster",sCluster,"_Sub_res2_knear100_Partmetadata.txt"),
+                quote=F, row.names=T, col.names=T, sep="\t")
+
 ###### Make new UMAP <-- I am using the results from here!
 obj_sub_reRun <- list()
 obj_sub_reRun$meta <- obj_merged$meta[rownames(SelectedCluster),]
