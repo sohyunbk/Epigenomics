@@ -14,7 +14,7 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-Cluesters=(1 3 4)
+Cluesters=(2 9 1 3 4)
 
 module load CellRanger-ATAC/2.0.0
 
