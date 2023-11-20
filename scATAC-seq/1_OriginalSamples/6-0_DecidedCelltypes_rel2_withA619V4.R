@@ -13,7 +13,8 @@ SubClusterDir <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/4.Subcluste
 Cluster1 <- read.table(paste0(SubClusterDir,"Cluster1_Sub_res1_knear100_Partmetadata.txt"))
 Cluster1$LouvainClusters <- paste0("1_",Cluster1$LouvainClusters)
 Cluster2 <- read.table(paste0(SubClusterDir,"Cluster2_Sub_res2_knear100_Partmetadata.txt"))
-Cluster2$LouvainClusters <- paste0("2_",Cluster3$LouvainClusters)
+head(Cluster2)
+Cluster2$LouvainClusters <- paste0("2_",Cluster2$LouvainClusters)
 Cluster3 <- read.table(paste0(SubClusterDir,"Cluster3_Sub_res1_knear100_Partmetadata.txt"))
 Cluster3$LouvainClusters <- paste0("3_",Cluster3$LouvainClusters)
 Cluster4 <- read.table(paste0(SubClusterDir,"Cluster4_Sub_res1_knear100_Partmetadata.txt"))
@@ -31,6 +32,7 @@ NewMeta <- loaded_meta_data
 NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="1"),]
 NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="3"),]
 NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="4"),]
+NewMeta <- NewMeta[which(NewMeta$LouvainClusters !="2"),]
 
 dim(loaded_meta_data)
 dim(NewMeta)
@@ -52,6 +54,7 @@ NewMeta[which(NewMeta$LouvainClusters =="2_5"),]$Ann_v4 <- "PhloemPrecursor"
 NewMeta[which(NewMeta$LouvainClusters =="2_6"),]$Ann_v4 <- "PhloemPrecursor"
 NewMeta[which(NewMeta$LouvainClusters =="2_7"),]$Ann_v4 <- "PhloemPrecursor"
 NewMeta[which(NewMeta$LouvainClusters =="2_8"),]$Ann_v4 <- "PhloemPrecursor"
+NewMeta[which(NewMeta$LouvainClusters =="2_9"),]$Ann_v4 <- "PhloemPrecursor"
 
 NewMeta[which(NewMeta$LouvainClusters =="3_1"),]$Ann_v4 <- "Unknown_lowTn5"
 NewMeta[which(NewMeta$LouvainClusters =="3_2"),]$Ann_v4 <- "Unknown_Sclerenchyma"
@@ -72,7 +75,15 @@ NewMeta[which(NewMeta$LouvainClusters =="10"),]$Ann_v4 <- "G2_M"
 NewMeta[which(NewMeta$LouvainClusters =="11"),]$Ann_v4 <- "ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma"
 NewMeta[which(NewMeta$LouvainClusters =="12"),]$Ann_v4 <- "ProcambialMeristem_ProtoXylem_MetaXylem"
 
-levels(factor(NewMeta$Ann_v4))
+Order <- c("FloralMeristem_SuppressedBract",                     
+     "G2_M", "IM-OC", "L1","L1atFloralMeristem","PhloemPrecursor",                                      
+     "ProcambialMeristem_ProtoXylem_MetaXylem" ,             
+     "ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma",
+     "SPM-base_SM-base","Unknown_lowTn5",      
+     "Unknown_Sclerenchyma",   "Unknown1",                                             
+     "Unknown_rel2","XylemParenchyma_PithParenchyma" )
+NewMeta$Ann_v4 <- factor(NewMeta$Ann_v4,levels=Order)
+levels(factor(NewMeta$Ann_v4)) 
 table(NewMeta$Ann_v4)
 colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
             "#876b58","#800000", "#800075","#e8cf4f","#0bd43d","#fc53b6",
@@ -84,8 +95,8 @@ ggplot(NewMeta, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))
 
-ggsave("Ref_AnnV4.pdf", width=13, height=10)
+ggsave("rel2_AnnV4.pdf", width=13, height=10)
 
-write.table(NewMeta, file=paste0("Ref_AnnV4_metadata.txt"),
+write.table(NewMeta, file=paste0("rel2_AnnV4.txt"),
             quote=F, row.names=T, col.names=T, sep="\t")
 
