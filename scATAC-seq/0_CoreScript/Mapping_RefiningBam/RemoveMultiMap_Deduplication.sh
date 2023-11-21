@@ -4,12 +4,11 @@
 ## Should load this packages
 ## It's for the output of cellranger v2
 
-module load Anaconda3/2020.02
+module load Anaconda3/2022.10
 source activate /home/sb14489/.conda/envs/r_env
-module load picard/2.16.0-Java-1.8.0_144
-module load  SAMtools/1.10-iccifort-2019.5.281
+module load picard/2.27.5-Java-15
+module load  SAMtools/1.10-GCC-8.3.0
 module load BEDTools/2.29.2-GCC-8.3.0
-
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
     key="$1"
