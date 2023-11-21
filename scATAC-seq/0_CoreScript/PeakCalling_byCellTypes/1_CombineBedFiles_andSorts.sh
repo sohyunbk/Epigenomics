@@ -18,7 +18,9 @@ cd /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode
 
 module load BEDTools/2.30.0-GCC-12.2.0
 
-cat "${Re1[SLURM_ARRAY_TASK_ID]}"_Unique.bed "${Re2[SLURM_ARRAY_TASK_ID]}"_Unique.bed > "${Combined[SLURM_ARRAY_TASK_ID]}"_Combined.bed
+cat "${Re1[SLURM_ARRAY_TASK_ID]}"_Unique.bed "${Re2[SLURM_ARRAY_TASK_ID]}"_Unique.bed  | grep "^chr"  > "${Combined[SLURM_ARRAY_TASK_ID]}"_Combined.bed
 sort -k1,1 -k2,2n "${Combined[SLURM_ARRAY_TASK_ID]}"_Combined.bed > "${Combined[SLURM_ARRAY_TASK_ID]}"_Combined_Sorted_k12.bed
+
+## It's past sorting method
 #bedtools sort -i "${Combined[SLURM_ARRAY_TASK_ID]}"_Combined.bed > "${Combined[SLURM_ARRAY_TASK_ID]}"_Combined_Sorted.bed
 ## Bedtools sort requires lots of memories ........
