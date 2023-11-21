@@ -13,7 +13,7 @@
 OGSampleNameList=(1_A619  1_A619_2  3_bif3  3_bif3_2)
 NewSampleNameList=(1_A619  1_A619_2  3_bif3  3_bif3_2)
 
-module load Anaconda3/2020.02
+module load Anaconda3/2022.10
 source activate /home/sb14489/.conda/envs/r_env
 module load picard/2.27.5-Java-15
 module load  SAMtools/1.10-GCC-8.3.0
