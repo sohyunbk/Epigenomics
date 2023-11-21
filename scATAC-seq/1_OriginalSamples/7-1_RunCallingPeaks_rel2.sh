@@ -7,7 +7,7 @@
 #SBATCH --time=5:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/9_PeakCalling.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/9_PeakCalling.%j.err    # Standard error log
-#SBATCH --array=0-1
+#SBATCH --array=0-2
 
 Path=/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak
 Combined=(1_A619 3_bif3 2_rel2)
@@ -18,7 +18,7 @@ source activate r_env
 
 cd $Path
 ~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/2_call_scACRs_WithoutFakePeak.py \
- -bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Combined[SLURM_ARRAY_TASK_ID]}"_Combined_Sorted.bed \
+ -bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Combined[SLURM_ARRAY_TASK_ID]}"_Combined_Sorted_k12.bed \
  -meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${Sample[SLURM_ARRAY_TASK_ID]}"/"${MetaData[SLURM_ARRAY_TASK_ID]}" \
  -col Ann_v4 -base "${Sample[SLURM_ARRAY_TASK_ID]}" -outdir "${Sample[SLURM_ARRAY_TASK_ID]}" \
  -fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai -bw TRUE
