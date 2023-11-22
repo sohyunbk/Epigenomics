@@ -16,7 +16,7 @@ NewSampleNameList=(1_A619  1_A619_2  3_bif3  3_bif3_2)
 module load Anaconda3/2022.10
 source activate /home/sb14489/.conda/envs/r_env
 module load picard/2.27.5-Java-15
-module load  SAMtools/1.10-GCC-8.3.0
+module load SAMtools/1.16.1-GCC-11.3.0
 module load BEDTools/2.29.2-GCC-8.3.0
 
 ## RemovemultiMap & deduplication
@@ -27,9 +27,9 @@ sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Mapping_RefiningBam/RemoveM
 ## GenomeBrowser
 ml Anaconda3/2020.02
 source activate /home/sb14489/.conda/envs/ucsc
-module load SAMtools/1.10-iccifort-2019.5.281
+module load SAMtools/1.16.1-GCC-11.3.0
 module load BEDTools/2.29.2-GCC-8.3.0
 
 bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh -Step BamTobw  \
  -Fai /scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3-REFERENCE-NAM-1.0.fa.fai \
-  -bam /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/2.SortedBam/"${NewSampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam
+  -bam /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/3.SortedBam/"${NewSampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam
