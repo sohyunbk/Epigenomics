@@ -15,7 +15,7 @@ NewSampleNameList=(1_A619  1_A619_2  3_bif3  3_bif3_2)
 
 module load Anaconda3/2022.10
 source activate /home/sb14489/.conda/envs/r_env
-module load picard/2.27.5-Java-15
+module load picard/2.25.1-Java-11
 module load SAMtools/1.16.1-GCC-11.3.0
 module load BEDTools/2.29.2-GCC-8.3.0
 
@@ -25,7 +25,7 @@ sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Mapping_RefiningBam/RemoveM
  --NewSampleName_forBam "${NewSampleNameList[SLURM_ARRAY_TASK_ID]}"
 
 ## GenomeBrowser
-ml Anaconda3/2020.02
+module load Anaconda3/2022.10
 source activate /home/sb14489/.conda/envs/ucsc
 module load SAMtools/1.16.1-GCC-11.3.0
 module load BEDTools/2.29.2-GCC-8.3.0
