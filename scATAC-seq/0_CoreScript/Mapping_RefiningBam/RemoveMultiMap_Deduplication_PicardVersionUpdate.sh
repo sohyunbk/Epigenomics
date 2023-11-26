@@ -58,8 +58,10 @@ remove_multimap() {
     samtools view -H "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
     sed -i '1d' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
     sed -i '1i @HD\tVN:1.5\tSO:coordinate' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
+
     samtools reheader "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam  "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam \
     > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF.bam
+
     samtools view -h "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF.bam | \
     awk 'BEGIN {OFS="\t"} { if ($0 ~ /^@/) {print $0} else { gsub(/CB:Z:[^-\t]+-1/, "CB:Z:\\1", $0); print $0 } }' | \
     samtools view -b -o "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF_FixingCBBarcode.bam
