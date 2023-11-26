@@ -2,9 +2,9 @@
 #SBATCH --job-name=RemoveMultiMap_Deduplication_Browserr        # Job name
 #SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
-#SBATCH --cpus-per-task=10             # Number of CPU cores per task
+#SBATCH --cpus-per-task=20             # Number of CPU cores per task
 #SBATCH --mem=400gb                   # Job memory request #For normal fastq : 600gb
-#SBATCH --time=10:00:00               # Time limit hrs:min:sec #For normal fastq : 80 hours
+#SBATCH --time=50:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/RemoveMultiMap_Deduplication_Browserr.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/RemoveMultiMap_Deduplication_Browserr.%j.err    # Standard error log
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
