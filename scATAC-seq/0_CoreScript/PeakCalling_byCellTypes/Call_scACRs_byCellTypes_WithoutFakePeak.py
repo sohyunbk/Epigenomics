@@ -770,9 +770,6 @@ def remove_overlapping_peaks(py_bed_tool):
     :returns: TODO
 
     """
-
-
-
     def ID_correct_interval(arg1):
         """TODO: Docstring for ID_correct_interval.
 

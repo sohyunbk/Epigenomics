@@ -19,6 +19,8 @@ for i in ${peaks[@]}; do
 			print "$col[0]\t$col[1]\t$col[2]\t$col[3]\t$col[0]_$col[1]_$col[2]_$col[3]\n";}' - > $id.temp
 done
 
+## I think I messed up something.. This script is extremely complicated.
+# This is because it merged the column in the above for 5th column and merge with bedtools but in the perlscript they find the "," in the fourth column... wtf
 # merge peaks
 cat *.temp | sort -k1,1 -k2,2n - > $1.temp2
 
