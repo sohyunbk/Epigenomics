@@ -56,8 +56,6 @@ library(ggplot2)
 option_list = list(
   make_option(c("--Peak"), type="character",
               help="Peak bed format", metavar="character"),
-  make_option(c("--ChrFai"), type="character",
-              help="ChrFai"),
   make_option(c("--Re1_bed"), type="character",
               help="Re1_bed", metavar="character"),
   make_option(c("--Re2_bed"), type="character",
@@ -71,7 +69,7 @@ opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 ## We need two beds as we have two replicates! :)
 Peak <- opt$Peak
-chr <- opt$ChrFai
+#chr <- opt$ChrFai
 bed_re1 <- opt$Re1_bed
 bed_re2 <- opt$Re2_bed
 OutfileName <- opt$OutFileName
