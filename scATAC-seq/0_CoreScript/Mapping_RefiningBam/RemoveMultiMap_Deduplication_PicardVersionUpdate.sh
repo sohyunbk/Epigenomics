@@ -9,7 +9,13 @@ source activate /home/sb14489/.conda/envs/r_env
 module load picard/2.27.5-Java-15
 module load  SAMtools/1.10-GCC-8.3.0
 module load BEDTools/2.29.2-GCC-8.3.0
+
 # Parse command line arguments
+## This is updated version of picard/2.27.5-Java-15! Sapelo2 keeps changing the version...
+## Updtaed picard has an error in "CB:Z:TGTGTCCAGACTAATG-1" when I remove -1 the error disappear.
+## "-1" came from cellranger mapping
+## Howver, now they do not have an error about the "header"for bamfile
+
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -52,19 +58,9 @@ remove_multimap() {
     # XA: Alternative hits; format: (chr,pos,CIGAR,NM;)*
     # SA: Z, not sure what it is but, it almost always coincides with the 256 flag = not primary alignment
 
-    ##########################################################################################
-    ## Check and change Header for PICARD and Cellrangerv2
-    ##########################################################################################
-    samtools view -H "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
-    sed -i '1d' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
-    sed -i '1i @HD\tVN:1.5\tSO:coordinate' "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam
-
-    samtools reheader "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_Header.sam  "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam \
-    > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF.bam
-
-    samtools view -h "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF.bam | \
-    awk 'BEGIN {OFS="\t"} { if ($0 ~ /^@/) {print $0} else { gsub(/CB:Z:[^-\t]+-1/, "CB:Z:\\1", $0); print $0 } }' | \
-    samtools view -b -o "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_HF_FixingCBBarcode.bam
+    samtools view -h "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam | \
+    sed 's/CB:Z:\([^-\t]*\)-1/CB:Z:\1/g' | \
+    samtools view -b -o "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_FixedCB.bam
 
 }
 
@@ -72,14 +68,15 @@ remove_multimap() {
 deduplication() {
     cd "$Path"/3.SortedBam
     java -jar $EBROOTPICARD/picard.jar MarkDuplicates \
-        MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 MAX_RECORDS_IN_RAM=1500000\
-        REMOVE_DUPLICATES=true METRICS_FILE="./$NewSampleName_forBam"_dups_Markingpcr.txt \
-        I="./$NewSampleName_forBam"_Sorted_HF_FixingCBBarcode.bam \
-        O="./$NewSampleName_forBam"_Rmpcr.bam \
-        BARCODE_TAG=CB \
-        ASSUME_SORT_ORDER=coordinate \
-        USE_JDK_DEFLATER=true
+        -MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 1000 -MAX_RECORDS_IN_RAM 1500000 \
+        -REMOVE_DUPLICATES true -METRICS_FILE "./$NewSampleName_forBam"_dups_Markingpcr.txt \
+        -I "./$NewSampleName_forBam"_Sorted_FixedCB.bam \
+        -O "./$NewSampleName_forBam"_Rmpcr.bam \
+        -BARCODE_TAG CB \
+        -ASSUME_SORT_ORDER coordinate \
+        -USE_JDK_DEFLATER true
 }
+
 
 # Call the functions
 remove_multimap
