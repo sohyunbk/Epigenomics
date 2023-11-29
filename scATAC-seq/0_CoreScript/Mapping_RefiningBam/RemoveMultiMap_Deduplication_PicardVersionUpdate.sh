@@ -50,9 +50,9 @@ done
 remove_multimap() {
     mkdir -p 3.SortedBam
 
-    #samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
-    #grep -v -e 'XA:Z:' -e 'SA:Z:' |
-    #samtools view -@ 24 -bS - > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam
+    samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
+    grep -v -e 'XA:Z:' -e 'SA:Z:' |
+    samtools view -@ 24 -bS - > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam
 
     ### -v -e : exclude the lines
     # XA:Z: SA:Z:(rname ,pos ,strand ,CIGAR ,mapQ ,NM ;)+ Other canonical alignments in a chimeric alignment,
