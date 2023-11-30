@@ -7,16 +7,58 @@
 library(edgeR)
 library(tidyverse)
 library(stringr)
+library("optparse")
 
+option_list = list(
+  make_option(c("--S1_Sparse"), type="character",
+              help="S1_Sparse", metavar="character"),
+  make_option(c("--S2_Sparse"), type="character",
+              help="S2_Sparse"),
+  make_option(c("--S1Name"), type="character",
+              help="S1Name", metavar="character"),
+  make_option(c("--S2Name"), type="character",
+              help="S2Name"),
+  make_option(c("--S1_Meta"), type="character",
+              help="S1_Meta", metavar="character"),
+  make_option(c("--S2_Meta"), type="character",
+              help="S2_Meta", metavar="character"),
+  make_option(c("--S1and2_500bpPeak"), type="character",
+              help="S1and2_500bpPeak", metavar="character"),
+  make_option(c("--S1and2_500bpInterPeak"), type="character",
+              help="S1and2_500bpInterPeak", metavar="character"),
+  make_option(c("--ClusterColumnName"), type="character",
+              help="ClusterColumnName", metavar="character"),
+  make_option(c("--OutFileName"), type="character",
+              help="OutFileName", metavar="character"),
+  make_option(c("--OutPath"), type="character",
+              help="OutPath", metavar="character")
+);
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
+
+S1_Name <- opt$S1Name
+S2_Name <- opt$S2Name
+
+Sparsefile_A619 <- opt$S1_Sparse
+Sparsefile_Bif3. <- opt$S2_Sparse
+MetaFileA619 <- opt$S1_Meta
+MetaFileBif3 <- opt$S2_Meta
+
+Peak_AllFile <- opt$S1and2_500bpPeak 
+InterGenicFile <- opt$S1and2_500bpInterPeak
+
+cluster_name <- opt$ClusterColumnName
+
+OutfileName <- opt$OutFileName
+WD <-   opt$OutPath
 ## 1. Load files and get filtered Sparse file for save space
 ## --> should combine A619+Bif3 in the begining to keep all the peaks as features
 
-Sparsefile_Bif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse"
-Sparsefile_A619  <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/A619_toComPeak.sparse"
-MetaFileA619 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
-MetaFileBif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
-
-Peak_All <-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_BLRemove.bed",header=F)
+#Sparsefile_Bif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/Bif3_toComPeak.sparse"
+#Sparsefile_A619  <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/A619_toComPeak.sparse"
+#MetaFileA619 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
+#MetaFileBif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
+Peak_All <-read.table(Peak_AllFile,header=F)
 dim(Peak_All)
 Peak_All_Pos <- paste(Peak_All$V1,Peak_All$V2,Peak_All$V3,sep="_")
 head(Peak_All_Pos)
@@ -26,7 +68,7 @@ length(Peak_All_Pos)
 length(levels(as.factor(Sparse$V1)))
 
 GetFilteredSparseData <- function(Sparsefile,MetaFile,
-                                  SelectedPeaksPos,cluster_name="Ann_v3"){
+                                  SelectedPeaksPos,cluster_name){
   print("Start")
   #Sparsefile <- Sparsefile_Bif3
   #MetaFile <- MetaFileBif3
@@ -51,8 +93,8 @@ GetFilteredSparseData <- function(Sparsefile,MetaFile,
 
 Sparse_A619 <- GetFilteredSparseData(Sparsefile_A619,MetaFileA619,Peak_All_Pos)
 Sparse_Bif3 <- GetFilteredSparseData(Sparsefile_Bif3,MetaFileBif3,Peak_All_Pos)
-Sparse_A619$Celltype <- paste0("A619_",Sparse_A619$Celltype)
-Sparse_Bif3$Celltype <- paste0("Bif3_",Sparse_Bif3$Celltype)
+Sparse_A619$Celltype <- paste0(S1_Name,Sparse_A619$Celltype)
+Sparse_Bif3$Celltype <- paste0(S2_Name,Sparse_Bif3$Celltype)
 
 Sparse_Sum <- rbind(Sparse_A619,Sparse_Bif3)
 head(Sparse_Sum)
@@ -66,14 +108,14 @@ head(A619_Bif3_Celltype)
 A619_Bif3_Celltype_Count <-  spread(A619_Bif3_Celltype,key = Celltype,value =accessability)
 tail(A619_Bif3_Celltype_Count)
 
-setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/12.Correlation")
-saveRDS(A619_Bif3_Celltype_Count, file="AllPeaks_perCellType_Counts_FilteringBadPeaks.rds")
+setwd(WD)
+saveRDS(A619_Bif3_Celltype_Count, file=paste0(OutfileName,"_AllPeaks_perCellType_Counts_FilteringBadPeaks.rds"))
 
 ## Note here!!!!
 #A619_Bif3_Celltype_Count <- readRDS("AllPeaks_perCellType_Counts.rds")
 head(A619_Bif3_Celltype_Count)
 
-InterGenic <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3/ComA619Bif3.unique500bpPeaks_BLRemove_Intergenic.bed")
+InterGenic <- read.table(InterGenicFile)
 dim(InterGenic)
 Intergenic_pos <- paste(InterGenic$V1,InterGenic$V2,InterGenic$V3,sep="_")
 head(Intergenic_pos)
@@ -144,9 +186,9 @@ ggplot(data = melted_Correlation, aes(x=Var1, y=Var2, fill=value)) +
   theme_minimal()+ 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, 
                                    size = 10, hjust = 1))+
-  coord_fixed() +  xlab("A619") + ylab("bif3")
+  coord_fixed() +  xlab(S1_Name) + ylab(S2_Name)
 
-ggsave("A619_bif3_IntergenicPeaks_FilterBadPeak.pdf", width=10, height=10)
+ggsave(paste0(OutfileName,"_IntergenicPeaks.pdf"), width=10, height=10)
 
 ###
 #pdf(file = NULL)
@@ -165,9 +207,9 @@ ggplot(data = melted_Correlation_Top2000, aes(x=Var1, y=Var2, fill=value)) +
   theme_minimal()+ 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, 
                                    size = 10, hjust = 1))+
-  coord_fixed() +  xlab("A619") + ylab("bif3")
+  coord_fixed() +  xlab(S1_Name) + ylab(S2_Name)
 
-ggsave("A619_bif3_IntergenicPeaks_Top2000ACR_FilterBadPeak.pdf", width=10, height=10)
+ggsave(paste0(OutfileName,"_IntergenicPeaks_Top2000ACR.pdf"), width=10, height=10)
 
 ###
 #pdf(file = NULL)
@@ -188,7 +230,7 @@ ggplot(data = melted_Correlation_Top2000_A619, aes(x=Var1, y=Var2, fill=value)) 
   theme_minimal()+ 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, 
                                    size = 10, hjust = 1))+
-  coord_fixed() +  xlab("A619") + ylab("A619")
+  coord_fixed() +  xlab(S1_Name) + ylab(S2_Name)
 
-ggsave("A619_A619_IntergenicPeaks_Top2000ACR_FilterBadPeak.pdf", width=10, height=10)
+ggsave(paste0(OutfileName,"_IntergenicPeaks_Top2000ACR.pdf"), width=10, height=10)
 
