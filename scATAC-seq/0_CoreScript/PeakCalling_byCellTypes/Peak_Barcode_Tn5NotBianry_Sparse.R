@@ -29,22 +29,22 @@ Get_Peak_Tn5Sparse_NonBinary <- function(bed,Peak){
     Peak_Grange <-  GRanges(seqnames = Peak_bed$V1,
                            ranges = IRanges(start = Peak_bed$V2,
                            end = Peak_bed$V3,
-                           names = Peak_bed$Name))    
-    
+                           names = Peak_bed$Name))
+
     ## Find overlap
     hits_Within <- findOverlaps(Tn5_Grange,  Peak_Grange,minoverlap=1,
                                 type=c("within"),select="all",ignore.strand = TRUE)
-    
+
     Intersect <- paste(names(Peak_Grange)[hits_Within@to],
                        names(Tn5_Grange)[hits_Within@from],sep="/_Com_/")
-    
+
     Intersect <- table(Intersect)
     Intersect<- data.frame(gene_name = as.character(lapply(strsplit(as.character(rownames(Intersect)),
                                                                  split="/_Com_/"), "[", 1)),
                         barcode= as.character(lapply(strsplit(as.character(rownames(Intersect)),
                                                               split="/_Com_/"), "[", 2)),
                         accessability = as.character(Intersect))
-    
+
       return(Intersect)}
 
 ##################################################################################
@@ -85,5 +85,4 @@ Peak_Barcode_Tn5_Re1 <- Get_Peak_Tn5Sparse_NonBinary(bed_re1,Peak)
 Peak_Barcode_Tn5_Re2 <- Get_Peak_Tn5Sparse_NonBinary(bed_re2,Peak)
 
 Peak_Barcode_Tn5 <- rbind(Peak_Barcode_Tn5_Re1,Peak_Barcode_Tn5_Re2)
-write.table(Peak_Barcode_Tn5, file=OutfileName, quote=F, row.names=F, col.names=T, sep="\t")
-
+write.table(Peak_Barcode_Tn5, file=OutfileName, quote=F, row.names=F, col.names=F, sep="\t")
