@@ -32,7 +32,7 @@ def read_bam_file(bam_file,exp_name):
             if "-1" in original_tag:
                 new_tag = original_tag.replace("-1", exp_name_tag)
             else:
-                orginal_tag + exp_name_tag
+                original_tag + exp_name_tag
             read.set_tag("CB", new_tag, replace=True)
             outfile.write(read)
         except KeyError:
