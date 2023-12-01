@@ -65,7 +65,6 @@ head(Peak_All_Pos)
 length(Peak_All_Pos)
 #Sparse<- read.table(Sparsefile_A619,header=F)
 #head(Sparse)
-length(levels(as.factor(Sparse$V1)))
 
 GetFilteredSparseData <- function(Sparsefile,MetaFile,
                                   SelectedPeaksPos,cluster_name){
