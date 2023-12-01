@@ -91,6 +91,8 @@ GetFilteredSparseData <- function(Sparsefile,MetaFile,
   return(Sparse_SelectedCells)
 }
 
+setwd(WD)
+
 Sparse_A619 <- GetFilteredSparseData(Sparsefile_A619,MetaFileA619,Peak_All_Pos,cluster_name)
 Sparse_Bif3 <- GetFilteredSparseData(Sparsefile_Bif3,MetaFileBif3,Peak_All_Pos,cluster_name)
 Sparse_A619$Celltype <- paste0(S1_Name,Sparse_A619$Celltype)
@@ -108,7 +110,6 @@ head(A619_Bif3_Celltype)
 A619_Bif3_Celltype_Count <-  spread(A619_Bif3_Celltype,key = Celltype,value =accessability)
 tail(A619_Bif3_Celltype_Count)
 
-setwd(WD)
 saveRDS(A619_Bif3_Celltype_Count, file=paste0(OutfileName,"_AllPeaks_perCellType_Counts_FilteringBadPeaks.rds"))
 
 ## Note here!!!!
