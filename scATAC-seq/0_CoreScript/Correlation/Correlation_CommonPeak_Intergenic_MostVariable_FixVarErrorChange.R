@@ -91,8 +91,8 @@ GetFilteredSparseData <- function(Sparsefile,MetaFile,
   return(Sparse_SelectedCells)
 }
 
-Sparse_A619 <- GetFilteredSparseData(Sparsefile_A619,MetaFileA619,Peak_All_Pos)
-Sparse_Bif3 <- GetFilteredSparseData(Sparsefile_Bif3,MetaFileBif3,Peak_All_Pos)
+Sparse_A619 <- GetFilteredSparseData(Sparsefile_A619,MetaFileA619,Peak_All_Pos,ClusterColumnName)
+Sparse_Bif3 <- GetFilteredSparseData(Sparsefile_Bif3,MetaFileBif3,Peak_All_Pos,ClusterColumnName)
 Sparse_A619$Celltype <- paste0(S1_Name,Sparse_A619$Celltype)
 Sparse_Bif3$Celltype <- paste0(S2_Name,Sparse_Bif3$Celltype)
 
