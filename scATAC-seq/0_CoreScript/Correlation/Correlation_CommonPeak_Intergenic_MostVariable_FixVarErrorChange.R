@@ -83,6 +83,7 @@ GetFilteredSparseData <- function(Sparsefile,MetaFile,
   celltypes <- levels(as.factor(meta_data[,cluster_name]))
   celltype <- celltypes[1]
   for (celltype in celltypes){
+    print("Celltypes:")
     print(celltype)
     SelectedCellBarcode <- rownames(meta_data[which(meta_data[,cluster_name] == celltype),])
     Sparse_SelectedCells[Sparse_SelectedCells$cellID %in% SelectedCellBarcode,]$Celltype <- celltype
