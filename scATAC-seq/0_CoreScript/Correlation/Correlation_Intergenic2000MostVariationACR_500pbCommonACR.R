@@ -148,7 +148,7 @@ head(A619_Bif3_Quantile)
 count_A619 <- length(grep(paste0("^",S1_Name), colnames(A619_Bif3_CPM)))
 A619_Q <- A619_Bif3_Quantile[,c(1:count_A619)]
 Bif3_Q <- A619_Bif3_Quantile[,c((count_A619+1):ncol(A619_Bif3_CPM))]
-S1Name_aligned <- gsub(S1_Name, S2_Name, colnames(A619_CPM))
+S1Name_aligned <- gsub(S1_Name, S2_Name, colnames(A619_Q))
 get_order <- function(item, aligned_vector_A, original_vector_B) {
   if (item %in% aligned_vector_A) {
     return(match(item, aligned_vector_A))
@@ -156,7 +156,7 @@ get_order <- function(item, aligned_vector_A, original_vector_B) {
     return(max(length(aligned_vector_A), match(item, original_vector_B)))
   }
 }
-ordered_S2Name <- colnames(Bif3_CPM)[order(sapply(colnames(Bif3_CPM), get_order, S1Name_aligned, colnames(Bif3_CPM)))]
+ordered_S2Name <- colnames(Bif3_Q)[order(sapply(colnames(Bif3_Q), get_order, S1Name_aligned, colnames(Bif3_Q)))]
 Bif3_Q_Ordered <- Bif3_Q[,ordered_S2Name]
 Bif3_Q <- Bif3_Q_Ordered 
 Correlation <- cor(A619_Q,Bif3_Q,  method = "pearson")
