@@ -40,7 +40,7 @@ S1_Name <- opt$S1Name
 S2_Name <- opt$S2Name
 
 Sparsefile_A619 <- opt$S1_Sparse
-Sparsefile_Bif3. <- opt$S2_Sparse
+Sparsefile_Bif3 <- opt$S2_Sparse
 MetaFileA619 <- opt$S1_Meta
 MetaFileBif3 <- opt$S2_Meta
 
