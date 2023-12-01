@@ -22,5 +22,5 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Correlation/Correlatio
   --ClusterColumnName Ann_v4 \
   --S1and2_500bpPeak //scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks.bed \
   --S1and2_500bpInterPeak //scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks_Intergenic.bed \
-  --OutFileName /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/1.Correlation \
-  --OutPath A619andrel2
+  --OutPath /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/1.Correlation \
+  --OutFileName A619andrel2
