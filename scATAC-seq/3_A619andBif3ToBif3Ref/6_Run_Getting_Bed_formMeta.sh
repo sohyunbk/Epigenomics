@@ -13,6 +13,9 @@
  MetaData=(A619/Ref_AnnV4_metadata.txt A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV3_metadata.txt Bif3/Bif3_AnnV3_metadata.txt)
  OutFileList=(1_A619_Re2 1_A619_Re1 3_bif3_Re2 3_bif3_Re1)
 
+ ml Anaconda3/2022.10
+ source activate r_env
+ 
  ~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/CellTypeBW_fromBed_KnownCT.py \
  -BedFile /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/4.Bam_FixingBarcode/"${BedList[SLURM_ARRAY_TASK_ID]}" \
  -Outfile /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/5.Jbrowse_MACS2/"${OutFileList[SLURM_ARRAY_TASK_ID]}" \
