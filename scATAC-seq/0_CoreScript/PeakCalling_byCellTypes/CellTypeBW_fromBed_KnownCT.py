@@ -120,7 +120,7 @@ if __name__ == "__main__":
     MetaFile = args.m
     Outfile =args.Outfile
     ### 1) First get bed file  by cell type
-    bed_files = process_bed_by_celltype(args.m, args.bed, args.outfile)
+    bed_files = process_bed_by_celltype(args.m, args.bed, args.Outfile)
     print(bed_files)
     run_macs2_threaded(bed_files, args.Outfile, args.cores)
     ## 2) Run Macs2
