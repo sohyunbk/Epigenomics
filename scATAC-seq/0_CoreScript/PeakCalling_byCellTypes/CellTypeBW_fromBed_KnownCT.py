@@ -115,7 +115,7 @@ def  sub_func_macs2(bed_file, output_dir):
 
 
 if __name__ == "__main__":
-    rgs = get_parser().parse_args()
+    args = get_parser().parse_args()
     BedFile = args.bed
     MetaFile = args.m
     Outfile =args.Outfile
