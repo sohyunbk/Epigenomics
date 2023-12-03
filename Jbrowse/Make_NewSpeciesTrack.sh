@@ -8,20 +8,20 @@
 #SBATCH --output=/scratch/sb14489/0.log/Jbrowse.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Jbrowse.%j.err    # Standard error log
 
-ml Anaconda3/2020.02
+ml Anaconda3/5.0.1
 source activate Jbrowse
 
 ## log in to Sapelo2
 ## Fa file and giff should have same chromosome name
-NewDir=
+NewDir=maize_ki3_WUS
 
-/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta --out "$NewDir"
-/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff --trackLabel genes --out "$NewDir"
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta /scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3-REFERENCE-NAM-1.0_OnlyChr_Bif3.fa --out "$NewDir"
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff /scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3-REFERENCE-NAM-1.0_Zm00029ab.1_OnlyChr.gff3 --trackLabel genes --out "$NewDir"
 /home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/generate-names.pl -v --out "$NewDir"
 #Using 1 chars for sort log names (16 sort logs) --> means Success!!
 
 ## SCP with password
-sshpass -p Schmacct5$ scp  -r /scratch/sb14489/0.Reference/Maize_B73/Jbrowse_Bif3Ref/ schmitzlab1@heredity.genetics.uga.edu:/data01/epigenome/JBrowse/   ## It takes long~~ time like 7 hours.....
+sshpass -p Schmacct5$ scp  -r /scratch/sb14489/0.Reference/Maize_Ki3//maize_ki3_WUS/ schmitzlab1@heredity.genetics.uga.edu:/data01/epigenome/JBrowse/   ## It takes long~~ time like 7 hours.....
 ###################################################################
 ## log in to Jbrowse
 #ssh schmitzlab1@heredity.genetics.uga.edu
@@ -33,6 +33,7 @@ sshpass -p Schmacct5$ scp  -r /scratch/sb14489/0.Reference/Maize_B73/Jbrowse_Bif
 #url = ?data="$NewDir"
 #name = "$NewDir"
 
+#mkdir "$NewDir"
 #cd /data01/epigenome/JBrowse/"$NewDir" --> add
 #vi tracks.conf
 #[general]
