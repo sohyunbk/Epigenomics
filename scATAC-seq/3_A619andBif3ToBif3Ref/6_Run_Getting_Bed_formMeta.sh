@@ -9,9 +9,9 @@
 #SBATCH --error=/scratch/sb14489/0.log/12_GettingBed.%j.err    # Standard error log
 #SBATCH --array=0-3                  # Array range
 
- BedList=(1_A619_2_Unique.bed 1_A619_Unique.bed 3_bif3_2_Unique.bed 3_bif3_Unique.bed)
- MetaData=(A619/Ref_AnnV4_metadata.txt A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV3_metadata.txt Bif3/Bif3_AnnV3_metadata.txt)
- OutFileList=(1_A619_Re2 1_A619_Re1 3_bif3_Re2 3_bif3_Re1)
+ BedList=(1_A619_2_Unique.bed 1_A619_Unique.bed 3_bif3_2_Unique.bed 3_bif3_Unique.bed A619_Re1andRe2.bed Bif3_Re1andRe2.bed)
+ MetaData=(A619/Ref_AnnV4_metadata.txt A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV3_metadata.txt Bif3/Bif3_AnnV3_metadata.txt A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV3_metadata.txt)
+ OutFileList=(1_A619_Re2 1_A619_Re1 3_bif3_Re2 3_bif3_Re1 A619_Re1andRe2 Bif3_Re1andRe2)
 
  ml Anaconda3/2022.10
  source activate r_env
