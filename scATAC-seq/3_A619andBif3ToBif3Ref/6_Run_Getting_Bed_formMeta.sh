@@ -15,9 +15,9 @@
 
  ml Anaconda3/2022.10
  source activate r_env
- 
+
  ~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/CellTypeBW_fromBed_KnownCT.py \
  -BedFile /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/4.Bam_FixingBarcode/"${BedList[SLURM_ARRAY_TASK_ID]}" \
  -Outfile /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/5.Jbrowse_MACS2/"${OutFileList[SLURM_ARRAY_TASK_ID]}" \
  -MetaFile /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${MetaData[SLURM_ARRAY_TASK_ID]}" \
- --Thread 10
+ --Thread 10 --Fai /scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3-REFERENCE-NAM-1.0_OnlyChr_Bif3.fa.fai
