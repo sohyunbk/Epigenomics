@@ -92,7 +92,7 @@ def process_bed_by_celltype(meta_file, bed_file, output_file_base):
     # Write output BED files for each cell type
     for cell_type in all_dic:
         with open(f"{output_file_base}_{cell_type}.bed", "w") as outfile:
-            list.appned(f"{output_file_base}_{cell_type}.bed")
+            list.append(f"{output_file_base}_{cell_type}.bed")
             for sNewLine in all_dic[cell_type]:
                 outfile.write(sNewLine)
 
