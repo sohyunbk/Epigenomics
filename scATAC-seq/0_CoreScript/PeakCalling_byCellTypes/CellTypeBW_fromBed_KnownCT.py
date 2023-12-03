@@ -1,6 +1,6 @@
 import argparse
 import sys
-import os
+import os, glob
 import pybedtools ##
 import pandas as pd
 import numpy
@@ -13,6 +13,7 @@ import errno
 import datetime
 import random
 import string
+from subprocess import PIPE
 
 
 ## This script is only for the genome browser not for the peak calling !
@@ -41,6 +42,13 @@ def get_parser():
         help="Outfile",
         required=True,
         dest="Outfile",
+    )
+    parser.add_argument(
+        "-Fai",
+        "--Fai",
+        help="Fai",
+        required=True,
+        dest="fai",
     )
     parser.add_argument(
         "-Thread",
@@ -142,7 +150,8 @@ def sub_func_macs2(bed_file, output_dir):
         print(f"Error running MACS2 command: {generate_macs2_command}")
         print(f"Error message: {e.stderr.decode()}")
 
-
+## Normalizztion
+#def Normaliztion_bdg
 if __name__ == "__main__":
     args = get_parser().parse_args()
     BedFile = args.bed
@@ -159,3 +168,5 @@ if __name__ == "__main__":
 
     # 2) Run Macs2
     run_macs2_threaded(bed_files, Outfile, args.cores)
+
+    ## 3) Normalize bdg
