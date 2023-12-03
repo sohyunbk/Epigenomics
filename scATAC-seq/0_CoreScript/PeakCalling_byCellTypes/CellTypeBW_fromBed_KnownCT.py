@@ -185,7 +185,7 @@ if __name__ == "__main__":
         bed_files = process_bed_by_celltype(MetaFile, BedFile, Outfile)
     print(bed_files)
     # 2) Run Macs2
-    run_macs2_threaded(bed_files, Outfile, args.cores)
+    #run_macs2_threaded(bed_files, Outfile, args.cores)
 
     ## 3) Normalize bdg
     Normaliztion_bdg(args.Fai,args.Outfile)
