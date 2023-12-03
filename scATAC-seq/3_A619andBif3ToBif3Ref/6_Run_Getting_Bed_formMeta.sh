@@ -7,7 +7,7 @@
 #SBATCH --time=20:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/12_GettingBed.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/12_GettingBed.%j.err    # Standard error log
-#SBATCH --array=0-3                  # Array range
+#SBATCH --array=0-5                  # Array range
 
  BedList=(1_A619_2_Unique.bed 1_A619_Unique.bed 3_bif3_2_Unique.bed 3_bif3_Unique.bed A619_Re1andRe2.bed Bif3_Re1andRe2.bed)
  MetaData=(A619/Ref_AnnV4_metadata.txt A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV3_metadata.txt Bif3/Bif3_AnnV3_metadata.txt A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV3_metadata.txt)
