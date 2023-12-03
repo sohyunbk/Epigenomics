@@ -14,9 +14,9 @@ source activate Jbrowse
 ## log in to Sapelo2
 ## Fa file and giff should have same chromosome name
 NewDir=maize_ki3_WUS
-
-/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta /scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3-REFERENCE-NAM-1.0_OnlyChr_Bif3.fa --out "$NewDir"
-/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff /scratch/sb14489/0.Reference/Maize_Ki3/Zm-Ki3-REFERENCE-NAM-1.0_Zm00029ab.1_OnlyChr.gff3 --trackLabel genes --out "$NewDir"
+cd /scratch/sb14489/0.Reference/Maize_Ki3/
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/prepare-refseqs.pl --fasta Zm-Ki3-REFERENCE-NAM-1.0_OnlyChr_Bif3.fa --out "$NewDir"
+/home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/flatfile-to-json.pl --gff Zm-Ki3-REFERENCE-NAM-1.0_Zm00029ab.1_OnlyChr.gff3 --trackLabel genes --out "$NewDir"
 /home/sb14489/Epigenomics/Jbrowse/JbrowseScripts/generate-names.pl -v --out "$NewDir"
 #Using 1 chars for sort log names (16 sort logs) --> means Success!!
 

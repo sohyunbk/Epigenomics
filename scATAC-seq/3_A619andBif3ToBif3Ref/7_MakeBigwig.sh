@@ -10,7 +10,6 @@
 #SBATCH --array=0-5
 OutFileList=(1_A619_Re2 1_A619_Re1 3_bif3_Re2 3_bif3_Re1 A619_Re1andRe2 Bif3_Re1andRe2)
 
-ml Anaconda3/2020.02
 source activate /home/sb14489/.conda/envs/ucsc
 
 # Directory path
