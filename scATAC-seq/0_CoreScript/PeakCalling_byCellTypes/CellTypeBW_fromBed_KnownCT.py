@@ -147,13 +147,35 @@ def sub_func_macs2(bed_file, output_dir):
     print("Done Running MACS2 Calls")
 
 ## Normalizztion
-#def Normaliztion_bdg
+def Normaliztion_bdg(FaiFile,Dir):
+    Fai = {}
+    TotalReadDic = {}
+    infile = open(FaiFile,"r")
+    for sLine in infile:
+        Fai[sLine.split("\t")[0]] = int(sLine.split("\t")[1])
+    for bdgFiles in glo.glob(Dir+"/*_treat_pileup.bdg"):
+        TotalBed = open(bdgFiles,"r")
+        Length = len(TotalBed.readlines())
+        #print(Length)
+        TotalReadDic[bdgFiles] = Length
+        TotalBed.close()
+    for Files in TotalReadDic.keys():
+        infile = open(Files,"r")
+        outfile = open(Files.replace(".bdg","_CPM.bdg"),"w")
+        for sLine in infile:
+            sList = sLine.strip().split("\t")
+            if int(sList[2]) < Fai[sList[0]]:
+                nAbundance = float(sList[3])
+                Normalized = (nAbundance/int(TotalReadDic[Files]))*1000000
+                outfile.write("\t".join(sList[0:3])+"\t"+str(Normalized)+"\n")
+        infile.close()
+        outfile.close()
+
 if __name__ == "__main__":
     args = get_parser().parse_args()
     BedFile = args.bed
     MetaFile = args.m
     Outfile = args.Outfile
-
     ## 1) Make bed files
     # Check if the bed files for each cell type already exist
     files_exist, bed_files = check_files_exist(MetaFile, Outfile)
@@ -166,4 +188,5 @@ if __name__ == "__main__":
     run_macs2_threaded(bed_files, Outfile, args.cores)
 
     ## 3) Normalize bdg
-    
+    Normaliztion_bdg(args.Fai,args.Outfile)
+    print("Done Normaliztion")
