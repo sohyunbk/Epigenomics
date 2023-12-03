@@ -161,8 +161,9 @@ if __name__ == "__main__":
     if not files_exist:
         # Generate bed files if they don't exist
         bed_files = process_bed_by_celltype(MetaFile, BedFile, Outfile)
-    print(bed_files)    
+    print(bed_files)
     # 2) Run Macs2
     run_macs2_threaded(bed_files, Outfile, args.cores)
 
     ## 3) Normalize bdg
+    
