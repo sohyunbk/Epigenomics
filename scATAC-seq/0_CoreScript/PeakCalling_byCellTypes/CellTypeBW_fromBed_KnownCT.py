@@ -153,7 +153,7 @@ def Normaliztion_bdg(FaiFile,Dir):
     infile = open(FaiFile,"r")
     for sLine in infile:
         Fai[sLine.split("\t")[0]] = int(sLine.split("\t")[1])
-    for bdgFiles in glo.glob(Dir+"/*_treat_pileup.bdg"):
+    for bdgFiles in glob.glob(Dir+"/*_treat_pileup.bdg"):
         TotalBed = open(bdgFiles,"r")
         Length = len(TotalBed.readlines())
         #print(Length)
