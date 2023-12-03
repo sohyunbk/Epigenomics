@@ -188,5 +188,5 @@ if __name__ == "__main__":
     #run_macs2_threaded(bed_files, Outfile, args.cores)
 
     ## 3) Normalize bdg
-    Normaliztion_bdg(args.Fai,args.Outfile)
+    Normaliztion_bdg(args.fai,args.Outfile)
     print("Done Normaliztion")
