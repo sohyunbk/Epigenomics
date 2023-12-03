@@ -29,6 +29,11 @@ while [[ $# -gt 0 ]]; do
             shift
             shift
             ;;
+        --RemoveDup)
+            MappedDir="$2"
+            shift
+            shift
+            ;;
         --OGSampleName)
             OGSampleName="$2"
             shift
@@ -49,7 +54,7 @@ done
 # Function 1: Remove Multimap
 remove_multimap() {
     mkdir -p 3.SortedBam
-
+    if [ "$RemoveDup" == "yes" ]; then
     samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
     grep -v -e 'XA:Z:' -e 'SA:Z:' |
     samtools view -@ 24 -bS - > "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam
@@ -58,11 +63,18 @@ remove_multimap() {
     # XA:Z: SA:Z:(rname ,pos ,strand ,CIGAR ,mapQ ,NM ;)+ Other canonical alignments in a chimeric alignment,
     # XA: Alternative hits; format: (chr,pos,CIGAR,NM;)*
     # SA: Z, not sure what it is but, it almost always coincides with the 256 flag = not primary alignment
-
     samtools view -h "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted.bam | \
     sed 's/CB:Z:\([^-\t]*\)-1/CB:Z:\1/g' | \
     samtools view -b -o "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_FixedCB.bam
 
+    else
+    samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
+    samtools view -@ 24 -bS - > "$Path"/3.SortedBam/"$NewSampleName_forBam"_NotRemoveMultiMap_Sorted.bam
+
+    samtools view -h "$Path"/3.SortedBam/"$NewSampleName_forBam"_NotRemoveMultiMap_Sorted.bam | \
+    sed 's/CB:Z:\([^-\t]*\)-1/CB:Z:\1/g' | \
+    samtools view -b -o "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_FixedCB.bam
+    fi
 }
 
 # Function 2: Deduplication
