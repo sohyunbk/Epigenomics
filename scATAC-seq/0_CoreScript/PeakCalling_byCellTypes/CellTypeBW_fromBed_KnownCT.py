@@ -135,20 +135,16 @@ def run_macs2_threaded(bed_files, output_directory, cores):
 
 
 def sub_func_macs2(bed_file, output_dir):
-    try:
-        output_file_name = bed_file.split("/")[-1].replace(".bed", ".macs")
-        final_output_dir_name = output_dir if output_dir else "."
+    output_file_name = bed_file.split("/")[-1].replace(".bed", ".macs")
+    final_output_dir_name = output_dir if output_dir else "."
 
-        generate_macs2_command = f"macs2 callpeak -t {bed_file} -f BED --nomodel \
-        --keep-dup all --extsize 150 --shift -50 --qvalue .05 --outdir {final_output_dir_name} --bdg \
-        -n {output_file_name}"
+    generate_macs2_command = f"macs2 callpeak -t {bed_file} -f BED --nomodel \
+    --keep-dup all --extsize 150 --shift -50 --qvalue .05 --outdir {final_output_dir_name} --bdg \
+    -n {output_file_name}"
 
-        print(f"Running MACS2 Command: {generate_macs2_command}")
-        result = subprocess.run(generate_macs2_command, shell=True, stdout=PIPE, stderr=PIPE, check=True)
-        print(result.stdout.decode())
-    except subprocess.CalledProcessError as e:
-        print(f"Error running MACS2 command: {generate_macs2_command}")
-        print(f"Error message: {e.stderr.decode()}")
+    print(f"Running MACS2 Command: {generate_macs2_command}")
+    subprocess.run(generate_macs2_command, shell=True, check=True)
+    print("Done Running MACS2 Calls")
 
 ## Normalizztion
 #def Normaliztion_bdg
@@ -165,7 +161,7 @@ if __name__ == "__main__":
     if not files_exist:
         # Generate bed files if they don't exist
         bed_files = process_bed_by_celltype(MetaFile, BedFile, Outfile)
-
+    print(bed_files)    
     # 2) Run Macs2
     run_macs2_threaded(bed_files, Outfile, args.cores)
 
