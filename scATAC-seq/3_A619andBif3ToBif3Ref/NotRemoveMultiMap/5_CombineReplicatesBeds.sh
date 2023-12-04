@@ -10,6 +10,6 @@
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 
-cd /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/4.Bam_FixingBarcode/
+cd /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3_NotRemoveMultiMap//4.Bam_FixingBarcode/
 cat 1_A619_Unique.bed 1_A619_2_Unique.bed > A619_Re1andRe2.bed
 cat 3_bif3_Unique.bed 3_bif3_2_Unique.bed > Bif3_Re1andRe2.bed

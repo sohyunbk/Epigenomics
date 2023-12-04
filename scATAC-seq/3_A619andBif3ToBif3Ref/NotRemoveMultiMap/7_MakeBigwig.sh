@@ -13,7 +13,7 @@ OutFileList=(1_A619_Re2 1_A619_Re1 3_bif3_Re2 3_bif3_Re1 A619_Re1andRe2 Bif3_Re1
 source activate /home/sb14489/.conda/envs/ucsc
 
 # Directory path
-directory_path=/scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/5.Jbrowse_MACS2/"${OutFileList[SLURM_ARRAY_TASK_ID]}"
+directory_path=/scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3_NotRemoveMultiMap/5.Jbrowse_MACS2/"${OutFileList[SLURM_ARRAY_TASK_ID]}"
 # Loop through files ending with ".macs_treat_pileup_CPM.bdg"
 for file in "$directory_path"/*.macs_treat_pileup_CPM.bdg; do
     # Check if file exists to avoid processing an empty glob

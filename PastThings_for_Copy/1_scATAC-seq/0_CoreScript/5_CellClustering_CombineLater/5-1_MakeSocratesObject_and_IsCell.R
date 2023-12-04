@@ -6,19 +6,19 @@ library("optparse")
 library(rlang)
 library(ggplot2)
 option_list = list(
-  make_option(c("--WD"), type="character", 
+  make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
-  make_option(c("--BinSize"), type="character", 
+  make_option(c("--BinSize"), type="character",
               help="Binsize it should be 100, 500, 1000bp or peak", metavar="character"),
   make_option(c("--bed"), type="character",
               help="bed file from Tn5 insertion", metavar="character"),
-  make_option(c("--ann"), type="character", 
+  make_option(c("--ann"), type="character",
               help="GTF", metavar="character"),
-  make_option(c("--chr"), type="character", 
+  make_option(c("--chr"), type="character",
               help=".fai file", metavar="character"),
-  make_option(c("--Name"), type="character", 
+  make_option(c("--Name"), type="character",
               help="Sample file", metavar="character"),
-  make_option(c("--MinTn5"), type="character", 
+  make_option(c("--MinTn5"), type="character",
               help="Sample file", metavar="character")
   );
 opt_parser = OptionParser(option_list=option_list);
@@ -65,14 +65,14 @@ obj <- callACRs(obj, genomesize=2.5e9,
                 fdr=0.05,
                 output="bulk_peaks",
                 tempdir="./macs2_temp",
-                verbose=T) ## It should be run to get the Ratio of Tn5s in ACR 
-##Q how the peaks can be generated in MtPt although we deleted all the reads 
+                verbose=T) ## It should be run to get the Ratio of Tn5s in ACR
+##Q how the peaks can be generated in MtPt although we deleted all the reads
 
 obj <- buildMetaData(obj, tss.window=2000, verbose=TRUE,organelle_scaffolds=c("Mt","Pt"))
 str(obj)
 
 ## Check the cells MtPt ratio with plot
-obj$meta$pPtMt <- obj$meta$ptmt/(obj$meta$total+obj$meta$ptmt)
+obj$meta$pPtMt <- obj$meta$ptmt/(obj$meta$total+obj$meta$ptmt) ## I think here, pOrg calculation was wrong so that's why I re calculated.
 PlotData <- obj$meta
 HighDepthnumber <- length(which(PlotData$total>=1000&PlotData$pPtMt>0.2))
 LowDepthnumber <- length(which(PlotData$total<1000&PlotData$pPtMt>0.2))
@@ -82,12 +82,12 @@ PlotData$Tn5Number <- paste0("<1000 # Tn5\n (#Cells < 0.2 of rMtPt: ",
 PlotData[which(PlotData$total>1000),]$Tn5Number <- paste0(">1000 # Tn5 \n( #Cells < 0.2 of rMtPt: ",
                                                           as.character(HighDepthnumber),")")
 #str(obj)
-ggplot(PlotData, aes(y=pPtMt,x=Tn5Number)) + 
+ggplot(PlotData, aes(y=pPtMt,x=Tn5Number)) +
   geom_violin()+
   geom_jitter(shape=16, position=position_jitter(0.2))+
   ggtitle(paste0("Total barcodeNumber :" ,as.character(length(rownames(PlotData)))))
-  
-ggsave(paste0(Name,"_OrgRatio_VioletPlot.pdf"), width=8, height=7)	
+
+ggsave(paste0(Name,"_OrgRatio_VioletPlot.pdf"), width=8, height=7)
 
 ##########################
 ##Filter Cells with high MtPt Ratio
@@ -109,7 +109,7 @@ if (BinSize == "peak"){
 
 
 ## Save reds up to load data
-#NewFileName <- paste0(Name,"_loadData.rds") 
+#NewFileName <- paste0(Name,"_loadData.rds")
 #saveRDS(obj, file=NewFileName)
 
 #soc.obj <- convertSparseData(obj, verbose=T)
@@ -117,9 +117,9 @@ if (BinSize == "peak"){
 
 str(obj)
 
-obj <- isCell(obj, num.test=16000,  
-                      num.tn5=NULL, 
-                      num.ref=5000, 
+obj <- isCell(obj, num.test=16000,
+                      num.tn5=NULL,
+                      num.ref=5000,
                       background.cutoff=500,
                       min.pTSS=0.2,
                       min.FRiP=0.2,
@@ -127,17 +127,17 @@ obj <- isCell(obj, num.test=16000,
                       min.FRiP.z= -2,
                       verbose=F) #background.cutoff: Tn5 insertions for bad cells
 #ForExData
-#obj <- isCell(obj, num.test=100,  
-#              num.tn5=NULL, 
-#              num.ref=50, 
+#obj <- isCell(obj, num.test=100,
+#              num.tn5=NULL,
+#              num.ref=50,
 #              background.cutoff=20000,
 #              min.pTSS=0.1,
 #              min.FRiP=0.1,
 #              min.pTSS.z= -2,
 #              min.FRiP.z= -2,
-#              verbose=F) #background.cutoff: Maximumnumber of Tn5 insertions for bad cells 
+#              verbose=F) #background.cutoff: Maximumnumber of Tn5 insertions for bad cells
 
-#fit <- smooth.spline(rank, depth, spar=0.1)  
+#fit <- smooth.spline(rank, depth, spar=0.1)
 str(obj)
 NewFileName <- paste(Name,"_Tn5Cut",minimumtn5counts,sep="")
 pdf(file=paste(NewFileName,".pdf",sep=""),width=14,height=4)
@@ -159,5 +159,5 @@ dev.off()
 str(obj)
 obj <- convertSparseData(obj, verbose=T)
 
-NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds") 
+NewFileName <- paste0(Name,"_Tn5Cut",minimumtn5counts,"_Binsize",BinSize,".rds")
 saveRDS(obj, file=NewFileName)
