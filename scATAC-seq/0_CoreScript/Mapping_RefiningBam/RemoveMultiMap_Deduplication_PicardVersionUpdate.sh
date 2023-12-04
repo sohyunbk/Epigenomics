@@ -54,6 +54,7 @@ done
 # Function 1: Remove Multimap
 remove_multimap() {
     mkdir -p 3.SortedBam
+
     if [ "$RemoveDup" == "yes" ]; then
     samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
     grep -v -e 'XA:Z:' -e 'SA:Z:' |
