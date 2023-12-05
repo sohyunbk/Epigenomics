@@ -1,9 +1,12 @@
 ## This script is to draw the QC plot.
 ## This is because the QC script for original samples do not have 
 library(ggplot2)
+library(mako)
 
 Samples <- c("1_A619",
              "1_A619_2",
+             "2_rel2",
+             "2_rel2_2",
              "3_bif3",
              "3_bif3_2")
 
@@ -11,17 +14,26 @@ Path = "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_Com
 
 for (sample in Samples){
 setwd(paste0(Path,sample))
+print(sample)
 obj <- readRDS(paste0(sample,"_Tn5Cut1000_Binsize500.rds"))
-str(obj)
-head(obj$meta)
 Cutoffcell <- sum(obj$meta$pPtMt < 0.05)[TRUE]
+
+colors <- c("white","white", rev(viridis(200, option = "mako"))[2:150])
+values <- c(0, seq(0.01, 1, length.out = 200))
 p <- ggplot(obj$meta, aes(x = log10nSites, y = pPtMt)) +
-  geom_bin2d(bins = 100) +
-  scale_fill_continuous(type = "viridis") +
+  stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE, n = 200) +
+  scale_fill_gradientn(colors = colors, values = values) +  # Use the custom color scale
   xlab("Tn5 integration sites per barcode (log10)") +
   ylab("Organelle Ratio") +
   theme_bw() +
   theme(legend.text = element_blank())
+  #ggplot(obj$meta, aes(x = log10nSites, y = pPtMt)) +
+  #geom_bin2d(bins = 100) +
+  #scale_fill_viridis_c(option = "mako",direction = -1) + 
+  #xlab("Tn5 integration sites per barcode (log10)") +
+  #ylab("Organelle Ratio") +
+  #theme_bw() +
+  #theme(legend.text = element_blank())
 
 # Add the line across y = 0.25
 p <- p + geom_hline(yintercept = 0.05, linetype = "dashed", color = "red")
