@@ -41,17 +41,24 @@ def get_parser():
                 required=False,
                 dest="bed",
     )
+    parser.add_argument(
+                "-GitHubSubDir",
+                "--GitHubSubDir",
+                help="GitHubSubDir",
+                required=False,
+                dest="GitHubSubDir",
+    )
     args = vars(parser.parse_args())
     return parser
 
-def BWFiles(Dir,BW,GithubDir,TiedName):
+def BWFiles(Dir,BW,GithubDir,TiedName,SubDir):
     for sFiles in glob.glob(Dir+"/*.bw"):
         FileNamewithE = os.path.basename(sFiles)
         FileName = FileNamewithE.split(".")[0]
         #SampleName = FileName.split("_")[0]
         #CellName = "_".join(FileName.split("_")[1:]).split(".")[0]
         #atac,3_bif3_Re2_G2_M,3_bif3_Re2_G2_M,scATACMutantsV3/G2_M,,,scATACMutantsV3/3_bif3_Re2_G2_M.bw,,,,,,,
-        cmd = "%s,%s,%s,%s,,,%s,,,,,,,"%(GithubDir,FileName,FileName,TiedName,FileNamewithE)
+        cmd = "%s,%s,%s,%s,,,%s/%s,,,,,,,"%(GithubDir,FileName,FileName,TiedName,SubDir,FileNamewithE)
         print(cmd)
 
 def bedFiles(Dir,Bed,GithubDir,TiedName):
@@ -68,7 +75,7 @@ def bedFiles(Dir,Bed,GithubDir,TiedName):
 if __name__ == "__main__":
     args = get_parser().parse_args()
     if args.bw == "yes":
-        BWFiles(args.DirForFiles,args.bw,args.GitHubDir,args.TiedName)
+        BWFiles(args.DirForFiles,args.bw,args.GitHubDir,args.TiedName,args.GitHubSubDir)
 
         #python //home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atacc
     elif args.bed == "yes":
