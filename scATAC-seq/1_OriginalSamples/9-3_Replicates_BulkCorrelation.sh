@@ -7,7 +7,7 @@
 #SBATCH --time=20:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/BulkRe_Corr.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/BulkRe_Corr.%j.err    # Standard error log
-#SBATCH --array=0-1
+#SBATCH --array=0-3
 
 
 Re1=(1_A619 2_rel2 3_bif3)
@@ -17,7 +17,7 @@ OutFileNames=(A619Re1andRe2 rel2Re1andRe2 Bif3Re1andRe2)
 ml Anaconda3/2022.10
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Correlation/Correlation_Intergenic2000MostVariationACR_500pbCommonACR.R \
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/Replicate1and2Correlation.R \
   --Re1_Summit /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"${Re1[SLURM_ARRAY_TASK_ID]}"/macs2_temp/bulk_peaks_summits.bed \
   --Re2_Summit /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"${Re2[SLURM_ARRAY_TASK_ID]}"/macs2_temp/bulk_peaks_summits.bed \
   --Re1_AllReads /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re1[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
