@@ -22,5 +22,5 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/Replicate
   --Re2_Summit /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"${Re2[SLURM_ARRAY_TASK_ID]}"/macs2_temp/bulk_peaks_summits.bed \
   --Re1_AllReads /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re1[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
   --Re2_AllReads /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re2[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
-  --OutFileName /scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/ \
-  --OutPath "${OutFileNames[SLURM_ARRAY_TASK_ID]}"
+  --OutFileName "${OutFileNames[SLURM_ARRAY_TASK_ID]}" \
+  --OutPath /scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/
