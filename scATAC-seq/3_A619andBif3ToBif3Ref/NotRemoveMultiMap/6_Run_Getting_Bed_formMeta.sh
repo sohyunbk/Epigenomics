@@ -16,6 +16,9 @@
  ml Anaconda3/2022.10
  source activate r_env
 
+ ## I do not understand why the last sample has problem when I run this code.
+ ## If I run it twice, things look fine,,.
+ 
  ~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/CellTypeBW_fromBed_KnownCT.py \
  -BedFile /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3_NotRemoveMultiMap//4.Bam_FixingBarcode/"${BedList[SLURM_ARRAY_TASK_ID]}" \
  -Outfile /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3_NotRemoveMultiMap//5.Jbrowse_MACS2/"${OutFileList[SLURM_ARRAY_TASK_ID]}" \
