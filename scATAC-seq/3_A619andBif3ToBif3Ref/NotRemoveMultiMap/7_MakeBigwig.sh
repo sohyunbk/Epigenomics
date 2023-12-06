@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
 #SBATCH --mem=70gb                   # Job memory request
-#SBATCH --time=1:00:00               # Time limit hrs:min:sec
+#SBATCH --time=4:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/Bigwig.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Bigwig.%j.err    # Standard error log
 #SBATCH --array=0-5

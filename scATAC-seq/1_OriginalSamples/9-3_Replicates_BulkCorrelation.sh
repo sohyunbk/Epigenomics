@@ -7,7 +7,7 @@
 #SBATCH --time=20:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/BulkRe_Corr.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/BulkRe_Corr.%j.err    # Standard error log
-#SBATCH --array=0-3
+#SBATCH --array=0-2
 
 
 Re1=(1_A619 2_rel2 3_bif3)
