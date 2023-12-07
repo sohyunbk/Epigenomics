@@ -116,7 +116,7 @@ TempTable <- df_result[OverlappedRowNumber,]
 highest_value_row <- TempTable[which.max(TempTable$num_value), ]
 FinalTable <- rbind(FinalTable,highest_value_row)
 }
-write.table(FinalTable,paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed"), quote=F, row.names=F, col.names=F, sep="\t")
+write.table(FinalTable,paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 
 ###### 4) getting the read depth for the common peaks
 CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
@@ -126,16 +126,18 @@ CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
 CommonPeak_GRange_unique <- unique(CommonPeak_GRange)
 
 ReadSummit <- function(Tn5File,CommonPeak_GRange_unique){
-
+print("Read Tn5 file")
 AllTn5 <- read.table(Tn5File)
-head(AllTn5)
+print("Done:Read Tn5 file")
 #chr1	51	52	CB:Z:TAGACTGGTGCAAGAC-1_A619	+
 Tn5_GRange <- GRanges(seqnames = AllTn5$V1,
                       ranges = IRanges(start = AllTn5$V2,
                                        end = AllTn5$V3,
                                        names = AllTn5$V4))
 # Find overlaps
+print('Getting overlap between commonpeak and Tn5')
 overlaps_final <- findOverlaps(Tn5_GRange, CommonPeak_GRange_unique)
+print('Done: getting overlap between commonpeak and Tn5')
 
 # Create a data frame to store the results
 overlap_counts <- data.frame(seqnames = seqnames(CommonPeak_GRange_unique),
