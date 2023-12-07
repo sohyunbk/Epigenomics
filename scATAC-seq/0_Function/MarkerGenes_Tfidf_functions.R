@@ -649,7 +649,7 @@ plot.act.scores    <- function(df,output_dir,
   ratio <- nrows/6
 
   # params
-  png(file=paste0(output_dir,'/',outname), width=12, height=ratio*12, units="in", res=500, type="cairo")
+  pdf(file=paste0(output_dir,'/',outname), width=12, height=ratio*12, units="in", res=500, type="cairo")
   #tiff(file=paste0(output_dir,'/',outname), type="cairo")
   #png(file=paste0(output_dir,'/',outname), width=4, units="in", res=500, type="cairo")
 
@@ -992,7 +992,7 @@ runMajorPriori     <- function(all.b,
                            logT=F,
                            lim=0.999,
                            marker.dist=NULL,
-                           outname=paste0("combined.",output,".impute.known.Markers.png"))
+                           outname=paste0("combined.",output,".impute.known.Markers.pdf"))
 
   }else{
     # plot all
@@ -1002,14 +1002,14 @@ runMajorPriori     <- function(all.b,
                     logT=T,
                     lim=0.99,
                     marker.dist=NULL,
-                    outname=paste0("combined.",output,".normalized.known.Markers.png"))
+                    outname=paste0("combined.",output,".normalized.known.Markers.pdf"))
 
     plot.act.scores(all.b, output_dir,acts=impute.activity,
                     info=marker.info,
                     logT=F,
                     lim=0.999,
                     marker.dist=NULL,
-                    outname=paste0("combined.",output,".impute.known.Markers.png"))
+                    outname=paste0("combined.",output,".impute.known.Markers.pdf"))
 
   }
   # return

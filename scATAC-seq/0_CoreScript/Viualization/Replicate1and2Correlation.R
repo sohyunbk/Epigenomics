@@ -59,7 +59,7 @@ Start_new <- c((ranges(Summit_Grange)+nRange)@start) ## it minus nRange from the
 #head(Start_new)
 Width_new <- c((ranges(Summit_Grange)+nRange)@width)-1 ## it add the end range with nRange : +1 means to convert to the bed format coordinate
 Peak500bp_Grange <- GRanges(seqnames=Summit_Grange@seqnames,
-                          ranges= 
+                          ranges=
                             IRanges(start=Start_new,
                                     width=Width_new,
                                     names=names(Summit_Grange)))
@@ -71,7 +71,7 @@ return(Peak500bp_Grange)
 ### 1) Combine peaks from two replicates
 Peak500bp_Re1 <- ReadSummit(Replicate1_Summit)
 Peak500bp_Re2 <- ReadSummit(Replicate2_Summit)
- 
+
 # 2)  Finding overlaps between Re1 and Re2
 overlaps <- findOverlaps(Peak500bp_Re1, Peak500bp_Re2)
 
@@ -150,12 +150,10 @@ return(overlap_counts)
 }
 
 overlap_counts_Re1 <- ReadSummit(Replicate1_AllReads,CommonPeak_GRange_unique)
-overlap_counts_Re2 <- ReadSummit(Replicate2_AllReads,CommonPeak_GRange_unique)
 write.table(overlap_counts_Re1,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"), quote=F, row.names=F, col.names=T, sep="\t")
+overlap_counts_Re2 <- ReadSummit(Replicate2_AllReads,CommonPeak_GRange_unique)
 write.table(overlap_counts_Re2,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 
-head(overlap_counts_Re1)
-head(overlap_counts_Re2)
 
 ### 4) Draw Correlation plot
 
@@ -165,8 +163,8 @@ CorrTable <- data.frame(peak=paste(overlap_counts_Re1$seqnames,
                                    sep="_"),
                         Re1_count=overlap_counts_Re1$count,
                         Re2_count=overlap_counts_Re2$count)
-                      
-rownames(CorrTable) <- CorrTable$peak                       
+
+rownames(CorrTable) <- CorrTable$peak
 CorrTable <- CorrTable[,-1]
 # CPM Normalization
 quantile_normalized <- normalize.quantiles(as.matrix(CorrTable))
@@ -191,9 +189,9 @@ p <- ggplot(quantile_normalized_df_ZeroOne, aes(x = V1, y = V2)) +
   scale_y_continuous(limits = c(0, 1), breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1))+# Set y-axis breaks
   geom_abline(slope = 1, intercept = 0, linetype = "dotted")  # Add diagonal dotted line
   # Label for the gradient scale
-  
+
 # Add correlation coefficient as text
-p <- p + geom_text(aes(label = sprintf("rho = %.2f", correlation), x = Inf, y = Inf), 
+p <- p + geom_text(aes(label = sprintf("rho = %.2f", correlation), x = Inf, y = Inf),
                    hjust = 1.1, vjust = 1.1, color = "black", size = 5)
 
 ggsave(plot=p,paste0(OutFilePath,OutFileName,"_CorrelationPlot.pdf"), width=13, height=10)

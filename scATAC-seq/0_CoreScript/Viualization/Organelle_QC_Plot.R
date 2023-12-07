@@ -1,19 +1,30 @@
 ## This script is to draw the QC plot.
-## This is because the QC script for original samples do not have 
+## This is because the QC script for original samples do not have
 library(ggplot2)
 library(viridis)
+library("optparse")
 
-Samples <- c("1_A619",
-             "1_A619_2",
-             "2_rel2",
-             "2_rel2_2",
-             "3_bif3",
-             "3_bif3_2")
+## Should it be before QC or after QC? Let's do before QC.-from all bed file.
 
-Path = "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"
+option_list = list(
+  make_option(c("--SampleName"), type="character",
+              help="SampleName", metavar="character"),
+  make_option(c("--Path"), type="character",
+              help="Path")
+);
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
 
-for (sample in Samples){
-setwd(paste0(Path,sample))
+#Samples <- c("1_A619",
+#             "1_A619_2",
+#             "2_rel2",
+#             "2_rel2_2",
+#             "3_bif3",
+#             "3_bif3_2")
+
+#Path = "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"
+
+setwd(paste0(opt$Path,opt$SampleName))
 print(sample)
 obj <- readRDS(paste0(sample,"_Tn5Cut1000_Binsize500.rds"))
 Cutoffcell <- sum(obj$meta$pPtMt < 0.05)[TRUE]
@@ -27,7 +38,7 @@ p <- ggplot(obj$meta, aes(x = log10nSites, y = pPtMt)) +
   ylab("Organelle Ratio") +
   theme_bw() +
   theme(legend.text = element_blank())
-  
+
 
 # Add the line across y = 0.25
 p <- p + geom_hline(yintercept = 0.05, linetype = "dashed", color = "red")
@@ -52,4 +63,3 @@ ggsave(
   width = 7, height = 5,
   units = "in", dpi = 300
 )
-}
