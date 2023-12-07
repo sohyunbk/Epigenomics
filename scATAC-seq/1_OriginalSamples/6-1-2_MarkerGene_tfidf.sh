@@ -3,8 +3,8 @@
 #SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=20             # Number of CPU cores per task
-#SBATCH --mem=200gb                   # Job memory request ## Should have more than 300 here
-#SBATCH --time=1:00:00               # Time limit hrs:min:sec
+#SBATCH --mem=30gb                   # Job memory request ## Should have more than 300 here
+#SBATCH --time=2:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/6_MarkerGene.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/6_MarkerGene.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
