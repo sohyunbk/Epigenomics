@@ -649,7 +649,7 @@ plot.act.scores    <- function(df,output_dir,
   ratio <- nrows/6
 
   # params
-  pdf(file=paste0(output_dir,'/',outname), width=12, height=ratio*12, units="in", res=500, type="cairo")
+  pdf(file=paste0(output_dir,'/',outname), width=12, height=ratio*12)
   #tiff(file=paste0(output_dir,'/',outname), type="cairo")
   #png(file=paste0(output_dir,'/',outname), width=4, units="in", res=500, type="cairo")
 
