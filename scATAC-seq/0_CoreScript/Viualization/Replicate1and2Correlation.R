@@ -84,9 +84,6 @@ df_Re2$origin <- "Re2"
 df_Re1$num_value <- as.numeric(names(overlaps_Re1))
 df_Re2$num_value <- as.numeric(names(overlaps_Re2))
 
-head(df_Re1)
-head(df_Re2)
-
 df_result <- df_Re1
 head(df_result)
 nrow(df_result)
@@ -97,8 +94,7 @@ for (i in 1:nrow(df_Re1)) {
     df_result[i, ] <- df_Re2[i, ]
   }
 }
-head(df_result)
-dim(df_result)
+
 
 ### 3) There can be still overlap because we used summit here.
 OverlapGRange <- GRanges(seqnames = df_result$seqnames,
@@ -116,7 +112,6 @@ TempTable <- df_result[OverlappedRowNumber,]
 highest_value_row <- TempTable[which.max(TempTable$num_value), ]
 FinalTable <- rbind(FinalTable,highest_value_row)
 }
-write.table(FinalTable,paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 
 ###### 4) getting the read depth for the common peaks
 CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
@@ -124,6 +119,8 @@ CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
                                               end = FinalTable$end,
                                               names = FinalTable$num_value))
 CommonPeak_GRange_unique <- unique(CommonPeak_GRange)
+
+write.table(FinalTable,paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 
 ReadSummit <- function(Tn5File,CommonPeak_GRange_unique){
 print("Read Tn5 file")
