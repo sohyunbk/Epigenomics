@@ -153,7 +153,8 @@ write.table(overlap_counts_Re1,paste0(OutFilePath,OutFileName,"_Tn5CountToCommon
 overlap_counts_Re2 <- ReadSummit(Replicate2_AllReads,CommonPeak_GRange_unique)
 write.table(overlap_counts_Re2,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 
-
+#overlap_counts_Re1<-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/Bif3Re1andRe2_Tn5CountToCommonPeak_Re1.bed",header=T)
+#overlap_counts_Re2<-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/Bif3Re1andRe2_Tn5CountToCommonPeak_Re2.bed",header=T)
 ### 4) Draw Correlation plot
 
 CorrTable <- data.frame(peak=paste(overlap_counts_Re1$seqnames,
@@ -167,30 +168,32 @@ rownames(CorrTable) <- CorrTable$peak
 CorrTable <- CorrTable[,-1]
 # CPM Normalization
 quantile_normalized <- normalize.quantiles(as.matrix(CorrTable))
-quantile_normalized_df <- as.data.frame(CorrTable)
-quantile_normalized_df_ZeroOne <- data.frame(V1=quantile_normalized_df$Re1_count/max(quantile_normalized_df$Re1_count),
-                                    V2=quantile_normalized_df$Re2_count/max(quantile_normalized_df$Re2_count))
-correlation <- cor(quantile_normalized_df_ZeroOne$V1, quantile_normalized_df_ZeroOne$V2, method = "pearson")
+quantile_normalized_df <- as.data.frame(quantile_normalized)
+quantile_normalized_df$logRe1 <- log10(quantile_normalized_df$V1)
+quantile_normalized_df$logRe2 <- log10(quantile_normalized_df$V2)
+correlation <- cor(quantile_normalized_df$logRe1, quantile_normalized_df$logRe2, method = "pearson")
 
 # Create the plot with ggplot2
-colors <- c(00,00, rev(viridis(200, option = "rocket"))[2:150])
+colors <- c(00,00, rev(viridis(200, option = "plasma"))[2:150])
 values <- c(0, seq(0.01, 1, length.out = 200))
 
-p <- ggplot(quantile_normalized_df_ZeroOne, aes(x = V1, y = V2)) +
-  stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE, n = 200) +
+
+p <- ggplot(quantile_normalized_df, aes(x = logRe1, y = logRe2)) +
+  stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE) +
   scale_fill_gradientn(colors = colors, values = values) +  # Use the custom color scale
   theme_minimal() +  # Use a minimal theme
   labs(fill = "Density") +
   xlab("Replicate1") +
   ylab("Replicate2") +
-  theme(text = element_text(size=40))+
-  scale_x_continuous(limits = c(0, 1), breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1)) +  # Set x-axis breaks
-  scale_y_continuous(limits = c(0, 1), breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1))+# Set y-axis breaks
+  theme(text = element_text(size=40),
+        axis.line = element_line(colour = "black")) + # Adding black axis lines
+  #scale_x_continuous(limits = c(0, 1), breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1)) +  # Set x-axis breaks
+  #scale_y_continuous(limits = c(0, 1), breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1))+# Set y-axis breaks
   geom_abline(slope = 1, intercept = 0, linetype = "dotted")  # Add diagonal dotted line
   # Label for the gradient scale
 
 # Add correlation coefficient as text
-p <- p + geom_text(aes(label = sprintf("rho = %.2f", correlation), x = Inf, y = Inf),
+p <- p + geom_text(aes(label = sprintf("rho = %.8f", correlation), x = Inf, y = Inf),
                    hjust = 1.1, vjust = 1.1, color = "black", size = 5)
 
 ggsave(plot=p,paste0(OutFilePath,OutFileName,"_CorrelationPlot.pdf"), width=13, height=10)
