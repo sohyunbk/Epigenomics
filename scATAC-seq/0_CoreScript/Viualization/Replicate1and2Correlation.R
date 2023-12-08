@@ -70,7 +70,7 @@ return(Peak500bp_Grange)
 
 ## Function 2: Getting common peak
 GettingCommonPeak <- function(Peak500bp_Re1,Peak500bp_Re2){
-  
+
 overlaps <- findOverlaps(Peak500bp_Re1, Peak500bp_Re2)
 
 overlaps_Re1 <- Peak500bp_Re1[queryHits(overlaps)]
@@ -196,7 +196,7 @@ quantile_normalized_df$logRe2 <- log10(quantile_normalized_df$V2)
 correlation <- cor(quantile_normalized_df$logRe1, quantile_normalized_df$logRe2, method = "pearson")
 
 # Create the plot with ggplot2
-colors <- c(00,00, rev(viridis(200, option = "plasma"))[2:150])
+colors <- c(00,00, rev(viridis(200, option = "viridis"))[2:150])
 values <- c(0, seq(0.01, 1, length.out = 200))
 
 
