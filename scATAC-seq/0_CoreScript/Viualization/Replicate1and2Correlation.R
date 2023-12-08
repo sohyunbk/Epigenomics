@@ -40,10 +40,9 @@ Replicate2_AllReads <- opt$Re2_AllReads
 OutFilePath <- opt$OutPath
 OutFileName <- opt$OutFileName
 
-#OutFilePath <- "/scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/"
-#OutFileName <- "A619Re1andRe2"
 
-SummitFile <- Replicate2_Summit
+## Function1: Read Summit
+
 ReadSummit <- function(SummitFile){
 
 Summit <- read.table(SummitFile)
@@ -68,11 +67,10 @@ Peak500bp_Grange <- Peak500bp_Grange[-negative_indices]
 return(Peak500bp_Grange)
 }
 
-### 1) Combine peaks from two replicates
-Peak500bp_Re1 <- ReadSummit(Replicate1_Summit)
-Peak500bp_Re2 <- ReadSummit(Replicate2_Summit)
 
-# 2)  Finding overlaps between Re1 and Re2
+## Function 2: Getting common peak
+GettingCommonPeak <- function(Peak500bp_Re1,Peak500bp_Re2){
+  
 overlaps <- findOverlaps(Peak500bp_Re1, Peak500bp_Re2)
 
 overlaps_Re1 <- Peak500bp_Re1[queryHits(overlaps)]
@@ -112,15 +110,9 @@ TempTable <- df_result[OverlappedRowNumber,]
 highest_value_row <- TempTable[which.max(TempTable$num_value), ]
 FinalTable <- rbind(FinalTable,highest_value_row)
 }
+return(FinalTable)
+}
 
-###### 4) getting the read depth for the common peaks
-CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
-                             ranges = IRanges(start = FinalTable$start,
-                                              end = FinalTable$end,
-                                              names = FinalTable$num_value))
-CommonPeak_GRange_unique <- unique(CommonPeak_GRange)
-
-write.table(FinalTable,paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 
 ReadSummit <- function(Tn5File,CommonPeak_GRange_unique){
 print("Read Tn5 file")
@@ -148,13 +140,37 @@ for (i in seq_along(CommonPeak_GRange_unique)) {
 return(overlap_counts)
 }
 
-overlap_counts_Re1 <- ReadSummit(Replicate1_AllReads,CommonPeak_GRange_unique)
-write.table(overlap_counts_Re1,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"), quote=F, row.names=F, col.names=T, sep="\t")
-overlap_counts_Re2 <- ReadSummit(Replicate2_AllReads,CommonPeak_GRange_unique)
-write.table(overlap_counts_Re2,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"), quote=F, row.names=F, col.names=T, sep="\t")
+### 1) Combine peaks from two replicates
+Peak500bp_Re1 <- ReadSummit(Replicate1_Summit)
+Peak500bp_Re2 <- ReadSummit(Replicate2_Summit)
+#### 2)  Finding overlaps between Re1 and Re2
+CommonPeakOutfile <- paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed")
+if (file.exists(CommonPeakOutfile)) {
+  FinalTable <- read.table(CommonPeakOutfile,header=TRUE)
+}else{
+FinalTable <- GettingCommonPeak(Peak500bp_Re1,Peak500bp_Re2)
+write.table(FinalTable,CommonPeakOutfile, quote=F, row.names=F, col.names=T, sep="\t")
+}
+CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
+                             ranges = IRanges(start = FinalTable$start,
+                                              end = FinalTable$end,
+                                              names = FinalTable$num_value))
+CommonPeak_GRange_unique <- unique(CommonPeak_GRange)
+###### 3) getting the read depth for the common peaks
+if (file.exists(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"))) {
+  overlap_counts_Re1 <- read.table(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"),header=T)
+}else{
+  overlap_counts_Re1 <- ReadSummit(Replicate1_AllReads,CommonPeak_GRange_unique)
+  write.table(overlap_counts_Re1,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"), quote=F, row.names=F, col.names=T, sep="\t")
+}
 
-#overlap_counts_Re1<-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/Bif3Re1andRe2_Tn5CountToCommonPeak_Re1.bed",header=T)
-#overlap_counts_Re2<-read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/Bif3Re1andRe2_Tn5CountToCommonPeak_Re2.bed",header=T)
+if (file.exists(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"))) {
+  overlap_counts_Re2 <- read.table(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"),header=T)
+} else{
+  overlap_counts_Re2 <- ReadSummit(Replicate2_AllReads,CommonPeak_GRange_unique)
+  write.table(overlap_counts_Re2,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"), quote=F, row.names=F, col.names=T, sep="\t")
+}
+
 ### 4) Draw Correlation plot
 
 CorrTable <- data.frame(peak=paste(overlap_counts_Re1$seqnames,

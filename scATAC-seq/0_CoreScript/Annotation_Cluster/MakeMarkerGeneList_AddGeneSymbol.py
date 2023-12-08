@@ -25,7 +25,7 @@ def GeneIDSymbolMatch(BEDFile,SymbolDic,OutfilePath,OutfileName):
         sList = sLine.strip().split("\t")
         #print(sList[3])
         if sList[3] in SymbolDic:
-            FinalLine= "\t".join(sList[0:4])+"\t"+Dic[sList[3]]+"\t"+sList[5]+"\n"
+            FinalLine= "\t".join(sList[0:4])+"\t"+SymbolDic[sList[3]]+"\t"+sList[5]+"\n"
         else:
             FinalLine= sLine
         outfile.write(FinalLine)
