@@ -114,7 +114,7 @@ return(FinalTable)
 }
 
 
-ReadSummit <- function(Tn5File,CommonPeak_GRange_unique){
+Overlap_Tn5_CommonPeak <- function(Tn5File,CommonPeak_GRange_unique){
 print("Read Tn5 file")
 AllTn5 <- read.table(Tn5File)
 print("Done:Read Tn5 file")
@@ -166,14 +166,14 @@ CommonPeak_GRange_unique <- unique(CommonPeak_GRange)
 if (file.exists(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"))) {
   overlap_counts_Re1 <- read.table(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"),header=T)
 }else{
-  overlap_counts_Re1 <- ReadSummit(Replicate1_AllReads,CommonPeak_GRange_unique)
+  overlap_counts_Re1 <- Overlap_Tn5_CommonPeak(Replicate1_AllReads,CommonPeak_GRange_unique)
   write.table(overlap_counts_Re1,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 }
 
 if (file.exists(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"))) {
   overlap_counts_Re2 <- read.table(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"),header=T)
 } else{
-  overlap_counts_Re2 <- ReadSummit(Replicate2_AllReads,CommonPeak_GRange_unique)
+  overlap_counts_Re2 <- Overlap_Tn5_CommonPeak(Replicate2_AllReads,CommonPeak_GRange_unique)
   write.table(overlap_counts_Re2,paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re2.bed"), quote=F, row.names=F, col.names=T, sep="\t")
 }
 
