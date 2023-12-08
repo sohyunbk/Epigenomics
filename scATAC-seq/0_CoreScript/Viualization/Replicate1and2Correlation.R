@@ -155,6 +155,7 @@ CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
                              ranges = IRanges(start = FinalTable$start,
                                               end = FinalTable$end,
                                               names = FinalTable$num_value))
+print(CommonPeak_GRange)
 CommonPeak_GRange_unique <- unique(CommonPeak_GRange)
 ###### 3) getting the read depth for the common peaks
 if (file.exists(paste0(OutFilePath,OutFileName,"_Tn5CountToCommonPeak_Re1.bed"))) {
