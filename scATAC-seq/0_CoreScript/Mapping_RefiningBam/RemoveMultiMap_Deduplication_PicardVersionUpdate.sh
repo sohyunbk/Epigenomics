@@ -69,7 +69,7 @@ remove_multimap() {
     samtools view -b -o "$Path"/3.SortedBam/"$NewSampleName_forBam"_Sorted_FixedCB.bam
 
     else
-    samtools view -@ 24 -h -f 3 -q 10 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
+    samtools view -@ 24 -h -f 3 "$Path"/"$MappedDir"/"$OGSampleName"/outs/possorted_bam.bam |
     samtools view -@ 24 -bS - > "$Path"/3.SortedBam/"$NewSampleName_forBam"_NotRemoveMultiMap_Sorted.bam
 
     samtools view -h "$Path"/3.SortedBam/"$NewSampleName_forBam"_NotRemoveMultiMap_Sorted.bam | \

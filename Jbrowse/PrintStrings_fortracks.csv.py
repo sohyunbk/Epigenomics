@@ -80,4 +80,4 @@ if __name__ == "__main__":
         #python //home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atacc
     elif args.bed == "yes":
         bedFiles(args.DirForFiles,args.bed,args.GitHubDir,args.TiedName)
-        #python /home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/ -bed yes -TiedName InsertedSeq119+445bp -GitHubDir peak
+        #python /home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/0.Reference/Maize_Ki3/ -bed yes -TiedName InsertedSeq119+445bp -GitHubDir peak
