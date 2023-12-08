@@ -140,10 +140,13 @@ for (i in seq_along(CommonPeak_GRange_unique)) {
 return(overlap_counts)
 }
 
+##########################################################################################
 ### 1) Combine peaks from two replicates
+print("Step1")
 Peak500bp_Re1 <- ReadSummit(Replicate1_Summit)
 Peak500bp_Re2 <- ReadSummit(Replicate2_Summit)
 #### 2)  Finding overlaps between Re1 and Re2
+print("Step2")
 CommonPeakOutfile <- paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed")
 if (file.exists(CommonPeakOutfile)) {
   FinalTable <- read.table(CommonPeakOutfile,header=TRUE)
@@ -155,6 +158,7 @@ CommonPeak_GRange <- GRanges(seqnames = FinalTable$seqnames,
                              ranges = IRanges(start = FinalTable$start,
                                               end = FinalTable$end,
                                               names = FinalTable$num_value))
+
 print("CommonPeak:")
 head(CommonPeak_GRange)
 CommonPeak_GRange_unique <- unique(CommonPeak_GRange)
