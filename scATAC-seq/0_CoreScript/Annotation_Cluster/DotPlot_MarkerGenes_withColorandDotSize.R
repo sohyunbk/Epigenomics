@@ -16,18 +16,37 @@ library(proxy)
 library(png)
 library(tidyverse)
 library(stringr)
+library("optparse")
 
-#gene_bodysorghum_bicolor_tis_leaf_nmf_step_2_knn_27.out.de_novo.rds
-input <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re.txt"
-#meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
-meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
-gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/231113_Top5DenovoGenesinA619_NoRedundant_withGeneSymbol.txt"
-OutputPathandName <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/A619_Annv4_DenovoGenes"
-slot_var <- "Ann_v4"
-CellOrder <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt"
+option_list = list(
+  make_option(c("--GA"), type="character",
+              help="GA", metavar="character"),
+  make_option(c("--Meta"), type="character",
+              help="Meta", metavar="character"),
+  make_option(c("--MarkerGene"), type="character",
+              help="MarkerGene", metavar="character"),
+  make_option(c("--OutPathandPrefix"), type="character",
+              help="OutPathandPrefix", metavar="character"),
+  make_option(c("--AnnSlot"), type="character",
+              help="AnnSlot", metavar="character"),
+  make_option(c("--CellOrdertxt"), type="character",
+              help="CellOrdertxt", metavar="character")
+);
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
+input <- opt$GA
+meta <- opt$Meta
+gene <- opt$MarkerGene
+OutputPathandName<- opt$OutPathandPrefix
+slot_var <- opt$AnnSlot
+CellOrder <- opt$CellOrdertxt
 
-#gene_DA <- here(working_dir,"00.data/Zm-B73-REFERENCE-NAM_Zm00001eb.1.genes.bed")
-#prefix <- "TEST_SORGHUM_TEST"
+#input <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re.txt"
+#meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
+#gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/231113_Top5DenovoGenesinA619_NoRedundant_withGeneSymbol.txt"
+#OutputPathandName <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/A619_Annv4_DenovoGenes"
+#slot_var <- "Ann_v4"
+#CellOrder <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt"
 
 
 message("Loading Data....")
@@ -35,10 +54,6 @@ meta_data <- read.delim(meta)
 gene_markers <- read.delim(gene)
 gene_markers <- gene_markers  %>%
   arrange(type)
-
-#raw_cpm_counts_all_genes <- read_delim(input, delim="\t", col_names = c("gene_name", "barcode", "accessability")) %>%
-#  dplyr::mutate(cellID = barcode)  %>%
-#  dplyr::mutate(geneID = gene_name)
 
 raw_cpm_counts_all_genes <- read_delim(input, delim="\t") %>%
   dplyr::mutate(cellID = barcode)  %>%

@@ -2,12 +2,12 @@ library("here")
 library(devtools)
 library(Seurat)
 load_all('/home/sb14489/Socrates')
-library("optparse")
 library(rlang)
 library(ggplot2)
 library("RColorBrewer")
 library(gridExtra)
 set.seed(2017)
+library("optparse")
 
 option_list = list(
   make_option(c("--WD"), type="character",
@@ -156,7 +156,7 @@ ggplot(obj_Cluster_beforeD$Clusters, aes(x=umap1, y=umap2, color=factor(LouvainC
   geom_point(size=0.03) + # for popular it's 0.3
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
-  labs(color="Clusters", 
+  labs(color="Clusters",
        title =paste0(Name,", CellNumber: ",nrow(obj_Cluster_beforeD$Clusters)))
 ggsave(paste0(NewFileName,"_BeforeRemovingDoublets.pdf"), width=7.5, height=6)
 
