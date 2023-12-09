@@ -3,12 +3,8 @@ library(ggplot2)
 
 # Sample data (replace with your actual data)
 set.seed(123) # For reproducibility
-
 ## In RNA-seq, the dot size is persent expression and Color is average expression.
 ## In ATAC-seq, the dot size is persent acc and Color is  average acc or zscore.
-
-## From Pablo
-
 # load libraries
 library(dplyr)
 library("edgeR")
@@ -19,27 +15,17 @@ library(irlba)
 library(proxy)
 library(png)
 library(tidyverse)
-
-
-#working_dir <- "/scratch/jpm73279/comparative_single_cell/08.annotation_figures/zea_mays"
-
-# load arguments
-args <- commandArgs(T)
-#if(length(args)!=5){stop("Rscript normGBA.R <gene.sparse> <meta> <Zea_mays.AGPv4.36.Allgene.nuclear.bed> <prefix> <F>")}
-input <- as.character(args[1])
-meta <- as.character(args[2])
-gene <- as.character(args[3])
-annot_col <- as.character(args[4])
-prefix <- as.character(args[5])
-
-
-slot_var <- c(annot_col)
+library(stringr)
 
 #gene_bodysorghum_bicolor_tis_leaf_nmf_step_2_knn_27.out.de_novo.rds
 input <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re.txt"
-meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
-gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/221130_EarMarker.txt"
-slot_var <- "Ann_v3"
+#meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
+meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
+gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/231113_Top5DenovoGenesinA619_NoRedundant_withGeneSymbol.txt"
+OutputPathandName <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/A619_Annv4_DenovoGenes"
+slot_var <- "Ann_v4"
+CellOrder <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt"
+
 #gene_DA <- here(working_dir,"00.data/Zm-B73-REFERENCE-NAM_Zm00001eb.1.genes.bed")
 #prefix <- "TEST_SORGHUM_TEST"
 
@@ -49,8 +35,6 @@ meta_data <- read.delim(meta)
 gene_markers <- read.delim(gene)
 gene_markers <- gene_markers  %>%
   arrange(type)
-
-all_markers <- gene_markers$geneID
 
 #raw_cpm_counts_all_genes <- read_delim(input, delim="\t", col_names = c("gene_name", "barcode", "accessability")) %>%
 #  dplyr::mutate(cellID = barcode)  %>%
@@ -127,10 +111,10 @@ altered_deseq2 <- altered_deseq2 %>% ungroup()
 
 # Combine the tables without duplicating the common columns "Ann_v3" and "geneID"
 combined_table <- left_join(wider_all_genes_altered, altered_deseq2, 
-                            by = c("Ann_v3", "geneID"))
+                            by = c(slot_var, "geneID"))
 
 # Print the first few rows of the combined table
-print(combined_table)
+head(combined_table)
 # Print the first few rows of the combined table
 
 ##################################################
@@ -145,35 +129,41 @@ result_table <- inner_join(combined_table, gene_markers, by = "geneID")
 # Print the first few rows of the resulting table
 ## Narrow Down more genes!!
 print(result_table,width=Inf)
-genesIntrested <- c("fdl", "ocl4",  "lg2", "zag1",
-                    "wus1","RA1", "ra2","OFB1", "gif1", "wox4", "ZmMP_1",
-                   "vnd6", "xcp1", "ZmSMXL3", "ZmSMXL4", "nac78", "ZmNEN1",
-                   "cyc3", "cyc4")
 
 
 filtered_table <- result_table %>%
-  filter(grepl(paste(genesIntrested, collapse = "|"), name, ignore.case = TRUE))
+  filter(grepl(paste(gene_markers$name, collapse = "|"), name, ignore.case = TRUE))
+filtered_table[,c(6:13)]
 
-filtered_table$name <- factor(filtered_table$name, levels = genesIntrested)
-levels(factor(filtered_table$Ann_v3))
-CellTypeOrder <- rev(c("L1","L1atFloralMeristem","FloralMeristem_SuppressedBract",
-                   "IM-OC","SPM-base_SM-base","IM_SPM_SM",
-                   "ProcambialMeristem_ProtoXylem_MetaXylem",
-                   "PhloemPrecursor", "ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma",
-                   "XylemParenchyma_PithParenchyma",
-                   "BundleSheath_VascularSchrenchyma",
-                   "CalloseRelated","G2_M"))
-filtered_table$Ann_v3 <- factor(filtered_table$Ann_v3, levels = CellTypeOrder)
+CellTypeOrder <- rev(readLines(CellOrder))
+filtered_table$Ann <- factor(filtered_table[[slot_var]], levels = CellTypeOrder)
 
+# Function to find the first matching element in CellTypeOrder
+first_match <- function(name, order_list) {
+  for (order_item in order_list) {
+    if (str_detect(name, order_item)) {
+      return(order_item)
+    }
+  }
+  return(NA)  # Return NA if no match is found
+}
+# Create a new column for sorting 
+## type is cell type matched with the marker gene!!
+## Ann is Annotated cell type
+filtered_table$sorting_key <- sapply(filtered_table$type, first_match, order_list = CellTypeOrder)
+# Convert the sorting_key column to a factor with levels in the order of CellTypeOrder
+filtered_table$sorting_key <- factor(filtered_table$sorting_key, levels = CellTypeOrder)
+# Arrange the table by the sorting_key column
+ordered_table <- filtered_table %>% 
+  arrange(sorting_key, type)
+
+ordered_table$name <- factor(ordered_table$name,levels=rev(unique(ordered_table$name)))
 # Print the resulting table
-print(filtered_table)
-
-ggplot(filtered_table, aes(x = name, y = Ann_v3, 
+ggplot(ordered_table, aes(x = name, y = Ann, 
                         size = proportion_expressing, color = Zscore[,1])) +
   geom_point() +
   #scale_size_continuous(range = c(1, 10)) +  # Adjust the range for the size of dots
-  labs(title = "Dot Plot with Gene Expression and Other Data",
-       x = "Gene",
+  labs( x = "Gene",
        y = "Cell Type",
        size = "Percent ACC",
        color = "Zscore") +
@@ -188,6 +178,7 @@ ggplot(filtered_table, aes(x = name, y = Ann_v3,
                         mid = "white", high = "red", 
                         midpoint = mean(filtered_table$Zscore[,1]))
 
-ggsave("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/A619_dotplot.pdf"
-       , width=10, height=4.5)
+
+ggsave(paste0(OutputPathandName,".pdf"), width=0.3*length(unique(filtered_table$geneID)),
+       height=4)
 
