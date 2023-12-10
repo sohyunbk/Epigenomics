@@ -39,6 +39,12 @@ Ann_v4_CellType_order_forrel2.txt
 Ann_v4_CellType_order_forA619Bif3.txt
 Ann_v4_CellType_order_forA619Bif3.txt
 Ann_v4_CellType_order_forrel2.txt)
+MarkerGeneOrderFile=(231113_Top5DenovoGenesinA619_GeneNameOrder.txt
+231113_Top5DenovoGenesinA619_GeneNameOrder.txt
+231113_Top5DenovoGenesinA619_GeneNameOrder.txt
+231113_Top5DenovoGenesinA619_GeneNameOrder.txt
+231113_Top5DenovoGenesinA619_GeneNameOrder.txt
+231113_Top5DenovoGenesinA619_GeneNameOrder.txt)
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/DotPlot_MarkerGenes_withColorandDotSize.R \
 --GA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${GAFiles[SLURM_ARRAY_TASK_ID]}" \
@@ -46,4 +52,5 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Dot
 --MarkerGene /scratch/sb14489/3.scATAC/0.Data/MarkerGene/"${MarkerGenes[SLURM_ARRAY_TASK_ID]}" \
 --OutPathandPrefix /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/"${OutPrefixs[SLURM_ARRAY_TASK_ID]}" \
 --AnnSlot Ann_v4 \
---CellOrdertxt /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${CellOrderFiles[SLURM_ARRAY_TASK_ID]}"
+--CellOrdertxt /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${CellOrderFiles[SLURM_ARRAY_TASK_ID]}" \
+--MarkerOrdertxt /scratch/sb14489/3.scATAC/0.Data/MarkerGene/"${MarkerGeneOrderFile[SLURM_ARRAY_TASK_ID]}"
