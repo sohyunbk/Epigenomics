@@ -30,7 +30,9 @@ option_list = list(
   make_option(c("--AnnSlot"), type="character",
               help="AnnSlot", metavar="character"),
   make_option(c("--CellOrdertxt"), type="character",
-              help="CellOrdertxt", metavar="character")
+              help="CellOrdertxt", metavar="character"),
+  make_option(c("--MarkerOrdertxt"), type="character",
+              help="MarkerOrdertxt", metavar="character")
 );
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
@@ -40,6 +42,7 @@ gene <- opt$MarkerGene
 OutputPathandName<- opt$OutPathandPrefix
 slot_var <- opt$AnnSlot
 CellOrder <- opt$CellOrdertxt
+MarkerOrder <- opt$MarkerOrdertxt
 
 #input <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re.txt"
 #meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
@@ -47,7 +50,7 @@ CellOrder <- opt$CellOrdertxt
 #OutputPathandName <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/A619_Annv4_DenovoGenes"
 #slot_var <- "Ann_v4"
 #CellOrder <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt"
-
+#MarkerOrder <-"/scratch/sb14489/3.scATAC/0.Data/MarkerGene/231113_Top5DenovoGenesinA619_GeneNameOrder.txt"
 
 message("Loading Data....")
 meta_data <- read.delim(meta)
@@ -151,29 +154,11 @@ filtered_table <- result_table %>%
 
 CellTypeOrder <- rev(readLines(CellOrder))
 filtered_table$Ann <- factor(filtered_table[[slot_var]], levels = CellTypeOrder)
+MarkerOrder_vector <- readLines(MarkerOrder)
+filtered_table$name <- factor(filtered_table$name,levels=MarkerOrder_vector)
 
-# Function to find the first matching element in CellTypeOrder
-first_match <- function(name, order_list) {
-  for (order_item in order_list) {
-    if (str_detect(name, order_item)) {
-      return(order_item)
-    }
-  }
-  return(NA)  # Return NA if no match is found
-}
-# Create a new column for sorting 
-## type is cell type matched with the marker gene!!
-## Ann is Annotated cell type
-filtered_table$sorting_key <- sapply(filtered_table$type, first_match, order_list = CellTypeOrder)
-# Convert the sorting_key column to a factor with levels in the order of CellTypeOrder
-filtered_table$sorting_key <- factor(filtered_table$sorting_key, levels = CellTypeOrder)
-# Arrange the table by the sorting_key column
-ordered_table <- filtered_table %>% 
-  arrange(sorting_key, type)
-
-ordered_table$name <- factor(ordered_table$name,levels=rev(unique(ordered_table$name)))
 # Print the resulting table
-ggplot(ordered_table, aes(x = name, y = Ann, 
+ggplot(filtered_table, aes(x = name, y = Ann, 
                         size = proportion_expressing, color = Zscore[,1])) +
   geom_point() +
   #scale_size_continuous(range = c(1, 10)) +  # Adjust the range for the size of dots
@@ -189,7 +174,7 @@ ggplot(ordered_table, aes(x = name, y = Ann,
   
   # Change the color scale to range from blue to white to red
   scale_color_gradient2(low = "blue",
-                        mid = "white", high = "red", 
+                        mid = "#e3f4fa", high = "red", 
                         midpoint = mean(filtered_table$Zscore[,1]))
 
 
