@@ -148,7 +148,6 @@ print(result_table,width=Inf)
 
 filtered_table <- result_table %>%
   filter(grepl(paste(gene_markers$name, collapse = "|"), name, ignore.case = TRUE))
-filtered_table[,c(6:13)]
 
 CellTypeOrder <- rev(readLines(CellOrder))
 filtered_table$Ann <- factor(filtered_table[[slot_var]], levels = CellTypeOrder)
