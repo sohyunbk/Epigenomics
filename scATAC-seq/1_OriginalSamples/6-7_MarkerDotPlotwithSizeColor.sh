@@ -14,8 +14,14 @@
 source activate r_env
 GAFiles=(GA_A619_Re.txt
 GA_Bif3_Re.txt
+GA_rel2_includingZmCLE7.txt
+GA_A619_Re.txt
+GA_Bif3_Re.txt
 GA_rel2_includingZmCLE7.txt)
 MetaFiles=(A619/Ref_AnnV4_metadata.txt
+Bif3/Bif3_AnnV4_metadata.txt
+rel2/rel2_AnnV4.txt
+A619/Ref_AnnV4_metadata.txt
 Bif3/Bif3_AnnV4_metadata.txt
 rel2/rel2_AnnV4.txt)
 MarkerGenes=(231113_Top5DenovoGenesinA619_NoRedundant_withGeneSymbol.txt
@@ -23,8 +29,14 @@ MarkerGenes=(231113_Top5DenovoGenesinA619_NoRedundant_withGeneSymbol.txt
 231113_Top5DenovoGenesinA619_NoRedundant_withGeneSymbol.txt)
 OutPrefixs=(A619_Annv4_DenovoGenes
 Bif3_Annv4_DenovoGenes
-Rel2_Annv4_DenovoGenes)
+Rel2_Annv4_DenovoGenes
+A619_Annv4_InsituMarker
+Bif3_Annv4_InsituMarker
+Rel2_Annv4_InsituMarker)
 CellOrderFiles=(Ann_v4_CellType_order_forA619Bif3.txt
+Ann_v4_CellType_order_forA619Bif3.txt
+Ann_v4_CellType_order_forrel2.txt
+Ann_v4_CellType_order_forA619Bif3.txt
 Ann_v4_CellType_order_forA619Bif3.txt
 Ann_v4_CellType_order_forrel2.txt)
 
