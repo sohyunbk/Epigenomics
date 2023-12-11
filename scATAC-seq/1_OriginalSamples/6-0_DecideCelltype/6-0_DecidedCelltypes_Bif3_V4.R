@@ -9,7 +9,7 @@ meta <- "bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyM
 loaded_meta_data <- read.table(meta)
 PreAnn <- loaded_meta_data
 
-CellOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order.txt")
+CellOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt")
 Cluster1 <- read.table("bif3_Cluster1_Recluster_Sub_res1_knear100_Partmetadata.txt")
 head(Cluster1)
 
