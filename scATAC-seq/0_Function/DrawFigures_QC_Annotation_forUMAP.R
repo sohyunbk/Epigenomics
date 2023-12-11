@@ -22,7 +22,7 @@ PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters)
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30),
-        legend.title = element_text(size = 30))
+        legend.title = element_text(size = 15))
     
 Meta$Ann <- Meta[[Slot]]
 Meta$Ann <- factor(Meta$Ann,levels=(CellOrder))
@@ -83,7 +83,7 @@ Q_Tn5 <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30),
-        legend.title = element_text(size = 30))
+        legend.title = element_text(size = 15))
 ## * Doublets
 sc <- scale_colour_gradientn(colours = myPalette(100),
                              limits=c(min(PreAnnMeta$doubletscore),
@@ -101,7 +101,7 @@ Q_doubletscore <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30),
-        legend.title = element_text(size = 30))
+        legend.title = element_text(size = 15))
 ## Tss ratio
 PreAnnMeta$rTSS <- PreAnnMeta$tss/PreAnnMeta$total
 sc <- scale_colour_gradientn(colours = myPalette(100),
@@ -120,7 +120,7 @@ Q_rTSS <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30),
-        legend.title = element_text(size = 30))
+        legend.title = element_text(size = 15))
 
 ## Tss ratio
 sc <- scale_colour_gradientn(colours = myPalette(100),
@@ -139,7 +139,7 @@ Q_FRiP <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30),
-        legend.title = element_text(size = 30))
+        legend.title = element_text(size = 15))
 
 pdf(paste0(OutfilePathName,"_AnnQCPlots.pdf"), width=43, height=20)
 grid.arrange(PreAnn,Re1_plot, Q_Tn5, Q_doubletscore,
