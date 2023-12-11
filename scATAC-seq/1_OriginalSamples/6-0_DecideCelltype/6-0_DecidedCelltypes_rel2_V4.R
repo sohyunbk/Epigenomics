@@ -81,5 +81,5 @@ NewMeta[which(NewMeta$LouvainClusters =="12"),]$Ann_v4 <- "ProcambialMeristem_Pr
 
 write.table(NewMeta, file=paste0("rel2_AnnV4.txt"),
             quote=F, row.names=T, col.names=T, sep="\t")
-DrawUMAP_Ann_QC(PreAnn,NewMeta, "Ann_v4", CellOrder, "rel2_Re1", "rel2_Re2","Bif3_AnnV4")
+DrawUMAP_Ann_QC(PreAnn,NewMeta, "Ann_v4", CellOrder, "rel2_Re1", "rel2_Re2","rel2_AnnV4")
 

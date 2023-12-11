@@ -30,13 +30,13 @@ All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
        x = "UMAP1",
        y = "UMAP2")
 
-ClustersTable_Re1 <- subset(Meta, sampleID == Re1)
+ClustersTable_Re1 <- subset(PreAnnMeta, sampleID == Re1)
 Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(Ann))) +
   geom_point(size=0.02, color="blue") +
   theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))+
   labs(title = paste0("Re1 : ",nrow(ClustersTable_Re1)))
-ClustersTable_Re2 <- subset(Meta, sampleID == Re2)
+ClustersTable_Re2 <- subset(PreAnnMeta, sampleID == Re2)
 Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(Ann))) +
   geom_point(size=0.02, color="red") +
   theme_minimal()+
@@ -47,9 +47,9 @@ Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(Ann))) 
 ### * Tn5 log
 myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
 sc <- scale_colour_gradientn(colours = myPalette(100),
-                             limits=c(min(Meta$log10nSites),
-                                      max(Meta$log10nSites)))
-Q_Tn5 <- ggplot(Meta, aes(x=umap1, y=umap2,
+                             limits=c(min(PreAnnMeta$log10nSites),
+                                      max(PreAnnMeta$log10nSites)))
+Q_Tn5 <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                                 color=log10nSites)) +
   geom_point(size=0.02) +
   theme_minimal()+
@@ -58,9 +58,9 @@ Q_Tn5 <- ggplot(Meta, aes(x=umap1, y=umap2,
   labs(title = "LogTn5")+sc
 ## * Doublets
 sc <- scale_colour_gradientn(colours = myPalette(100),
-                             limits=c(min(Meta$doubletscore),
-                                      max(Meta$doubletscore)))
-Q_doubletscore <-ggplot(Meta, aes(x=umap1, y=umap2,
+                             limits=c(min(PreAnnMeta$doubletscore),
+                                      max(PreAnnMeta$doubletscore)))
+Q_doubletscore <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                                         color=doubletscore)) +
   geom_point(size=0.02) +
   theme_minimal()+
@@ -68,12 +68,11 @@ Q_doubletscore <-ggplot(Meta, aes(x=umap1, y=umap2,
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "Doublet score")+sc
 ## Tss ratio
-head(Meta)
-Meta$rTSS <- Meta$tss/Meta$total
+PreAnnMeta$rTSS <- PreAnnMeta$tss/PreAnnMeta$total
 sc <- scale_colour_gradientn(colours = myPalette(100),
-                             limits=c(min(Meta$rTSS),
-                                      max(Meta$rTSS)))
-Q_rTSS <-ggplot(Meta, aes(x=umap1, y=umap2,
+                             limits=c(min(PreAnnMeta$rTSS),
+                                      max(PreAnnMeta$rTSS)))
+Q_rTSS <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                                 color=rTSS)) +
   geom_point(size=0.02) +
   theme_minimal()+
@@ -82,11 +81,10 @@ Q_rTSS <-ggplot(Meta, aes(x=umap1, y=umap2,
   labs(title = "TSS ratio")+sc
 
 ## Tss ratio
-head(Meta)
 sc <- scale_colour_gradientn(colours = myPalette(100),
-                             limits=c(min(Meta$FRiP),
-                                      max(Meta$FRiP)))
-Q_FRiP <-ggplot(Meta, aes(x=umap1, y=umap2,
+                             limits=c(min(PreAnnMeta$FRiP),
+                                      max(PreAnnMeta$FRiP)))
+Q_FRiP <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                           color=FRiP)) +
   geom_point(size=0.02) +
   theme_minimal()+
