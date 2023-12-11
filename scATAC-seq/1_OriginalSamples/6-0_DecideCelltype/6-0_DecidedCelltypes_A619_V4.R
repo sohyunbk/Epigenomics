@@ -1,12 +1,12 @@
 ## MRake metafile & plot for estimated annotation
 library(ggplot2)
 library(stringr)
+source("/home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/0_Functions/GeneBodyAccessibility.R")
 
 ## Make new metafile bycombining all the meta
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/")
 meta <- "Ref_RemoveBLonlyMitoChloroChIP.REF_CELLs.metadata.txt"
 CellOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt")
-
 loaded_meta_data <- read.table(meta)
 head(loaded_meta_data)
 #Cluster7 <- read.table("Cluster7_Recluster_Sub_res1_knear100_Partmetadata.txt")
