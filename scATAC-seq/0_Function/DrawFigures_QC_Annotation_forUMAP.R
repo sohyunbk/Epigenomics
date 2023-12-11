@@ -9,7 +9,7 @@ DrawUMAP_Ann_QC <- function(PreAnnMeta,Meta, Slot, CellOrder, Re1, Re2,OutfilePa
 ColorForPreAnn <- c( "#f58c8c", "#FFB380", "#FFECB3", "#a2d179", "#B3FFB3","#44c78e", "#B3FFE5", 
                      "#8dccca", "#48a2f0", "#69a0cf", "#b2bcf7", "#D1B3FF", "#a088f7","#865b8a")
 PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
-    geom_point(size=0.02) +
+    geom_point(size=0.01) +
     scale_color_manual(values=ColorForPreAnn)+theme_minimal()+
     guides(colour = guide_legend(override.aes = list(size=12),
                                  title="LouvainCluster_OtherQCplotis_are_BasedOnPreAnnotation"))+
@@ -31,7 +31,7 @@ colorr <- c("#4F96C4","#84f5d9","#0bd43d","#d62744","#FDA33F","#060878","#62a888
             "#deadce","#fc53b6")
 
 All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
-  geom_point(size=0.02) +
+  geom_point(size=0.01) +
   scale_color_manual(values=colorr)+
   theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=12)))+
@@ -47,7 +47,7 @@ All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
 
 ClustersTable_Re1 <- subset(PreAnnMeta, sampleID == Re1)
 Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(Ann))) +
-  geom_point(size=0.02, color="blue") +
+  geom_point(size=0.01, color="blue") +
   theme_minimal()+
   labs(title = paste0("Re1 : ",nrow(ClustersTable_Re1)))+
   theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
@@ -56,7 +56,7 @@ Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(Ann))) 
         axis.title.y = element_text(size = 30))
 ClustersTable_Re2 <- subset(PreAnnMeta, sampleID == Re2)
 Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(Ann))) +
-  geom_point(size=0.02, color="red") +
+  geom_point(size=0.01, color="red") +
   theme_minimal()+
   labs(title = paste0("Re2 : ",nrow(ClustersTable_Re2)))+
   theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
@@ -72,7 +72,7 @@ sc <- scale_colour_gradientn(colours = myPalette(100),
                                       max(PreAnnMeta$log10nSites)))
 Q_Tn5 <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                                 color=log10nSites)) +
-  geom_point(size=0.02) +
+  geom_point(size=0.01) +
   theme_minimal()+
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
@@ -90,7 +90,7 @@ sc <- scale_colour_gradientn(colours = myPalette(100),
                                       max(PreAnnMeta$doubletscore)))
 Q_doubletscore <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                                         color=doubletscore)) +
-  geom_point(size=0.02) +
+  geom_point(size=0.01) +
   theme_minimal()+
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
@@ -109,7 +109,7 @@ sc <- scale_colour_gradientn(colours = myPalette(100),
                                       max(PreAnnMeta$rTSS)))
 Q_rTSS <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                                 color=rTSS)) +
-  geom_point(size=0.02) +
+  geom_point(size=0.01) +
   theme_minimal()+
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
@@ -128,7 +128,7 @@ sc <- scale_colour_gradientn(colours = myPalette(100),
                                       max(PreAnnMeta$FRiP)))
 Q_FRiP <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
                           color=FRiP)) +
-  geom_point(size=0.02) +
+  geom_point(size=0.01) +
   theme_minimal()+
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
