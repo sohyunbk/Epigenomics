@@ -17,7 +17,7 @@ PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters)
          x = "UMAP1",
          y = "UMAP2")+
     theme(legend.key.size = unit(5, "lines"),
-          legend.text = element_text(size = 18),
+          legend.text = element_text(size = 18, lineheight = 1),
         axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
@@ -33,12 +33,12 @@ All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+
   theme_minimal()+
-  #guides(colour = guide_legend(override.aes = list(size=12)))+
+  guides(colour = guide_legend(override.aes = list(size=12)))+
   labs(title = paste0("Re1+R2 \n CellNumber: ",nrow(Meta)),
        x = "UMAP1",
        y = "UMAP2")+
   theme(legend.key.size = unit(5, "lines"),
-        legend.text = element_text(size = 18),
+        legend.text = element_text(size = 18, lineheight = 1),
         axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
