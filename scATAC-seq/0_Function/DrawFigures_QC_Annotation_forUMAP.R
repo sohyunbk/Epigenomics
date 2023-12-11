@@ -33,7 +33,7 @@ All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+
   theme_minimal()+
-  guides(colour = guide_legend(override.aes = list(size=12)))+
+  #guides(colour = guide_legend(override.aes = list(size=12)))+
   labs(title = paste0("Re1+R2 \n CellNumber: ",nrow(Meta)),
        x = "UMAP1",
        y = "UMAP2")+
