@@ -13,7 +13,7 @@ PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters)
     geom_point(size=0.02) +
     scale_color_manual(values=ColorForPreAnn)+theme_minimal()+
     guides(colour = guide_legend(override.aes = list(size=7)))+
-    labs(title = paste0("Pre-Annotation\n CellNumber: ",nrow(PreClusterMeta)),
+    labs(title = paste0("Pre-Annotation\n CellNumber: ",nrow(PreAnnMeta)),
          x = "UMAP1",
          y = "UMAP2")
     

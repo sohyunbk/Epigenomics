@@ -1,11 +1,14 @@
 ## Make metafile & plot for estimated annotation
 library(ggplot2)
 library(stringr)
+source("/home/sb14489/Epigenomics/scATAC-seq/0_Function/DrawFigures_QC_Annotation_forUMAP.R")
 
 ## Make new metafile bycombining all the meta
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3")
 meta <- "bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP_k50_res0.9.AfterHarmony.metadata.txt"
 loaded_meta_data <- read.table(meta)
+PreAnn <- loaded_meta_data
+
 CellOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order.txt")
 Cluster1 <- read.table("bif3_Cluster1_Recluster_Sub_res1_knear100_Partmetadata.txt")
 head(Cluster1)
@@ -44,22 +47,10 @@ NewMeta[which(NewMeta$LouvainClusters =="13"),]$Ann_v4 <- "ProtoPhloem_MetaPhloe
 NewMeta[which(NewMeta$LouvainClusters =="14"),]$Ann_v4 <- "IM-OC"
 ######################
 
-levels(factor(NewMeta$Ann_v4))
-table(NewMeta$Ann_v4)
-colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
-            "#876b58","#800000", "#800075","#e8cf4f","#0bd43d","#fc53b6",
-            "#deadce","#adafde","#5703ff")
-length(colorr)
-NewMeta$Ann_v4 <- factor(NewMeta$Ann_v4, levels = CellOrder)
-
-ggplot(NewMeta, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
-  geom_point(size=0.02) +
-  scale_color_manual(values=colorr)+theme_minimal()+
-  guides(colour = guide_legend(override.aes = list(size=10)))+
-  theme(text=element_text(size=20))
-
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Bif3")
-ggsave("Bif3_AnnV4.pdf", width=14, height=8)
 
 write.table(NewMeta, file=paste0("Bif3_AnnV4_metadata.txt"),
             quote=F, row.names=T, col.names=T, sep="\t")
+
+DrawUMAP_Ann_QC(PreAnn,NewMeta, "Ann_v4", CellOrder, "bi3_Re1", "bi3_Re2","Bif3_AnnV4")
+
