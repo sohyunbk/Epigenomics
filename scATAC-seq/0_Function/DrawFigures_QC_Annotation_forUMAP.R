@@ -12,14 +12,14 @@ PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters)
     geom_point(size=0.02) +
     scale_color_manual(values=ColorForPreAnn)+theme_minimal()+
     guides(colour = guide_legend(override.aes = list(size=14),
-                                 title="LouvainCluster_PreAnnotation"))+
+                                 title="LouvainCluster_QCplotisBasedOnPreAnnotation"))+
     labs(title = paste0("Pre-Annotation\n CellNumber: ",nrow(PreAnnMeta)),
          x = "UMAP1",
          y = "UMAP2")+
-    theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-          axis.text.y = element_text(size = 12),
-          axis.title.x = element_text(size = 14),
-          axis.title.y = element_text(size = 14))
+    theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+          axis.text.y = element_text(size = 25),
+          axis.title.x = element_text(size = 30),
+          axis.title.y = element_text(size = 30))
     
 Meta$Ann <- Meta[[Slot]]
 Meta$Ann <- factor(Meta$Ann,levels=(CellOrder))
@@ -35,31 +35,29 @@ All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
   labs(title = paste0("Re1+R2 \n CellNumber: ",nrow(Meta)),
        x = "UMAP1",
        y = "UMAP2")+
-  theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-        axis.text.y = element_text(size = 12),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14))
+  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 30),
+        axis.title.y = element_text(size = 30))
 
 ClustersTable_Re1 <- subset(PreAnnMeta, sampleID == Re1)
 Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(Ann))) +
   geom_point(size=0.02, color="blue") +
   theme_minimal()+
-  guides(colour = guide_legend(override.aes = list(size=20)))+
   labs(title = paste0("Re1 : ",nrow(ClustersTable_Re1)))+
-  theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-        axis.text.y = element_text(size = 12),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14))
+  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 30),
+        axis.title.y = element_text(size = 30))
 ClustersTable_Re2 <- subset(PreAnnMeta, sampleID == Re2)
 Re2_plot <- ggplot(ClustersTable_Re2, aes(x=umap1, y=umap2, color=factor(Ann))) +
   geom_point(size=0.02, color="red") +
   theme_minimal()+
-  guides(colour = guide_legend(override.aes = list(size=20)))+
   labs(title = paste0("Re2 : ",nrow(ClustersTable_Re2)))+
-  theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-        axis.text.y = element_text(size = 12),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14))
+  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 30),
+        axis.title.y = element_text(size = 30))
 
 ## Add some plots to see the cell quality
 ### * Tn5 log
@@ -74,10 +72,11 @@ Q_Tn5 <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "LogTn5")+sc+
-  theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-        axis.text.y = element_text(size = 12),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14))
+  guides(colour = guide_legend(override.aes = list(size=40)))+
+  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 30),
+        axis.title.y = element_text(size = 30))
 ## * Doublets
 sc <- scale_colour_gradientn(colours = myPalette(100),
                              limits=c(min(PreAnnMeta$doubletscore),
@@ -89,10 +88,11 @@ Q_doubletscore <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "Doublet score")+sc+
-  theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-        axis.text.y = element_text(size = 12),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14))
+  guides(colour = guide_legend(override.aes = list(size=40)))+
+  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 30),
+        axis.title.y = element_text(size = 30))
 ## Tss ratio
 PreAnnMeta$rTSS <- PreAnnMeta$tss/PreAnnMeta$total
 sc <- scale_colour_gradientn(colours = myPalette(100),
@@ -105,10 +105,11 @@ Q_rTSS <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "TSS ratio")+sc+
-  theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-        axis.text.y = element_text(size = 12),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14))
+  guides(colour = guide_legend(override.aes = list(size=40)))+
+  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 30),
+        axis.title.y = element_text(size = 30))
 
 ## Tss ratio
 sc <- scale_colour_gradientn(colours = myPalette(100),
@@ -121,14 +122,15 @@ Q_FRiP <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "FRiP ratio")+sc+
-  theme(axis.text.x = element_text(size = 12),  # Adjust size for x-axis text
-        axis.text.y = element_text(size = 12),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14))
+  guides(colour = guide_legend(override.aes = list(size=40)))+
+  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 30),
+        axis.title.y = element_text(size = 30))
 
-pdf(paste0(OutfilePathName,"_AnnQCPlots.pdf"), width=44, height=20)
+pdf(paste0(OutfilePathName,"_AnnQCPlots.pdf"), width=43, height=20)
 grid.arrange(PreAnn,Re1_plot, Q_Tn5, Q_doubletscore,
              All, Re2_plot, Q_rTSS,Q_FRiP,
-             ncol=4, widths=c(2.1,1,1.2,1.2))
+             ncol=4, widths=c(2,1,1.2,1.2))
 dev.off()
 }
