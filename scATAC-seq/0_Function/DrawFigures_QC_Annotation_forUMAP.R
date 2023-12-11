@@ -42,7 +42,8 @@ All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
         axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30))
+        axis.title.y = element_text(size = 30),
+        legend.title = element_text(size = 20))
 
 ClustersTable_Re1 <- subset(PreAnnMeta, sampleID == Re1)
 Re1_plot <- ggplot(ClustersTable_Re1, aes(x=umap1, y=umap2, color=factor(Ann))) +
@@ -81,7 +82,8 @@ Q_Tn5 <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30))
+        axis.title.y = element_text(size = 30),
+        legend.title = element_text(size = 15))
 ## * Doublets
 sc <- scale_colour_gradientn(colours = myPalette(100),
                              limits=c(min(PreAnnMeta$doubletscore),
@@ -98,7 +100,8 @@ Q_doubletscore <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30))
+        axis.title.y = element_text(size = 30),
+        legend.title = element_text(size = 15))
 ## Tss ratio
 PreAnnMeta$rTSS <- PreAnnMeta$tss/PreAnnMeta$total
 sc <- scale_colour_gradientn(colours = myPalette(100),
@@ -116,7 +119,8 @@ Q_rTSS <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30))
+        axis.title.y = element_text(size = 30),
+        legend.title = element_text(size = 15))
 
 ## Tss ratio
 sc <- scale_colour_gradientn(colours = myPalette(100),
@@ -134,7 +138,8 @@ Q_FRiP <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
         axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30))
+        axis.title.y = element_text(size = 30),
+        legend.title = element_text(size = 15))
 
 pdf(paste0(OutfilePathName,"_AnnQCPlots.pdf"), width=43, height=20)
 grid.arrange(PreAnn,Re1_plot, Q_Tn5, Q_doubletscore,
