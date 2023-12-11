@@ -22,7 +22,7 @@ PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters)
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30),
-        legend.title = element_text(size = 25))
+        legend.title = element_text(size = 20))
     
 Meta$Ann <- Meta[[Slot]]
 Meta$Ann <- factor(Meta$Ann,levels=(CellOrder))
