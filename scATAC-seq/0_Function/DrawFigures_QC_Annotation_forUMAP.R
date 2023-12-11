@@ -4,7 +4,7 @@ library("RColorBrewer")
 library(gridExtra)
 
 ### Getting metafile as input.
-DrawUMAP_Ann_QC <- function(PreAnnMeta,Meta, Slot, CellOrder, Re1, Re2){
+DrawUMAP_Ann_QC <- function(PreAnnMeta,Meta, Slot, CellOrder, Re1, Re2,OutfilePathName){
   print("Replicates name should be sampleID slot")
 ColorForPreAnn <- c( "#f58c8c", "#FFB380", "#FFECB3", "#a2d179", "#B3FFB3","#44c78e", "#B3FFE5", 
                      "#8dccca", "#48a2f0", "#69a0cf", "#b2bcf7", "#D1B3FF", "#ECB3FF",

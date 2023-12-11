@@ -61,5 +61,5 @@ setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619")
 write.table(NewMeta, file=paste0("Ref_AnnV4_metadata.txt"),
             quote=F, row.names=T, col.names=T, sep="\t")
 
-ggsave("Ref_AnnV4.pdf", width=14, height=8)
-DrawUMAP_Ann_QC(PreAnn,NewMeta, "Ann_v4", CellOrder, Re1, Re2)
+## Should be sampleID
+DrawUMAP_Ann_QC(PreAnn,NewMeta, "Ann_v4", CellOrder, "A619_Re1", "A619_Re2","A619_AnnV4")
