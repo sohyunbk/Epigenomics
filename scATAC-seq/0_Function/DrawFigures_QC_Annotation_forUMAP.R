@@ -11,8 +11,8 @@ ColorForPreAnn <- c( "#f58c8c", "#FFB380", "#FFECB3", "#a2d179", "#B3FFB3","#44c
 PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
     geom_point(size=0.02) +
     scale_color_manual(values=ColorForPreAnn)+theme_minimal()+
-    guides(colour = guide_legend(override.aes = list(size=14),
-                                 title="LouvainCluster_QCplotisBasedOnPreAnnotation"))+
+    guides(colour = guide_legend(override.aes = list(size=25),
+                                 title="LouvainCluster_OtherQCplotis_are_BasedOnPreAnnotation"))+
     labs(title = paste0("Pre-Annotation\n CellNumber: ",nrow(PreAnnMeta)),
          x = "UMAP1",
          y = "UMAP2")+
@@ -31,7 +31,7 @@ All <- ggplot(Meta, aes(x=umap1, y=umap2, color=factor(Ann))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+
   theme_minimal()+
-  guides(colour = guide_legend(override.aes = list(size=14)))+
+  guides(colour = guide_legend(override.aes = list(size=25)))+
   labs(title = paste0("Re1+R2 \n CellNumber: ",nrow(Meta)),
        x = "UMAP1",
        y = "UMAP2")+
@@ -72,8 +72,8 @@ Q_Tn5 <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "LogTn5")+sc+
-  guides(colour = guide_legend(override.aes = list(size=40)))+
-  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+  theme(legend.key.size = unit(2, "lines"),
+        axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30))
@@ -88,8 +88,8 @@ Q_doubletscore <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "Doublet score")+sc+
-  guides(colour = guide_legend(override.aes = list(size=40)))+
-  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+  theme(legend.key.size = unit(2, "lines"),
+        axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30))
@@ -105,8 +105,8 @@ Q_rTSS <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "TSS ratio")+sc+
-  guides(colour = guide_legend(override.aes = list(size=40)))+
-  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+  theme(legend.key.size = unit(2, "lines"),
+        axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30))
@@ -122,8 +122,8 @@ Q_FRiP <-ggplot(PreAnnMeta, aes(x=umap1, y=umap2,
   scale_x_continuous(expand=c(0.02,0)) +
   scale_y_continuous(expand=c(0.02,0)) +
   labs(title = "FRiP ratio")+sc+
-  guides(colour = guide_legend(override.aes = list(size=40)))+
-  theme(axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
+  theme(legend.key.size = unit(2, "lines"),
+        axis.text.x = element_text(size = 25),  # Adjust size for x-axis text
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30))
