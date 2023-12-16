@@ -62,4 +62,4 @@ write.table(NewMeta, file=paste0("Ref_AnnV4_metadata.txt"),
             quote=F, row.names=T, col.names=T, sep="\t")
 
 ## Should be sampleID
-DrawUMAP_Ann_QC(PreAnn,NewMeta, "Ann_v4", CellOrder, "A619_Re1", "A619_Re2","A619_AnnV4")
+DrawUMAP_Ann_QC(PreAnn,NewMeta, "Ann_v4", CellOrder, "A619_Re1", "A619_Re2","A619_AnnV4_SmallerDot")
