@@ -12,8 +12,8 @@
 #SBATCH --array=0-2
 
 source activate r_env
-SampleNames=(A169
-A169
+SampleNames=(A619
+A619
 Bif3)
 
 MetaFiles=(
