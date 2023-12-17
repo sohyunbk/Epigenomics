@@ -19,8 +19,7 @@ library(ggplot2)
 
 #e.g.
 #meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Cluster1_Recluster_Sub_res1_knear100_Partmetadata.txt"
-#gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt"
-#imputed_sparse_rds <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3_IncludingZmCLE7/opt_allgenes_impute.activity.rds"
+#gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/221130_EarMarker.txt"
 #OutputPath <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3SubClsters"
 
 option_list = list(
@@ -84,33 +83,28 @@ for ( z in take_length_markers ) {
 
     print("Calculating Quantile")
     global_acc <- imputed_sparse[rownames(imputed_sparse) == i]
-   
-    
     upper.lim <- quantile(global_acc, .98, na.rm = TRUE) + 1e-6
 
     graphable_sparse_2 <- imputated_sparse_2_join  %>%
         dplyr::mutate(final_ac = case_when(value >= upper.lim ~ upper.lim,
                                 TRUE ~ value))
-    
-    min.acv <- min(graphable_sparse_2$final_ac) - (1e-6*min(graphable_sparse_2$final_ac))
-    max.acv <- max(graphable_sparse_2$final_ac) + (1e-6*max(graphable_sparse_2$final_ac))
-    colvec <- cols[cut(graphable_sparse_2$final_ac, breaks=seq(min.acv, max.acv, length.out=101))]
 
     grad <- scale_colour_gradientn(colours = cols,
         limits = c(0, max(graphable_sparse_2$final_ac)))
 
     generate_title <- str_c(grab_gene_info$name, grab_gene_info$geneID, sep ="\n")
-    graphable_sparse_2$colors <- colvec
-    
+
     print("Generating Graph for Marker")
-    arranged_imputation_plot <- graphable_sparse_2 %>%
-      arrange(final_ac) %>%
-      ggplot(aes(umap1, umap2, colour = colors)) +
-      geom_jitter(position = "jitter", size = 1, stroke = 0, shape = 16) +
-      scale_color_identity() +  # Use the actual colors in the 'colors' column
-      theme_classic() +
-      ggtitle(generate_title)
-    #ggsave("my_plot.png", plot = arranged_imputation_plot, width = 10, height = 8, dpi = 300)
+    arranged_imputation_plot <- graphable_sparse_2  %>%
+        arrange(final_ac)  %>%
+            ggplot(., aes(umap1, umap2, colour = final_ac)) +
+            geom_jitter(position = "jitter", size = 1, stroke = 0, shape = 16) +
+            scale_fill_continuous(type="viridis") +
+            grad +
+            theme_classic() +
+            #theme(legend.position="none") +
+            ggtitle(generate_title)
+
     gathered_list[[storage_character]] <- arranged_imputation_plot
 
 }

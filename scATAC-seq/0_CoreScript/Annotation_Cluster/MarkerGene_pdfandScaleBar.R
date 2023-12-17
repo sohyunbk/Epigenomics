@@ -75,6 +75,9 @@ for ( z in take_length_markers ) {
   cols <- colorRampPalette(c("grey","grey","grey","grey","grey","#DD3497", "#630231"), interpolate="linear", bias = .5)(100)
   
   print("Calculating Quantile")
+  min.acv <- min(acv) - (1e-6*min(acv))
+  max.acv <- max(acv) + (1e-6*max(acv))
+  
   upper.lim <- quantile(imputated_sparse_2_join$value, .90, na.rm = TRUE) + 1e-6
   
   graphable_sparse_2 <- imputated_sparse_2_join  %>% 
