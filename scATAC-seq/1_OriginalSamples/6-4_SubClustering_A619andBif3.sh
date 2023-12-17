@@ -11,6 +11,9 @@
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 #SBATCH --array=0-2
 
+### Note that! The new version. A619 did not work I guess the UMAP1 and UMAP2 are different in rds file there.
+## Thus, I am using previous subcluster for A619
+
 source activate r_env
 SampleNames=(A619
 A619
