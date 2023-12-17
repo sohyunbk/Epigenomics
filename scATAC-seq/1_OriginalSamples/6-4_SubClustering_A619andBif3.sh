@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=SubCluster        # Job name
-#SBATCH --partition=batch         # Partition (queue) name
+#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
 #SBATCH --mem=70gb                   # Job memory request ## Should have more than 300 here
