@@ -25,9 +25,9 @@ library(preprocessCore)
 # cellA 1
 # cellB 2
 
-meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt" 
-gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.txt"
-GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/Ref/GA_A619.txt"
+meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt" 
+gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/CellCycle.txt"
+GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re.txt"
 
 meta_data <- read.delim(meta)
 gene_markers <- read.delim(gene)
