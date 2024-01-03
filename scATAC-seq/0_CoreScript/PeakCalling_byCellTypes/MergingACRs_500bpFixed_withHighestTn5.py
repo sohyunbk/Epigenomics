@@ -5,6 +5,9 @@
 import pybedtools
 import glob
 import os
+import argparse
+import sys
+
 
 def remove_overlapping_peaks(py_bed_tool):
     """TODO: Docstring for remove_overlapping_peaks.
@@ -92,6 +95,7 @@ def add_final_counter(bed_tool, base_name):
         counter += 1
     return final_bed_tool
 def get_parser():
+    ##
     parser = argparse.ArgumentParser(
         description="Call Peaks for scATAC data. \
     Requires cluster annnotations, as well as BED file ipput."
