@@ -11,8 +11,8 @@
 
 Path=/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4
 Combined=(1_A619 3_bif3 2_rel2)
-Sample=(A619 bif3 rel2)
-MetaData=(Ref_AnnV4_metadata.txt ShouldbeChanged rel2_AnnV4.txt)
+Sample=(A619 Bif3 rel2)
+MetaData=(Ref_AnnV4_metadata.txt Bif3_AnnV4_metadata.txt rel2_AnnV4.txt)
 ml Anaconda3/2022.10
 source activate r_env
 

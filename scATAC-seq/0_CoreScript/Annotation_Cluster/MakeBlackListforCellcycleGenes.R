@@ -41,9 +41,9 @@ CellCycle <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/B73_v5_cell_cycle_genes
 CellCycle <- read.table(CellCycle, header=FALSE)
 head(CellCycle)
 CellCycleGenes <- CellCycle$V1
-head(BroadRange_Ann)
+head(Ann)
 
-gr <- BroadRange_Ann[names(BroadRange_Ann)%in%CellCycleGenes,]
+gr <- Ann[names(Ann)%in%CellCycleGenes,]
 cc_bed <- data.frame(chr=seqnames(gr),
                                    start=start(gr),
                                    end=end(gr),
@@ -53,10 +53,10 @@ cc_bed$geneID
 CellCycle_Bed <- merge(cc_bed,CellCycle, by.x="geneID", by.y="V1")
 CellCycle_Bed$type <- CellCycle_Bed$V2
 col(CellCycle_Bed)
+
 CellCycle_Bed <- CellCycle_Bed[,c(2,3,4,1,5,6)]
 colnames(CellCycle_Bed) <- c("chr","start","end","geneID","name","type")
 tail(CellCycle_Bed)
 setwd("/scratch/sb14489/3.scATAC/0.Data/CellCycle")
-write.table(CellCycle_Bed, file="CellCycle_UpDownStream500bp_withHeader.bed",
+write.table(CellCycle_Bed, file="CellCycle.bed",
            quote=F, row.names=F, col.names=T, sep="\t")
-#data.frame(v1=d$v1, v4=m[match(d$v2, m$v3), 2])

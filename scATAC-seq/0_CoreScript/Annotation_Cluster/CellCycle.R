@@ -29,7 +29,6 @@ library(RColorBrewer)
 
 meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt" 
 gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.bed"
-#gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/B73_v5_cell_cycle_genes.txt"
 GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619.txt"
 AnnSlot <- "Ann_v4"
 OutputPathFileName <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/2.CellCycle/A619_V4"
