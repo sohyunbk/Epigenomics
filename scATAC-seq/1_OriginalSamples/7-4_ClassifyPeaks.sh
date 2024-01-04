@@ -9,7 +9,6 @@
 #SBATCH --error=/scratch/sb14489/0.log/ClassifyingPeaks.%j.err    # Standard error log
 #SBATCH --array=0-1
 
-ml Anaconda3/2020.02
 source activate r_env
 
 OutPutFilesDir=(A619_Bif3_500bpCommonPeak A619_rel2_500bpCommonPeak)
