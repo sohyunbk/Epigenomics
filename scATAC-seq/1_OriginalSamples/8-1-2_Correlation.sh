@@ -52,4 +52,5 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Correlation/Correlatio
   --S1and2_500bpPeak //scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${CommonPeak[SLURM_ARRAY_TASK_ID]}" \
   --S1and2_500bpInterPeak //scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${CommonPeakIntergenic[SLURM_ARRAY_TASK_ID]}" \
   --OutPath /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/1.Correlation \
-  --OutFileName "${OutfileName[SLURM_ARRAY_TASK_ID]}"
+  --OutFileName "${OutfileName[SLURM_ARRAY_TASK_ID]}" \
+  --CellTypeOrder "${CTNameOrder[SLURM_ARRAY_TASK_ID]}"
