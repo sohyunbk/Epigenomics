@@ -23,8 +23,6 @@ rel2
 cd /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/BWFiles
 
 for file in "${WorkingDirs[SLURM_ARRAY_TASK_ID]}"*.bdg; do
-    sort -k1,1 -k2,2n $file ${file%.bdg}.sorted.bdg
+    echo sort -k1,1 -k2,2n $file > ${file%.bdg}.sorted.bdg
     bedGraphToBigWig ${file%.bdg}.sorted.bdg ${file%.bdg}.sorted.bw
 done
-
-#############################

@@ -204,7 +204,7 @@ CorrPlot_Function <- function(Correlation,SampleName,Prefix=".pdf"){
     theme_minimal()+
     theme(axis.text.x = element_text(angle = 45, vjust = 1,
                                      size = 10, hjust = 1))+
-    coord_fixed() +  xlab("Replicate1") + ylab("Replicate2")
+    coord_fixed() +  xlab(S1_Name) + ylab(S2_Name)
 
   ggsave(paste0(SampleName,Prefix), width=10, height=10)
 }
