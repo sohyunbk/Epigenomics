@@ -138,18 +138,18 @@ A619_Bif3_Celltype_Count <- A619_Bif3_Celltype_Count_InterGenic[,-1]
 A619_Bif3_Celltype_Count[is.na(A619_Bif3_Celltype_Count)] <- 0
 
 ## 1) CPM normalization
-head(A619_Bif3_Celltype_Count)
+#head(A619_Bif3_Celltype_Count)
 DevidedbySum <- apply(A619_Bif3_Celltype_Count,2,function(x){x/sum(x)})
 A619_Bif3_CPM <- DevidedbySum*1000000
 
 ## 2) QuantileNormalization
 library(preprocessCore)
-head(as.matrix(A619_Bif3_CPM))
+#head(as.matrix(A619_Bif3_CPM))
 A619_Bif3_Quantile <- normalize.quantiles(A619_Bif3_CPM)
-head(A619_Bif3_Quantile)
+#head(A619_Bif3_Quantile)
 dim(A619_Bif3_Quantile)
 colnames(A619_Bif3_Quantile) <- colnames(A619_Bif3_CPM)
-head(A619_Bif3_Quantile)
+#head(A619_Bif3_Quantile)
 
 count_A619 <- length(grep(paste0("^",S1_Name), colnames(A619_Bif3_CPM)))
 A619_Q <- A619_Bif3_Quantile[,c(1:count_A619)]
@@ -157,19 +157,22 @@ Bif3_Q <- A619_Bif3_Quantile[,c((count_A619+1):ncol(A619_Bif3_CPM))]
 S1Name_aligned <- gsub(S1_Name, S2_Name, colnames(A619_Q))
 
 #CTOrder
+print("Bif3_Q object")
+print(CTOrder)
+head(Bif3_Q)
 Bif3_Q <- Bif3_Q[,CTOrder]
 A619_Q <- A619_Q[,CTOrder]
 Correlation <- cor(A619_Q,Bif3_Q,  method = "pearson")
 
 ## 3) Get the most variable 2000 ACR.
-head(A619_Bif3_Quantile)
+#head(A619_Bif3_Quantile)
 Variance_by_Peak <- apply(A619_Bif3_Quantile,1,var)
 length(Variance_by_Peak)
 length(Intergenic_pos)
 sort(Variance_by_Peak, decreasing = TRUE)[2000]
 A619_Bif3_Quantile_Top2000 <- A619_Bif3_Quantile[Variance_by_Peak >= sort(Variance_by_Peak, decreasing = TRUE)[2000],]
 dim(A619_Bif3_Quantile_Top2000)
-head(A619_Bif3_Quantile_Top2000)
+#head(A619_Bif3_Quantile_Top2000)
 
 A619_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c(1:count_A619)]
 Bif3_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c((count_A619+1):ncol(A619_Bif3_CPM))]
@@ -186,7 +189,7 @@ library(ggplot2)
 ######### Draw Plot
 CorrPlot_Function <- function(Correlation,SampleName,Prefix=".pdf"){
   melted_Correlation <- melt(Correlation, na.rm = TRUE)
-  head(melted_Correlation)
+  #head(melted_Correlation)
   Min <- min(melted_Correlation$value)
   Max <- max(melted_Correlation$value)
 
