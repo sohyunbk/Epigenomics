@@ -7,27 +7,24 @@
 #SBATCH --time=0:30:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/9-3_Bigwig.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/9-3_Bigwig.%j.err    # Standard error log
-#SBATCH --array=0-12
+#SBATCH --array=0-2
 
-ml Anaconda3/2020.02
 source activate /home/sb14489/.conda/envs/ucsc
 
-ClusterN=(BundleSheath_VascularSchrenchyma L1atFloralMeristem CalloseRelated PhloemPrecursor FloralMeristem_SuppressedBract ProcambialMeristem_ProtoXylem_MetaXylem G2_M ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma IM-OC SPM-base_SM-base IM_SPM_SM XylemParenchyma_PithParenchyma L1)
+WorkingDirs=(
+A619
+Bif3
+rel2
+)
 
-AnnDir=Ann_V3_RemoveFakePeak
-cd /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/"$AnnDir"/
-mkdir BwFiles
+find /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${WorkingDirs[SLURM_ARRAY_TASK_ID]}" \
+ -name "*.macs_treat_pileup.normalized.bdg" -exec mv {} /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/BWFiles \;
 
-# bif3
-SampleName=A619
-cd /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/"$AnnDir"/"$SampleName"
-awk '$1 ~ /^chr/' ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_summits > ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_summits_Onlychr
-#bedSort  ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".pool.macs_treat_pileup.normalized.bdg  ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".pool.macs_treat_pileup.normalized_2Sorted.bdg
-#bedGraphToBigWig ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".pool.macs_treat_pileup.normalized_2Sorted.bdg /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai ../BwFiles/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".normalized.bw
+cd /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/BWFiles
 
-# bif3
-SampleName=bif3
-cd /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/"$AnnDir"/"$SampleName"
-awk '$1 ~ /^chr/' ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_summits > ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".reproducible_summits_Onlychr
-#bedSort  ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".pool.macs_treat_pileup.normalized.bdg  ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".pool.macs_treat_pileup.normalized_2Sorted.bdg
-#bedGraphToBigWig ./"${ClusterN[SLURM_ARRAY_TASK_ID]}"/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".pool.macs_treat_pileup.normalized_2Sorted.bdg /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai ../BwFiles/"$SampleName"_"${ClusterN[SLURM_ARRAY_TASK_ID]}".normalized.bw
+for file in "${WorkingDirs[SLURM_ARRAY_TASK_ID]}"*.bdg; do
+    bedSort $file ${file%.bdg}.sorted.bdg
+    bedGraphToBigWig ${file%.bdg}.sorted.bdg ${file%.bdg}.sorted.bw
+done
+
+#############################
