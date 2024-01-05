@@ -13,11 +13,12 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-/home/sb14489/.conda/envs/r_env/bin/python /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/8-2_Peaks_Cut/MergeCutPeaks_toFixHumpedPeaks.py -method Method1 \
+/home/sb14489/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/MergeCutPeaks_toFixHumpedPeaks.py \
+    -method Method1 \
     -inputpath1 /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619 \
-     -inputpath2 /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/Bif3 \
-      -fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \
-      -OutputFileName A619Bif3 -OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_Bif3_MergedDifferentSizePeak \
-      -Ann /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed \
-      -Sparse1 /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/1_A619_Combined_Sorted_k12.bed_OnlyChr \
-      -Sparse2 /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/3_bif3_Combined_Sorted_k12.bed_OnlyChr
+    -inputpath2 /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/Bif3 \
+    -fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \
+    -OutputFileName A619Bif3 -OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_Bif3_MergedDifferentSizePeak \
+    -Ann /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed \
+    -Sparse1 /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/1_A619_Combined_Sorted_k12.bed_OnlyChr \
+    -Sparse2 /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/3_bif3_Combined_Sorted_k12.bed_OnlyChr

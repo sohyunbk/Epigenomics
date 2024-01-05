@@ -223,10 +223,11 @@ if __name__ == "__main__":
     #============= 1st option: Easiest way! Just merge the peaks - with different sizes by cell type ============#
     if args.method == "Method1":
         cellnames = [dirnames for root, dirnames, filenames in os.walk(args.Dir1)][0]
+        print(cellnames)
         InputSample1 = args.Dir1.split("/")[len(args.Dir1.split("/"))-1]
         InputSample2 = args.Dir2.split("/")[len(args.Dir2.split("/"))-1]
-        AllBeds_list1 = [ReadBedFiles_onlyChr(args.Dir1+"/"+cellname+"/"+InputSample1+"_"+cellname+".reproducible_narrow_peaks") for cellname in cellnames]
-        AllBeds_list2 = [ReadBedFiles_onlyChr(args.Dir2+"/"+cellname+"/"+InputSample2+"_"+cellname+".reproducible_narrow_peaks") for cellname in cellnames]
+        AllBeds_list1 = [ReadBedFiles_onlyChr(args.Dir1+"/"+cellname+"/"+InputSample1+"_"+cellname+".reproducible_summits.passing_FDR") for cellname in cellnames]
+        AllBeds_list2 = [ReadBedFiles_onlyChr(args.Dir2+"/"+cellname+"/"+InputSample2+"_"+cellname+".reproducible_summits.passing_FDR") for cellname in cellnames]
         MergedPeakList = Merge_TwoBedListSameOrder(AllBeds_list1,AllBeds_list2,cellnames,args.OutputDir,args.SampleName)
         FakeSummitList = [Make_Fake_Summit(MergedPeakSet) for MergedPeakSet in MergedPeakList]
         for k in range(0,len(FakeSummitList)): Outfile_GenicIntergenic(k,FakeSummitList,args.Ann,cellnames,args.OutputDir,args.SampleName)
@@ -253,8 +254,9 @@ if __name__ == "__main__":
     elif args.method == "Method2":
         os.system("mkdir "+args.OutputDir)
         cellnames = [dirnames for root, dirnames, filenames in os.walk(args.Dir)][0]
+        print(cellnames)
         InputSample = args.Dir.split("/")[len(args.Dir.split("/"))-1]
-        AllBeds_list = [ReadBedFiles_onlyChr(args.Dir+"/"+cellname+"/"+InputSample+"_"+cellname+".reproducible_narrow_peaks") for cellname in cellnames]
+        AllBeds_list = [ReadBedFiles_onlyChr(args.Dir+"/"+cellname+"/"+InputSample+"_"+cellname+".reproducible_summits.passing_FDR") for cellname in cellnames]
         MergedPeaks = AllBeds_list[0]
         for sFiles in AllBeds_list[1:]: MergedPeaks = MergedPeaks.cat(sFiles,c=4, o="collapse")
         NewPeakSize = int(args.size)
