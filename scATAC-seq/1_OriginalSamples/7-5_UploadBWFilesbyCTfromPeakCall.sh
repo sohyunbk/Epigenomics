@@ -9,6 +9,7 @@
 #SBATCH --error=/scratch/sb14489/0.log/9-3_Bigwig.%j.err    # Standard error log
 #SBATCH --array=0-2
 
+ml Anaconda3/2023.09-0
 source activate /home/sb14489/.conda/envs/ucsc
 
 WorkingDirs=(
