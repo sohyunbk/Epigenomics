@@ -10,7 +10,7 @@
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 
-ml Anaconda3/2020.02
+ml Anaconda3/2023.09-0
 source activate r_env
 
 /home/sb14489/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/MergeCutPeaks_toFixHumpedPeaks.py \
