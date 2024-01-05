@@ -55,6 +55,8 @@ OutfileName <- opt$OutFileName
 WD <-   opt$OutPath
 CTOrders <-   opt$CellTypeOrder
 
+CTOrder <- readLines(CTOrders)
+
 ## 1. Load files and get filtered Sparse file for save space
 ## --> should combine A619+Bif3 in the begining to keep all the peaks as features
 
@@ -153,16 +155,10 @@ count_A619 <- length(grep(paste0("^",S1_Name), colnames(A619_Bif3_CPM)))
 A619_Q <- A619_Bif3_Quantile[,c(1:count_A619)]
 Bif3_Q <- A619_Bif3_Quantile[,c((count_A619+1):ncol(A619_Bif3_CPM))]
 S1Name_aligned <- gsub(S1_Name, S2_Name, colnames(A619_Q))
-get_order <- function(item, aligned_vector_A, original_vector_B) {
-  if (item %in% aligned_vector_A) {
-    return(match(item, aligned_vector_A))
-  } else {
-    return(max(length(aligned_vector_A), match(item, original_vector_B)))
-  }
-}
-ordered_S2Name <- colnames(Bif3_Q)[order(sapply(colnames(Bif3_Q), get_order, S1Name_aligned, colnames(Bif3_Q)))]
-Bif3_Q_Ordered <- Bif3_Q[,ordered_S2Name]
-Bif3_Q <- Bif3_Q_Ordered
+
+#CTOrder
+Bif3_Q <- Bif3_Q[,CTOrder]
+A619_Q <- A619_Q[,CTOrder]
 Correlation <- cor(A619_Q,Bif3_Q,  method = "pearson")
 
 ## 3) Get the most variable 2000 ACR.
@@ -174,11 +170,12 @@ sort(Variance_by_Peak, decreasing = TRUE)[2000]
 A619_Bif3_Quantile_Top2000 <- A619_Bif3_Quantile[Variance_by_Peak >= sort(Variance_by_Peak, decreasing = TRUE)[2000],]
 dim(A619_Bif3_Quantile_Top2000)
 head(A619_Bif3_Quantile_Top2000)
+
 A619_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c(1:count_A619)]
 Bif3_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c((count_A619+1):ncol(A619_Bif3_CPM))]
 ## I should edit this part!
-Bif3_Q_Top2000_Ordered <- Bif3_Q_Top2000[,ordered_S2Name]
-Bif3_Q_Top2000 <- Bif3_Q_Top2000_Ordered
+Bif3_Q_Top2000 <- Bif3_Q_Top2000[,CTOrder]
+A619_Q_Top2000 <- A619_Q_Top2000[,CTOrder]
 
 Correlation_Top2000 <- cor(A619_Q_Top2000,Bif3_Q_Top2000,  method = "pearson")
 Correlation_Top2000
