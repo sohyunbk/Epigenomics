@@ -23,7 +23,12 @@ rel2
 
 cd /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/BWFiles
 
-for file in "${WorkingDirs[SLURM_ARRAY_TASK_ID]}"*.bdg; do
-    sort -k1,1 -k2,2n $file > ${file%.bdg}.sorted.bdg
-    bedGraphToBigWig ${file%.bdg}.sorted.bdg /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai  ${file%.bdg}.sorted.bw
+for file in "${WorkingDirs[SLURM_ARRAY_TASK_ID]}"*.normalized.bdg; do
+    sorted_bdg=${file%.bdg}.sorted.bdg
+    sorted_bw=${file%.bdg}.sorted.bw
+    # Check if the output file does not exist
+    if [ ! -f "$sorted_bw" ]; then
+        sort -k1,1 -k2,2n "$file" > "$sorted_bdg"
+        bedGraphToBigWig "$sorted_bdg" /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai "$sorted_bw"
+    fi
 done
