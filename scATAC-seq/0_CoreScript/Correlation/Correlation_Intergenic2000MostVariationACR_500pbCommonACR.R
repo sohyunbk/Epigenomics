@@ -1,4 +1,4 @@
-##### Back to EdgeR!! 
+##### Back to EdgeR!!
 #conda activate r4-base --> it has some issues in saving pdf files.. ## Seems like it's sapelo2 issue..
 # conda activate r_env
 ##### I will calculate ACRs only in intergenic regions.
@@ -44,7 +44,7 @@ Sparsefile_Bif3 <- opt$S2_Sparse
 MetaFileA619 <- opt$S1_Meta
 MetaFileBif3 <- opt$S2_Meta
 
-Peak_AllFile <- opt$S1and2_500bpPeak 
+Peak_AllFile <- opt$S1and2_500bpPeak
 InterGenicFile <- opt$S1and2_500bpInterPeak
 
 cluster_name <- opt$ClusterColumnName
@@ -158,7 +158,7 @@ get_order <- function(item, aligned_vector_A, original_vector_B) {
 }
 ordered_S2Name <- colnames(Bif3_Q)[order(sapply(colnames(Bif3_Q), get_order, S1Name_aligned, colnames(Bif3_Q)))]
 Bif3_Q_Ordered <- Bif3_Q[,ordered_S2Name]
-Bif3_Q <- Bif3_Q_Ordered 
+Bif3_Q <- Bif3_Q_Ordered
 Correlation <- cor(A619_Q,Bif3_Q,  method = "pearson")
 
 ## 3) Get the most variable 2000 ACR.
@@ -187,22 +187,21 @@ CorrPlot_Function <- function(Correlation,SampleName,Prefix=".pdf"){
   head(melted_Correlation)
   Min <- min(melted_Correlation$value)
   Max <- max(melted_Correlation$value)
-  
-  ggplot(data = melted_Correlation, aes(x=Var1, y=Var2, fill=value)) + 
+
+  ggplot(data = melted_Correlation, aes(x=Var1, y=Var2, fill=value)) +
     geom_tile()+
     scale_fill_gradient2(low = "#002aff", high = "red", mid =  "white",
-                         midpoint = (Min+Max)/2, 
-                         limit = c(Min,Max), 
+                         midpoint = (Min+Max)/2,
+                         limit = c(Min,Max),
                          breaks=c(round(Min,2)+0.01,round((Min+Max)/2,2),round(Max,2)-0.01),
                          name="Pearson\nCorrelation")+
-    
-    theme_minimal()+ 
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+
+    theme_minimal()+
+    theme(axis.text.x = element_text(angle = 45, vjust = 1,
                                      size = 10, hjust = 1))+
     coord_fixed() +  xlab("Replicate1") + ylab("Replicate2")
-  
+
   ggsave(paste0(SampleName,Prefix), width=10, height=10)
 }
 CorrPlot_Function(Correlation,OutfileName,Prefix="_AllACRs.pdf")
 CorrPlot_Function(Correlation_Top2000,OutfileName,Prefix="_Top2000Variable.pdf")
-
