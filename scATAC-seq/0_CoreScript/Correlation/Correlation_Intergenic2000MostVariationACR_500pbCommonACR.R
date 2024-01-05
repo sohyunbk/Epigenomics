@@ -160,8 +160,8 @@ S1Name_aligned <- gsub(S1_Name, S2_Name, colnames(A619_Q))
 print("Bif3_Q object")
 print(CTOrder)
 head(Bif3_Q)
-Bif3_Q <- Bif3_Q[,CTOrder]
-A619_Q <- A619_Q[,CTOrder]
+Bif3_Q <- Bif3_Q[,paste0("Bif3",CTOrder)]
+A619_Q <- A619_Q[,paste0("A619",CTOrder)]
 Correlation <- cor(A619_Q,Bif3_Q,  method = "pearson")
 
 ## 3) Get the most variable 2000 ACR.
@@ -177,8 +177,8 @@ dim(A619_Bif3_Quantile_Top2000)
 A619_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c(1:count_A619)]
 Bif3_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c((count_A619+1):ncol(A619_Bif3_CPM))]
 ## I should edit this part!
-Bif3_Q_Top2000 <- Bif3_Q_Top2000[,CTOrder]
-A619_Q_Top2000 <- A619_Q_Top2000[,CTOrder]
+Bif3_Q_Top2000 <- Bif3_Q_Top2000[,paste0("Bif3",CTOrder)]
+A619_Q_Top2000 <- A619_Q_Top2000[,paste0("A619",CTOrder)]
 
 Correlation_Top2000 <- cor(A619_Q_Top2000,Bif3_Q_Top2000,  method = "pearson")
 Correlation_Top2000
