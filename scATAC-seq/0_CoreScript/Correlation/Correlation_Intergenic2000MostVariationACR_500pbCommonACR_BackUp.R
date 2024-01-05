@@ -31,9 +31,7 @@ option_list = list(
   make_option(c("--OutFileName"), type="character",
               help="OutFileName", metavar="character"),
   make_option(c("--OutPath"), type="character",
-              help="OutPath", metavar="character"),
-  make_option(c("--CellTypeOrder"), type="character",
-          help="CellTypeOrder", metavar="character")
+              help="OutPath", metavar="character")
 );
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
@@ -53,8 +51,6 @@ cluster_name <- opt$ClusterColumnName
 
 OutfileName <- opt$OutFileName
 WD <-   opt$OutPath
-CTOrders <-   opt$CellTypeOrder
-
 ## 1. Load files and get filtered Sparse file for save space
 ## --> should combine A619+Bif3 in the begining to keep all the peaks as features
 
@@ -176,7 +172,6 @@ dim(A619_Bif3_Quantile_Top2000)
 head(A619_Bif3_Quantile_Top2000)
 A619_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c(1:count_A619)]
 Bif3_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c((count_A619+1):ncol(A619_Bif3_CPM))]
-## I should edit this part!
 Bif3_Q_Top2000_Ordered <- Bif3_Q_Top2000[,ordered_S2Name]
 Bif3_Q_Top2000 <- Bif3_Q_Top2000_Ordered
 
