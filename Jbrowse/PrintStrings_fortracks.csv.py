@@ -77,7 +77,7 @@ if __name__ == "__main__":
     if args.bw == "yes":
         BWFiles(args.DirForFiles,args.bw,args.GitHubDir,args.TiedName,args.GitHubSubDir)
 
-        #python //home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atacc
+        #python //home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/3.scATAC/4.Bif3Ref/5.Jbrowse_MACS2 -bw yes -TiedName scATAC -GitHubDir atac
     elif args.bed == "yes":
         bedFiles(args.DirForFiles,args.bed,args.GitHubDir,args.TiedName)
         #python /home/sb14489/Epigenomics/Jbrowse/PrintStrings_fortracks.csv.py -DirForFiles /scratch/sb14489/0.Reference/Maize_Ki3/ -bed yes -TiedName InsertedSeq119+445bp -GitHubDir peak
