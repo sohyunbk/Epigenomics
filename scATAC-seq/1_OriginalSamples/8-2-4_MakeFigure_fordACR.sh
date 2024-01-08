@@ -11,12 +11,12 @@
 ml Anaconda3/2023.09-0
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/dACR/Differential_ACR_PseudoBulk.R \
- --Sparse_S1 /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${ClusterN[SLURM_ARRAY_TASK_ID]}"_PeaksCount_byA619Barcode.txt \
- --Sparse_S2 /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${ClusterN[SLURM_ARRAY_TASK_ID]}"_PeaksCount_byBif3Barcode.txt \
- --Meta_S1 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt  \
- --Meta_S2 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Bif3/Bif3_AnnV4_metadata.txt \
- --CellType "${ClusterN[SLURM_ARRAY_TASK_ID]}" \
- --IntergenicPeakFile /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_Bif3_MergedDifferentSizePeak/A619Bif3_"${ClusterN[SLURM_ARRAY_TASK_ID]}"_MergedPeak_Intergenic.bed  \
- --OutputDir /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/ \
- --AnnColumnName Ann_v4
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/dACR_number_byCellType_DotPlot_withEdgeRSummaryFile.R \
+ --WD /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/ \
+ --FDRCutOff 0.01 \
+ --OutFilename dACRNumber_DotPlot_FDR0.01.pdf
+
+ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/dACR_number_byCellType_DotPlot_withEdgeRSummaryFile.R \
+  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/ \
+  --FDRCutOff 0.05 \
+  --OutFilename dACRNumber_DotPlot_FDR0.05.pdf
