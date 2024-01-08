@@ -15,10 +15,10 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/dACR_numb
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/ \
  --FDRCutOff 0.01 \
  --OutFilename dACRNumber_DotPlot_FDR0.01.pdf \
- --CellOrderFile /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt
+ --CellOrderFile /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse.txt
 
  Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/dACR_number_byCellType_DotPlot_withEdgeRSummaryFile.R \
   --WD /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/ \
   --FDRCutOff 0.05 \
   --OutFilename dACRNumber_DotPlot_FDR0.05.pdf \
-  --CellOrderFile /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt
+  --CellOrderFile /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse.txt
