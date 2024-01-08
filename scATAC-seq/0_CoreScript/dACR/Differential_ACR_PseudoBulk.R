@@ -180,8 +180,8 @@ Result <- cbind(Result,TMM)
 
 head(Result)
 dim(Result)
-table(Result$Peak == "chr10_149311748_149312391")
-Result[Result$Peak == "chr10_149311748_149312391",]
+#table(Result$Peak == "chr10_149311748_149312391")
+#Result[Result$Peak == "chr10_149311748_149312391",]
 print(sum(Result$FDR < 0.05))
 #Result[Result$FDR < 0.05,][c(1:100),]
 write.table(Result, file=paste0(CT,".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"), quote=F, row.names=F, col.names=T, sep="\t")
