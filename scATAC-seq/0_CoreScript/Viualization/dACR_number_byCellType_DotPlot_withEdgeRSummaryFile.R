@@ -1,21 +1,48 @@
-setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn")
-FileEnd <- ".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
-Celltype <- 
-  c("L1","L1atFloralMeristem",
-    "FloralMeristem_SuppressedBract",
-    "IM-OC","SPM-base_SM-base","IM_SPM_SM",
-     "ProcambialMeristem_ProtoXylem_MetaXylem",
-    "PhloemPrecursor", 
-    "ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma",
-     "XylemParenchyma_PithParenchyma",
-     "BundleSheath_VascularSchrenchyma",
-    "CalloseRelated","G2_M")
+library("optparse")
+library(rlang)
+library(ggplot2)
+
+option_list = list(
+  make_option(c("--WD"), type="character", 
+              help="WD", metavar="character"),
+  make_option(c("--FDRCutOff"), type="character", 
+              help="Sparse_S1", metavar="character"),
+  make_option(c("--OutFilename"), type="character", 
+              help="OutFilename", metavar="character")
+  
+);
+
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
+
+WDir <- opt$WD
+CutOffFDR <- opt$FDRCutOff
+OutFileName <- opt$OutFilename
+  
+setwd(WDir)
+#FileEnd <- ".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
+files <- list.files(path = WDir, 
+                    pattern = "\\.EdgeRResult_PseudoReplicate_withPromoterRegion\\.txt$", 
+                    full.names = FALSE)
+Celltype <- sub("\\.EdgeRResult_PseudoReplicate_withPromoterRegion\\.txt", "", files)
+#"dACRNumber_FDR0.01.pdf"
+# Print the list of files
+#Celltype <- 
+#  c("L1","L1atFloralMeristem",
+#    "FloralMeristem_SuppressedBract",
+#    "IM-OC","SPM-base_SM-base","IM_SPM_SM",
+#     "ProcambialMeristem_ProtoXylem_MetaXylem",
+#    "PhloemPrecursor", 
+#    "ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma",
+#     "XylemParenchyma_PithParenchyma",
+#     "BundleSheath_VascularSchrenchyma",
+#    "CalloseRelated","G2_M")
 
 Sig <- c()
 Intergenic_ACR <- c()
 Higher_Bif3 <- c()
 Higher_WT <- c()
-CutOffFDR <- 0.01
+#CutOffFDR <- 0.01
 for (ct in Celltype){
   Data <- read.table(paste0(ct,FileEnd),header=TRUE)
   Sig <- c(Sig,sum(Data$FDR<CutOffFDR))
@@ -39,7 +66,6 @@ head(Bif3Higher)
 
 FigureTable <- rbind(dACRInfo,Bif3Higher,WTHigher)
 
-library(ggplot2)
 custom_colors <- c("#4d0505","#092691", "#ad8c09") 
 FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
 ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
@@ -63,7 +89,7 @@ ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
         axis.line.y = element_line() # Customize y-axis line separately
   )+labs(color = " ")
 
-ggsave("dACRNumber_FDR0.01.pdf"
+ggsave(OutFileName
        , width=15, height=7)
 
 
