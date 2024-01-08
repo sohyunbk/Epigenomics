@@ -6,25 +6,49 @@
 library(edgeR)
 library(tidyverse)
 library(stringr)
+library("optparse")
+library(rlang)
 
+option_list = list(
+  make_option(c("--WD"), type="character", 
+              help="WD", metavar="character"),
+  make_option(c("--Sparse_S1"), type="character", 
+              help="Sparse_S1", metavar="character"),
+  make_option(c("--Sparse_S2"), type="character",
+              help="Sparse_S2", metavar="character"),
+  make_option(c("--Meta_S1"), type="character", 
+              help="Meta_S1", metavar="character"),
+  make_option(c("--Meta_S2"), type="character", 
+              help="Meta_S2", metavar="character"),
+  make_option(c("--CellType"), type="character", 
+              help="CellType", metavar="character"),
+  make_option(c("--IntergenicPeakFile"), type="character", 
+              help="IntergenicPeakFile", metavar="character"),
+  make_option(c("--OutputDir"), type="character", 
+              help="OutputDir", metavar="character")
+);
 ## 1. Load files and get filtered Sparse file for save space
 ## --> should combine A619+Bif3 in the begining to keep all the peaks as features
 
-args <- commandArgs(T)
-CT <- as.character(args[1])
+CT <- opt$CellType
 #CT <-"IM-OC"
 #CT <- "XylemParenchyma_PithParenchyma"
-OutputPath <- as.character(args[2])
+OutputPath <- opt$OutputDir
 
-Sparsefile_A619 <- paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_PromoterIntergenic/",
-              CT,"_PeaksCount_byA619Barcode.txt")
-Sparsefile_Bif3 <- paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_PromoterIntergenic/",
-                          CT,"_PeaksCount_byBif3Barcode.txt")
-MetaFileA619 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
-MetaFileBif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
-InterGenic_peak <- read.table(paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3_MergePeakbyCelltypes_Method1/A619Bif3_",
-                                     CT ,"_MergedPeak_Intergenic.bed"))
-#chr10   149311748       149312391
+#Sparsefile_A619 <- paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_PromoterIntergenic/",
+#              CT,"_PeaksCount_byA619Barcode.txt")
+#Sparsefile_Bif3 <- paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_PromoterIntergenic/",
+#                          CT,"_PeaksCount_byBif3Barcode.txt")
+#MetaFileA619 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
+#MetaFileBif3 <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
+#InterGenic_peak <- read.table(paste0("/scratch/sb14489/3.scATAC/2.Maize_ear/8.CommonACRs/A619_Bif3_MergePeakbyCelltypes_Method1/A619Bif3_",
+#                                     CT ,"_MergedPeak_Intergenic.bed"))
+opt$OutputDir
+Sparsefile_A619 <- opt$Sparse_S1
+Sparsefile_Bif3 <- opt$Sparse_S2  
+MetaFileA619 <- opt$Meta_S1
+MetaFileBif3 <- opt$Meta_S2
+InterGenic_peak <- read.table(opt$IntergenicPeakFile)
 dim(InterGenic_peak)
 InterGenic_peak_Pos <- paste(InterGenic_peak$V1,InterGenic_peak$V2,InterGenic_peak$V3,sep="_")
 head(InterGenic_peak_Pos)
