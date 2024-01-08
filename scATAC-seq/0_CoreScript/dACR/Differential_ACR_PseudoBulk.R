@@ -29,7 +29,8 @@ option_list = list(
 );
 ## 1. Load files and get filtered Sparse file for save space
 ## --> should combine A619+Bif3 in the begining to keep all the peaks as features
-
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
 CT <- opt$CellType
 #CT <-"IM-OC"
 #CT <- "XylemParenchyma_PithParenchyma"
