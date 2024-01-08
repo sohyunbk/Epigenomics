@@ -34,13 +34,14 @@ CommonPeakIntergenic=(
 A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks_Intergenic.bed
 )
 OutfileName=(
-A619andBif3
+A619andBif3_CTNameReverse
 A619andrel2
 )
 CTNameOrder=(
-/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt
+/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse.txt
 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forrel2.txt
 )
+
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Correlation/Correlation_Intergenic2000MostVariationACR_500pbCommonACR.R \
   --S1_Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${S1SampleSparse[SLURM_ARRAY_TASK_ID]}" \
   --S2_Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${S2SampleSparse[SLURM_ARRAY_TASK_ID]}" \
