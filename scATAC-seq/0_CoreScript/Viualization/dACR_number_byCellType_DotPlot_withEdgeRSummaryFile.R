@@ -20,7 +20,7 @@ CutOffFDR <- opt$FDRCutOff
 OutFileName <- opt$OutFilename
   
 setwd(WDir)
-#FileEnd <- ".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
+FileEnd <- ".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
 files <- list.files(path = WDir, 
                     pattern = "\\.EdgeRResult_PseudoReplicate_withPromoterRegion\\.txt$", 
                     full.names = FALSE)
