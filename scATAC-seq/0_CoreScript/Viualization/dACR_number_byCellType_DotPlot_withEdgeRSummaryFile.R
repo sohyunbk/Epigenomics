@@ -75,7 +75,6 @@ ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
   theme_minimal() +
   labs(x = "The number of dACR", y = "Cell type", title = " ", size = "dACR Ratio") +
   theme(axis.text.y = element_text(size = 16),
-        axis.text.y = element_text(size = 8),
         legend.text = element_text(size = 16),  # Adjust legend text size if needed
         legend.title = element_text(size = 16), # Adjust legend title size if needed
         axis.title.y = element_text(size = 16), # Adjust y-axis title size if needed
