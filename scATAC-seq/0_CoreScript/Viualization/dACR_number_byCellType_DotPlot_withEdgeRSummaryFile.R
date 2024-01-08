@@ -8,7 +8,9 @@ option_list = list(
   make_option(c("--FDRCutOff"), type="character", 
               help="Sparse_S1", metavar="character"),
   make_option(c("--OutFilename"), type="character", 
-              help="OutFilename", metavar="character")
+              help="OutFilename", metavar="character"),
+  make_option(c("--CellOrderFile"), type="character", 
+              help="CellOrderFile", metavar="character")
   
 );
 
@@ -18,7 +20,8 @@ opt = parse_args(opt_parser);
 WDir <- opt$WD
 CutOffFDR <- opt$FDRCutOff
 OutFileName <- opt$OutFilename
-  
+CellOrders <- readLines(opt$CellOrderFile) 
+
 setwd(WDir)
 FileEnd <- ".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
 files <- list.files(path = WDir, 
@@ -68,6 +71,7 @@ FigureTable <- rbind(dACRInfo,Bif3Higher,WTHigher)
 
 custom_colors <- c("#4d0505","#092691", "#ad8c09") 
 FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
+FigureTable$Celltype <- factor(FigureTable$Celltype,levels=CellOrders)
 ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
   geom_point(aes(colour = factor(Color)),alpha=0.5)+  # New geom_point for Higher_Bif3Ratio
   scale_size_continuous(range = c(1, 15)) +
