@@ -55,6 +55,7 @@ MarkerOrder <- opt$MarkerOrdertxt
 message("Loading Data....")
 meta_data <- read.delim(meta)
 gene_markers <- read.delim(gene)
+#gene_markers <- read.delim("/scratch/sb14489/3.scATAC/0.Data/MarkerGene/SelectedMarkerGeneForDotPlot.txt")
 gene_markers <- gene_markers  %>%
   arrange(type)
 
