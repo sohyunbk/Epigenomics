@@ -17,7 +17,7 @@ module load BEDTools/2.30.0-GCC-11.3.0
 
 ## Step1) Make null distribution
 ~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Meme/Generate_null_bedsample_forSTREAM.py \
---bed_file /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC_FDR.0.01_Bif3Higher.Bed \
+--bed_file /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/IM-OC.FDR0.01Bif3Higher.bed \
 --genome_file /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --genome_index /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \
 --AllPeakForControl /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_RemoveFakePeak/A619/A619_bif3_For_dACR/IM-OC_ComA619Bif3_BLRemove.bed \
