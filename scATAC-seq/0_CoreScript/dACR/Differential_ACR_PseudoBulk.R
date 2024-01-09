@@ -194,22 +194,22 @@ print(sum(Result$FDR < 0.05))
 #Result[Result$FDR < 0.05,][c(1:100),]
 write.table(Result, file=paste0(CT,".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"), quote=F, row.names=F, col.names=T, sep="\t")
 
-Sig <- Result[Result$FDR < 0.05,]
-A619Higher <- Sig[Sig$logFC < 0,]
-head(A619Higher)
-A619Higher_Bed <- data.frame(Chr=sapply( strsplit( A619Higher$Peak, "_"), "[", 1),
-                             Start=sapply( strsplit( A619Higher$Peak, "_"), "[", 2),
-                             End=sapply( strsplit( A619Higher$Peak, "_"), "[", 3))
-head(A619Higher_Bed)
-write.table(A619Higher_Bed,
-    file=paste0(CT,".A619Higher.Bed"), quote=F, row.names=F, col.names=F, sep="\t")
+#Sig <- Result[Result$FDR < 0.05,]
+#A619Higher <- Sig[Sig$logFC < 0,]
+#head(A619Higher)
+#A619Higher_Bed <- data.frame(Chr=sapply( strsplit( A619Higher$Peak, "_"), "[", 1),
+#                             Start=sapply( strsplit( A619Higher$Peak, "_"), "[", 2),
+#                             End=sapply( strsplit( A619Higher$Peak, "_"), "[", 3))
+#head(A619Higher_Bed)
+#write.table(A619Higher_Bed,
+#    file=paste0(CT,".A619Higher.Bed"), quote=F, row.names=F, col.names=F, sep="\t")
 
-Bif3Higher <- Sig[Sig$logFC > 0,]
-Bif3Higher_Bed <- data.frame(Chr=sapply( strsplit( Bif3Higher$Peak, "_"), "[", 1),
-                             Start=sapply( strsplit( Bif3Higher$Peak, "_"), "[", 2),
-                             End=sapply( strsplit( Bif3Higher$Peak, "_"), "[", 3))
-write.table(Bif3Higher_Bed,
-            file=paste0(CT,".Bif3Higher.Bed"), quote=F, row.names=F, col.names=F, sep="\t")
+#Bif3Higher <- Sig[Sig$logFC > 0,]
+#Bif3Higher_Bed <- data.frame(Chr=sapply( strsplit( Bif3Higher$Peak, "_"), "[", 1),
+#                             Start=sapply( strsplit( Bif3Higher$Peak, "_"), "[", 2),
+#                             End=sapply( strsplit( Bif3Higher$Peak, "_"), "[", 3))
+#write.table(Bif3Higher_Bed,
+#            file=paste0(CT,".Bif3Higher.Bed"), quote=F, row.names=F, col.names=F, sep="\t")
 #head(Sig)
 #sum(Result$FDR < 0.05)
 
