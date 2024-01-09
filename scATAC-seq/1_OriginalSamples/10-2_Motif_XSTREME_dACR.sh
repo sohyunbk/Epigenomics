@@ -16,7 +16,6 @@ BedFileName=(IM-OC.FDR0.01Bif3Higher)
 module load MEME/5.5.0-gompi-2021b
 module load BEDTools/2.30.0-GCC-11.3.0
 
-"${Re1[SLURM_ARRAY_TASK_ID]}"
 ## Step1) Make null distribution
 ~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Meme/Generate_null_bedsample_forSTREAM.py \
 --bed_file /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${BedFileName[SLURM_ARRAY_TASK_ID]}".bed \
@@ -26,7 +25,7 @@ module load BEDTools/2.30.0-GCC-11.3.0
 --output_name /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/"${BedFileName[SLURM_ARRAY_TASK_ID]}".ControlfromIntergenicAllPeaks.fa \
 --Region Within
 ## Step2) STREME
-bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Motif_Meme_FromACRBed.sh \
+bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Meme/Motif_Meme_FromACRBed.sh \
 --infile_Bed /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${BedFileName[SLURM_ARRAY_TASK_ID]}".bed \
 --Fa /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --MemeMotifDB /scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt \
