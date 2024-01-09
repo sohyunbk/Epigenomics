@@ -27,7 +27,7 @@ module load BEDTools/2.30.0-GCC-11.3.0
 --Region Within
 ## Step2) STREME
 bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Motif_Meme_FromACRBed.sh \
---infile_Bed /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC_FDR.0.01_Bif3Higher.Bed \
+--infile_Bed /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${BedFileName[SLURM_ARRAY_TASK_ID]}".bed \
 --Fa /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --MemeMotifDB /scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt \
 --ControlFA /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/"${BedFileName[SLURM_ARRAY_TASK_ID]}".ControlfromIntergenicAllSameCTPeaks.fa \
