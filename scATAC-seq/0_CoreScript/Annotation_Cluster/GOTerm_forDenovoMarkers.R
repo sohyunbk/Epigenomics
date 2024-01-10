@@ -99,7 +99,10 @@ pattern_string <- paste0(FileEnd, "$")
 files <- list.files(path = DEDW, pattern = pattern_string, full.names = FALSE)
 
 for (File in files){
-  GettingGOResult(GOList,File,"BP")
-  GettingGOResult(GOList,File,"CC")
-  GettingGOResult(GOList,File,"MF")
+  GOList_BP<- MakeGOlist("BP")
+  GettingGOResult(GOList_BP,File,"BP")
+  GOList_CC<- MakeGOlist("CC")
+  GettingGOResult(GOList_CC,File,"CC")
+  GOList_MF<- MakeGOlist("MF")
+  GettingGOResult(GOList_MF,File,"MF")
   }
