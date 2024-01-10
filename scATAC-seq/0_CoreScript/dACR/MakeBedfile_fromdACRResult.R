@@ -45,8 +45,8 @@ for (file in files){
   subset_DEGTable_0.01_Bif3Higher <- DEGTable[DEGTable$FDR < 0.01 & DEGTable$logFC >0 , ]
   subset_DEGTable_0.01_A619Higher <- DEGTable[DEGTable$FDR < 0.01 & DEGTable$logFC <0 , ]
   
-  process_and_write_peaks(subset_DEGTable_0.05_Bif3Higher, ".FDR0.01Bif3Higher.bed")
-  process_and_write_peaks(subset_DEGTable_0.05_A619Higher, ".FDR0.01A619Higher.bed")
+  process_and_write_peaks(subset_DEGTable_0.01_Bif3Higher, ".FDR0.01Bif3Higher.bed")
+  process_and_write_peaks(subset_DEGTable_0.01_A619Higher, ".FDR0.01A619Higher.bed")
   }
 
 
