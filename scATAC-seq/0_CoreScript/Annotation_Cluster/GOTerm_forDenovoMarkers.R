@@ -48,7 +48,7 @@ GettingGOResult <-function(BP_list,FileName,GOTerm){
   #str(BP_list)
   #CellName <- "XylemParenchyma"
   #DEDW <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/"
-  DEDW <- opt$WDir_fordACR
+  DEDW <- opt$WDir_forDenovo
   DESeq2Result <- read.table(paste0(DEDW,FileName),
                              header=TRUE)
   #head(DESeq2Result)
