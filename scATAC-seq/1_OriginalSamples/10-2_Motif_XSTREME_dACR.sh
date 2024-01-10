@@ -11,7 +11,7 @@
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 #SBATCH --array=0
 
-BedFileName=(IM-OC.FDR0.01Bif3Higher)
+BedFileName=(IM-OC.FDR0.01Bif3Higher IM-OC.FDR0.01A619Higher IM-OC.FDR0.05A619Higher IM-OC.FDR0.05Bif3Higher)
 
 module load MEME/5.5.0-gompi-2021b
 module load BEDTools/2.30.0-GCC-11.3.0
