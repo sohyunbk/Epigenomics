@@ -9,7 +9,7 @@
 #SBATCH --error=/scratch/sb14489/0.log/Meme_motif.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
-#SBATCH --array=0
+#SBATCH --array=0-3
 
 BedFileName=(IM-OC.FDR0.01Bif3Higher IM-OC.FDR0.01A619Higher IM-OC.FDR0.05A619Higher IM-OC.FDR0.05Bif3Higher)
 
