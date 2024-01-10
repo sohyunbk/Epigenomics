@@ -22,7 +22,7 @@ module load BEDTools/2.30.0-GCC-11.3.0
 --genome_file /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --genome_index /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \
 --AllPeakForControl /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_Bif3_MergedDifferentSizePeak/A619Bif3_IM-OC_MergedPeak_Intergenic.bed \
---output_name /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/"${BedFileName[SLURM_ARRAY_TASK_ID]}".ControlfromIntergenicAllPeaks.fa \
+--output_name /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/"${BedFileName[SLURM_ARRAY_TASK_ID]}".ControlfromIntergenicAllSameCTPeaks.fa \
 --Region Within
 ## Step2) STREME
 bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Meme/Motif_Meme_FromACRBed.sh \
