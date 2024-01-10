@@ -6,9 +6,25 @@ library(tidyverse)
 library(Matrix)
 library(magrittr) # needs to be run every time you start R and want to use %>%
 library(dplyr)
+library("optparse")
+
+
+option_list = list(
+  make_option(c("--GOData"), type="character",
+              help="GOData", metavar="character"),
+  make_option(c("--WDir_fordACR"), type="character",
+              help="WDir_fordACR", metavar="character"),
+  make_option(c("--FileNameFix"), type="character",
+              help="FileNameFix", metavar="character"),
+  make_option(c("--OutPutDir"), type="character",
+              help="OutPutDir", metavar="character")
+);
+
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
 
 MakeGOlist <-function(GOTerm){
-  zm_func_genes <- read.table("/scratch/sb14489/0.Reference/Maize_B73/GOTerm/B73_GO.RemoveBlank.out",
+  zm_func_genes <- read.table(opt$GOData,
                               header=TRUE)
   BP <- zm_func_genes[which(zm_func_genes$ontology==GOTerm),]
   #head(BP)
@@ -26,12 +42,10 @@ MakeGOlist <-function(GOTerm){
   }
   return(BP_list)}
 
-GettingGOResult <-function(BP_list,CellName,GOTerm){
+GettingGOResult <-function(BP_list,FileName,GOTerm){
   #str(BP_list)
   #CellName <- "XylemParenchyma"
-  DEDW <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/"
-  DESeq2Result <- read.table(paste0(DEDW,"A619_v4.",CellName,
-                                    "_deseq_2_results.tsv"),
+  DESeq2Result <- read.table(paste0(DEDW,FileName),
                              header=TRUE)
   #head(DESeq2Result)
   DESeq2Result_filtered <- DESeq2Result[which(DESeq2Result$padj < 0.05 &DESeq2Result$log2FoldChange >0.1),]
@@ -63,22 +77,26 @@ GettingGOResult <-function(BP_list,CellName,GOTerm){
   OutputTable <- subset(OutputTable, select = -c(leadingEdge))
   #str(OutputTable)
   #head(OutputTable)
-  setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/5.GO/AnnV3")
-  write.table(OutputTable, file=paste0(CellName,"_",GOTerm,".txt"),
+  setwd(opt$OutPutDir)
+  CellName <-  sub(FileEnd, "", FileName)
+  write.table(OutputTable, file=paste0(CellName,".",GOTerm,".txt"),
               quote=F, row.names=F, col.names=T, sep="\t")
 }
 
 
 ## Start here 
+#DEDW <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"
+DEDW <- opt$WDir_forDenovo
+FileEnd <- opt$FileNameFix
+#FileEnd <- "_deseq_2_results.tsv"
+pattern_string <- paste0(FileEnd, "$")
+files <- list.files(path = DEDW, pattern = pattern_string, full.names = FALSE)
 
-Celltypes <- c("1_NA", "BundleSheath_VascularSchrenchyma","PhloemPrecursor","IM.OC",
-               "DeterminateLaterOrgan","XylemParenchyma_PithParenchyma",
-               "IM_SPM_SM","L1atDeterminateLaterOrgan","ProcambialMeristem_ProtoXylem_MetaXylem",
-               "G2_M","SPM.base_SM.base","L1","ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma")
-Celltypes_m <- paste0("Ref_AnnV3.",Celltypes)
-GOName <- c("BP","CC","MF")
-
-for (i in GOName){
-  GOList<- MakeGOlist(GOName)
-  GettingGOResult(GOList,j,i)
-  }
+for (File in files){
+  GOList_BP<- MakeGOlist("BP")
+  GettingGOResult(GOList_BP,File,"BP")
+  GOList_CC<- MakeGOlist("CC")
+  GettingGOResult(GOList_CC,File,"CC")
+  GOList_MF<- MakeGOlist("MF")
+  GettingGOResult(GOList_MF,File,"MF")
+}
