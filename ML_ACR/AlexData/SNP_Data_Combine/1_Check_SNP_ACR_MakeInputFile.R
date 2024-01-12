@@ -1,0 +1,46 @@
+
+ACRs_18cells <- read.table("/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/Seedling_18Celltypes.500.RestrictACR18CT.bed",sep="\t", header=FALSE, stringsAsFactors=FALSE)
+ACRs_pos <- paste(ACRs_18cells$V1, ACRs_18cells$V2, ACRs_18cells$V3, sep="_")
+ACRs_pos_NonRe <- unique(ACRs_pos)
+length(ACRs_pos_NonRe)
+
+
+#### 1) Remove redundant lines in snp files
+SNPFile_control <- read.table("/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs.txt", header=TRUE)
+unique_SNPFile_control <- unique(SNPFile_control)
+print(nrow(SNPFile_control))
+print(nrow(unique_SNPFile_control))
+element_counts <- table(unique_SNPFile_control$snpID)
+head(element_counts)
+duplicates <- names(element_counts[element_counts > 1])
+write.table(unique_SNPFile_control, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs_curated.txt", sep = "\t", row.names = FALSE, quote=F)
+#split_snp <- strsplit(unique_SNPFile_control$snpID, "_")
+# Extract the parts you want
+#snp_data <- data.frame(
+#  chr = sapply(split_snp, "[[", 1),
+#  pos = sapply(split_snp, "[[", 2),
+#  alt = unique_SNPFile_control$alt
+#)
+# Print the first few rows of the new table
+#head(snp_data)
+#write.table(snp_data, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs_curated_pythonInput.txt", sep = "\t", row.names = FALSE,col.names=FALSE, quote=F)
+
+
+
+SNPFile_test <- read.table("/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.txt", header=TRUE)
+unique_SNPFile_test <- unique(SNPFile_test)
+print(nrow(SNPFile_test))
+print(nrow(unique_SNPFile_test))
+element_counts <- table(unique_SNPFile_test$snpID)
+head(element_counts)
+duplicates <- names(element_counts[element_counts > 1])
+SNPFile_test[SNPFile_test$snpID == "chr9_99008396",]
+
+merged_SNPFile_test <- aggregate(. ~ acrID + snpID + ref + alt, SNPFile_test, function(x) if (is.numeric(x)) max(x) else x)
+merged_SNPFile_test[merged_SNPFile_test$snpID == "chr9_99008396",]
+nrow(merged_SNPFile_test)
+head(merged_SNPFile_test)
+
+write.table(merged_SNPFile_test, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs_curated.txt", sep = "\t", row.names = FALSE, quote=F)
+
+    
