@@ -4,7 +4,7 @@ import argparse
 import sys
 import os, glob
 
-ef get_parser():
+def get_parser():
     parser = argparse.ArgumentParser(
         description="Call Peaks for scATAC data. \
     Requires cluster annnotations, as well as BED file ipput."
