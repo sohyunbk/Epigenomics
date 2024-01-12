@@ -9,12 +9,10 @@
 #SBATCH --error=/scratch/sb14489/0.log/MakeMutantFasta.%j.err    # Standard error log
 #SBATCH --array=0-1
 
-ml Anaconda3/2022.10
-source activate pytorch
 
 Fasta=(TestSNPChange_MaizeV5.fa ControlSNPChange_MaizeV5.fa)
 SNPFiles=(test_SNVs_curated.txt control_SNVs_curated.txt)
 
-python /home/sb14489/Epigenomics/ML_ACR/AlexData/SNP_Data_Combine/2_MakeMutatedFasta.py \
+~/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/AlexData/SNP_Data_Combine/2_MakeMutatedFasta.py \
 -FastaFile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/"${Fasta[SLURM_ARRAY_TASK_ID]}" \
 -SNPFile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/"${SNPFiles[SLURM_ARRAY_TASK_ID]}"
