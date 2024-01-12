@@ -1,5 +1,8 @@
 #conda activate pytorch
 from pyfaidx import Fasta
+import argparse
+import sys
+import os, glob
 
 ef get_parser():
     parser = argparse.ArgumentParser(
@@ -25,8 +28,6 @@ ef get_parser():
 
 
 args = get_parser().parse_args()
-    BedFile = args.bed
-    MetaFile = args.m
 
 #'/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs_curated.txt'
 #'/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/ControlSNPChange_MaizeV5.fa'
