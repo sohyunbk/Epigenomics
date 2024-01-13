@@ -31,6 +31,13 @@ args = get_parser().parse_args()
 
 #'/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs_curated.txt'
 #'/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/ControlSNPChange_MaizeV5.fa'
+
+#with Fasta('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/ControlSNPChange_MaizeV5.fa') as fasta:
+#    print(fasta["chr1"][189663])
+
+#with Fasta('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/TestSNPChange_MaizeV5.fa') as fasta:
+#    print(fasta["chr1"][189663])
+
 with open(args.SNPFile) as mut_table:
     with Fasta(args.Fasta, mutable=True) as fasta:
         next(mut_table)  # Skip the header line
