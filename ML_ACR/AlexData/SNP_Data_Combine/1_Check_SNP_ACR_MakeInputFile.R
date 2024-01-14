@@ -78,6 +78,7 @@ length(intersect(randomly_selected_control$acrID, ACRs_pos_NonRe))
 length(intersect(merged_SNPFile_test$acrID, ACRs_pos_NonRe))
 SelectedACR_Control <- intersect(randomly_selected_control$acrID, ACRs_pos_NonRe)
 SelectedACR_Test <- intersect(merged_SNPFile_test$acrID, ACRs_pos_NonRe)
+sum(!grepl("^chr10", SelectedACR_Test))
 SelectedACR_Control_SameNumberwithTest <- sample(SelectedACR_Control, size = length(intersect(merged_SNPFile_test$acrID, ACRs_pos_NonRe)))
 head(SelectedACR_Control_SameNumberwithTest)
 
