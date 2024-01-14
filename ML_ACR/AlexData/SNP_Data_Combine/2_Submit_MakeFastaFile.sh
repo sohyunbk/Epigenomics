@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=MakeMutantFasta        # Job name
-#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
+#SBATCH --partition=batch         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
-#SBATCH --mem=90gb                   # Job memory request
+#SBATCH --mem=50gb                   # Job memory request
 #SBATCH --time=5:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/MakeMutantFasta.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/MakeMutantFasta.%j.err    # Standard error log
