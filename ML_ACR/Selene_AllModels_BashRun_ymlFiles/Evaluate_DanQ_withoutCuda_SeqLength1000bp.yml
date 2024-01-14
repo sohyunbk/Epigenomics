@@ -23,6 +23,8 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     intervals_path: /scratch/sb14489/0.Reference/Maize_B73/zm_genome_interval.bed,
     test_holdout: [chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9],
     seed: 127,
+    save_datasets: ['test'],
+    output_dir: /scratch/sb14489/,
     sample_negative: False,
     sequence_length: 1000,
     center_bin_to_predict: 500,

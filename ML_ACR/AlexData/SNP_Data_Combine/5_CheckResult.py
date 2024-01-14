@@ -12,38 +12,15 @@ target_control_Mutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2
 data_control_NonMutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_predictions.npz')
 target_control_NonMutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_targets.npz')
 
-#{0.0: 139701, 1.0: 399435}
-#>>> confusion_matrix(TargetArray, y_pred_classes)
-## cut off 0.5
-#array([[ 2829,  5238],
-#       [ 2139, 19746]])
 
-#Cut off 0.7
-#array([[ 5583,  2484],
-#       [ 7971, 13914]])
-
-# Cut off 0.7
-# {0.0: 235953, 1.0: 303183}
-#array([[10715,  2915],
-#       [10714,  5608]])
-
-# Cut off 0.5
-#>>> confusion_matrix(TargetArray, y_pred_classes)
-#array([[ 6495,  7135],
-#       [ 4781, 11541]])
-
-unique, counts = numpy.unique(target['data'], return_counts=True)
+unique, counts = numpy.unique(target_control_Mutated['data'], return_counts=True)
 dict(zip(unique, counts))
 
-#TargetArray=np.zeros(shape=len(data['data']))
-#PredictionArray=np.zeros(shape=len(data['data']))
+unique, counts = numpy.unique(target_control_NonMutated['data'], return_counts=True)
+dict(zip(unique, counts))
 
-#for i in range(0,len(data['data'])):
-#    TargetArray[i] = target['data'][i][7]
-#    PredictionArray[i] = data['data'][i][7]
-
-TargetArray = target['data'][:,2]
-PredictionArray = data['data'][:,2]
+PredictionArray = data_control_Mutated['data'][:,2]
+PredictionArray2 = data_control_NonMutated['data'][:,2]
 
 #TargetArray = target['data'][:,14]
 #PredictionArray = data['data'][:,14]
