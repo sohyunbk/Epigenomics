@@ -24,7 +24,7 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     test_holdout: [chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9],
     seed: 127,
     save_datasets: ['test'],
-    output_dir: ,
+    output_dir:/Test/,
     sample_negative: False,
     sequence_length: 1000,
     center_bin_to_predict: 500,
