@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=withoutCUDA        # Job name
-#SBATCH --partition=highmem_p         # Partition (queue) name
+#SBATCH --partition=batch         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=32             # Number of CPU cores per task
-#SBATCH --mem=100gb                   # Job memory request
+#SBATCH --mem=80gb                   # Job memory request
 #SBATCH --time=100:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/withoutCUDA.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/withoutCUDA.%j.err    # Standard error log
