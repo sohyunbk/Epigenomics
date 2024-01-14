@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=MakeMutantFasta        # Job name
-#SBATCH --partition=highmem_p         # Partition (queue) name
+#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
 #SBATCH --mem=90gb                   # Job memory request
