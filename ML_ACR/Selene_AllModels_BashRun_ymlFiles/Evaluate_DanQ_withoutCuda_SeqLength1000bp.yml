@@ -1,7 +1,7 @@
 ---
 ops: [evaluate]
 model: {
-    path: home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model.py,
+    path: /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model.py,
     class: DanQ,
     class_args: {
         sequence_length: 1000,
