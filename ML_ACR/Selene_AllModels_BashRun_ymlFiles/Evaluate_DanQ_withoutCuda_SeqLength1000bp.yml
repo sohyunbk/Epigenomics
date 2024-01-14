@@ -32,7 +32,7 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
 
 evaluate_model: !obj:selene_sdk.EvaluateModel {
     batch_size: 64,
-    n_test_samples: 10633,
+    n_test_samples: 10000,
     features:  !obj:selene_sdk.utils.load_features_list {
         input_path:
     },
