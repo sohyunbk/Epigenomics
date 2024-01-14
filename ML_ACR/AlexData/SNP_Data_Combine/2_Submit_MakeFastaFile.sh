@@ -10,8 +10,8 @@
 #SBATCH --array=0-1
 
 
-Fasta=(TestSNPChange_MaizeV5.fa ControlSNPChange_MaizeV5.fa)
-SNPFiles=(test_SNVs_curated.txt control_SNVs_curated.txt)
+Fasta=(TestSNPChange_MaizeV5_RandomSNPSelection.fa ControlSNPChange_MaizeV5_RandomSNPSelection.fa TestSNPChange_MaizeV5.fa ControlSNPChange_MaizeV5.fa)
+SNPFiles=(test_SNVs_curated_RandomSelectSNPperACR.txt control_SNVs_curated_RandomSelectSNPperACR.txt test_SNVs_curated.txt control_SNVs_curated.txt)
 
 ~/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/AlexData/SNP_Data_Combine/2_MakeMutatedFasta.py \
 -FastaFile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/"${Fasta[SLURM_ARRAY_TASK_ID]}" \
