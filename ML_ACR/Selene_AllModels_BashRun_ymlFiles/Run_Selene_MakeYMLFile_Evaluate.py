@@ -36,12 +36,15 @@ def Modify_ymlFiles():
             outfile.write(sLine.replace("n_targets:","n_targets: "+str(nFeatures)))
         elif "reference_sequence: !obj:selene_sdk.sequences.Genome {" in sLine:
             Switch +=1
+            outfile.write(sLine)
         elif "features: !obj:selene_sdk.utils.load_features_list {" in sLine:
             Switch +=1
+            outfile.write(sLine)
         elif "target_path:" in sLine:
             outfile.write(sLine.replace("target_path:","target_path: "+str(args.bed)))
         elif "features:  !obj:selene_sdk.utils.load_features_list {" in sLine:
             Switch+=1
+            outfile.write(sLine)
         elif "output_dir:" in sLine:
             outfile.write(sLine.replace("output_dir:","output_dir: "+str(args.OutDir)))
         elif "trained_model_path::" in sLine:
