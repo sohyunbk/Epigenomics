@@ -14,7 +14,7 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     reference_sequence: !obj:selene_sdk.sequences.Genome {
         # we include relative paths here, but we recommend using absolute
         # paths for future configuration files
-        input_path: /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
+        input_path:
     },
     features: !obj:selene_sdk.utils.load_features_list {
         input_path_forfeatures:

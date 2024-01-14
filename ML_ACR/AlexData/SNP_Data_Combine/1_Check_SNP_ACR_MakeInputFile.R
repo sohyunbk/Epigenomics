@@ -8,7 +8,7 @@ ACRs <- read.table("/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/A
 ACRs_pos1 <- paste(ACRs$V1, ACRs$V2, ACRs$V3, sep="_")
 ACRs_pos1NonRe <- unique(ACRs_pos1)
 length(ACRs_pos1NonRe)
-
+head(ACRs_pos1NonRe)
 
 #### 1) Remove redundant lines in snp files
 SNPFile_control <- read.table("/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs.txt", header=TRUE)
@@ -69,4 +69,23 @@ randomly_selected_test <- merged_SNPFile_test %>%
 
 write.table(randomly_selected_test, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs_curated_RandomSelectSNPperACR.txt", sep = "\t", row.names = FALSE, quote=F)
 
-    
+#### 2) Make Input bed file! :)
+### Check common ACRs
+head(randomly_selected_control$acrID)
+head(ACRs_pos1NonRe) 
+head(randomly_selected_control$acrID)
+length(intersect(randomly_selected_control$acrID, ACRs_pos_NonRe))
+length(intersect(merged_SNPFile_test$acrID, ACRs_pos_NonRe))
+SelectedACR_Control <- intersect(randomly_selected_control$acrID, ACRs_pos_NonRe)
+SelectedACR_Test <- intersect(merged_SNPFile_test$acrID, ACRs_pos_NonRe)
+SelectedACR_Control_SameNumberwithTest <- sample(SelectedACR_Control, size = length(intersect(merged_SNPFile_test$acrID, ACRs_pos_NonRe)))
+head(SelectedACR_Control_SameNumberwithTest)
+
+head(ACRs_18cells)
+ACRs_18cells$V5 <- paste(ACRs_18cells$V1, ACRs_18cells$V2, ACRs_18cells$V3, sep="_")
+bedfile_SelectedACR_Test <- ACRs_18cells[ACRs_18cells$V5 %in% SelectedACR_Test,]
+bedfile_SelectedACR_control <- ACRs_18cells[ACRs_18cells$V5 %in% SelectedACR_Control_SameNumberwithTest,]
+
+head(bedfile_SelectedACR_Test)
+write.table(bedfile_SelectedACR_Test[ , -5], file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs_curated_RandomSelectSNPperACR.bed", sep = "\t", col.names = FALSE, row.names = FALSE, quote=F)
+write.table(bedfile_SelectedACR_control[ , -5], file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs_curated_RandomSelectSNPperACR.bed", sep = "\t", col.names = FALSE, row.names = FALSE, quote=F)
