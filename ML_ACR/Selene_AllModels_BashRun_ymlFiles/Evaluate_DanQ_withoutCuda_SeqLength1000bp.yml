@@ -11,21 +11,30 @@ model: {
 }
 
 
-sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
-    filepath: ,  # generated from selene_sdk training (`test_data.bed`)
+
+sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     reference_sequence: !obj:selene_sdk.sequences.Genome {
         input_path:
     },
-    n_samples: 170824,  # wc -l file.bed
-    targets_avail: True,
+    features: !obj:selene_sdk.utils.load_features_list {
+        input_path:
+    },
+    target_path:  ,
+    intervals_path: /scratch/sb14489/0.Reference/Maize_B73/zm_genome_interval.bed,
+    test_holdout: [chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9],
+    seed: 127,
+    save_datasets: [‘train’, ‘validate’, ‘test’],
+    output_dir: ,
+    sample_negative: False,
     sequence_length: 1000,
-    n_features: 18
-}
+    center_bin_to_predict: 500,
+    feature_thresholds: 0.5
 
+}
 
 evaluate_model: !obj:selene_sdk.EvaluateModel {
     batch_size: 64,
-    n_test_samples: 10000,
+    n_test_samples: 300000,
     features:  !obj:selene_sdk.utils.load_features_list {
         input_path:
     },
