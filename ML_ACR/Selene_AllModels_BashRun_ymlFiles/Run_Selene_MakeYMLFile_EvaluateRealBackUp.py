@@ -41,7 +41,7 @@ def Modify_ymlFiles():
             Switch +=1
             outfile.write(sLine)
         elif "target_path:" in sLine:
-            outfile.write(sLine.replace("filepath:","filepath: "+str(args.bed)))
+            outfile.write(sLine.replace("target_path:","target_path: "+str(args.bed)))
         elif "features:  !obj:selene_sdk.utils.load_features_list {" in sLine:
             Switch+=1
             outfile.write(sLine)

@@ -12,6 +12,9 @@ target_control_Mutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2
 data_control_NonMutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_predictions.npz')
 target_control_NonMutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_targets.npz')
 
+print(list(data_control_NonMutated.keys()))
+data_control_NonMutated['data']
+len(data_control_NonMutated['data'])
 
 unique, counts = numpy.unique(target_control_Mutated['data'], return_counts=True)
 dict(zip(unique, counts))
