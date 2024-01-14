@@ -21,7 +21,7 @@ def get_parser():
     parser.add_argument('-OutwmlfileName', "--OutwmlfileName", help="OutwmlfileName", required=True, dest='Outwml')
     parser.add_argument('-NewOutputDir', "--NewOutputDir", help="NewOutputDir", required=True, dest='OutDir')
     parser.add_argument('-fasta', "--fasta", help="fasta", required=True, dest='fasta')
-    parser.add_argument('-TrainModelFile', "--TrainModelFile", help="TrainModelFile", required=True, dest='pth.tar')
+    parser.add_argument('-TrainModelFile', "--TrainModelFile", help="TrainModelFile", required=True, dest='pth')
     args = vars(parser.parse_args())
     return parser
 
@@ -48,7 +48,7 @@ def Modify_ymlFiles():
         elif "output_dir:" in sLine:
             outfile.write(sLine.replace("output_dir:","output_dir: "+str(args.OutDir)))
         elif "trained_model_path:" in sLine:
-            outfile.write(sLine.replace("trained_model_path:","trained_model_path: "+str(args.pth.tar)))
+            outfile.write(sLine.replace("trained_model_path:","trained_model_path: "+str(args.pth)))
         elif Switch == 1:
             outfile.write(sLine.replace("input_path:","input_path: "+str(args.fasta)))
             Switch +=1
