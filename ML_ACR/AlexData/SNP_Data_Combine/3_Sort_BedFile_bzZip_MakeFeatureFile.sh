@@ -9,8 +9,8 @@
 #SBATCH --error=/scratch/sb14489/0.log/SortBed_MakeFeatureFile.%j.err    # Standard error log
 #SBATCH --array=0-1                   # Array range
 
-SampleName=(control_SNVs_curated_RandomSelectSNPperACR.bed
-test_SNVs_curated_RandomSelectSNPperACR.bed)
+SampleName=(control_SNVs_curated_RandomSelectSNPperACR
+test_SNVs_curated_RandomSelectSNPperACR)
 
 WD="/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/"
 
