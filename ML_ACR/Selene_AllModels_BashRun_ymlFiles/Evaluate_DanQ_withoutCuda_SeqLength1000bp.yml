@@ -14,7 +14,7 @@ model: {
 sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
     filepath: ,  # generated from selene_sdk training (`test_data.bed`)
     reference_sequence: !obj:selene_sdk.sequences.Genome {
-        input_path: /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
+        input_path:
     },
     n_samples: n_samples_in_file,  # wc -l file.bed
     targets_avail: True,
@@ -25,7 +25,7 @@ sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
 
 evaluate_model: !obj:selene_sdk.EvaluateModel {
     batch_size: 64,
-    n_test_samples: 8500,
+    n_test_samples: 10000,
     features:  !obj:selene_sdk.utils.load_features_list {
         input_path:
     },
