@@ -31,5 +31,5 @@ FastaFile=(/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyC
  --featurefile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/"${SampleName[SLURM_ARRAY_TASK_ID]}"_distinctfeatures.txt \
  --OutwmlfileName /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${OutPutName[SLURM_ARRAY_TASK_ID]}".wml \
  --NewOutputDir /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${OutPutName[SLURM_ARRAY_TASK_ID]}"_DanQ \
- --Fasta "${FastaFile[SLURM_ARRAY_TASK_ID]}" \
+ --fasta "${FastaFile[SLURM_ARRAY_TASK_ID]}" \
  --TrainModelFile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/best_model.pth.tar
