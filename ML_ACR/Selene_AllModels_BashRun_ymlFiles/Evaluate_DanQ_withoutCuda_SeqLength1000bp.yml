@@ -16,7 +16,7 @@ sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
     reference_sequence: !obj:selene_sdk.sequences.Genome {
         input_path:
     },
-    n_samples: n_samples_in_file,  # wc -l file.bed
+    n_samples: 170824,  # wc -l file.bed
     targets_avail: True,
     sequence_length: 1000,
     n_features: 18
