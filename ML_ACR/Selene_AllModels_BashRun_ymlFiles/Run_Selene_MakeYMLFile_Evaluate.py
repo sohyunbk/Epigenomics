@@ -47,7 +47,7 @@ def Modify_ymlFiles():
             outfile.write(sLine)
         elif "output_dir:" in sLine:
             outfile.write(sLine.replace("output_dir:","output_dir: "+str(args.OutDir)))
-        elif "trained_model_path::" in sLine:
+        elif "trained_model_path:" in sLine:
             outfile.write(sLine.replace("trained_model_path:","trained_model_path: "+str(args.pth.tar)))
         elif Switch == 1:
             outfile.write(sLine.replace("input_path:","input_path: "+str(args.fasta)))
