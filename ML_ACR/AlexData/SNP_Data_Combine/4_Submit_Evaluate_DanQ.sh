@@ -10,21 +10,18 @@
 #SBATCH --array=0-3
 
 SampleName=(
-NonRedundantACRs_18Cells.500bp
 control_SNVs_curated_RandomSelectSNPperACR
 test_SNVs_curated_RandomSelectSNPperACR
 control_SNVs_curated_RandomSelectSNPperACR
 test_SNVs_curated_RandomSelectSNPperACR)
 
 OutPutName=(
-Try
 control_SNVs_curated_RandomSelectSNPperACR_NotMutated
 test_SNVs_curated_RandomSelectSNPperACR_NotMutated
 control_SNVs_curated_RandomSelectSNPperACR_Mutated
 test_SNVs_curated_RandomSelectSNPperACR_Mutated)
 
 FastaFile=(
-/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
 /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
 /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
 /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/ControlSNPChange_MaizeV5_RandomSNPSelection.fa
