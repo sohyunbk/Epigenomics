@@ -5,78 +5,101 @@ from numpy import load
 import numpy as np
 from sklearn.metrics import roc_auc_score
 import numpy
+import pandas as pd
 
-data_control_Mutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/test_predictions.npz')
-target_control_Mutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/test_targets.npz')
+WD = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"
 
-data_control_NonMutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_predictions.npz')
-target_control_NonMutated = load('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_targets.npz')
+####################################################################################################################################
+## 1) Load Files
+CT = [
+    "L1_leaf_primordia_boundary",
+    "abaxial_bundle_sheath",
+    "adaxial_leaf_primordia",
+    "bundle_sheath",
+    "cortex",
+    "dividing_leaf_primordia",
+    "ground_meristem",
+    "guard_mother_cell",
+    "hypodermal_sclerenchyma",
+    "leaf_primordia",
+    "mesophyll",
+    "mesophyll_precursors",
+    "phloem_SE_procambial_precursors",
+    "pith_parenchyma",
+    "procambial_meristem",
+    "protodermal_cell",
+    "protophloem_SE",
+    "xylem_parenchyma"
+]
 
-print(list(data_control_NonMutated.keys()))
-data_control_NonMutated['data']
-len(data_control_NonMutated['data'])
+### 1) Control Group:
 
-unique, counts = numpy.unique(target_control_Mutated['data'], return_counts=True)
-dict(zip(unique, counts))
+data_control_Mutated = load(WD+'/control_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/test_predictions.npz')['data']
+target_control_Mutated = load(WD+'/control_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/test_targets.npz')['data']
+Sample_control_Mutated = pd.read_csv(WD+'/control_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/SampledData/validate_data.bed', \
+sep='\t', header=None, names=['chromosome', 'start', 'end', 'strand', 'info'])
 
-unique, counts = numpy.unique(target_control_NonMutated['data'], return_counts=True)
-dict(zip(unique, counts))
+data_control_NonMutated = load(WD+'/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_predictions.npz')['data']
+target_control_NonMutated = load(WD+'/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_targets.npz')['data']
+Sample_control_NonMutated = pd.read_csv(WD+'/control_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/SampledData/validate_data.bed', \
+sep='\t', header=None, names=['chromosome', 'start', 'end', 'strand', 'info'])
 
-PredictionArray = data_control_Mutated['data'][:,2]
-PredictionArray2 = data_control_NonMutated['data'][:,2]
+control_change = data_control_Mutated  - data_control_NonMutated
+Control_output = pd.DataFrame( index=range(18), columns=range(2))
+Control_Dic = {}
+for nACR in range(0,target_control_NonMutated.shape[0]): #target_control_NonMutated.shape[0]= sampleNumber
+    for nCT in range(0,target_control_NonMutated.shape[1]):
+        Control_Dic.setdefault(CT[nCT],{})
+        Control_Dic[CT[nCT]].setdefault(target_control_NonMutated[nACR][nCT],[])
+        Control_Dic[CT[nCT]][target_control_NonMutated[nACR][nCT]].append(control_change[nACR][nCT])
+## Arrange Control_Dic
+for i in range(0,len(CT)):
+    sCT  = CT[i]
+    Control_output.iloc[i, 0] = str(np.mean(Control_Dic[sCT][0.0]))+"+-"+str(np.std(Control_Dic[sCT][0.0]))
+    Control_output.iloc[i, 1] = str(np.mean(Control_Dic[sCT][1.0]))+"+-"+str(np.std(Control_Dic[sCT][1.0]))
+    Control_output.rename(index={i: sCT}, inplace=True)
 
-#TargetArray = target['data'][:,14]
-#PredictionArray = data['data'][:,14]
+Control_output.to_csv('/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/3.SNPDataSummary/Control_output.csv', index=True)
 
-from sklearn.metrics import average_precision_score
-from sklearn import metrics
-average_precision_score(TargetArray, PredictionArray)
-fpr, tpr, thresholds = metrics.roc_curve(TargetArray, PredictionArray, pos_label=1)
-
-roc_auc_score(TargetArray, PredictionArray)
-##################
-##################
-
-from numpy import load
-import numpy
-from sklearn.metrics import confusion_matrix
-
-cutoff = 0.5
-y_pred_classes = np.zeros(len(PredictionArray))
-y_pred_classes[PredictionArray > cutoff] = 1
-
-np.count_nonzero(TargetArray)
-len(TargetArray)-np.count_nonzero(TargetArray)
-confusion_matrix(TargetArray, y_pred_classes)
-count_ones = np.count_nonzero(TargetArray == 1)
-
-# Count the number of 0s
-count_zeros = np.count_nonzero(TargetArray == 0)
-
-print("Number of 1s:", count_ones)
-print("Number of 0s:", count_zeros)
-
-
-TP = 0
-TN = 0
-FP = 0
-FN = 0
-for i in range(0,len(data['data'])):
-    if data['data'][i][7] <=0.5 and target['data'][i][7] ==0:
-        TN+=1
-    elif data['data'][i][7] > 0.5 and target['data'][i][7] ==1:
-        TP +=1
-    elif data['data'][i][7] <=0.5 and target['data'][i][7] ==1:
-        FN +=1
-    elif data['data'][i][7] > 0.5 and target['data'][i][7] ==0:
-        FP +=1
-print(TP)
-print(TN)
-print(FP)
-print(FN)
+### 2) Test Group:
 
 
+data_Test_Mutated = load(WD+'/test_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/test_predictions.npz')['data']
+target_Test_Mutated = load(WD+'/test_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/test_targets.npz')['data']
+Sample_Test_Mutated = pd.read_csv(WD+'/test_SNVs_curated_RandomSelectSNPperACR_Mutated_DanQ/SampledData/validate_data.bed', \
+sep='\t', header=None, names=['chromosome', 'start', 'end', 'strand', 'info'])
 
-###### Matfile
-import scipy.io
-data = scipy.io.loadmat('/scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/data/test.mat')
+data_Test_NonMutated = load(WD+'/test_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_predictions.npz')['data']
+target_Test_NonMutated = load(WD+'/test_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/test_targets.npz')['data']
+Sample_Test_NonMutated = pd.read_csv(WD+'/test_SNVs_curated_RandomSelectSNPperACR_NotMutated_DanQ/SampledData/validate_data.bed', \
+sep='\t', header=None, names=['chromosome', 'start', 'end', 'strand', 'info'])
+
+Test_change = data_Test_Mutated  - data_Test_NonMutated
+Test_output = pd.DataFrame( index=range(18), columns=range(2))
+Test_Dic = {}
+
+SNPData_test =  "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs_curated.txt"
+SNPData_test_df = pd.read_csv(SNPData_test, sep='\t', header=0)
+
+def adjust_region_to_500bp(chromosome, start, end):
+    # Calculate the middle point of the original range
+    middle_point = (start + end) // 2
+    # New start and end points, 250 bp on either side of the middle
+    new_start = middle_point - 250
+    new_end = middle_point + 250
+    # Return the new region
+    return chromosome+"_"+str(new_start)+"_"+str(new_end)
+
+for nACR in range(0,target_control_NonMutated.shape[0]): #target_control_NonMutated.shape[0]= sampleNumber
+    for nCT in range(0,target_control_NonMutated.shape[1]):
+        PosInfo = str(Sample_Test_Mutated.iloc[nACR]['chromosome'])+ \
+        "_"+str(Sample_Test_Mutated.iloc[nACR]['start'])+ \
+        "_"+str(Sample_Test_Mutated.iloc[nACR]['end'])
+        adjust_region_to_500bp(str(Sample_Test_Mutated.iloc[nACR]['chromosome']), \
+        Sample_Test_Mutated.iloc[nACR]['start'], Sample_Test_Mutated.iloc[nACR]['end'])
+        [nACR]
+        .iloc[299]
+        Test_Dic.setdefault(CT[nCT],{})
+
+        Test_Dic[CT[nCT]].setdefault(target_Test_NonMutated[nACR][nCT],[])
+        Test_Dic[CT[nCT]][target_Test_NonMutated[nACR][nCT]].append(Test_change[nACR][nCT])
