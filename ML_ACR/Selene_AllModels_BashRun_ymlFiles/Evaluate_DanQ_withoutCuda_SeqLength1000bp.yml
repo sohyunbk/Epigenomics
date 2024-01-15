@@ -24,7 +24,7 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     seed: 127,
     mode: validate,
     save_datasets: [validate],
-    output_dir:/SampleInfo ,
+    output_dir:/SampledData ,
     sample_negative: False,
     sequence_length: 1000,
     center_bin_to_predict: 500,
