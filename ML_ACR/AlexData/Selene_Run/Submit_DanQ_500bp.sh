@@ -33,4 +33,4 @@ SampleName=(NonRedundantACRs_18Cells.500bp
  --bedfile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/"${SampleName[SLURM_ARRAY_TASK_ID]}"_Sorted.bed.gz \
  --featurefile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/"${SampleName[SLURM_ARRAY_TASK_ID]}"_distinctfeatures.txt \
  --OutwmlfileName /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${SampleName[SLURM_ARRAY_TASK_ID]}".wml \
- --NewOutputDir /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${SampleName[SLURM_ARRAY_TASK_ID]}"_DanQ
+ --NewOutputDir /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${SampleName[SLURM_ARRAY_TASK_ID]}"_DanQ_500bp
