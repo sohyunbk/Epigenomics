@@ -28,7 +28,7 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     output_dir:/SampledData ,
     sample_negative: False,
     sequence_length: 500,
-    center_bin_to_predict: 0,
+    center_bin_to_predict: 250,
     feature_thresholds: 0.5
 
 }
