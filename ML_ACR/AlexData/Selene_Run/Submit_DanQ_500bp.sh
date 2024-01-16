@@ -7,7 +7,7 @@
 #SBATCH --time=100:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/withoutCUDA.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/withoutCUDA.%j.err    # Standard error log
-#SBATCH --array=0-17
+#SBATCH --array=0-16
 
 SampleName=(NonRedundantACRs_18Cells.500bp
   Seedling_18Celltypes.500.RestrictACR2CT
