@@ -35,4 +35,4 @@ FastaFile=(
  --OutwmlfileName /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${OutPutName[SLURM_ARRAY_TASK_ID]}"_500bp.wml \
  --NewOutputDir /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/"${OutPutName[SLURM_ARRAY_TASK_ID]}"_500bp_DanQ \
  --fasta "${FastaFile[SLURM_ARRAY_TASK_ID]}" \
- --TrainModelFile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/Seedling_18Celltypes.500.RestrictACR11CT_DanQ_500bp/best_model.pth.tar
+ --TrainModelFile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ_500bp
