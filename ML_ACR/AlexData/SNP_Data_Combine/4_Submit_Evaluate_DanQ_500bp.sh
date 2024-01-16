@@ -28,7 +28,7 @@ FastaFile=(
 /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/TestSNPChange_MaizeV5_RandomSNPSelection.fa)
 
  /home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/Run_Selene_MakeYMLFile_Evaluate.py \
-  --wmlFile /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/Evaluate_DanQ_withoutCuda_SeqLength500bp.yml \
+  --wmlFile /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/Evaluate_DanQ_withoutCuda_SeqLength500.yml \
  --learningRate 0.0005 \
  --bedfile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/"${SampleName[SLURM_ARRAY_TASK_ID]}"_Sorted.bed.gz \
  --featurefile /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/"${SampleName[SLURM_ARRAY_TASK_ID]}"_distinctfeatures.txt \
