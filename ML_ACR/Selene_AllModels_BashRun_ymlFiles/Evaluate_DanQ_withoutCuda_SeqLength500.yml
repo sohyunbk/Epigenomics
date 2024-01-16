@@ -24,11 +24,11 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     seed: 127,
     mode: validate,
     save_datasets: [validate],
-    validation_holdout:  [chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10],
+    validation_holdout:  [chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9],
     output_dir:/SampledData ,
     sample_negative: False,
     sequence_length: 500,
-    center_bin_to_predict: 500,
+    center_bin_to_predict: 0,
     feature_thresholds: 0.5
 
 }
