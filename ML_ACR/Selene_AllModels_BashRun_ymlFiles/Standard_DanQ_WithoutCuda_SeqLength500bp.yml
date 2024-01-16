@@ -37,7 +37,7 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
 }
 train_model: !obj:selene_sdk.TrainModel {
     batch_size: 64,
-    max_steps: 8000,  # update this value for longer training
+    max_steps: 800,  # update this value for longer training
     report_stats_every_n_steps: 1000,
     n_validation_samples: 60,
     n_test_samples: 10,
