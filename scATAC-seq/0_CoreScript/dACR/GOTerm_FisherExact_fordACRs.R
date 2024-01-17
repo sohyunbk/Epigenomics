@@ -52,59 +52,6 @@ MakeGOlist <-function(GOTerm){
   }
   return(BP_list)}
 
-GettingGOResult <-function(BP_list,SelectedPeak,GOTerm){
-  #str(BP_list)
-  #CellName <- "XylemParenchyma"
-  
-  selected <- SelectedPeak  %>% 
-    dplyr::select(Peak, FDR)
-  #head(zm_bs_denovo.selected)
-  ranks <- deframe(selected)
-  ranks_ordered <- rev(ranks[order(ranks)])
-  Peak <- names(ranks_ordered)
-  # Split the names into components
-  split_names <- strsplit(Peak, split = "_")
-  
-  # Extract chromosomes, start and end positions
-  chromosomes <- sapply(split_names, function(x) x[1])
-  starts <- as.integer(sapply(split_names, function(x) x[2]))
-  ends <- as.integer(sapply(split_names, function(x) x[3]))
-  granges_object <- GRanges(seqnames = chromosomes, ranges = IRanges(start = starts, end = ends))
-  
-  nearest_genes <- distanceToNearest(granges_object, genes_ranges)
-  distances <- mcols(nearest_genes)$distance
-  nearest_genes_id <- genes_ranges[subjectHits(nearest_genes)]$gene_id
-  
-  names(ranks_ordered) <- nearest_genes_id
-  
-  #head(ranks_ordered)
-  #length(ranks_ordered)
-  # probalby sort ranks
-  
-  # stats : Named vector of gene-level stats.
- 
-  #https://code.bioconductor.org/browse/fgsea/RELEASE_3_18/
-  fgseaRes <- fgsea(pathways=BP_list, stats=ranks_ordered, 
-                    nperm=10000,
-                    minSize = 10, maxSize = 600)
-  #str(fgseaRes)  
-  #head(fgseaRes)
-  fgseaResTidy <- fgseaRes %>%
-    as_tibble() %>%
-    arrange(NES)
-  
-  Output <- fgseaResTidy[order(fgseaResTidy$pval,decreasing=FALSE,na.last=TRUE),]
-  #head(Output)
-  OutputTable <- data.frame(Output)
-  #colnames(OutputTable)
-  OutputTable <- subset(OutputTable, select = -c(leadingEdge))
-  #str(OutputTable)
-  #head(OutputTable)
-  setwd(opt$OutPutDir)
-  CellName <-  sub(FileEnd, "", FileName)
-  write.table(OutputTable, file=paste0(CellName,".",GOTerm,".txt"),
-              quote=F, row.names=F, col.names=T, sep="\t")
-}
 
 # Convert to GRanges
 
@@ -125,19 +72,9 @@ granges_object <- GRanges(seqnames = chromosomes, ranges = IRanges(start = start
 nearest_genes <- distanceToNearest(granges_object, genes_ranges)
 distances <- mcols(nearest_genes)$distance
 nearest_genes_id <- genes_ranges[subjectHits(nearest_genes)]$gene_id
+head(nearest_genes_id)
 
-
-for (File in files){
-  GOList_BP<- MakeGOlist("BP")
-  GettingGOResult(GOList_BP,File,"BP")
-  GOList_CC<- MakeGOlist("CC")
-  GettingGOResult(GOList_CC,File,"CC")
-  GOList_MF<- MakeGOlist("MF")
-  GettingGOResult(GOList_MF,File,"MF")
-}
-
-
-
+FisherExactTest <-function(GOList_BP){
 Pvalues <-c()
 GOName <- c()
 for (i in c(1:length(GOList_BP))){
