@@ -1,16 +1,21 @@
 import glob, os, sys
 
 infile = open("/scratch/sb14489/0.Reference/Maize_B73/Zm00001eb.1.fulldata.txt","r")
+outfile =  open("/scratch/sb14489/0.Reference/Maize_B73/Zm00001eb.1.fulldata.Curated.txt","w")
+
 BED = open("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed","r")
-infile.readline()
+outfile.write(infile.readline().replace(' ',''))
 Dic = {}
 for sLine in infile:
     sList = sLine.replace(" ","").strip().split("\t")
+    outfile.write("\t".join(sList)+"\n")
     if len(sList) > 9 and len(sList[9]) >1 :
         #print(sList)
         Dic[sList[0]] = sList[9]
         #print(sList[0]+"   "+ sList[9])
 infile.close()
+outfile.close()
+
 NewBED = open("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr_AddGeneSymbol.bed","w")
 
 for sBed in BED:

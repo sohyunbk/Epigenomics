@@ -77,8 +77,7 @@ return(nearest_genes_id)
 }
 ## Function3: Fisher exact test
 
-FisherExactTest <-function(GOList_BP,nearest_genes_id,
-                           OutputDir,FileName,Color,FDRCutoff=NA){
+FisherExactTest <-function(GOList_BP,nearest_genes_id){
   Pvalues <-c()
   GOName <- c()
   for (i in c(1:length(GOList_BP))){
@@ -114,26 +113,38 @@ FisherExactTest <-function(GOList_BP,nearest_genes_id,
   
   FDR <- p.adjust(Pvalues, method="BH")
   Result <- data.frame(GOName=GOName,Pvalues=Pvalues,FDR=FDR)
+  return(Result)
+}
+
+## Function4: Draw Plot and Save the table 
+DrawBarPlot_saveTable <-  function(Result, OutputDir,FileName,Color,FDRCutoff=NA){
   if (FDRCutoff==0.05){
   Sig <- Result[Result$FDR <0.05,]
   CutOFFName <- "FDR0.05"}
   else{
-  Sig <- Result[Result$Pvalues <0.01,]  
-  CutOFFName <- "Pvalue0.01"
+  Sig <- Result[Result$Pvalues <0.001,]  
+  CutOFFName <- "Pvalue0.001"
   }
   #Sig <- Result[Result$Pvalues <0.001,]
   Sig_ordered <- Sig[rev(order(Sig$Pvalues)), ]
+  Sig_ordered <- Sig_ordered %>% 
+    arrange(match(Color, "Bif3Higher"), Color)
   Sig_ordered$logP <- -log10(Sig_ordered$Pvalues)
-  write.table(Sig[(order(Sig$Pvalues)), ], file=paste0(OutputDir,"/",FileName,"_",CutOFFName,".txt"),
+  Sig_ordered$GONameWithS <- paste0(Sig_ordered$Color,
+                                    ".",Sig_ordered$GOName)
+  Sig_ordered$GONameWithS <- factor(Sig_ordered$GONameWithS,
+                                    levels = unique(Sig_ordered$GONameWithS))
+  write.table(Sig_ordered, file=paste0(OutputDir,"/",FileName,"_",CutOFFName,".txt"),
               quote=F, row.names=F, col.names=T, sep="\t")
-  ggplot(Sig_ordered, aes(y = reorder(GOName, logP), x = logP, fill = "constant")) +
+  ggplot(Sig_ordered, aes(y = GONameWithS, x = logP, fill = Color)) +
     geom_bar(stat = "identity", position = "dodge") +
     theme(axis.text.y = element_text(angle = 0, hjust = 1)) +
-    labs(y = "GO Term", x = "-log10(P-value)", title = "BP_IM-OC_Bif3Higher") +
+    labs(y = "GO Term", x = "-log10(P-value)", title = FileName) +
     theme_minimal() +
-    scale_fill_manual(values = c("constant" = "#a020f0"))
-  ggsave(paste0(OutputDir,"/test.pdf"), width = 10, height = 2, dpi = 300)
-  ggsave(paste0(OutputDir,"/",FileName,"_",CutOFFName,".pdf"), width = 10, height = 2, dpi = 300)
+    theme(panel.grid.major.y = element_blank(), panel.grid.minor.y = element_blank()) +
+    scale_fill_manual(values = Color)
+    ggsave(paste0(OutputDir,"/",FileName,"_",CutOFFName,".pdf"),
+           width = 10, height = 1+nrow(Sig_ordered)/3, dpi = 300)
 }
 
 #### Start
@@ -143,5 +154,62 @@ GOList_MF <- MakeGOlist("MF")
 
 NearestGenes_Bif3Higher <- Get_NearestGenes(DEGInfo,0.05,"Bif3Higher")
 NearestGenes_A619Higher <-Get_NearestGenes(DEGInfo,0.05,"A619Higher")
-FisherExactTest(GOList_BP,NearestGenes_A619Higher,OutputDir,
-                "FDR0.05A619Higher_BP",FDRCutoff=0.05)
+## Save NearestGene Info!
+head(NearestGenes_A619Higher)
+GeneInfo <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm00001eb.1.fulldata.Curated.txt", fill = TRUE)
+head(GeneInfo)
+dim(GeneInfo)
+ColNames <- GeneInfo[1,]
+GeneInfo <- GeneInfo[-1, ]
+colnames(GeneInfo) <- ColNames
+head(GeneInfo)
+head(GeneInfo$chr)
+NearestGenes_Bif3Higher_Info <- GeneInfo[GeneInfo$gene_model %in% NearestGenes_Bif3Higher,]
+write.table(NearestGenes_Bif3Higher_Info, file=paste0(OutputDir,"/NearestGenes_Bif3Higher_Info.txt"),
+            quote=F, row.names=F, col.names=T, sep="\t")
+NearestGenes_A619Higher_Info <- GeneInfo[GeneInfo$gene_model %in% NearestGenes_A619Higher,]
+write.table(NearestGenes_A619Higher_Info, file=paste0(OutputDir,"/NearestGenes_A619Higher_Info.txt"),
+            quote=F, row.names=F, col.names=T, sep="\t")
+## 1) BP
+Result_A619Higher <- FisherExactTest(GOList_BP,NearestGenes_A619Higher)
+Result_A619Higher$Color <- "A619Higher"
+Result_Bif3Higher <- FisherExactTest(GOList_BP,NearestGenes_Bif3Higher)
+Result_Bif3Higher$Color <- "Bif3Higher"
+Result <- rbind(Result_A619Higher,Result_Bif3Higher)
+Color1 <- c("#58198c","#456b5d")
+DrawBarPlot_saveTable(Result, OutputDir,"BP_FDR0.05dACR",Color1,FDRCutoff=0.05)                
+DrawBarPlot_saveTable(Result, OutputDir,"BP_FDR0.05dACR",Color1,FDRCutoff="NO")                
+
+Color2 <- c("#807e18","#374382")
+Result_A619Higher_CC <- FisherExactTest(GOList_CC,NearestGenes_A619Higher)
+Result_A619Higher_CC$Color <- "A619Higher"
+Result_Bif3Higher_CC <- FisherExactTest(GOList_CC,NearestGenes_Bif3Higher)
+Result_Bif3Higher_CC$Color <- "Bif3Higher"
+Result_CC <- rbind(Result_A619Higher_CC,Result_Bif3Higher_CC)
+DrawBarPlot_saveTable(Result_CC, OutputDir,"CC_FDR0.05dACR",Color2,FDRCutoff=0.05)                
+DrawBarPlot_saveTable(Result_CC, OutputDir,"CC_FDR0.05dACR",Color2,FDRCutoff="NO")       
+
+Color3 <- c("#147e8f","#61370b")
+Result_A619Higher_MF <- FisherExactTest(GOList_MF,NearestGenes_A619Higher)
+Result_A619Higher_MF$Color <- "A619Higher"
+Result_Bif3Higher_MF <- FisherExactTest(GOList_MF,NearestGenes_Bif3Higher)
+Result_Bif3Higher_MF$Color <- "Bif3Higher"
+Result_MF <- rbind(Result_A619Higher_MF,Result_Bif3Higher_MF)
+DrawBarPlot_saveTable(Result_MF, OutputDir,"MF_FDR0.05dACR",Color3,FDRCutoff=0.05)                
+DrawBarPlot_saveTable(Result_MF, OutputDir,"MF_FDR0.05dACR",Color3,FDRCutoff="NO") 
+
+
+
+## Find the genes that are interested in .
+which(names(GOList_BP) == "regulation_of_transcription,_DNA-templated.6355")
+which(names(GOList_BP) == "regulation_of_flower_development.9909")
+CheckedGO <- GOList_BP[[2847]]  
+GONames <- names(GOList_BP)[2847]
+CheckedGO_unique <- unique(CheckedGO)
+intersect(CheckedGO_unique, NearestGenes_A619Higher)
+
+
+CheckedGO <- GOList_BP[[3061]]  
+GONames <- names(GOList_BP)[3061]
+CheckedGO_unique <- unique(CheckedGO)
+intersect(CheckedGO_unique, NearestGenes_Bif3Higher)
