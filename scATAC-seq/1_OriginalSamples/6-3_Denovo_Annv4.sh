@@ -9,8 +9,9 @@
 #SBATCH --error=/scratch/sb14489/0.log/Denovo.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
+#SBATCH --array=0-1
 
-
+### Wanted to add other sample too!
 ml Anaconda3/2020.02
 source activate r_env
 
@@ -21,4 +22,4 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/De_
 --bed /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed \
 --Ann_ColumnName Ann_v4 \
 --Species maize --OutputBaseName A619_v4 \
---OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4
+--OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/A619
