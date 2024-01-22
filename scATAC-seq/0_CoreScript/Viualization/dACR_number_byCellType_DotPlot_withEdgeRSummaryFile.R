@@ -69,7 +69,7 @@ head(Bif3Higher)
 
 FigureTable <- rbind(dACRInfo,Bif3Higher,WTHigher)
 
-custom_colors <- c(#70635b,"#802652","#5d850f") 
+custom_colors <- c("#70635b","#802652","#5d850f") 
 FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
 FigureTable$Celltype <- factor(FigureTable$Celltype,levels=CellOrders)
 ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
