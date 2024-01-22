@@ -3,10 +3,13 @@ library(stringr)
 library("RColorBrewer")
 library(gridExtra)
 
+ColorForPreAnn <- c( "#f58c8c", "#FFB380", "#FFECB3", "#a2d179", "#B3FFB3","#44c78e", "#B3FFE5",
+                     "#8dccca", "#48a2f0", "#69a0cf", "#b2bcf7", "#D1B3FF", "#a088f7","#865b8a")
+
 ### Getting metafile as input.
 DrawUMAP_Ann_QC <- function(PreAnnMeta,Meta, Slot, CellOrder, Re1, Re2,OutfilePathName){
   print("Replicates name should be sampleID slot")
-ColorForPreAnn <- c( "#f58c8c", "#FFB380", "#FFECB3", "#a2d179", "#B3FFB3","#44c78e", "#B3FFE5", 
+ColorForPreAnn <- c( "#f58c8c", "#FFB380", "#FFECB3", "#a2d179", "#B3FFB3","#44c78e", "#B3FFE5",
                      "#8dccca", "#48a2f0", "#69a0cf", "#b2bcf7", "#D1B3FF", "#a088f7","#865b8a")
 PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters))) +
     geom_point(size=0.001) +
@@ -23,7 +26,7 @@ PreAnn <- ggplot(PreAnnMeta, aes(x=umap1, y=umap2, color=factor(LouvainClusters)
         axis.title.x = element_text(size = 30),
         axis.title.y = element_text(size = 30),
         legend.title = element_text(size = 20))
-    
+
 Meta$Ann <- Meta[[Slot]]
 Meta$Ann <- factor(Meta$Ann,levels=(CellOrder))
 colorr <- c("#4F96C4","#84f5d9","#0bd43d","#d62744","#FDA33F","#060878","#62a888",

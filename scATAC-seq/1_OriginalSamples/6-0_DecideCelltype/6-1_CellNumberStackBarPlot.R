@@ -1,10 +1,11 @@
-A619_meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV3_metadata.txt"
+WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"
+A619_meta <- paste0(WD,"/A619/Ref_AnnV4_metadata.txt")
 loaded_A619_meta <- read.table(A619_meta)
-bif3_meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/Bif3_AnnV3_metadata.txt"
+bif3_meta <- paste0(WD,"/Bif3/Bif3_AnnV4_metadata.txt")
 loaded_bif3_meta <- read.table(bif3_meta)
 
 CluterTable <- rbind(loaded_A619_meta,loaded_bif3_meta)
-setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3")
+setwd(WD)
 head(CluterTable)
 ###########################
 ### 1) Barplot by celltype 
@@ -12,8 +13,9 @@ head(CluterTable)
 library(ggplot2)
 Plotlist <- list()
 ggplotData <- list()
-i <- levels(factor(CluterTable$Ann_v3))[1]
+i <- levels(factor(CluterTable$Ann_v4))[1]
 k = 1
+Celltypes <- 
 
 colorr <-c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
            "#876b58","#800000", "#800075","#e8cf4f","#0bd43d","#fc53b6",
