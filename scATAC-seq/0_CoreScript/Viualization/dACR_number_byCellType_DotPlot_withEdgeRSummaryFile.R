@@ -3,15 +3,15 @@ library(rlang)
 library(ggplot2)
 
 option_list = list(
-  make_option(c("--WD"), type="character", 
+  make_option(c("--WD"), type="character",
               help="WD", metavar="character"),
-  make_option(c("--FDRCutOff"), type="character", 
+  make_option(c("--FDRCutOff"), type="character",
               help="Sparse_S1", metavar="character"),
-  make_option(c("--OutFilename"), type="character", 
+  make_option(c("--OutFilename"), type="character",
               help="OutFilename", metavar="character"),
-  make_option(c("--CellOrderFile"), type="character", 
+  make_option(c("--CellOrderFile"), type="character",
               help="CellOrderFile", metavar="character")
-  
+
 );
 
 opt_parser = OptionParser(option_list=option_list);
@@ -20,22 +20,22 @@ opt = parse_args(opt_parser);
 WDir <- opt$WD
 CutOffFDR <- opt$FDRCutOff
 OutFileName <- opt$OutFilename
-CellOrders <- readLines(opt$CellOrderFile) 
+CellOrders <- readLines(opt$CellOrderFile)
 
 setwd(WDir)
 FileEnd <- ".EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
-files <- list.files(path = WDir, 
-                    pattern = "\\.EdgeRResult_PseudoReplicate_withPromoterRegion\\.txt$", 
+files <- list.files(path = WDir,
+                    pattern = "\\.EdgeRResult_PseudoReplicate_withPromoterRegion\\.txt$",
                     full.names = FALSE)
 Celltype <- sub("\\.EdgeRResult_PseudoReplicate_withPromoterRegion\\.txt", "", files)
 #"dACRNumber_FDR0.01.pdf"
 # Print the list of files
-#Celltype <- 
+#Celltype <-
 #  c("L1","L1atFloralMeristem",
 #    "FloralMeristem_SuppressedBract",
 #    "IM-OC","SPM-base_SM-base","IM_SPM_SM",
 #     "ProcambialMeristem_ProtoXylem_MetaXylem",
-#    "PhloemPrecursor", 
+#    "PhloemPrecursor",
 #    "ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma",
 #     "XylemParenchyma_PithParenchyma",
 #     "BundleSheath_VascularSchrenchyma",
@@ -69,13 +69,13 @@ head(Bif3Higher)
 
 FigureTable <- rbind(dACRInfo,Bif3Higher,WTHigher)
 
-custom_colors <- c("#4d0505","#092691", "#ad8c09") 
+custom_colors <- c("#802652","#5d850f") 
 FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
 FigureTable$Celltype <- factor(FigureTable$Celltype,levels=CellOrders)
 ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
   geom_point(aes(colour = factor(Color)),alpha=0.5)+  # New geom_point for Higher_Bif3Ratio
   scale_size_continuous(range = c(1, 15)) +
-  scale_color_manual(values = custom_colors) + 
+  scale_color_manual(values = custom_colors) +
   theme_minimal() +
   labs(x = "The number of dACR", y = "Cell type", title = " ", size = "dACR Ratio") +
   theme(axis.text.y = element_text(size = 16),
@@ -94,5 +94,3 @@ ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
 
 ggsave(OutFileName
        , width=15, height=7)
-
-

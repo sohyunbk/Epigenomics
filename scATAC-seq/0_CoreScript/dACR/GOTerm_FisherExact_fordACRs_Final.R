@@ -176,11 +176,11 @@ Result_A619Higher$Color <- "A619Higher"
 Result_Bif3Higher <- FisherExactTest(GOList_BP,NearestGenes_Bif3Higher)
 Result_Bif3Higher$Color <- "Bif3Higher"
 Result <- rbind(Result_A619Higher,Result_Bif3Higher)
-Color1 <- c("#58198c","#456b5d")
+Color1 <- c("#802652","#5d850f")
 DrawBarPlot_saveTable(Result, OutputDir,"BP_FDR0.05dACR",Color1,FDRCutoff=0.05)                
 DrawBarPlot_saveTable(Result, OutputDir,"BP_FDR0.05dACR",Color1,FDRCutoff="NO")                
 
-Color2 <- c("#807e18","#374382")
+Color2 <- c("#802652","#5d850f")
 Result_A619Higher_CC <- FisherExactTest(GOList_CC,NearestGenes_A619Higher)
 Result_A619Higher_CC$Color <- "A619Higher"
 Result_Bif3Higher_CC <- FisherExactTest(GOList_CC,NearestGenes_Bif3Higher)
@@ -189,7 +189,7 @@ Result_CC <- rbind(Result_A619Higher_CC,Result_Bif3Higher_CC)
 DrawBarPlot_saveTable(Result_CC, OutputDir,"CC_FDR0.05dACR",Color2,FDRCutoff=0.05)                
 DrawBarPlot_saveTable(Result_CC, OutputDir,"CC_FDR0.05dACR",Color2,FDRCutoff="NO")       
 
-Color3 <- c("#147e8f","#61370b")
+Color3 <- c("#802652","#5d850f")
 Result_A619Higher_MF <- FisherExactTest(GOList_MF,NearestGenes_A619Higher)
 Result_A619Higher_MF$Color <- "A619Higher"
 Result_Bif3Higher_MF <- FisherExactTest(GOList_MF,NearestGenes_Bif3Higher)
