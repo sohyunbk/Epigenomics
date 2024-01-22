@@ -3,7 +3,7 @@ A619_meta <- paste0(WD,"/A619/Ref_AnnV4_metadata.txt")
 loaded_A619_meta <- read.table(A619_meta)
 bif3_meta <- paste0(WD,"/Bif3/Bif3_AnnV4_metadata.txt")
 loaded_bif3_meta <- read.table(bif3_meta)
-
+Slot <- "Ann_v4"
 CluterTable <- rbind(loaded_A619_meta,loaded_bif3_meta)
 setwd(WD)
 head(CluterTable)
@@ -11,19 +11,18 @@ head(CluterTable)
 ### 1) Barplot by celltype 
 ###########################
 library(ggplot2)
+source("/home/sb14489/Epigenomics/scATAC-seq/0_Function/DrawFigures_QC_Annotation_forUMAP.R")
+
 Plotlist <- list()
 ggplotData <- list()
-i <- levels(factor(CluterTable$Ann_v4))[1]
 k = 1
-Celltypes <- 
+CellOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt")
+ColorForPreAnn
 
-colorr <-c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
-           "#876b58","#800000", "#800075","#e8cf4f","#0bd43d","#fc53b6",
-           "#deadce","#adafde","#5703ff")
 
-for (i in levels(factor(CluterTable$Ann_v3))){
+for (i in CellOrder){
   
-  SubCluster <- CluterTable[which(CluterTable$Ann_v3==i),]
+  SubCluster <- CluterTable[which(CluterTable[[Slot]]==i),]
   #head(SubCluster)
   Plotlist[[i]] <- data.frame()
   for (j in levels(factor(SubCluster$library))){
@@ -36,7 +35,7 @@ for (i in levels(factor(CluterTable$Ann_v3))){
   Plotlist[[i]]$library <- factor(Plotlist[[i]]$library ,levels=c("A619_Re1", "A619_Re2", "bif3_Re1","bif3_Re2"
   ))
   ggplotData[[i]] <- ggplot(data=Plotlist[[i]], aes(x=library, y=Ratio)) +theme_minimal()+
-    geom_bar(stat="identity",fill=colorr[k])+coord_flip()+
+    geom_bar(stat="identity",fill=ColorForPreAnn[k])+coord_flip()+
     xlab("") +
     ylab("Ratio(%)")+ggtitle(i)+ theme(plot.title = element_text(size = 10))
   k=k+1
@@ -45,12 +44,13 @@ for (i in levels(factor(CluterTable$Ann_v3))){
 library(easyGgplot2)
 getwd()
 head(SubCluster)
-str(ggplotData[[1]])
-tiff("Ann_v3_Ratio_by_Cluster_Barplot.tiff", width = 10, height = 7, units = 'in', res = 300)
+#str(ggplotData[[1]])
+tiff(paste0(Slot,"_Ratio_by_Cluster_Barplot.tiff"),
+     width = 10, height = 7, units = 'in', res = 300)
 ggplot2.multiplot(ggplotData[[1]], ggplotData[[2]], ggplotData[[3]], ggplotData[[4]],
                   ggplotData[[5]], ggplotData[[6]], ggplotData[[7]], ggplotData[[8]],
                   ggplotData[[9]], ggplotData[[10]], ggplotData[[11]], ggplotData[[12]],
-                  ggplotData[[13]],
+                  ggplotData[[13]],ggplotData[[14]],
                   cols=4)
 dev.off()
 
@@ -76,7 +76,7 @@ tail(Plotdata)
 
 ggplot(Plotdata, aes(fill=Celltype, y=Ratio, x=library)) + 
   geom_bar(stat = "identity")+
-  scale_fill_manual(values = colorr[1:13]) +
+  scale_fill_manual(values = ColorForPreAnn[1:13]) +
   geom_text(aes(label = paste(round(Ratio,1),"%")), position = position_stack(vjust =  0.5))+
   theme_minimal()
 
@@ -91,10 +91,6 @@ ggplotData <- list()
 i <- levels(factor(CluterTable$Ann_v3))[1]
 k = 1
 
-colorr <-c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
-           "#876b58","#800000", "#800075","#e8cf4f","#0bd43d","#fc53b6",
-           "#deadce","#adafde","#5703ff")
-head(CluterTable)
 for (i in levels(factor(CluterTable$Ann_v3))){
   
   SubCluster <- CluterTable[which(CluterTable$Ann_v3==i),]

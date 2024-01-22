@@ -5,7 +5,9 @@ library(gridExtra)
 
 ColorForPreAnn <- c( "#f58c8c", "#FFB380", "#FFECB3", "#a2d179", "#B3FFB3","#44c78e", "#B3FFE5",
                      "#8dccca", "#48a2f0", "#69a0cf", "#b2bcf7", "#D1B3FF", "#a088f7","#865b8a")
-
+colorr <- c("#4F96C4","#84f5d9","#0bd43d","#d62744","#FDA33F","#060878","#62a888",
+            "#876b58","#800000", "#800075","#e8cf4f","#adafde","#DE9A89","#5703ff",
+           "#deadce","#fc53b6")
 ### Getting metafile as input.
 DrawUMAP_Ann_QC <- function(PreAnnMeta,Meta, Slot, CellOrder, Re1, Re2,OutfilePathName){
   print("Replicates name should be sampleID slot")
