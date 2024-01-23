@@ -1,33 +1,33 @@
 ---
 ops: [evaluate]
 model: {
-    path: /absolute/path/to/model/architecture.py,
-    class: ModelArchitectureClassName,
+    path: /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model_500bp.py,
+    class: DanQ,
     class_args: {
-        arg1: val1,
-        arg2: val2
+        sequence_length: 500,
+        n_targets: 13,
     },
     non_strand_specific: mean
 }
 sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
-    filepath: /path/to/file.bed,  # generated from selene_sdk training (`test_data.bed`)
+    filepath: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/test_SNVs_curated_RandomSelectSNPperACR_NotMutated_500bp_DanQ/SampledData/validate_data.bed,  # generated from selene_sdk training (`test_data.bed`)
     reference_sequence: !obj:selene_sdk.sequences.Genome {
-        input_path: /path/to/genome/hg.fa
+        input_path: /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
     },
-    n_samples: n_samples_in_file,  # wc -l file.bed
+    n_samples: 4992,  # wc -l file.bed
     targets_avail: True,
-    sequence_length: 1000,
-    n_features: 2
+    sequence_length: 500,
+    n_features: 13
 }
 evaluate_model: !obj:selene_sdk.EvaluateModel {
     features:  !obj:selene_sdk.utils.load_features_list {
-        input_path: /path/to/distinct_features.txt
+        input_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs_curated_RandomSelectSNPperACR_distinctfeatures.txt
     },
-    trained_model_path: /path/to/trained_model.pth.tar,
+    trained_model_path:  /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/maize_code/DanQ/best_model.pth.tar,
     batch_size: 64,
     report_gt_feature_n_positives: 50,
     use_cuda: True,
-    output_dir: /path/to/output_dir
+    output_dir: /scratch/sb14489/Test2
 }
 random_seed: 1337
 ...
