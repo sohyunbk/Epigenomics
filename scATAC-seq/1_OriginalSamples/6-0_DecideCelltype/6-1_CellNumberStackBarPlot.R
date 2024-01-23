@@ -17,8 +17,9 @@ Plotlist <- list()
 ggplotData <- list()
 k = 1
 CellOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt")
-ColorForPreAnn
+colorr
 
+##### 1) Separate bar plot
 
 for (i in CellOrder){
   
@@ -35,7 +36,7 @@ for (i in CellOrder){
   Plotlist[[i]]$library <- factor(Plotlist[[i]]$library ,levels=c("A619_Re1", "A619_Re2", "bif3_Re1","bif3_Re2"
   ))
   ggplotData[[i]] <- ggplot(data=Plotlist[[i]], aes(x=library, y=Ratio)) +theme_minimal()+
-    geom_bar(stat="identity",fill=ColorForPreAnn[k])+coord_flip()+
+    geom_bar(stat="identity",fill=colorr[k])+coord_flip()+
     xlab("") +
     ylab("Ratio(%)")+ggtitle(i)+ theme(plot.title = element_text(size = 10))
   k=k+1
@@ -45,7 +46,7 @@ library(easyGgplot2)
 getwd()
 head(SubCluster)
 #str(ggplotData[[1]])
-tiff(paste0(Slot,"_Ratio_by_Cluster_Barplot.tiff"),
+pdf(paste0(Slot,"_Ratio_by_Cluster_Barplot.pdf"),
      width = 10, height = 7, units = 'in', res = 300)
 ggplot2.multiplot(ggplotData[[1]], ggplotData[[2]], ggplotData[[3]], ggplotData[[4]],
                   ggplotData[[5]], ggplotData[[6]], ggplotData[[7]], ggplotData[[8]],
@@ -59,7 +60,7 @@ dev.off()
 ### 2) StackedBarplot by Replicates 
 ###########################
 Plotdata<- data.frame()
-for (i in levels(factor(CluterTable$Ann_v3))){
+for (i in CellOrder){
   temp <- data.frame(Plotlist[[i]],Celltype = i)
   Plotdata <- rbind(Plotdata,temp)
 }
@@ -73,10 +74,12 @@ Plotdata <- ddply(Plotdata, .(library),
 
 Plotdata$Ratio_Round <- round(Plotdata$Ratio, digits = 1)
 tail(Plotdata)
-
+Plotdata$Celltype  <- factor(Plotdata$Celltype,levels=CellOrder)
+levels(factor(Plotdata$Celltype))
+named_colors <- setNames(colorr, levels(Plotdata$Celltype))
 ggplot(Plotdata, aes(fill=Celltype, y=Ratio, x=library)) + 
   geom_bar(stat = "identity")+
-  scale_fill_manual(values = ColorForPreAnn[1:13]) +
+  scale_fill_manual(values = named_colors) +
   geom_text(aes(label = paste(round(Ratio,1),"%")), position = position_stack(vjust =  0.5))+
   theme_minimal()
 
@@ -88,12 +91,11 @@ ggsave("Ann_v3_Ratio_StackedBarplot_A619Re1and2_Bif3Re1and2.pdf", width=12, heig
 ###########################
 Plotlist <- list()
 ggplotData <- list()
-i <- levels(factor(CluterTable$Ann_v3))[1]
-k = 1
 
-for (i in levels(factor(CluterTable$Ann_v3))){
+
+for (i in CellOrder){
   
-  SubCluster <- CluterTable[which(CluterTable$Ann_v3==i),]
+  SubCluster <- CluterTable[which(CluterTable[[Slot]]==i),]
   #head(SubCluster)
   Plotlist[[i]] <- data.frame()
   for (j in levels(factor(SubCluster$SampleName))){
@@ -113,7 +115,7 @@ for (i in levels(factor(CluterTable$Ann_v3))){
 }
 
 Plotdata<- data.frame()
-for (i in levels(factor(CluterTable$Ann_v3))){
+for (i in CellOrder){
   temp <- data.frame(Plotlist[[i]],Celltype = i)
   Plotdata <- rbind(Plotdata,temp)
 }
@@ -125,6 +127,7 @@ Plotdata <- ddply(Plotdata, .(SampleName),
 Plotdata$Ratio_Round <- round(Plotdata$Ratio, digits = 1)
 Plotdata$Ratio_Round <- paste0(Plotdata$Ratio_Round," (",Plotdata$Fre,")")
 tail(Plotdata)
+Plotdata$Celltype  <- factor(Plotdata$Celltype,levels=CellOrder)
 
 ggplot(Plotdata, aes(fill=Celltype, y=Ratio, x=SampleName)) + 
   geom_bar(stat = "identity")+
@@ -132,13 +135,13 @@ ggplot(Plotdata, aes(fill=Celltype, y=Ratio, x=SampleName)) +
   geom_text(aes(label = Ratio_Round), position = position_stack(vjust =  0.5))+
   theme_minimal()
 
-ggsave("Ann_v3_Ratio_StackedBarplot_BySample.pdf", width=8, height=5)
+ggsave(paste0(Slot,"_Ratio_StackedBarplot_BySample.pdf"), width=8, height=5)
 ###########################
 ### 4) Table save
 ###########################
 SavedTable <- data.frame()
 
-for (i in levels(factor(CluterTable$Ann_v3))){
+for (i in CellOrder){
   # Order = A619_Re1, A619_Re2, bif3_Re1, bif3_Re2
   temp <- data.frame(Plotlist[[i]],Celltype = i)
   tTable <- data.frame(t(c(temp$Fre)))
@@ -151,6 +154,5 @@ ColSum <- t(data.frame(colSums(SavedTable)))
 rownames(ColSum) <- c("Sum")
 SavedTable <- rbind(SavedTable, ColSum)
 
-setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/13.CheckQC")
 
-write.table(SavedTable, row.names = TRUE,col.names=T,file="CellNumber_A619_Bif3_Re12.txt", sep="\t")
+write.table(SavedTable, row.names = TRUE,col.names=T,file=paste0(Slot,"CellNumber_A619_Bif3_Re12.txt"), sep="\t")
