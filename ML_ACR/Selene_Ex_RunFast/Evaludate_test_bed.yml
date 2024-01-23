@@ -23,7 +23,7 @@ evaluate_model: !obj:selene_sdk.EvaluateModel {
     features:  !obj:selene_sdk.utils.load_features_list {
         input_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs_curated_RandomSelectSNPperACR_distinctfeatures.txt
     },
-    trained_model_path:  /scratch/sb14489/8.ML_ACR/DeepFormer_Ex/DeepFormer/maize_code/DanQ/best_model.pth.tar,
+    trained_model_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ_500bp/best_model.pth.tar,
     batch_size: 64,
     report_gt_feature_n_positives: 50,
     use_cuda: True,
