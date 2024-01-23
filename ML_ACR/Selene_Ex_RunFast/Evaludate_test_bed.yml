@@ -5,7 +5,7 @@ model: {
     class: DanQ,
     class_args: {
         sequence_length: 500,
-        n_targets: 13,
+        n_targets: 18,
     },
     non_strand_specific: mean
 }
@@ -17,7 +17,7 @@ sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
     n_samples: 4992,  # wc -l file.bed
     targets_avail: True,
     sequence_length: 500,
-    n_features: 13
+    n_features: 18
 }
 evaluate_model: !obj:selene_sdk.EvaluateModel {
     features:  !obj:selene_sdk.utils.load_features_list {
