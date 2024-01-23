@@ -5,7 +5,7 @@ model: {
     class: DanQ,
     class_args: {
         sequence_length: 500,
-        n_targets:  ,
+        n_targets:  18,
     },
     non_strand_specific: mean
 }
@@ -41,7 +41,7 @@ evaluate_model: !obj:selene_sdk.EvaluateModel {
     },
     use_cuda: False,
     report_gt_feature_n_positives: 50,
-    trained_model_path:  ,
+    trained_model_path: ,
     output_dir:
 }
 random_seed: 123
