@@ -9,7 +9,9 @@
 #SBATCH --error=/scratch/sb14489/0.log/withoutCUDA.%j.err    # Standard error log
 #SBATCH --array=0-16
 
-SampleName=(NonRedundantACRs_18Cells.500bp
+SampleName=(
+  NonRedundantACRs_18Cells.200bp
+  NonRedundantACRs_18Cells.500bp
   Seedling_18Celltypes.500.RestrictACR2CT
   Seedling_18Celltypes.500.RestrictACR3CT
   Seedling_18Celltypes.500.RestrictACR4CT
