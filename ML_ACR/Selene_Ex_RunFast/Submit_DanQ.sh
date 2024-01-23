@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=DanQ_predict        # Job name
+#SBATCH --job-name=schmitz_hm_p        # Job name
 #SBATCH --partition=gpu_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=10             # Number of CPU cores per task
@@ -12,5 +12,5 @@
 module load CUDA/11.1.1-GCC-10.2.0
 
 /home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/Selene_Ex_RunFast/Run.py \
- -wmlFile /home/sb14489/Epigenomics/ML_ACR/Selene_Ex_RunFa/Evaludate_test_bed.yml \
+ -wmlFile /home/sb14489/Epigenomics/ML_ACR/Selene_Ex_RunFast/Evaludate_test_bed.yml \
  -learningRate 0.0005
