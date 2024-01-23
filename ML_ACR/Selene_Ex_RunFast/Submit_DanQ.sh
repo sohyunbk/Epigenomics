@@ -8,16 +8,9 @@
 #SBATCH --gres=gpu:P100:1
 #SBATCH --output=/scratch/sb14489/0.log/DanQ_predict.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/DanQ_predict.%j.err    # Standard error log
-#SBATCH --array=0-1
 
 module load CUDA/11.1.1-GCC-10.2.0
 
-cd /scratch/sb14489/8.ML_ACR/2.DeeperDeepSea_Test
-
-#ymllist=(200bp_AllGenome.yml 204bp_AllGenome.yml 204bp_MappableRegions.yml 500bp_AllGenome.yml)
-ymllist=(500bp_AllGenome_DanQ.yml 500bp_MappableRegions_DanQ.yml)
-learningRatelist=(0.0005 0.0005)
-
-/home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/ACR_ML_caQTLs/Deep_Former/AlexData/Run.py \
- -wmlFile "${ymllist[SLURM_ARRAY_TASK_ID]}" \
- -learningRate "${learningRatelist[SLURM_ARRAY_TASK_ID]}"
+/home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/Selene_Ex_RunFast/Run.py \
+ -wmlFile /home/sb14489/Epigenomics/ML_ACR/Selene_Ex_RunFa/Evaludate_test_bed.yml \
+ -learningRate 0.0005
