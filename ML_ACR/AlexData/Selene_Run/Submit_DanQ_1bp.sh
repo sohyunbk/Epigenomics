@@ -7,9 +7,12 @@
 #SBATCH --time=30:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/withoutCUDA.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/withoutCUDA.%j.err    # Standard error log
-#SBATCH --array=0
+#SBATCH --array=0-2
 
 SampleName=(
+NonRedundantACRs_18Cells.2bp
+NonRedundantACRs_18Cells.3bp
+NonRedundantACRs_18Cells.4bp
   NonRedundantACRs_18Cells.1bp)
 
  /home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/Run_Selene_MakeYMLFile.py \
