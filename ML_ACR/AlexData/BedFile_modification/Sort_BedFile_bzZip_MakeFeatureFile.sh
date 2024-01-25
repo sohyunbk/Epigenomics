@@ -10,6 +10,7 @@
 #SBATCH --array=0-16                   # Array range
 
 SampleName=(
+NonRedundantACRs_18Cells.1bp
 NonRedundantACRs_18Cells.200bp
 NonRedundantACRs_18Cells.500bp
   Seedling_18Celltypes.500.RestrictACR2CT
