@@ -9,7 +9,13 @@
 #SBATCH --error=/scratch/sb14489/0.log/SortBed_MakeFeatureFile.%j.err    # Standard error log
 #SBATCH --array=0-16                   # Array range
 
+#awk 'BEGIN {OFS="\t"} {mid = int(($2 + $3) / 2); print $1, mid - 1, mid + 1, $4}' NonRedundantACRs_18Cells.500bp.bed > NonRedundantACRs_18Cells.2bp.bed
+#awk 'BEGIN {OFS="\t"} {mid = int(($2 + $3) / 2); print $1, mid - 1, mid + 2, $4}' NonRedundantACRs_18Cells.500bp.bed > NonRedundantACRs_18Cells.3bp.bed
+
 SampleName=(
+NonRedundantACRs_18Cells.2bp
+NonRedundantACRs_18Cells.3bp
+NonRedundantACRs_18Cells.4bp
 NonRedundantACRs_18Cells.1bp
 NonRedundantACRs_18Cells.200bp
 NonRedundantACRs_18Cells.500bp
