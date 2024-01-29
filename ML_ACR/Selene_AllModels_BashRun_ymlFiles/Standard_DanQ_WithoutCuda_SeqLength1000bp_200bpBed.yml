@@ -5,7 +5,7 @@ model: {
     path: /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model_500bp.py,
     class: DanQ,
     class_args: {
-        sequence_length: 500,
+        sequence_length: 1000,
         n_targets: ,
     },
     non_strand_specific: mean
