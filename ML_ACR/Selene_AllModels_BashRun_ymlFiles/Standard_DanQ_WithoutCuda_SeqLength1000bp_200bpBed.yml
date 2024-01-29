@@ -27,8 +27,8 @@ sampler: !obj:selene_sdk.samplers.IntervalsSampler {
     sample_negative: False,
     sequence_length: 1000,
     center_bin_to_predict: 200,
-    test_holdout: [chr1,chr2,chr9,chr10],
-    validation_holdout: [chr3,chr4,chr6,chr7],
+    test_holdout: [chr6,chr7],
+    validation_holdout: [chr8,chr9],
     # The feature must take up 50% of the bin (200bp) for it to be considered
     # a feature annotated to that sequence.
     feature_thresholds: 0.5,
