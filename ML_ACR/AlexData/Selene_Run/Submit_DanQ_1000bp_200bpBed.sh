@@ -2,7 +2,7 @@
 #SBATCH --job-name=withoutCUDA        # Job name
 #SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
-#SBATCH --cpus-per-task=20             # Number of CPU cores per task
+#SBATCH --cpus-per-task=100             # Number of CPU cores per task
 #SBATCH --mem=80gb                   # Job memory request
 #SBATCH --time=30:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/withoutCUDA.%j.out   # Standard output log
