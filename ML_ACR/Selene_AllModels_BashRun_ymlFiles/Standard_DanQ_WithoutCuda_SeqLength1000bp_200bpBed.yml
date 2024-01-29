@@ -2,7 +2,7 @@
 ops: [train, evaluate]
 model: {
     # TODO: update this line with the absolute path to the file.
-    path: /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model_500bp.py,
+    path: /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model.py,
     class: DanQ,
     class_args: {
         sequence_length: 1000,
