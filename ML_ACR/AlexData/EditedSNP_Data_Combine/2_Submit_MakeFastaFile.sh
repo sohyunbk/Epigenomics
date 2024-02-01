@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
 #SBATCH --mem=50gb                   # Job memory request
 #SBATCH --time=5:00:00               # Time limit hrs:min:sec
-#SBATCH --output=/scratch/sb14489/0.log/MakeMutantFasta.%j.out   # Standard output log
-#SBATCH --error=/scratch/sb14489/0.log/MakeMutantFasta.%j.err    # Standard error log
+#SBATCH --output=/scratch/sb14489/0.log/MakeFasta.%j.out   # Standard output log
+#SBATCH --error=/scratch/sb14489/0.log/MakeFasta.%j.err    # Standard error log
 #SBATCH --array=0-1
 
 
