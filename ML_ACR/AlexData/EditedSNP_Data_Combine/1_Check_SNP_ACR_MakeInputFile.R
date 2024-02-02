@@ -65,7 +65,7 @@ overlaps <- findOverlaps(gr)
 summary(overlaps)
 overlap_pairs <- as.data.frame(overlaps)
 overlap_counts <- countOverlaps(gr)
-NonOverlappedACRs <- unique(SNPFile_test$acrID)[overlap_counts==1]
+NonOverlappedACRs <- unique(SNPFile$acrID)[overlap_counts==1]
 
 NonOverlappedACRs_split <- strsplit(NonOverlappedACRs, "_")
 chr <- sapply(NonOverlappedACRs_split, function(x) x[1])
