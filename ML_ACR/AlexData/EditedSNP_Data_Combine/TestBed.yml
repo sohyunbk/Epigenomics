@@ -14,7 +14,7 @@ sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
     reference_sequence: !obj:selene_sdk.sequences.Genome {
         input_path: /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
     },
-    n_samples: 13414,  # wc -l file.bed
+    n_samples: 2351,  # wc -l file.bed
     targets_avail: True,
     sequence_length: 1000,
     n_features: 18

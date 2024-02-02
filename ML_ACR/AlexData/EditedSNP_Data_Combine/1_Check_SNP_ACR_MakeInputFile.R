@@ -33,7 +33,7 @@ end <- as.integer(sapply(NonOverlappedACRs_split, function(x) x[3])) +250
 BedFile <- data.frame(chr,start,end)
 head(BedFile)
 BedFile$Strand <- "+"
-BedFile$CellTypeTemp <- "1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18"
+BedFile$CellTypeTemp <- "0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17"
 dim(BedFile)
 write.table(BedFile, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.v2.curated1000bp.bed", sep = "\t", row.names = FALSE, col.names = FALSE, quote=F)
 
@@ -74,7 +74,7 @@ end <- as.integer(sapply(NonOverlappedACRs_split, function(x) x[3])) +250
 BedFile <- data.frame(chr,start,end)
 head(BedFile)
 BedFile$Strand <- "+"
-BedFile$CellTypeTemp <- "1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18"
+BedFile$CellTypeTemp <- "0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17"
 dim(BedFile)
 write.table(BedFile, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs.v2.curated1000bp.bed", sep = "\t", row.names = FALSE, col.names = FALSE, quote=F)
 

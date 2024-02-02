@@ -14,7 +14,7 @@ sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
     reference_sequence: !obj:selene_sdk.sequences.Genome {
         input_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.v2.curated.fa
     },
-    n_samples: 13414,  # wc -l file.bed
+    n_samples: 2351,  # wc -l file.bed
     targets_avail: True,
     sequence_length: 1000,
     n_features: 18
@@ -26,7 +26,7 @@ evaluate_model: !obj:selene_sdk.EvaluateModel {
     trained_model_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/best_model.pth.tar,
     batch_size: 64,
     report_gt_feature_n_positives: 50,
-    use_cuda: True,
+    use_cuda: False,
     output_dir: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/Test_SNPChange
 }
 random_seed: 1337
