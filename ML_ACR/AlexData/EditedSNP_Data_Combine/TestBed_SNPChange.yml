@@ -27,7 +27,7 @@ evaluate_model: !obj:selene_sdk.EvaluateModel {
     batch_size: 64,
     report_gt_feature_n_positives: 50,
     use_cuda: True,
-    output_dir: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/Control
+    output_dir: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/Test_SNPChange
 }
 random_seed: 1337
 ...

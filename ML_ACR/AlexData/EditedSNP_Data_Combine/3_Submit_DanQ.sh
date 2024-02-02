@@ -8,7 +8,7 @@
 #SBATCH --output=/scratch/sb14489/0.log/DanQ_predict.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/DanQ_predict.%j.err    # Standard error log
 
-
+YmlFiles=(TestBed.yml ControlBed_SNPChange.yml TestBed_SNPChange.yml)
 /home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/Selene_Ex_RunFast/Run.py \
  -wmlFile /home/sb14489/Epigenomics/ML_ACR/AlexData/EditedSNP_Data_Combine/ControlBed.yml \
  -learningRate 0.0005
