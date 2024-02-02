@@ -1,7 +1,6 @@
 ---
-ops: [train, evaluate]
+ops: [evaluate]
 model: {
-    # TODO: update this line with the absolute path to the file.
     path: /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model.py,
     class: DanQ,
     class_args: {
@@ -20,6 +19,18 @@ sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
     sequence_length: 1000,
     n_features: 18
 }
+evaluate_model: !obj:selene_sdk.EvaluateModel {
+    features:  !obj:selene_sdk.utils.load_features_list {
+        input_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/NonRedundantACRs_18Cells.500bp_distinctfeatures.txt
+    },
+    trained_model_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ_500bp/best_model.pth.tar,
+    batch_size: 64,
+    report_gt_feature_n_positives: 50,
+    use_cuda: True,
+    output_dir: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/Control
+}
+random_seed: 1337
+...
 train_model: !obj:selene_sdk.TrainModel {
     batch_size: 64,
     max_steps: 800,  # update this value for longer training

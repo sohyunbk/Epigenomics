@@ -8,7 +8,6 @@
 #SBATCH --output=/scratch/sb14489/0.log/DanQ_predict.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/DanQ_predict.%j.err    # Standard error log
 
-module load CUDA/11.1.1-GCC-10.2.0
 
 /home/sb14489/miniconda3/envs/pytorch/bin/python /home/sb14489/Epigenomics/ML_ACR/Selene_Ex_RunFast/Run.py \
  -wmlFile /home/sb14489/Epigenomics/ML_ACR/AlexData/EditedSNP_Data_Combine/ControlBed.yml \
