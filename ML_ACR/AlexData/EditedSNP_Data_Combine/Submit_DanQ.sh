@@ -5,7 +5,6 @@
 #SBATCH --cpus-per-task=10             # Number of CPU cores per task
 #SBATCH --mem=50gb                   # Job memory request
 #SBATCH --time=3:00:00               # Time limit hrs:min:sec
-#SBATCH --gres=gpu:P100:1
 #SBATCH --output=/scratch/sb14489/0.log/DanQ_predict.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/DanQ_predict.%j.err    # Standard error log
 
