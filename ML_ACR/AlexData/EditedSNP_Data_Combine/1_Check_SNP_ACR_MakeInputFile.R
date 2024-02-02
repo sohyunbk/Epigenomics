@@ -33,7 +33,7 @@ end <- as.integer(sapply(NonOverlappedACRs_split, function(x) x[3])) +250
 BedFile <- data.frame(chr,start,end)
 head(BedFile)
 BedFile$Strand <- "+"
-BedFile$CellTypeTemp <- "1"
+BedFile$CellTypeTemp <- "1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18"
 dim(BedFile)
 write.table(BedFile, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.v2.curated1000bp.bed", sep = "\t", row.names = FALSE, col.names = FALSE, quote=F)
 
@@ -66,6 +66,20 @@ summary(overlaps)
 overlap_pairs <- as.data.frame(overlaps)
 overlap_counts <- countOverlaps(gr)
 NonOverlappedACRs <- unique(SNPFile_test$acrID)[overlap_counts==1]
+
+NonOverlappedACRs_split <- strsplit(NonOverlappedACRs, "_")
+chr <- sapply(NonOverlappedACRs_split, function(x) x[1])
+start <- as.integer(sapply(NonOverlappedACRs_split, function(x) x[2])) -250
+end <- as.integer(sapply(NonOverlappedACRs_split, function(x) x[3])) +250
+BedFile <- data.frame(chr,start,end)
+head(BedFile)
+BedFile$Strand <- "+"
+BedFile$CellTypeTemp <- "1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18"
+dim(BedFile)
+write.table(BedFile, file = "/scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/control_SNVs.v2.curated1000bp.bed", sep = "\t", row.names = FALSE, col.names = FALSE, quote=F)
+
+
+
 head(NonOverlappedACRs)
 dim(SNPFile_test)
 SNPFile_Filtered <- SNPFile[SNPFile$acrID %in% NonOverlappedACRs,]
