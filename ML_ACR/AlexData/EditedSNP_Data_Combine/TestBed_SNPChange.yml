@@ -10,7 +10,7 @@ model: {
     non_strand_specific: mean
 }
 sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
-    filepath: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.v2.curated1000bp_NumbericEdit.bed,  # generated from selene_sdk training (`test_data.bed`)
+    filepath: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.v2.curated1000bp.bed,  # generated from selene_sdk training (`test_data.bed`)
     reference_sequence: !obj:selene_sdk.sequences.Genome {
         input_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.v2.curated.fa
     },
