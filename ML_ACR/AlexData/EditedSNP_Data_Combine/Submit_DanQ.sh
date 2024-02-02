@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=batch        # Job name
-#SBATCH --partition=DanQ         # Partition (queue) name
+#SBATCH --job-name=DanQ        # Job name
+#SBATCH --partition=batch         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=10             # Number of CPU cores per task
 #SBATCH --mem=50gb                   # Job memory request
