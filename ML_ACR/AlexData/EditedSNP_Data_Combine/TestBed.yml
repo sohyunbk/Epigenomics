@@ -1,0 +1,33 @@
+---
+ops: [evaluate]
+model: {
+    path: /home/sb14489/Epigenomics/ML_ACR/Selene_AllModels_BashRun_ymlFiles/DanQ_model.py,
+    class: DanQ,
+    class_args: {
+        sequence_length: 1000,
+        n_targets: 18,
+    },
+    non_strand_specific: mean
+}
+sampler: !obj:selene_sdk.samplers.file_samplers.BedFileSampler {
+    filepath: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/test_SNVs.v2.curated1000bp.bed,  # generated from selene_sdk training (`test_data.bed`)
+    reference_sequence: !obj:selene_sdk.sequences.Genome {
+        input_path: /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa
+    },
+    n_samples: 13414,  # wc -l file.bed
+    targets_avail: True,
+    sequence_length: 1000,
+    n_features: 18
+}
+evaluate_model: !obj:selene_sdk.EvaluateModel {
+    features:  !obj:selene_sdk.utils.load_features_list {
+        input_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/1.InputBed/NonRedundantACRs_18Cells.500bp_distinctfeatures.txt
+    },
+    trained_model_path: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/2.Selene/NonRedundantACRs_18Cells.500bp_DanQ/best_model.pth.tar,
+    batch_size: 64,
+    report_gt_feature_n_positives: 50,
+    use_cuda: True,
+    output_dir: /scratch/sb14489/8.ML_ACR/1.MaizeGenotypes_Alex/0.SNPData/Control
+}
+random_seed: 1337
+...
