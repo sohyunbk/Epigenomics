@@ -25,7 +25,7 @@ computeMatrix reference-point -S ./HB67_WUS1_B73v5_Q30_bl.bigwig \
 
 plotProfile -m ./ZmWUS1.mat.gz \
               -out ./WUS1MetaPlot_line.pdf \
-             --colors "#75276b" \
+             --colors "#6da9b5" \
               --refPointLabel "Peak Summit" \
              --plotTitle "" \
              --samplesLabel "ZmWUS1" \
@@ -33,7 +33,7 @@ plotProfile -m ./ZmWUS1.mat.gz \
 
 plotProfile -m ./ZmWUS1.mat.gz \
          -out ./WUS1MetaPlot_fill.pdf \
-          --colors "#75276b"   --plotType "fill" \
+          --colors "#6da9b5"   --plotType "fill" \
        --refPointLabel "Peak Summit" \
     --plotTitle "" \
         --samplesLabel "ZmWUS1" \
