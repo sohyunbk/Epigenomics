@@ -23,10 +23,10 @@ computeMatrix reference-point -S ./HB67_WUS1_B73v5_Q30_bl.bigwig \
                                -p 20
 
 
-#plotProfile -m ./7.MetaPlot/SoybeanARF"${List[SLURM_ARRAY_TASK_ID]}".mat.gz \
-#              -out ./7.MetaPlot/SoybeanARFs"${List[SLURM_ARRAY_TASK_ID]}".png \
-#             --colors "#cf7c4c" \
-#              --refPointLabel "Peak Summit" \
-#               --plotTitle "" \
-#               --samplesLabel "ARF${List[SLURM_ARRAY_TASK_ID]}" \
-#               --regionsLabel "Read"
+plotProfile -m ./ZmWUS1.mat.gz \
+              -out ./WUS1MetaPlot.png \
+             --colors "#75276b" \
+              --refPointLabel "Peak Summit" \
+             --plotTitle "" \
+             --samplesLabel "ZmWUS1" \
+               --regionsLabel "Read"
