@@ -33,8 +33,7 @@ plotProfile -m ./ZmWUS1.mat.gz \
 
 plotProfile -m ./ZmWUS1.mat.gz \
          -out ./WUS1MetaPlot_fill.pdf \
-              --colors "#75276b" \ 
-        --plotType "fill" \
+          --colors "#75276b"   --plotType "fill" \
        --refPointLabel "Peak Summit" \
     --plotTitle "" \
         --samplesLabel "ZmWUS1" \
