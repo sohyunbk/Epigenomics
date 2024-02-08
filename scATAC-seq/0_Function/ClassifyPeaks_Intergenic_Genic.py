@@ -2,6 +2,7 @@ from pybedtools import BedTool
 import pybedtools
 import argparse
 
+## USE: 
 #conda activate  r_env
 #~/.conda/envs/r_env/bin/python
 ###
