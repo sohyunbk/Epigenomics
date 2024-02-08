@@ -6,12 +6,13 @@ import argparse
 #~/.conda/envs/r_env/bin/python
 ###
 '''
-~/.conda/envs/r_env/bin/python ~/Epigenomics/scATAC-seq/0_CoreScript/ClassifyPeaks_Intergenic_Genic.py/ClassifyPeaks_Intergenic_Genic.py \
--PeakFile /scratch/sb14489/3.scATAC/2.Maize_ear/14.CellTypeSpecificACRs/CellTypeACRs.A619.bif3.L1.cts.ACRs.bed \
+~/.conda/envs/r_env/bin/python ~/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/ClassifyPeaks_Intergenic_Genic.py \
+-PeakFile /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619/A619.500bp_peaks.bed \
 -BlackListFile /scratch/sb14489/0.Reference/Maize_B73/Zm.final_blaclist.Mito_Chloro_Chip.txt \
 -FaiFile /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
 -Ann_bed  /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed \
--OutfilePath //scratch/sb14489/3.scATAC/2.Maize_ear/14.CellTypeSpecificACRs -OutfileName CellTypeACRs.A619_L1Specific
+-OutfilePath //scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619/
+-OutfileName A619.500bp_peaks
 '''
 def Make_Fai_Dic(GenomeSizeFile):
     infile = open(GenomeSizeFile,"r")
