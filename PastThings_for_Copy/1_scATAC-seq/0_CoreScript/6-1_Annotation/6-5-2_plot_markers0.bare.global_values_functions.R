@@ -13,22 +13,22 @@ library(cowplot)
 library("optparse")
 library(rlang)
 library(ggplot2)
-
+##
 #e.g.
 #meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/bif3/bif3_Cluster1_Recluster_Sub_res1_knear100_Partmetadata.txt"
 #gene <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/221130_EarMarker.txt"
 #OutputPath <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/Bif3SubClsters"
 
 option_list = list(
-  make_option(c("--imputed_sparse"), type="character", 
+  make_option(c("--imputed_sparse"), type="character",
               help="imputed_sparse", metavar="character"),
-  make_option(c("--meta"), type="character", 
+  make_option(c("--meta"), type="character",
               help="meta"),
   make_option(c("--gene"), type="character",
               help="gene", metavar="character"),
-  make_option(c("--prefix"), type="character", 
+  make_option(c("--prefix"), type="character",
               help="prefix", metavar="character"),
-  make_option(c("--OutputPath"), type="character", 
+  make_option(c("--OutputPath"), type="character",
               help="OutputPath", metavar="character")
 );
 opt_parser = OptionParser(option_list=option_list);
@@ -42,7 +42,7 @@ OutputPath <- opt$OutputPath
 
 imputed_sparse <- readRDS(imputed_sparse_rds)
 meta_data <- read.delim(meta)
-gene_markers <- read.delim(gene) 
+gene_markers <- read.delim(gene)
 
 head(gene_markers)
 all_markers <- gene_markers$geneID
@@ -119,5 +119,3 @@ ggsave(output_name, plot = captured_final_plot,
        width = width_cal, height = length_cal,
        units = c('in'), limitsize = FALSE,
        dpi = 300)
-
-
