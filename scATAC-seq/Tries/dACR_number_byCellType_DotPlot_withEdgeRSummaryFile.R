@@ -17,6 +17,11 @@ option_list = list(
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
+#WDir <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"
+#CutOffFDR <- 0.05
+#OutFileName <- "dACRNumber_DotPlot_FDR0.05.pdf"
+#CellOrders <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse.txt"
+
 WDir <- opt$WD
 CutOffFDR <- opt$FDRCutOff
 OutFileName <- opt$OutFilename
@@ -68,7 +73,7 @@ head(dACRInfo)
 head(Bif3Higher)
 
 FigureTable <- rbind(dACRInfo,Bif3Higher,WTHigher)
-
+write.table(FigureTable,paste0(OutFileName,".txt"), quote=F, row.names=F, col.names=T, sep="\t")
 custom_colors <- c("#70635b","#802652","#5d850f") 
 FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
 FigureTable$Celltype <- factor(FigureTable$Celltype,levels=CellOrders)

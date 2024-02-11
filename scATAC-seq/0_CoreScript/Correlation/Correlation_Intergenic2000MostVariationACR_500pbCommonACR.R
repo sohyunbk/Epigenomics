@@ -117,10 +117,12 @@ A619_Bif3_Celltype_Count <-  spread(A619_Bif3_Celltype,key = Celltype,value =acc
 tail(A619_Bif3_Celltype_Count)
 
 saveRDS(A619_Bif3_Celltype_Count, file=paste0(OutfileName,"_AllPeaks_perCellType_Counts_FilteringBadPeaks.rds"))
-
+#A619_Bif3_Celltype_Count <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/1.Correlation/A619andBif3_CTNameReverse_AllPeaks_perCellType_Counts_FilteringBadPeaks.rds")
+#InterGenicFile <-"/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4//A619_Bif3_500bpCommonPeak/ComA619Bif3.unique500bpPeaks_Intergenic.bed"
 ## Note here!!!!
 #A619_Bif3_Celltype_Count <- readRDS("AllPeaks_perCellType_Counts.rds")
 head(A619_Bif3_Celltype_Count)
+
 
 InterGenic <- read.table(InterGenicFile)
 dim(InterGenic)
@@ -182,7 +184,9 @@ A619_Q_Top2000 <- A619_Q_Top2000[,paste0("A619",CTOrder)]
 
 Correlation_Top2000 <- cor(A619_Q_Top2000,Bif3_Q_Top2000,  method = "pearson")
 Correlation_Top2000
-
+write.table(Correlation_Top2000,
+            file = paste0(OutfileName,"_Top2000Correlation.txt"), sep = "\t", 
+            row.names = TRUE, quote=F, col.names = TRUE)
 ### 4) Visulaize the plot
 library(reshape2)
 library(ggplot2)
