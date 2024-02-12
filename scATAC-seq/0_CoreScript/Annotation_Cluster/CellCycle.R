@@ -202,6 +202,8 @@ head(BarPlotData)
 
 CellCycleColor <- c("#064f43","#4f4806","#4f0633","#38025e","#06274f")
 BarPlotData$Celltype <- factor(BarPlotData$Celltype,levels=CellOrder)
+BarPlotData$Cellcycle <- factor(BarPlotData$Cellcycle,
+                                levels=c("G1","G1/S","S","G2/M","M"))
 ggplot(BarPlotData, aes(fill=Cellcycle, y=value, x=Celltype)) + 
   scale_fill_manual(values = CellCycleColor) + # Replace with your colors
   geom_bar(position="fill", stat="identity")+
