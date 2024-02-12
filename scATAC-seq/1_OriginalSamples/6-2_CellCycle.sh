@@ -14,12 +14,17 @@
 ### Wanted to add other sample too!
 ml Anaconda3/2020.02
 source activate r_env
+SampleName=(A619 Bif3)
+MetaFiles=(A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV4_metadata.txt)
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/CellCycle.R \
+ --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${MetaFiles[SLURM_ARRAY_TASK_ID]}" \
+ --Gene /scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.bed \
+ --GAFile /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_"${SampleName[SLURM_ARRAY_TASK_ID]}"_includingZmCLE7.txt \
+ --CO /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt \
+ --OutputANDPreFix /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/2.CellCycle/"${SampleName[SLURM_ARRAY_TASK_ID]}"
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/De_novo_marker_byCluster.R \
---meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV4_metadata.txt \
---GeneBA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619.txt \
---marker /scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt \
---bed /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed \
---Ann_ColumnName Ann_v4 \
---Species maize --OutputBaseName A619_v4 \
---OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/A619
+#meta <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
+#gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.bed"
+#GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_includingZmCLE7.txt"
+#CellOrderFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt"
+#OutputPathFileName <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/2.CellCycle/A619"
