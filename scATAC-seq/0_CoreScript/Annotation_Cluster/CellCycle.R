@@ -16,6 +16,7 @@ library(tidyr)
 library(pheatmap) 
 library(RColorBrewer)
 library("optparse")
+library(preprocessCore)
 
 option_list = list(
   make_option(c("--Meta"), type="character",
