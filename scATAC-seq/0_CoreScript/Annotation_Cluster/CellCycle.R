@@ -12,32 +12,46 @@ library(irlba)
 library(proxy)
 library(png)
 library(tidyverse)
-library(matrixStats)
-library(Matrix)
-library(gtools)
-library(preprocessCore)
+library(tidyr)
 library(pheatmap) 
 library(RColorBrewer)
-######### Let's try heatmap #################
-#meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.CellClustering/Organelle5Per_CombineLater/Ref/Ref_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100.REF_CELLs.metadata.txt"
+library("optparse")
 
-## Gene 
-## Table shouldbe:
-######## gene1 gene2 ... 
-# cellA 1
-# cellB 2
+option_list = list(
+  make_option(c("--Meta"), type="character",
+              help="Meta", metavar="character"),
+  make_option(c("--Gene"), type="character",
+              help="Gene", metavar="character"),
+  make_option(c("--GAFile"), type="character",
+              help="GAFile", metavar="character"),
+  make_option(c("--CO"), type="character",
+              help="CO", metavar="character"),
+  make_option(c("--OutputANDPreFix"), type="character",
+              help="OutputANDPreFix", metavar="character")
+  
+);
 
-meta <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt" 
-gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.bed"
-GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_Re.txt"
-AnnSlot <- "Ann_v4"
-OutputPathFileName <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/2.CellCycle/A619_V4"
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
 
+
+meta <-opt$Meta
+gene <-opt$Gene
+GA <- opt$GAFile
+CellOrderFile <-opt$CO
+OutputPathFileName <-opt$OutputANDPreFix
+
+#meta <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
+#gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.bed"
+#GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_includingZmCLE7.txt"
+#CellOrderFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt"
+#OutputPathFileName <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/2.CellCycle/A619"
 
 meta_data <- read.delim(meta)
 gene_markers <- read.delim(gene)
-
 GBA <- read.delim(GA)
+CellOrder <- readLines(CellOrderFile)
+
 head(GBA)
 head(meta_data)
 dim(gene_markers)
@@ -46,21 +60,20 @@ dim(GBA)
 
 GBA_filtered <- GBA[GBA$gene_name %in% gene_markers$geneID,]
 dim(GBA_filtered)
-head(GBA_filtered)
 GBA_filtered <- GBA_filtered[GBA_filtered$barcode %in% rownames(meta_data),]
 dim(GBA_filtered)
 head(GBA_filtered)
-head(meta_data)
-dim(meta_data)
-#### Calculate the average value in Cell type 
-GroupInfo <- data.frame(barcode=rownames(meta_data),
-                        Ann=meta_data[[AnnSlot]])
-head(GroupInfo)
-## Add "Ann" to GBA_filtered
-GBA_filtered <- merge(x = GroupInfo, y = GBA_filtered,
-              by = "barcode", all.y = T)
 
-head(GBA_filtered)
+#### Calculate the average value in Cell type 
+#GroupInfo <- data.frame(barcode=rownames(meta_data),
+#                        Ann=meta_data$Ann_V1)
+GroupInfo <- data.frame(barcode=rownames(meta_data),
+                        Ann=meta_data$Ann_v4)
+head(GroupInfo)
+
+GBA_filtered <- merge(x = GroupInfo, y = GBA_filtered,
+                      by = "barcode", all.y = T)
+
 dim(GBA_filtered)
 head(gene_markers)
 
@@ -69,24 +82,27 @@ GroupInfo2<- data.frame(gene_name=gene_markers$geneID,
 
 head(GroupInfo2)
 head(GBA_filtered)
+dim(GBA_filtered)
 GBA_filtered <- merge(x = GroupInfo2, y = GBA_filtered,
                       by = "gene_name", all.y = T)
 
 head(GBA_filtered)
+dim(GBA_filtered)
+
 tail(GBA_filtered)
 GBA_filtered$Ann_gene_name <- paste0(GBA_filtered$Ann,"&",GBA_filtered$gene_name)
 head(GBA_filtered)
 
-library(tidyverse)
+## It's meanTable but it's acutally sum table.
 MeanTable <- GBA_filtered %>%
   group_by(Ann_gene_name) %>%
   summarise_at(vars(accessability), list(MeanAcc = sum))
 head(MeanTable)
 
 MeanTable<- data.frame(celltype = as.character(lapply(strsplit(as.character(MeanTable$Ann_gene_name),
-                                                                split="&"), "[", 1)),
+                                                               split="&"), "[", 1)),
                        gene= as.character(lapply(strsplit(as.character(MeanTable$Ann_gene_name),
-                                                             split="&"), "[", 2)),
+                                                          split="&"), "[", 2)),
                        accessability = as.character(MeanTable$MeanAcc))
 head(MeanTable)
 levels(factor(MeanTable$celltype))
@@ -100,7 +116,7 @@ library(tidyverse)
 #https://rstudio-education.github.io/tidyverse-cookbook/tidy.html
 MeanTable_spread <- as_tibble(MeanTable)
 head(MeanTable_spread)
- 
+
 MeanTable_spread<- MeanTable_spread %>% 
   spread(key = gene, value = accessability,fill=0)
 head(MeanTable_spread)
@@ -123,18 +139,8 @@ str(MeanTable_df)
 
 ## Normalization --> zscore
 #z <- t(as.matrix(scale(t(as.matrix(MeanTable_df)))))
-MeanTable_df_T <- t(MeanTable_df)
-head(MeanTable_df_T)
-MeanTable_df_T <- cpm(MeanTable_df_T, log=TRUE, prior.count=5)
-MeanTable_df_T_normalized <- normalize.quantiles(MeanTable_df_T)
-Table_df_T_z <- t(as.matrix(scale(t(as.matrix(MeanTable_df_T_normalized)))))
-head(Table_df_T_z)
-colnames(Table_df_T_z) <- rownames(MeanTable_df)
-rownames(Table_df_T_z) <- colnames(MeanTable_df)
-z <- t(Table_df_T_z)
+z <- as.matrix(scale(as.matrix(MeanTable_df)))
 head(z)
-
-
 
 #saveRDS(MeanTable_df, file="Heatmap_AverageAc.rds")
 head(gene_markers)
@@ -155,46 +161,82 @@ anno <- data.frame(row.names=anno$GeneID,group=anno$group)
 z_sorted <- z[,rownames(anno)]
 head(z_sorted)
 
+pdf(paste0(OutputPathFileName,"_Heatmap_Average_z_CellCycle_All_group.pdf"), width =30, height=5, onefile=FALSE) 
+pheatmap(z_sorted,cluster_rows = F, annotation = anno,
+         cluster_cols = F) #, scale ="row" #cluster_cols = T # fontsize_row = 3.5,
+dev.off() 
 
-#pdf(paste0(OutputPathFileName,"Heatmap_Average_z_CellCycle_All_group.pdf"), width =30, height=5, onefile=FALSE) 
-#pheatmap(z_sorted,cluster_rows = F, annotation = anno,
-#       cluster_cols = F) #, scale ="row" #cluster_cols = T # fontsize_row = 3.5,
-#Heatmap(z_sorted,cluster_rows = F, 
-#        top_annotation = HeatmapAnnotation(annotation = anno$group)) 
-#dev.off() 
 
-colnames(z_sorted)[c(1:10)]
-head(anno)
-#annotation <- data.frame(Var1 = factor(1:10 %% 2 == 0, labels = c("Exp1", "None")), Var1 = factor(1:10 %% 2 == 0, labels = c("Exp1", "None")))
 
-#############################################
-#############################################
-###
-## Draw BarPlot Ratio!
-###
-#############################################
-#############################################
 
-#colnames(MeanTable_df_T_normalized) <- rownames(MeanTable_df)
-#rownames(MeanTable_df_T_normalized) <- colnames(MeanTable_df)
-#head(MeanTable_df_T_normalized)
-#head(anno)
+########## By CellCycle ##
+
+## Option 1: QunatileNormalization
+QuantileNormalizedGenes_byCelltype <- normalize.quantiles(t(MeanTable_df))
+MeanTable_df_T <- as.data.frame(QuantileNormalizedGenes_byCelltype)
+colnames(MeanTable_df_T) <- rownames(MeanTable_df)
+rownames(MeanTable_df_T) <- colnames(MeanTable_df)
+head(MeanTable_df_T)
+
+## Option 2: No QunatileNormalization
+MeanTable_df_T <- t(MeanTable_df)
+head(MeanTable_df_T)
+#MeanTable_df_T <- cpm(MeanTable_df_T, log=TRUE, prior.count=5)
 BarPlotData <- data.frame()
+
+## ==> both option gives similar results
+
 for( i in levels(factor(anno$group))){
- GeneNames <- rownames(anno)[which(anno$group ==i)]
- Temp <- MeanTable_df_T[GeneNames,]
- Ratio <- colSums(Temp)/ colSums(MeanTable_df_T)
- value <- colSums(Temp)
- TempTable <- data.frame(value,Cellcycle=i)
- TempTable$Celltype <- rownames(TempTable)
- rownames(TempTable) <- NULL
- BarPlotData <- rbind(BarPlotData,TempTable)
- }
+  GeneNames <- rownames(anno)[which(anno$group ==i)]
+  Temp <- MeanTable_df_T[GeneNames,]
+  Ratio <- colSums(Temp)/ colSums(MeanTable_df_T)
+  value <- colSums(Temp)
+  TempTable <- data.frame(value,Cellcycle=i)
+  TempTable$Celltype <- rownames(TempTable)
+  rownames(TempTable) <- NULL
+  BarPlotData <- rbind(BarPlotData,TempTable)
+}
 head(BarPlotData)
 
+
+CellCycleColor <- c("#064f43","#4f4806","#4f0633","#38025e","#06274f")
+BarPlotData$Celltype <- factor(BarPlotData$Celltype,levels=CellOrder)
 ggplot(BarPlotData, aes(fill=Cellcycle, y=value, x=Celltype)) + 
+  scale_fill_manual(values = CellCycleColor) + # Replace with your colors
   geom_bar(position="fill", stat="identity")+
+  theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust=1))
 ggsave(paste0(OutputPathFileName,"_stackedbarchart_CellCycle.pdf"), width=7, height=5)	
 
 
+###################
+## To write the statistic Table
+
+BarPlotData_summary <- BarPlotData %>%
+  group_by(Celltype, Cellcycle) %>%
+  summarise(TotalValue = sum(value)) %>%
+  ungroup()
+
+# Calculate the total values per Celltype
+TotalPerCelltype <- BarPlotData_summary %>%
+  group_by(Celltype) %>%
+  summarise(TotalValuePerCelltype = sum(TotalValue)) %>%
+  ungroup()
+
+# Join this with the original summary
+BarPlotData_joined <- left_join(BarPlotData_summary, TotalPerCelltype, by = "Celltype")
+
+# Calculate the ratio
+BarPlotData_ratios <- BarPlotData_joined %>%
+  mutate(Ratio = TotalValue / TotalValuePerCelltype) %>%
+  select(Celltype, Cellcycle, Ratio)
+
+# Spread the data so that each Cellcycle category becomes a column
+BarPlotData_spread <- BarPlotData_ratios %>%
+  spread(key = Cellcycle, value = Ratio, fill = 0)
+
+# View the result
+BarPlotData_spread
+write.table(BarPlotData_spread, 
+            paste0(OutputPathFileName,".CelltypeRatio.txt"),
+            quote=F, row.names=T, col.names=T, sep="\t")

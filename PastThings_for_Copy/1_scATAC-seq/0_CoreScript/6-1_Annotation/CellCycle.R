@@ -25,6 +25,7 @@ library(tidyverse)
 meta <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
 gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.bed"
 GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_includingZmCLE7.txt"
+CellOrder <- ""
 
 meta_data <- read.delim(meta)
 gene_markers <- read.delim(gene)
