@@ -240,4 +240,4 @@ BarPlotData_spread <- BarPlotData_ratios %>%
 BarPlotData_spread
 write.table(BarPlotData_spread, 
             paste0(OutputPathFileName,".CelltypeRatio.txt"),
-            quote=F, row.names=T, col.names=T, sep="\t")
+            quote=F, row.names=F, col.names=T, sep="\t")
