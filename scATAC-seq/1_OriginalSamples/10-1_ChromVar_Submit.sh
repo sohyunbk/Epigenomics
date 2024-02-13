@@ -24,7 +24,7 @@ AnnV4
 Sparses=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count.sparse
 /A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count.sparse
-/A619/A619Intergenic500bp_A619Barcode_Tn5Count.sparse.sparse
+/A619/A619Intergenic500bp_A619Barcode_Tn5Count.sparse
 Bif3/Bif3Intergenic500bp_Bif3Barcode_Tn5Count.sparse
 )
 
@@ -36,6 +36,8 @@ Bif3/Bif3_AnnV4_metadata.txt
 )
 
 PCSs=(
+Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_RemoveBLonlyMitoChloroChIP.REF_CELLs.reduced_dimensions.txt
+Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt
 Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_RemoveBLonlyMitoChloroChIP.REF_CELLs.reduced_dimensions.txt
 Organelle5Per_CombineLater/bif3/bif3_Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100_RemoveBLonlyMitoChloroChIP.AfterHarmony.PCA.txt
 )
