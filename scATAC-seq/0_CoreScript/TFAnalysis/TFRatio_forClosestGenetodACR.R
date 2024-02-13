@@ -4,6 +4,9 @@ library(GenomicRanges)
 Fimo_TAAT <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/fimo_out_2/fimo.tsv",header=TRUE)
 dim(Fimo_TAAT)
 head(Fimo_TAAT)
+tail(Fimo_TAAT)
+dim(Fimo_TAAT)
+Fimo_TAAT[Fimo_TAAT$sequence_name=="chr1",]
 Fimo_TAAT_gr <- makeGRangesFromDataFrame(Fimo_TAAT, seqnames.field = "sequence_name", start.field = "start", end.field = "stop", strand.field = "strand", keep.extra.columns = TRUE)
 
 ## Load Closest dACR file!
