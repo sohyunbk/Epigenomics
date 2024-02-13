@@ -23,7 +23,7 @@ AnnV4
 
 Sparses=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count.sparse
-/A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count.sparse
+/A619_Bif3_500bpCommonPeak/ComA619Bif3_Bif3Barcode_Tn5Count.sparse
 /A619/A619Intergenic500bp_A619Barcode_Tn5Count.sparse
 Bif3/Bif3Intergenic500bp_Bif3Barcode_Tn5Count.sparse
 )
