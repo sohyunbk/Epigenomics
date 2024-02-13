@@ -169,14 +169,8 @@ opts[["species"]] <- 4577 #NCBI tax IDs (9606).
 opts[["all_versions"]] <- TRUE
 PFMatrixList_Maize <- getMatrixSet(JASPAR2022, opts)
 
-## HB67_WUS1_B73v5_Q30_qval5_finalBl_2.all.PFM_MEME.txt
-WUSmatrix2 <- rbind(A=c(0,0,99,74,0,19,72,46),
-                    C=c(0,0,0,10,0,4,7,12),
-                    G=c(0,99,0,0,0,70,12,3),
-                    T=c(99,0,0,14,99,6,7,37))
-WUS1_2 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM1", matrixClass="Unknown",
-                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
-                   tags=list(), profileMatrix=WUSmatrix2)
+## HB67_WUS1_B73v5_Q30_qval5_finalBl_2.all.PFM.txt
+
 WUSmatrix2 <- rbind(A=c(13,26,3237,2412,0,622,2333,1502),
                     C=c(0,0,0,350,0,136,242,416),
                     G=c(0,3211,0,0,0,2278,416,100),
@@ -280,6 +274,25 @@ scale_to_minus1_1 <- function(x) {
   -1 + 2 * (x - min(x)) / (max(x) - min(x))
 }
 
+#blues <- c(brewer.pal(9, "Blues")[2:8])
+greys <- brewer.pal(9, "Greys")[3:4]
+#reds <- c(brewer.pal(9, "Reds")[2:8])
+reds <- c("#FEE0D2", "#FCBBA1", "#FC9272", "#FB6A4A", "#EF3B2C", 
+          "#EF3B2C", "#EF3B2C", "#EF3B2C", "#CB181D", "#A50F15")
+blues <- c("#DEEBF7", "#C6DBEF", "#9ECAE1", "#6BAED6", "#4292C6",
+           "#4292C6", "#4292C6", "#4292C6", "#2171B5", "#08519C")
+# Intermediary colors for smoother transitions
+intermediary_blue_grey <- c("#e1ebf2")
+intermediary_red_grey <- c( "#ede6e9")
+
+# Combining all colors
+cols <- colorRampPalette(c(rev(blues),
+                           intermediary_blue_grey,
+                           greys,
+                           rev(greys),
+                           intermediary_red_grey,
+                           reds))(100)
+
 DrawFigure_ForMotifs <- function(dev,MarkovFile,DBName,meta_data,SampleName) {
   #dev <- dev_Ara
   Dev <- deviationScores(dev)
@@ -323,9 +336,7 @@ DrawFigure_ForMotifs <- function(dev,MarkovFile,DBName,meta_data,SampleName) {
       meta_data$MotifDev <- c(MotifRow[rownames(meta_data)])
       Plotlist[[Motif]] <- ggplot(meta_data, aes(x=umap1, y=umap2, color=MotifDev)) +
         geom_point(size=0.02) +
-        scale_color_gradient2(low = "blue",
-                              mid = "#c7b9bf",
-                              high = "red")+
+        scale_color_gradientn(colors=cols) +
         theme_minimal() + theme(panel.grid.major = element_blank(),
                                 panel.grid.minor = element_blank()) +
         ggtitle(paste0(PFMatrixList[[Motif]]@name,"_",Motif))
