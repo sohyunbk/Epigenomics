@@ -177,6 +177,14 @@ WUSmatrix2 <- rbind(A=c(0,0,99,74,0,19,72,46),
 WUS1_2 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM1", matrixClass="Unknown",
                    bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                    tags=list(), profileMatrix=WUSmatrix2)
+WUSmatrix2 <- rbind(A=c(13,26,3237,2412,0,622,2333,1502),
+                    C=c(0,0,0,350,0,136,242,416),
+                    G=c(0,3211,0,0,0,2278,416,100),
+                    T=c(3224,0,0,476,3237,201,247,1221))
+WUS1_2 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM1", matrixClass="Unknown",
+                   bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
+                   tags=list(), profileMatrix=WUSmatrix2)
+
 ######### TGAATGAA
 TGAA <- rbind(A=c(0,0,100,100),
               C=c(0,0,0,0),
