@@ -65,4 +65,4 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifDeviation/MotifAn
  --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${Metas[SLURM_ARRAY_TASK_ID]}" \
  --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/"${PCSs[SLURM_ARRAY_TASK_ID]}" \
  --Markov /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/"${Markovs[SLURM_ARRAY_TASK_ID]}" \
- --SampleName A619 --IGPeak /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${IntergenicPeaks[SLURM_ARRAY_TASK_ID]}"
+ --SampleName "${Samples[SLURM_ARRAY_TASK_ID]}" --IGPeak /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${IntergenicPeaks[SLURM_ARRAY_TASK_ID]}"

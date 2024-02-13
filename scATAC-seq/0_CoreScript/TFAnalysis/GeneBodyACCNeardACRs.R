@@ -17,11 +17,58 @@ library(pheatmap)
 library(RColorBrewer)
 library("optparse")
 library(preprocessCore)
+library(devtools)
+library("fgsea")
+library("here")
+library(devtools)
+library(tidyverse)
+library(Matrix)
+library(magrittr) # needs to be run every time you start R and want to use %>%
+library("optparse")
+library(GenomicRanges)
+library(ggplot2)
 
 #### 1) Find the two closest genes!
 DEGFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/IM-OC.EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
 genes_data <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene.bed")
-OutputDir <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4"
+DEGInfo <- read.table(DEGFile,header=TRUE)
+
+## Function1: Get nearest genes by cutoff of dACR.
+Get_NearestGenes <-function(SelectedPeak){
+  genes_ranges <- GRanges(seqnames=genes_data$V1, 
+                          ranges=IRanges(start=genes_data$V2, end=genes_data$V3),
+                          gene_id=genes_data$V4)
+  #head(SelectedPeak)
+  split_names <- strsplit(SelectedPeak$Peak, split = "_")
+  chromosomes <- sapply(split_names, function(x) x[1])
+  starts <- as.integer(sapply(split_names, function(x) x[2]))
+  ends <- as.integer(sapply(split_names, function(x) x[3]))
+  granges_object <- GRanges(seqnames = chromosomes, ranges = IRanges(start = starts, end = ends))
+  results <- data.frame(ACR = character(), Nearest_Gene = character(), Second_Nearest_Gene = character(), stringsAsFactors = FALSE)
+  for (i in seq_along(granges_object)) {
+    single_acr <- granges_object[i]
+    # Find the nearest gene
+    nearest_gene <- distanceToNearest(single_acr, genes_ranges)
+    nearest_index <- subjectHits(nearest_gene)
+    # Exclude the nearest gene and find the second nearest
+    genes_minus_closest <- genes_ranges[-nearest_index]
+    second_nearest_gene <- distanceToNearest(single_acr, genes_minus_closest)
+    second_nearest_index <- subjectHits(second_nearest_gene)
+    # Store the results
+    results <- rbind(results, data.frame(
+      ACR = as.character(SelectedPeak$Peak[i]),
+      Nearest_Gene = as.character(mcols(genes_ranges[nearest_index])$gene_id),
+      Second_Nearest_Gene = as.character(mcols(genes_minus_closest[second_nearest_index])$gene_id)
+    ))
+  }
+  return(nearest_genes_id)
+}
+
+DEGInfo_Bif3Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0),]
+DEGInfo_A619Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC < 0),]
+
+SelectedPeak <- DEGInfo_Bif3Higher
+
 
 meta <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
 gene <- "/scratch/sb14489/3.scATAC/0.Data/CellCycle/CellCycle.bed"
