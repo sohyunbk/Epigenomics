@@ -14,7 +14,7 @@ ml Anaconda3/2020.02
 source activate JASPAR_act
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifDeviation/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R  \
- --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AnnV4 \
+ --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/AnnV4_CommonA619Bif3Peak  \
  --Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count.sparse \
  --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt \
  --pcs /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_RemoveBLonlyMitoChloroChIP.REF_CELLs.reduced_dimensions.txt \
