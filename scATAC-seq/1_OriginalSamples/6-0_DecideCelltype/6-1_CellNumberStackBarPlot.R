@@ -83,7 +83,7 @@ ggplot(Plotdata, aes(fill=Celltype, y=Ratio, x=library)) +
   geom_text(aes(label = paste(round(Ratio,1),"%")), position = position_stack(vjust =  0.5))+
   theme_minimal()
 
-ggsave("Ann_v3_Ratio_StackedBarplot_A619Re1and2_Bif3Re1and2.pdf", width=12, height=5)
+ggsave("Ann_v4_Ratio_StackedBarplot_A619Re1and2_Bif3Re1and2.pdf", width=12, height=5)
 
 ###########################
 ### 3) StackedBarplot by Sample 

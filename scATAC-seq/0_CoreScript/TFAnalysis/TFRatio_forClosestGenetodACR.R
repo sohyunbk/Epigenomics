@@ -54,6 +54,11 @@ table(dACR$TF)
 dim(dACR)
 table(dACR$TFFamily)
 
+dim(dACR)
+
+write.table(dACR, 
+            "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/", 
+            quote=F, row.names=F, col.names=T, sep="\t")
 
 ### Random sampling from ACR.
 set.seed(123) # Optional: for reproducibility
@@ -90,3 +95,4 @@ TFNumber_dACR/TFFamilyProfile[names(TFNumber_dACR)]
 dACR_Bif3Higher$locus_symbol
 dACR_Bif3Higher_withTAAT$locus_symbol
 dACR_Bif3Higher_withTAAT$Peak
+
