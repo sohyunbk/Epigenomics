@@ -10,8 +10,10 @@
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 #SBATCH --array=0-1
+
 SampleNames=("A619" "Bif3")
 MetaFiles=("A619/Ref_AnnV4_metadata.txt" "Bif3/Bif3_AnnV4_metadata.txt")
+
 ~/.conda/envs/r_env/bin/Rscript /home/sb14489/Epigenomics/scATAC-seq/1_OriginalSamples/11-2-1_GetGeneXCTTable.sh \
 --GA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_"${SampleNames[SLURM_ARRAY_TASK_ID]}"_includingZmCLE7.txt \
 --meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${MetaFiles[SLURM_ARRAY_TASK_ID]}" \
