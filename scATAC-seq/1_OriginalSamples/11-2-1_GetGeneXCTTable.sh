@@ -8,6 +8,7 @@
 #SBATCH --output=/scratch/sb14489/0.log/GetGeneMatrix.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/GetGeneMatrix.%j.err    # Standard error log
 #SBATCH --array=0-1
+
 ml Anaconda3/2023.09-0
 source activate r_env
 SampleName=(A619 Bif3)
