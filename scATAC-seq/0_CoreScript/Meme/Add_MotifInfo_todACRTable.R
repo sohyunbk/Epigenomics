@@ -38,3 +38,39 @@ write.table(dACR,
             "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/dACR_withTAATInfo.txt", 
             quote=F, row.names=F, col.names=T, sep="\t")
 
+### Random sampling from ACR.
+set.seed(123) # Optional: for reproducibility
+random_numbers <- sample(1:37318, 3194, replace = FALSE)
+Random_ACR <- ACR_ClosestGene[random_numbers,]
+table(Random_ACR$TF)
+table(Random_ACR$TFFamily)
+
+dACR <- (ACR_ClosestGene[ACR_ClosestGene$FDR < 0.05,])
+
+dACR_Bif3Higher <- (ACR_ClosestGene[ACR_ClosestGene$logFC > 0 & ACR_ClosestGene$FDR < 0.05,])
+dACR_Bif3Higher_withTAAT <- (ACR_ClosestGene[ACR_ClosestGene$logFC > 0 & 
+                                            ACR_ClosestGene$FDR < 0.05 & ACR_ClosestGene$TAAT =="TAAT",])
+
+dACR_A619Higher <- (ACR_ClosestGene[ACR_ClosestGene$logFC < 0 & ACR_ClosestGene$FDR < 0.05,])
+
+head(dACR_Bif3Higher_withTAAT)
+dim(dACR_Bif3Higher)
+table(dACR_Bif3Higher$TF)
+table(dACR_A619Higher$TF)
+table(dACR_Bif3Higher_withTAAT$TF)
+table(dACR_Bif3Higher_withTAAT$TFFamily)
+TFFamilyProfile[table(dACR_Bif3Higher_withTAAT$TFFamily)]
+TFNumber_TAAT <- table(dACR_Bif3Higher_withTAAT$TFFamily)
+TFNumber_TAAT <- TFNumber_TAAT[names(TFNumber_TAAT) != "NoTF"]
+TFFamilyProfile[names(TFNumber_TAAT)]
+TFNumber_TAAT/TFFamilyProfile[names(TFNumber_TAAT)]
+
+TFNumber_dACR <- table(dACR$TFFamily)
+TFNumber_dACR <- TFNumber_dACR[names(TFNumber_dACR) != "NoTF"]
+TFFamilyProfile[names(TFNumber_dACR)]
+TFNumber_dACR/TFFamilyProfile[names(TFNumber_dACR)]
+
+dACR_Bif3Higher$locus_symbol
+dACR_Bif3Higher_withTAAT$locus_symbol
+dACR_Bif3Higher_withTAAT$Peak
+

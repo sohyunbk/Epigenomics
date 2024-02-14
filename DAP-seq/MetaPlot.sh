@@ -15,8 +15,8 @@ module load deepTools/3.5.2-foss-2022a
 
 computeMatrix reference-point -S ./HB67_WUS1_B73v5_Q30_bl.bigwig \
                             -R /scratch/sb14489/7.DAPorChIP/DAPseq_WUS/HB67_WUS1_B73v5_Q30_qval5_finalBl/HB67_WUS1_B73v5_Q30_qval5_finalBl.GEM_events.narrowPeak \
-                              --beforeRegionStartLength 3000 \
-                              --afterRegionStartLength 3000 \
+                              --beforeRegionStartLength 1000 \
+                              --afterRegionStartLength 1000 \
                               --referencePoint center \
                                -o ./ZmWUS1.mat.gz \
 				                       --binSize 10 \

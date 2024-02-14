@@ -29,9 +29,9 @@ library(GenomicRanges)
 library(ggplot2)
 
 #### 1) Find the two closest genes!
-DEGFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/IM-OC.EdgeRResult_PseudoReplicate_withPromoterRegion.txt"
+DEGFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/dACR_withTAATInfo.txt"
 genes_data <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene.bed")
-DEGInfo <- read.table(DEGFile,header=TRUE)
+DEGInfo <- read.table(DEGFile,fill=TRUE,header=TRUE)
 
 ## Function1: Get nearest genes by cutoff of dACR.
 Get_NearestGenes <-function(SelectedPeak){
@@ -61,13 +61,70 @@ Get_NearestGenes <-function(SelectedPeak){
       Second_Nearest_Gene = as.character(mcols(genes_minus_closest[second_nearest_index])$gene_id)
     ))
   }
-  return(nearest_genes_id)
+  return(results)
 }
 
 DEGInfo_Bif3Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0),]
-DEGInfo_A619Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC < 0),]
+DEGInfo_Bif3Higher_TAAT <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0) &
+                                     (DEGInfo$TAAT == "TAAT"),]
 
-SelectedPeak <- DEGInfo_Bif3Higher
+DEGInfo_A619Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC < 0),]
+dim(DEGInfo_Bif3Higher_TAAT)
+
+Bif3HigherTAAT_Nearest_SecondN <- Get_NearestGenes(DEGInfo_Bif3Higher_TAAT)
+NearestGenes <- c(Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene,
+                  Bif3HigherTAAT_Nearest_SecondN$Second_Nearest_Gene)
+
+
+### 2) Get Gene body acc for all the genes 
+
+GA <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619_includingZmCLE7.txt"
+meta <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
+
+GBA <- read.delim(GA)
+meta_data <- read.delim(meta)
+GBA_filtered <- GBA_filtered[GBA_filtered$barcode %in% rownames(meta_data),]
+
+         
+GroupInfo <- data.frame(barcode=rownames(meta_data),
+                        Ann=meta_data$Ann_v4)
+head(GroupInfo)
+
+GBA_filtered <- merge(x = GroupInfo, y = GBA_filtered,
+                      by = "barcode", all.y = T)
+
+dim(GBA_filtered)
+head(gene_markers)
+
+GroupInfo2<- data.frame(gene_name=gene_markers$geneID,
+                        name=gene_markers$name)
+
+head(GroupInfo2)
+head(GBA_filtered)
+dim(GBA_filtered)
+GBA_filtered <- merge(x = GroupInfo2, y = GBA_filtered,
+                      by = "gene_name", all.y = T)
+
+head(GBA_filtered)
+dim(GBA_filtered)
+
+tail(GBA_filtered)
+GBA_filtered$Ann_gene_name <- paste0(GBA_filtered$Ann,"&",GBA_filtered$gene_name)
+head(GBA_filtered)
+
+##############
+
+
+
+
+##> head(ACR_Nearest_SecondN)
+#ACR    Nearest_Gene Second_Nearest_Gene
+#1 chr1_100175891_100176392 Zm00001eb024380     Zm00001eb024390
+
+## 2) The gene
+
+
+
 
 
 meta <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt"
