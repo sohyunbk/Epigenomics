@@ -9,8 +9,9 @@
 #SBATCH --error=/scratch/sb14489/0.log/GetGeneMatrix.%j.err    # Standard error log
 #SBATCH --array=0-1
 
-ml Anaconda3/2023.09-0
+module load Anaconda3/2023.09-0
 source activate r_env
+
 SampleName=(A619 Bif3)
 MetaFiles=(A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV4_metadata.txt)
 
