@@ -61,7 +61,6 @@ GBA_filtered <- merge(x = GroupInfo, y = GBA_filtered,
                       by = "barcode", all.y = T)
 
 dim(GBA_filtered)
-head(gene_markers)
 head(GBA_filtered)
 
 GBA_filtered$Ann_gene_name <- paste0(GBA_filtered$Ann,"&",GBA_filtered$gene_name)
