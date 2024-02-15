@@ -17,8 +17,8 @@ source activate JASPAR_act
 WDs=(
 AnnV4_CommonA619Bif3Peak
 AnnV4_CommonA619Bif3Peak
-AnnV4
-AnnV4
+AnnV4_ChangeArti
+AnnV4_ChangeArti
 )
 
 Sparses=(
