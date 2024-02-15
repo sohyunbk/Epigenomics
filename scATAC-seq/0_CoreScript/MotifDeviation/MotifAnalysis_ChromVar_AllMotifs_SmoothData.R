@@ -180,17 +180,17 @@ WUS1_2 <- PFMatrix(ID="Unknown", name="ZmWUS1_qval5_GEM1", matrixClass="Unknown"
                    tags=list(), profileMatrix=WUSmatrix2)
 
 ######### TGAATGAA
-TGAA <- rbind(A=c(0,0,100,100),
+TGAA <- rbind(A=c(0,0,1000,1000),
               C=c(0,0,0,0),
-              G=c(0,100,0,0),
-              T=c(100,0,0,0))
+              G=c(0,1000,0,0),
+              T=c(1000,0,0,0))
 TGAA_PFM <- PFMatrix(ID="Unknown", name="TGAA", matrixClass="Unknown",
                     bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                     tags=list(), profileMatrix=TGAA)
-TGAATGAA <- rbind(A=c(0,0,100,100,0,0,100,100),
+TGAATGAA <- rbind(A=c(0,0,1000,1000,0,0,1000,1000),
               C=c(0,0,0,0,0,0,0,0),
-              G=c(0,100,0,0,0,100,0,0),
-              T=c(100,0,0,0,100,0,0,0))
+              G=c(0,1000,0,0,0,1000,0,0),
+              T=c(1000,0,0,0,1000,0,0,0))
 TGAATGAA_PFM <- PFMatrix(ID="Unknown", name="TGAATGAA", matrixClass="Unknown",
                           bg=c(A=0.25, C=0.25, G=0.25, T=0.25),
                         tags=list(), profileMatrix=TGAATGAA)

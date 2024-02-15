@@ -103,11 +103,15 @@ ggplot(gene_counts_long, aes(x = count)) +
 ggsave("DensityPlot_Tn5_GeneBodyACC.pdf" , width=40, height=5)
 ## Set up the cut off to 50!
 head(GeneXCT)
+dim(GeneXCT)
+GeneXCT[GeneXCT$gene=="Zm00001eb001720",]
 library(edgeR)
 library(preprocessCore)
 GeneXCT_MoreThan50Tn5 <- GeneXCT %>%
   filter_all(all_vars(. > 50))
 dim(GeneXCT_MoreThan50Tn5)
+GeneXCT_MoreThan50Tn5[GeneXCT_MoreThan50Tn5$gene=="Zm00001eb001720",]
+
 GeneNames <- GeneXCT_MoreThan50Tn5[, 1]
 gene_counts_df <- GeneXCT_MoreThan50Tn5[, -1]
 

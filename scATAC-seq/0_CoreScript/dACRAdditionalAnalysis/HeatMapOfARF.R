@@ -28,55 +28,8 @@ library("optparse")
 library(GenomicRanges)
 library(ggplot2)
 
-#### 1) Find the two closest genes!
-DEGFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/dACR_withTAATInfo.txt"
-genes_data <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene.bed")
-DEGInfo <- read.table(DEGFile,fill=TRUE,header=TRUE)
 
-## Function1: Get nearest genes by cutoff of dACR.
-Get_NearestGenes <-function(SelectedPeak){
-  genes_ranges <- GRanges(seqnames=genes_data$V1, 
-                          ranges=IRanges(start=genes_data$V2, end=genes_data$V3),
-                          gene_id=genes_data$V4)
-  #head(SelectedPeak)
-  split_names <- strsplit(SelectedPeak$Peak, split = "_")
-  chromosomes <- sapply(split_names, function(x) x[1])
-  starts <- as.integer(sapply(split_names, function(x) x[2]))
-  ends <- as.integer(sapply(split_names, function(x) x[3]))
-  granges_object <- GRanges(seqnames = chromosomes, ranges = IRanges(start = starts, end = ends))
-  results <- data.frame(ACR = character(), Nearest_Gene = character(), Second_Nearest_Gene = character(), stringsAsFactors = FALSE)
-  for (i in seq_along(granges_object)) {
-    single_acr <- granges_object[i]
-    # Find the nearest gene
-    nearest_gene <- distanceToNearest(single_acr, genes_ranges)
-    nearest_index <- subjectHits(nearest_gene)
-    # Exclude the nearest gene and find the second nearest
-    genes_minus_closest <- genes_ranges[-nearest_index]
-    second_nearest_gene <- distanceToNearest(single_acr, genes_minus_closest)
-    second_nearest_index <- subjectHits(second_nearest_gene)
-    # Store the results
-    results <- rbind(results, data.frame(
-      ACR = as.character(SelectedPeak$Peak[i]),
-      Nearest_Gene = as.character(mcols(genes_ranges[nearest_index])$gene_id),
-      Second_Nearest_Gene = as.character(mcols(genes_minus_closest[second_nearest_index])$gene_id)
-    ))
-  }
-  return(results)
-}
-
-DEGInfo_Bif3Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0),]
-DEGInfo_Bif3Higher_TAAT <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0) &
-                                     (DEGInfo$TAAT == "TAAT"),]
-
-DEGInfo_A619Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC < 0),]
-dim(DEGInfo_Bif3Higher_TAAT)
-
-Bif3HigherTAAT_Nearest_SecondN <- Get_NearestGenes(DEGInfo_Bif3Higher_TAAT)
-NearestGenes <- c(Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene,
-                  Bif3HigherTAAT_Nearest_SecondN$Second_Nearest_Gene)
-
-
-### 2) Get Gene body acc for all the genes 
+### 1) Get Gene body acc for all the genes 
 ## load gene*cell table.
 WT_GeneXCT <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC/A619_AnnV4.GeneBodyACC.byGeneXCT.txt",header=TRUE)
 Bif3_GeneXCT <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC/Bif3_AnnV4.GeneBodyACC.byGeneXCT.txt",header=TRUE)
@@ -90,24 +43,15 @@ head(GeneXCT)
 GeneNames <- GeneXCT[, 1]
 gene_counts_df <- GeneXCT[, -1]
 
-## To filter some genes with very low Tn5.
-library(ggplot2)
-library(tidyr)
-# Reshape the data into long format
-gene_counts_long <- gather(gene_counts_df, key = "gene", value = "count")
-# Create a density plot
-ggplot(gene_counts_long, aes(x = count)) +
-  geom_density(fill = "skyblue", color = "blue") +
-  labs(title = "Density Plot of Gene Counts", x = "Count", y = "Density")+
-  scale_x_continuous(breaks = seq(0, 1000, by = 50))
-ggsave("DensityPlot_Tn5_GeneBodyACC.pdf" , width=40, height=5)
 ## Set up the cut off to 50!
 head(GeneXCT)
+dim(GeneXCT)
 library(edgeR)
 library(preprocessCore)
 GeneXCT_MoreThan50Tn5 <- GeneXCT %>%
   filter_all(all_vars(. > 50))
 dim(GeneXCT_MoreThan50Tn5)
+
 GeneNames <- GeneXCT_MoreThan50Tn5[, 1]
 gene_counts_df <- GeneXCT_MoreThan50Tn5[, -1]
 
@@ -119,10 +63,37 @@ head(qnorm_data)
 dim(qnorm_data)
 #write.table(qnorm_data, file=paste0(SampleName,".GeneBodyACC.byGeneXCT.CPMQuantilNor.txt"), quote=F, row.names=T, col.names=T, sep="\t")
 ##############
-head(Bif3HigherTAAT_Nearest_SecondN)
-head(Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene)
-length(Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene)
+#### 2) Find ARF genes
+GeneInfo <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm00001eb.1.fulldata.Curated.txt",
+                       fill = TRUE,header=TRUE)
+DEGFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/dACR_withTAATInfo.txt"
+DEGInfo <- read.table(DEGFile,fill=TRUE,header=TRUE)
+#head(GeneInfo)
+GeneID_GeneSymbol <- data.frame(GeneInfo$gene_model,GeneInfo$locus_symbol)
+head(GeneID_GeneSymbol)
+GeneID_GeneSymbol_arf <- GeneID_GeneSymbol[grep("^arf", GeneID_GeneSymbol$GeneInfo.locus_symbol, 
+                                                ignore.case = TRUE), ]
+dim(GeneID_GeneSymbol_arf)
 
+GeneID_GeneSymbol_arf <- GeneID_GeneSymbol[grep("^arf", GeneID_GeneSymbol$GeneInfo.locus_symbol, 
+                                                ignore.case = TRUE), ]
+
+DEGInfo_arf <- DEGInfo[grep("^arf", DEGInfo$locus_symbol, 
+                                      ignore.case = TRUE), ]
+dim(DEGInfo_arf)
+head(DEGInfo_arf)
+DEGInfo_arf$logFC
+DEGInfo_arf$FDR
+## 14 ACRs near ARFs
+ARF_ACR <- data.frame(ACR = DEGInfo_arf$Peak,GeneName =DEGInfo_arf$locus_symbol,
+                      geneid =DEGInfo_arf$gene_model,
+                      ACR_logFC = DEGInfo_arf$logFC)
+head()
+
+head(qnorm_data)
+
+
+SelectedGenes <- ARF_ACR$geneid
 CTOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt")
 CTOrder <- gsub("-", ".", CTOrder)
 new_CTOrder <- unlist(lapply(CTOrder, function(x) c(paste("A619&", x, sep=""), paste("Bif3&", x, sep=""))))
@@ -130,13 +101,14 @@ head(new_CTOrder)
 
 dim(qnorm_data)
 qnorm_data_orderd <- qnorm_data[,new_CTOrder]
-QNorm_SelectedGene <- qnorm_data_orderd[rownames(qnorm_data_orderd)%in%Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene,]
+
+QNorm_SelectedGene <- qnorm_data_orderd[rownames(qnorm_data_orderd)%in%SelectedGenes,]
 dim(QNorm_SelectedGene)
 head(QNorm_SelectedGene)
+
 library(gplots)
 
 # Define color palette for the heatmap
-my_palette <- colorRampPalette(rev(brewer.pal(11, "RdYlBu")))(255)
 # Create heatmap
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC")
 
@@ -167,8 +139,10 @@ ordered_rows <- order(IM_OC_column)
 FCTable_ordered <- FCTable_matrix[ordered_rows, ]
 head(FCTable_ordered)
 tail(FCTable_ordered)
-
+min(FCTable_ordered)
+dim(FCTable_ordered)
 ### Let's match it with the gene symbol
+
 GeneInfo <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm00001eb.1.fulldata.Curated.txt", fill = TRUE,header=TRUE)
 head(GeneInfo)
 GeneID_GeneSymbol <- data.frame(GeneInfo$gene_model,GeneInfo$locus_symbol)
@@ -188,75 +162,124 @@ head(FCTable_ordered_geneSymbol)
 rownames(FCTable_ordered_geneSymbol) <- FCTable_ordered_geneSymbol[,1]
 FCTable_ordered_geneSymbol <- FCTable_ordered_geneSymbol[,-1]
 head(FCTable_ordered_geneSymbol)
-ordered_rows <- order(FCTable_ordered_geneSymbol[,"IM_OC"])
-FCTable_ordered_geneSymbol <- FCTable_ordered_geneSymbol[ordered_rows, ]
-head(FCTable_ordered_geneSymbol)
-FCTable_ordered_geneSymbol <- as.matrix(FCTable_ordered_geneSymbol)
+FCTable_ordered_geneSymbol
+ARF_ACR
+ARF_ACR_Combined <- data.frame(ARFName=NA,
+                               ACR1_ACR=NA,
+                               ACR1_ACR_logFC=NA,
+                               ACR2_ACR=NA,
+                               ACR2_ACR_logFC=NA
+                          )
+for (ARFName in unique(ARF_ACR$GeneName)){
+  print(ARFName)
+  Rows <- ARF_ACR[ARF_ACR$GeneName==ARFName,]
+  if (nrow(Rows) ==2){
+    Table1 <- Rows[1,-c(2,3)]
+    colnames(Table1) <- paste0("ACR1","_",colnames(Table1)) 
+    Table2 <- Rows[2,-c(2,3)]
+    colnames(Table2) <- paste0("ACR2","_",colnames(Table2)) 
+    NewRow <- cbind(ARFName = ARFName,Table1,Table2)
+    ARF_ACR_Combined <- rbind(ARF_ACR_Combined,NewRow)
+  }
+  if (nrow(Rows)==1){
+    Table1 <- Rows[1,-c(2,3)]
+    colnames(Table1) <- paste0("ACR1","_",colnames(Table1)) 
+    Table2 <- data.frame(ACR2_ACR=NA,
+                         ACR2_ACR_logFC=0)
+    
+    NewRow <- cbind(ARFName = ARFName,Table1,Table2)
+    ARF_ACR_Combined <- rbind(ARF_ACR_Combined,NewRow)
+  }
+}
 
-my_palette <- colorRampPalette(c("blue", "white", "red"))(101)  # Adjusted to 101 colors
-breaks <- c(-2.1, seq(-2, 2, length.out = 100), 2.1)  # Adjusted breaks
+ARF_ACR_Combined<- ARF_ACR_Combined[-1,]
+head(ARF_ACR_Combined)
+FCTable_ordered_geneSymbol
+FCTable_ordered_geneSymbol$ARFName <- rownames(FCTable_ordered_geneSymbol)
+ARF_all <- merge(ARF_ACR_Combined, FCTable_ordered_geneSymbol, by = "ARFName", all.x = TRUE)
+rownames(ARF_all) <- ARF_all$ARFName
+ARF_all <- ARF_all[rev(c("arftf4","arftf25","arftf30","arftf18","arftf23",
+                     "arftf20","arftf26","arftf36","arftf3","arftf10")),]
+write.table(ARF_all,"ARF_logFC.txt",
+            quote=F, row.names=F, col.names=T, sep="\t")
+ARF_GeneBody <- ARF_all[, !names(ARF_all) %in% c("ARFName", "ACR1_ACR", "ACR2_ACR","ACR1_ACR_logFC", "ACR2_ACR_logFC")]
+ARF_dACR <- ARF_all[,  c("ACR1_ACR_logFC", "ACR2_ACR_logFC")]
+ARF_dACR_rounded <- round(ARF_dACR, digits = 3)
+ARF_dACR_rounded_matrix <- as.matrix(ARF_dACR_rounded)
+ARF_GeneBody<-as.matrix(ARF_GeneBody)
+
+breaks <- seq(-max(abs(ARF_dACR_rounded_matrix)), 
+              max(abs(ARF_dACR_rounded_matrix)), length.out = 103)
+my_palette <- colorRampPalette(c("#560e8f", "white", "red"))(102)  # Adjusted to 102 colors
+
+pdf("ARF_dACR_Heatmap.pdf", width = 8, height = 12)  # Specify the file name and dimensions
+# Create the heatmap with annotation
+heatmap(ARF_dACR_rounded_matrix,
+        col = my_palette,
+        breaks = breaks, # Specify color palette
+        scale = "none",
+        main = "Heatmap of ARF_dACR",
+        Rowv = NA, Colv = NA,
+        cexRow = 0.5, cexCol = 0.8,  # Adjust row and column label sizes
+        margins = c(10, 10))  # Adjust margins
+
+dev.off()
 library(fields)
 
-pdf("logFC_TAATMotifdACRClosetGene_HeatMap.pdf", width = 10, height = 8)  # Specify the file name and dimensions
+pdf("ARF_dACR_ColorLegend.pdf", width = 4, height = 6)  # Specify the file name and dimensions
+plot.new()
+plot.window(xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i", asp = 1, xlab = "", ylab = "")
 
-# Create the heatmap
-heatmap(FCTable_ordered_geneSymbol,
-        col = my_palette,
-        breaks = breaks,
-        scale = "none",
-        margins = c(20,20),  # Increase the left margin to accommodate longer column labels
-        main = "Heatmap of QNorm_SelectedGene",
-        Rowv = NA,
-        Colv = NA,
-        cexCol = 1)  # Adjust the size of the column labels if necessary
-
-# Adjust margins to make space for the legend
-par(mar = c(5, 4, 2, 6))  # Reduce right margin to 6
-
-# Add color legend manually with custom size and position, and specific values
+# Add the color legend
 image.plot(zlim = range(breaks),
            col = my_palette,
            legend.only = TRUE,
            horizontal = FALSE,
-           axis.args = list(at = c(-2.1, 0, 2.1), labels = c(-2.1, 0, 2.1), cex.axis = 0.5),  # Specify values for the legend
+           axis.args = list(at = c(-max(abs(ARF_dACR_rounded_matrix)), 0, max(abs(ARF_dACR_rounded_matrix))), 
+                            labels = c(-max(abs(ARF_dACR_rounded_matrix)), 0, max(abs(ARF_dACR_rounded_matrix))),
+                            cex.axis = 0.5),  # Specify values for the legend
            legend.width = 0.8,  # Adjust the width of the legend box
-           legend.shrink = 0.5
-           )  # Adjust the size of the color legend bar
+           legend.shrink = 0.5)  # Adjust the size of the color legend bar
+
+# Save the color legend plot to PDF
+dev.off()
+
+###
+
+breaks <- seq(-max(abs(ARF_GeneBody)), 
+              max(abs(ARF_GeneBody)), length.out = 103)
+my_palette <- colorRampPalette(c("blue", "white", "red"))(102)  # Adjusted to 102 colors
+
+
+
+pdf("ARF_GenebodyACC_Heatmap.pdf", width = 30, height = 12)  # Specify the file name and dimensions
+# Create the heatmap with annotation
+heatmap(ARF_GeneBody,
+        col = my_palette,
+        breaks = breaks, # Specify color palette
+        scale = "none",
+        main = "Heatmap of ARF_dACR",
+        Rowv = NA, Colv = NA,
+        cexRow = 0.5, cexCol = 0.8,  # Adjust row and column label sizes
+        margins = c(10, 10))  # Adjust margins
 
 dev.off()
 
-pdf("logFC_TAATMotifdACRClosetGene_HeatMap_rowAutoOrder.pdf", width = 10, height = 8)  # Specify the file name and dimensions
 
-# Create the heatmap
-heatmap(FCTable_ordered_geneSymbol,
-        col = my_palette,
-        breaks = breaks,
-        scale = "none",
-        margins = c(20,20),  # Increase the left margin to accommodate longer column labels
-        main = "Heatmap of QNorm_SelectedGene",
-        Rowv = TRUE,
-        Colv = NA,
-        cexCol = 1)  # Adjust the size of the column labels if necessary
+pdf("ARF_GeneACC_ColorLegend.pdf", width = 4, height = 6)  # Specify the file name and dimensions
+plot.new()
+plot.window(xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i", asp = 1, xlab = "", ylab = "")
 
-# Adjust margins to make space for the legend
-par(mar = c(5, 4, 2, 6))  # Reduce right margin to 6
-
-# Add color legend manually with custom size and position, and specific values
+# Add the color legend
 image.plot(zlim = range(breaks),
            col = my_palette,
            legend.only = TRUE,
            horizontal = FALSE,
-           axis.args = list(at = c(-2.1, 0, 2.1), labels = c(-2.1, 0, 2.1), cex.axis = 0.5),  # Specify values for the legend
+           axis.args = list(at = c(-max(abs(ARF_GeneBody)), 0, max(abs(ARF_GeneBody))), 
+                            labels = c(-max(abs(ARF_GeneBody)), 0, max(abs(ARF_GeneBody))),
+                            cex.axis = 0.5),  # Specify values for the legend
            legend.width = 0.8,  # Adjust the width of the legend box
-           legend.shrink = 0.5
-)  # Adjust the size of the color legend bar
+           legend.shrink = 0.5)  # Adjust the size of the color legend bar
 
+# Save the color legend plot to PDF
 dev.off()
-
-write.table(FCTable_ordered_geneSymbol,"logFCNeartGene_TAATdACR.txt", 
-            quote=F, row.names=F, col.names=T, sep="\t")
-
-
-############################################
-############# ARF gene!! ###################
-## 1) Get all the ARF gene.

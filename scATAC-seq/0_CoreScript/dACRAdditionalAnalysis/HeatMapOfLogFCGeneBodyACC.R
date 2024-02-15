@@ -32,48 +32,15 @@ library(ggplot2)
 DEGFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/dACR_withTAATInfo.txt"
 genes_data <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene.bed")
 DEGInfo <- read.table(DEGFile,fill=TRUE,header=TRUE)
-
-## Function1: Get nearest genes by cutoff of dACR.
-Get_NearestGenes <-function(SelectedPeak){
-  genes_ranges <- GRanges(seqnames=genes_data$V1, 
-                          ranges=IRanges(start=genes_data$V2, end=genes_data$V3),
-                          gene_id=genes_data$V4)
-  #head(SelectedPeak)
-  split_names <- strsplit(SelectedPeak$Peak, split = "_")
-  chromosomes <- sapply(split_names, function(x) x[1])
-  starts <- as.integer(sapply(split_names, function(x) x[2]))
-  ends <- as.integer(sapply(split_names, function(x) x[3]))
-  granges_object <- GRanges(seqnames = chromosomes, ranges = IRanges(start = starts, end = ends))
-  results <- data.frame(ACR = character(), Nearest_Gene = character(), Second_Nearest_Gene = character(), stringsAsFactors = FALSE)
-  for (i in seq_along(granges_object)) {
-    single_acr <- granges_object[i]
-    # Find the nearest gene
-    nearest_gene <- distanceToNearest(single_acr, genes_ranges)
-    nearest_index <- subjectHits(nearest_gene)
-    # Exclude the nearest gene and find the second nearest
-    genes_minus_closest <- genes_ranges[-nearest_index]
-    second_nearest_gene <- distanceToNearest(single_acr, genes_minus_closest)
-    second_nearest_index <- subjectHits(second_nearest_gene)
-    # Store the results
-    results <- rbind(results, data.frame(
-      ACR = as.character(SelectedPeak$Peak[i]),
-      Nearest_Gene = as.character(mcols(genes_ranges[nearest_index])$gene_id),
-      Second_Nearest_Gene = as.character(mcols(genes_minus_closest[second_nearest_index])$gene_id)
-    ))
-  }
-  return(results)
-}
-
+head(DEGInfo)
 DEGInfo_Bif3Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0),]
 DEGInfo_Bif3Higher_TAAT <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0) &
                                      (DEGInfo$TAAT == "TAAT"),]
 
 DEGInfo_A619Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC < 0),]
 dim(DEGInfo_Bif3Higher_TAAT)
+head(DEGInfo_Bif3Higher_TAAT)
 
-Bif3HigherTAAT_Nearest_SecondN <- Get_NearestGenes(DEGInfo_Bif3Higher_TAAT)
-NearestGenes <- c(Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene,
-                  Bif3HigherTAAT_Nearest_SecondN$Second_Nearest_Gene)
 
 
 ### 2) Get Gene body acc for all the genes 
@@ -103,11 +70,15 @@ ggplot(gene_counts_long, aes(x = count)) +
 ggsave("DensityPlot_Tn5_GeneBodyACC.pdf" , width=40, height=5)
 ## Set up the cut off to 50!
 head(GeneXCT)
+dim(GeneXCT)
+GeneXCT[GeneXCT$gene=="Zm00001eb001720",]
 library(edgeR)
 library(preprocessCore)
 GeneXCT_MoreThan50Tn5 <- GeneXCT %>%
   filter_all(all_vars(. > 50))
 dim(GeneXCT_MoreThan50Tn5)
+GeneXCT_MoreThan50Tn5[GeneXCT_MoreThan50Tn5$gene=="Zm00001eb001720",]
+
 GeneNames <- GeneXCT_MoreThan50Tn5[, 1]
 gene_counts_df <- GeneXCT_MoreThan50Tn5[, -1]
 
@@ -119,10 +90,9 @@ head(qnorm_data)
 dim(qnorm_data)
 #write.table(qnorm_data, file=paste0(SampleName,".GeneBodyACC.byGeneXCT.CPMQuantilNor.txt"), quote=F, row.names=T, col.names=T, sep="\t")
 ##############
-head(Bif3HigherTAAT_Nearest_SecondN)
-head(Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene)
-length(Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene)
-
+head(DEGInfo_Bif3Higher_TAAT)
+head(DEGInfo_Bif3Higher_TAAT$gene_model)
+SelectedGenes <- DEGInfo_Bif3Higher_TAAT$gene_model
 CTOrder <- readLines("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3.txt")
 CTOrder <- gsub("-", ".", CTOrder)
 new_CTOrder <- unlist(lapply(CTOrder, function(x) c(paste("A619&", x, sep=""), paste("Bif3&", x, sep=""))))
@@ -130,9 +100,11 @@ head(new_CTOrder)
 
 dim(qnorm_data)
 qnorm_data_orderd <- qnorm_data[,new_CTOrder]
-QNorm_SelectedGene <- qnorm_data_orderd[rownames(qnorm_data_orderd)%in%Bif3HigherTAAT_Nearest_SecondN$Nearest_Gene,]
+
+QNorm_SelectedGene <- qnorm_data_orderd[rownames(qnorm_data_orderd)%in%SelectedGenes,]
 dim(QNorm_SelectedGene)
 head(QNorm_SelectedGene)
+
 library(gplots)
 
 # Define color palette for the heatmap
@@ -167,6 +139,7 @@ ordered_rows <- order(IM_OC_column)
 FCTable_ordered <- FCTable_matrix[ordered_rows, ]
 head(FCTable_ordered)
 tail(FCTable_ordered)
+FCTable_ordered["Zm00001eb001720",]
 
 ### Let's match it with the gene symbol
 GeneInfo <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm00001eb.1.fulldata.Curated.txt", fill = TRUE,header=TRUE)
@@ -188,16 +161,19 @@ head(FCTable_ordered_geneSymbol)
 rownames(FCTable_ordered_geneSymbol) <- FCTable_ordered_geneSymbol[,1]
 FCTable_ordered_geneSymbol <- FCTable_ordered_geneSymbol[,-1]
 head(FCTable_ordered_geneSymbol)
+
 ordered_rows <- order(FCTable_ordered_geneSymbol[,"IM_OC"])
 FCTable_ordered_geneSymbol <- FCTable_ordered_geneSymbol[ordered_rows, ]
 head(FCTable_ordered_geneSymbol)
+FCTable_ordered_geneSymbol["knox1",]
 FCTable_ordered_geneSymbol <- as.matrix(FCTable_ordered_geneSymbol)
 
 my_palette <- colorRampPalette(c("blue", "white", "red"))(101)  # Adjusted to 101 colors
 breaks <- c(-2.1, seq(-2, 2, length.out = 100), 2.1)  # Adjusted breaks
 library(fields)
+unique(rownames(FCTable_ordered_geneSymbol))
 
-pdf("logFC_TAATMotifdACRClosetGene_HeatMap.pdf", width = 10, height = 8)  # Specify the file name and dimensions
+pdf("logFC_TAATMotifdACRClosetGene_HeatMap.pdf", width = 30, height = 40)  # Specify the file name and dimensions
 
 # Create the heatmap
 heatmap(FCTable_ordered_geneSymbol,
@@ -254,9 +230,6 @@ image.plot(zlim = range(breaks),
 dev.off()
 
 write.table(FCTable_ordered_geneSymbol,"logFCNeartGene_TAATdACR.txt", 
-            quote=F, row.names=F, col.names=T, sep="\t")
+            quote=F, row.names=T, col.names=T, sep="\t")
 
 
-############################################
-############# ARF gene!! ###################
-## 1) Get all the ARF gene.
