@@ -66,15 +66,21 @@ dim(DEGInfo)
 head(DEGInfo)
 A619Higher <- DEGInfo[DEGInfo$logFC < 0 ,]
 Bif3Higher <- DEGInfo[DEGInfo$logFC > 0 ,]
-
+DEGFile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/dACR_withTAATInfo.txt"
+DEGInfo <- read.table(DEGFile,fill=TRUE,header=TRUE)
+DEGInfo_Bif3Higher_TAAT <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC > 0) &
+                                     (DEGInfo$TAAT == "TAAT"),]
 #DistanceTable <- A619Higher_GeneDistance
 A619Higher_GeneDistance <- GetDistance(A619Higher$Peak,AnnBed)
 Bif3Higher_GeneDistance <- GetDistance(Bif3Higher$Peak,AnnBed)
 All_GeneDistance <- GetDistance(DEGInfo$Peak,AnnBed)
+Bif3Higher_TAAT_GeneDistance <- GetDistance(DEGInfo_Bif3Higher_TAAT$Peak,AnnBed)
+dim(Bif3Higher_TAAT_GeneDistance)
 
 PieChart(A619Higher_GeneDistance,"IM_OC_FDR.0.05_A619Higher.GeneDistancePieChart.pdf")
 PieChart(Bif3Higher_GeneDistance,"IM_OC_FDR.0.05_Bif3Higher.GeneDistancePieChart.pdf")
 PieChart(All_GeneDistance,"IM_OC.GeneDistancePieChart.pdf")
+PieChart(Bif3Higher_TAAT_GeneDistance,"IM_OC_FDR.0.05_Bif3Higher.TAAT.GeneDistancePieChart.pdf")
 
 
 NonZeroTable <- rbind(

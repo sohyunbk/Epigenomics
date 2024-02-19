@@ -167,7 +167,7 @@ FCTable_ordered_geneSymbol <- FCTable_ordered_geneSymbol[ordered_rows, ]
 head(FCTable_ordered_geneSymbol)
 FCTable_ordered_geneSymbol["knox1",]
 FCTable_ordered_geneSymbol <- as.matrix(FCTable_ordered_geneSymbol)
-
+tail(FCTable_ordered_geneSymbol)
 my_palette <- colorRampPalette(c("blue", "white", "red"))(101)  # Adjusted to 101 colors
 breaks <- c(-2.1, seq(-2, 2, length.out = 100), 2.1)  # Adjusted breaks
 library(fields)
@@ -232,4 +232,8 @@ dev.off()
 write.table(FCTable_ordered_geneSymbol,"logFCNeartGene_TAATdACR.txt", 
             quote=F, row.names=T, col.names=T, sep="\t")
 
+table(FCTable_ordered_geneSymbol[,"IM_OC"]<0)
+
+head(FCTable_ordered_geneSymbol)
+column_means <- colMeans(FCTable_ordered_geneSymbol, na.rm = TRUE)
 
