@@ -72,10 +72,15 @@ WTHigher$Color <- "WTHigher"
 head(dACRInfo)
 head(Bif3Higher)
 
+## Edited without dACR Total
 FigureTable <- rbind(dACRInfo,Bif3Higher,WTHigher)
 write.table(FigureTable,paste0(OutFileName,".txt"), quote=F, row.names=F, col.names=T, sep="\t")
-custom_colors <- c("#70635b","#802652","#5d850f") 
-FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
+FigureTable <- rbind(Bif3Higher,WTHigher)
+
+#custom_colors <- c("#70635b","#802652","#5d850f") 
+custom_colors <- c("#802652","#5d850f") 
+FigureTable$Color <- factor(FigureTable$Color,levels=c("Bif3Higher","WTHigher"))
+#FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
 FigureTable$Celltype <- factor(FigureTable$Celltype,levels=CellOrders)
 ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
   geom_point(aes(colour = factor(Color)),alpha=0.5)+  # New geom_point for Higher_Bif3Ratio
