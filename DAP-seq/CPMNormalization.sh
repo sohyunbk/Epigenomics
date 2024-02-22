@@ -28,4 +28,4 @@ TOTAL_READS=$(samtools view -F 260 -c HB67_WUS1_B73v5_Q30.sorted.bam)
 echo $TOTAL_READS
 SCALE_FACTOR=$(echo "scale=6; 1/(${TOTAL_READS}/1000000)" | bc)
 awk -v scale=${SCALE_FACTOR} 'BEGIN{OFS="\t"} {print $1,$2,$3,$4*scale}' HB67_WUS1_B73v5_Q30.coverage.bedGraph > HB67_WUS1_B73v5_Q30.CPM.coverage.bedGraph
-bedGraphToBigWig HB67_WUS1_B73v5_Q30.CPM.coverage.bedGraph chrom.sizes HB67_WUS1_B73v5_Q30.CPM.bw
+bedGraphToBigWig HB67_WUS1_B73v5_Q30.CPM.coverage.bedGraph /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai HB67_WUS1_B73v5_Q30.CPM.bw
