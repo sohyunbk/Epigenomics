@@ -1,19 +1,21 @@
 #!/bin/bash
-#SBATCH --job-name=MetaPlot        # Job name
+#SBATCH --job-name=CPMNormalizationDAP        # Job name
 #SBATCH --partition=schmitz_hm_p             # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=20             # Number of CPU cores per task
 #SBATCH --mem=90gb                   # Job memory request
-#SBATCH --time=01:50:00               # Time limit hrs:min:sec
-#SBATCH --output=/scratch/sb14489/0.log/MetaPlot.%j.out   # Standard output log
-#SBATCH --error=/scratch/sb14489/0.log/MetaPlot.%j.err    # Standard error log
+#SBATCH --time=04:50:00               # Time limit hrs:min:sec
+#SBATCH --output=/scratch/sb14489/0.log/CPMNormalizationDAP.%j.out   # Standard output log
+#SBATCH --error=/scratch/sb14489/0.log/CPMNormalizationDAP.%j.err    # Standard error log
 
-ml SAMtools/1.16.1-GCC-11.3.0
-ml BEDTools/2.30.0-GCC-12.2.0
+ml Anaconda3/2023.09-0
 
 cd /scratch/sb14489/7.DAPorChIP/DAPseq_WUS/WUS1_fastq_Mapped
 
 source  acitivate Jbrowse
+
+ml SAMtools/1.16.1-GCC-11.3.0
+ml BEDTools/2.30.0-GCC-12.2.0
 
 samtools sort -@24 -o HB67_WUS1_B73v5_Q30.sorted.bam HB67_WUS1_B73v5_Q30.bam
 samtools index HB67_WUS1_B73v5_Q30.sorted.bam
