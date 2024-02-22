@@ -12,7 +12,7 @@ ml Anaconda3/2023.09-0
 
 cd /scratch/sb14489/7.DAPorChIP/DAPseq_WUS/WUS1_fastq_Mapped
 
-source  acitivate Jbrowse
+conda acitivate Jbrowse
 
 ml SAMtools/1.16.1-GCC-11.3.0
 ml BEDTools/2.30.0-GCC-12.2.0
@@ -22,9 +22,9 @@ samtools index HB67_WUS1_B73v5_Q30.sorted.bam
 
 ##
 bedtools genomecov -ibam HB67_WUS1_B73v5_Q30.sorted.bam -bg > HB67_WUS1_B73v5_Q30.coverage.bedGraph
+sort -k1,1 -k2,2n HB67_WUS1_B73v5_Q30.coverage.bedGraph -o HB67_WUS1_B73v5_Q30.Sorted.coverage.bedGraph
 
-
-TOTAL_READS=$(samtools view -F 260 -c HB67_WUS1_B73v5_Q30.sorted.bam)
+TOTAL_READS=$(samtools view -F 260 -c HB67_WUS1_B73v5_Q30.Sorted.coverage.bedGraph)
 echo $TOTAL_READS
 SCALE_FACTOR=$(echo "scale=6; 1/(${TOTAL_READS}/1000000)" | bc)
 awk -v scale=${SCALE_FACTOR} 'BEGIN{OFS="\t"} {print $1,$2,$3,$4*scale}' HB67_WUS1_B73v5_Q30.coverage.bedGraph > HB67_WUS1_B73v5_Q30.CPM.coverage.bedGraph
