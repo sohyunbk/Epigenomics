@@ -1,8 +1,10 @@
 ## Load bed File
 ## The file should be: chr	start	end	geneID	name	type
-GeneBed <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr_AddGeneSymbol.bed",header=FALSE)
-head(GeneBed)
-GeneBed <- GeneBed[grep("^(wox|arftf|pin)", GeneBed$V10, ignore.case = TRUE), ]
+GeneBedLoad <- read.table("/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr_AddGeneSymbol.bed",header=FALSE)
+head(GeneBedLoad)
+GeneBed <- GeneBedLoad[grep("^(wox|ZmWus|arftf|pin)", GeneBedLoad$V10, ignore.case = TRUE), ]
+GeneBed <- rbind(GeneBed,GeneBedLoad[GeneBedLoad$V4=="Zm00001eb433010",])
+GeneBed <- rbind(GeneBed,GeneBedLoad[GeneBedLoad$V4=="Zm00001eb067310",])
 
 OutFile <- data.frame(chr =GeneBed$V1,
                       start=GeneBed$V2,
