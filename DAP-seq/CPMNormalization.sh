@@ -21,6 +21,12 @@ samtools sort -@24 -o HB67_WUS1_B73v5_Q30.sorted.bam HB67_WUS1_B73v5_Q30.bam
 samtools index HB67_WUS1_B73v5_Q30.sorted.bam
 
 ##
+#[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+#[main_samview] fail to read the header from "HB67_WUS1_B73v5_Q30.Sorted.coverage.bedGraph".
+#(standard_in) 1: syntax error
+#HB67_WUS1_B73v5_Q30.CPM.coverage.bedGraph is not case-sensitive sorted at line 22377802.  Ple
+#ase use "sort -k1,1 -k2,2n" with LC_COLLATE=C,  or bedSort and try again.
+
 bedtools genomecov -ibam HB67_WUS1_B73v5_Q30.sorted.bam -bg > HB67_WUS1_B73v5_Q30.coverage.bedGraph
 sort -k1,1 -k2,2n HB67_WUS1_B73v5_Q30.coverage.bedGraph -o HB67_WUS1_B73v5_Q30.Sorted.coverage.bedGraph
 

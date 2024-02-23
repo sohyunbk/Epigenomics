@@ -13,8 +13,10 @@
 module load MEME/5.5.0-gompi-2021b
 module load BEDTools/2.30.0-GCC-11.3.0
 
-MemeMotifDB=
-Infile_FA=
-OutfilePathName=
+MemeMotifDB=/scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/TGAATGAA_TAAT.txt
+Infile_bed=/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_Bif3_MergedDifferentSizePeak/A619Bif3_IM-OC_MergedPeak.bed
+OutfilePathName=/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/3.fimo/IM_OC
+Infile_fasta="${Infile_bed%.bed}.fasta"
 
-fimo --o "$OutfilePathName" "$MemeMotifDB" "$Infile_FA"
+bedtools getfasta -fi /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa -bed "$Infile_bed" -fo "$Infile_fasta"
+fimo --o "$OutfilePathName" "$MemeMotifDB" "$Infile_fasta"
