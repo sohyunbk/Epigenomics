@@ -189,14 +189,6 @@ A619_Q_Top2000 <- A619_Q_Top2000[, cols_to_keep]
 
 Correlation_Top2000 <- cor(A619_Q_Top2000,Bif3_Q_Top2000,  method = "spearman")
 #Correlation_Top2000 <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/1.Correlation/A619andBif3_CTNameReverse_Top2000Correlation.txt")
-
-rownames(filtered_Correlation_Top2000) <- factor(rownames(filtered_Correlation_Top2000),
-                                                 level=paste0("A619",NewCTOrder2))
-colnames(filtered_Correlation_Top2000)
-NewCTOrder2 <- gsub("-", ".", NewCTOrder2)
-colnames(filtered_Correlation_Top2000) <- factor(colnames(filtered_Correlation_Top2000),
-                                                 level=paste0("Bif3",NewCTOrder2))
-Correlation <- filtered_Correlation_Top2000
 write.table(Correlation_Top2000,
             file = paste0(OutfileName,"_Top2000Correlation.txt"), sep = "\t", 
             row.names = TRUE, quote=F, col.names = TRUE)
