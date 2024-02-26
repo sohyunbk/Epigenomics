@@ -157,6 +157,7 @@ CellTypeOrder <- rev(readLines(CellOrder))
 filtered_table$Ann <- factor(filtered_table[[slot_var]], levels = CellTypeOrder)
 MarkerOrder_vector <- readLines(MarkerOrder)
 filtered_table$name <- factor(filtered_table$name,levels=MarkerOrder_vector)
+filtered_table <- subset(filtered_table, !Ann %in% c("Unknown1", "Unknown2", "Unknown_Sclerenchyma", "Unknown_lowFRiP"))
 
 # Print the resulting table
 ggplot(filtered_table, aes(x = name, y = Ann, 

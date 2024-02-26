@@ -148,6 +148,9 @@ Peak500bp_Re2 <- ReadSummit(Replicate2_Summit)
 #### 2)  Finding overlaps between Re1 and Re2
 print("Step2")
 CommonPeakOutfile <- paste0(OutFilePath,OutFileName,"_BulkCommonPeak.bed")
+#CommonPeakOutfile <- "/scratch/sb14489/3.scATAC/2.Maize_ear/9.CheckQC/3.Replicates_Corr/A619Re1andRe2_BulkCommonPeak.bed"
+overlap_counts_Re1 <- read.table("A619Re1andRe2_Tn5CountToCommonPeak_Re1.bed",header=T)
+overlap_counts_Re2 <- read.table("A619Re1andRe2_Tn5CountToCommonPeak_Re2.bed",header=T)
 if (file.exists(CommonPeakOutfile)) {
   FinalTable <- read.table(CommonPeakOutfile,header=TRUE)
 }else{
@@ -189,11 +192,19 @@ CorrTable <- data.frame(peak=paste(overlap_counts_Re1$seqnames,
 rownames(CorrTable) <- CorrTable$peak
 CorrTable <- CorrTable[,-1]
 # CPM Normalization
-quantile_normalized <- normalize.quantiles(as.matrix(CorrTable))
-quantile_normalized_df <- as.data.frame(quantile_normalized)
-quantile_normalized_df$logRe1 <- log10(quantile_normalized_df$V1)
-quantile_normalized_df$logRe2 <- log10(quantile_normalized_df$V2)
-correlation <- cor(quantile_normalized_df$logRe1, quantile_normalized_df$logRe2, method = "pearson")
+#quantile_normalized <- normalize.quantiles(as.matrix(CorrTable))
+#quantile_normalized_df <- as.data.frame(quantile_normalized)
+#quantile_normalized_df$logRe1 <- log10(quantile_normalized_df$V1)
+#quantile_normalized_df$logRe2 <- log10(quantile_normalized_df$V2)
+calculateCPM <- function(countData) {
+  totalCounts <- colSums(countData)
+  cpm <- sweep(countData, 2, totalCounts, "/") * 1e6
+  return(cpm)
+}
+CPMTable <- calculateCPM(CorrTable)
+correlation <- cor(CPMTable$Re1_count, CPMTable$Re2_count, method = "pearson")
+correlation <- cor(CPMTable$Re1_count, CPMTable$Re2_count, method = "spearman")
+
 
 # Create the plot with ggplot2
 colors <- c(00,00, rev(viridis(200, option = "viridis"))[2:150])
