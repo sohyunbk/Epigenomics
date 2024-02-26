@@ -56,7 +56,7 @@ Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Dot
 --GA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${GAFiles[SLURM_ARRAY_TASK_ID]}" \
 --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${MetaFiles[SLURM_ARRAY_TASK_ID]}" \
 --MarkerGene /scratch/sb14489/3.scATAC/0.Data/MarkerGene/"${MarkerGenes[SLURM_ARRAY_TASK_ID]}" \
---OutPathandPrefix /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/"${OutPrefixs[SLURM_ARRAY_TASK_ID]}" \
+--OutPathandPrefix /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/7.DotPlot/"${OutPrefixs[SLURM_ARRAY_TASK_ID]}"_ExcludeUnknown \
 --AnnSlot Ann_v4 \
 --CellOrdertxt /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${CellOrderFiles[SLURM_ARRAY_TASK_ID]}" \
 --MarkerOrdertxt /scratch/sb14489/3.scATAC/0.Data/MarkerGene/"${MarkerGeneOrderFile[SLURM_ARRAY_TASK_ID]}"
