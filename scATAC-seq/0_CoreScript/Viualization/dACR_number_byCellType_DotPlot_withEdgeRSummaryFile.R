@@ -82,7 +82,8 @@ custom_colors <- c("#802652","#5d850f")
 FigureTable$Color <- factor(FigureTable$Color,levels=c("Bif3Higher","WTHigher"))
 #FigureTable$Color <- factor(FigureTable$Color,levels=c("dACRTotal","Bif3Higher","WTHigher"))
 FigureTable$Celltype <- factor(FigureTable$Celltype,levels=CellOrders)
-FigureTable <- subset(FigureTable, !Celltype %in% c("Unknown1", "Unknown2", "Unknown_Sclerenchyma", "Unknown_lowFRiP","G2_M "))
+FigureTable <- subset(FigureTable, !Celltype %in% c("Unknown1", "Unknown2", 
+                                                    "Unknown_Sclerenchyma", "Unknown_lowFRiP","G2_M"))
 
 ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
   geom_point(aes(colour = factor(Color)),alpha=0.5)+  # New geom_point for Higher_Bif3Ratio
