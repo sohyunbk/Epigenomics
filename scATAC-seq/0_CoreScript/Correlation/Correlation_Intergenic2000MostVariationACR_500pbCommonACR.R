@@ -8,7 +8,7 @@ library(edgeR)
 library(tidyverse)
 library(stringr)
 library("optparse")
-
+library(dplyr) 
 option_list = list(
   make_option(c("--S1_Sparse"), type="character",
               help="S1_Sparse", metavar="character"),
