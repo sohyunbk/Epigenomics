@@ -187,7 +187,7 @@ Bif3_Q_Top2000 <- Bif3_Q_Top2000[, cols_to_keep]
 A619_Q_Top2000 <- A619_Q_Top2000[, cols_to_keep]
 
 
-Correlation_Top2000 <- cor(A619_Q_Top2000,Bif3_Q_Top2000,  method = "spearman")
+Correlation_Top2000 <- cor(A619_Q_Top2000,Bif3_Q_Top2000,  method = "pearson")
 #Correlation_Top2000 <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/1.Correlation/A619andBif3_CTNameReverse_Top2000Correlation.txt")
 write.table(Correlation_Top2000,
             file = paste0(OutfileName,"_Top2000Correlation.txt"), sep = "\t", 
