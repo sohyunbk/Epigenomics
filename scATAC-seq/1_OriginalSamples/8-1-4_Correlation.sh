@@ -34,7 +34,7 @@ CommonPeakIntergenic=(
 A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks_Intergenic.bed
 )
 OutfileName=(
-A619andBif3_CTNameReverse
+A619andBif3_CTNameReverse_RemoveUnknown
 A619andrel2
 )
 CTNameOrder=(
