@@ -182,10 +182,10 @@ Bif3_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c((count_A619+1):ncol(A619_Bif3_CP
 Bif3_Q_Top2000 <- Bif3_Q_Top2000[,paste0("Bif3",CTOrder)]
 A619_Q_Top2000 <- A619_Q_Top2000[,paste0("A619",CTOrder)]
 
-Bif3_Q_Top2000 <- select(Bif3_Q_Top2000, -contains("Unknown"))
-A619_Q_Top2000 <- select(A619_Q_Top2000, -contains("Unknown"))
-Bif3_Q_Top2000 <- select(Bif3_Q_Top2000, -contains("G2"))
-A619_Q_Top2000 <- select(A619_Q_Top2000, -contains("G2"))
+cols_to_keep <- !grepl("Unknown|G2", colnames(Bif3_Q_Top2000))
+Bif3_Q_Top2000 <- Bif3_Q_Top2000[, cols_to_keep]
+A619_Q_Top2000 <- A619_Q_Top2000[, cols_to_keep]
+
 
 Correlation_Top2000 <- cor(A619_Q_Top2000,Bif3_Q_Top2000,  method = "spearman")
 #Correlation_Top2000 <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/1.Correlation/A619andBif3_CTNameReverse_Top2000Correlation.txt")
