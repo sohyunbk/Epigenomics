@@ -168,6 +168,35 @@ head(FCTable_ordered_geneSymbol)
 FCTable_ordered_geneSymbol["knox1",]
 FCTable_ordered_geneSymbol <- as.matrix(FCTable_ordered_geneSymbol)
 tail(FCTable_ordered_geneSymbol)
+### box plot ##########
+FCTable_df <- as.data.frame(FCTable_ordered_geneSymbol)
+CTOrder <- gsub("\\.", "_", CTOrder)
+colnames(FCTable_df) <- factor(colnames(FCTable_df),levels=CTOrder)
+head(FCTable_df)
+cols_to_keep <- !grepl("Unknown|G2", colnames(FCTable_df))
+
+FCTable_df_NotUnknown <- FCTable_df[, cols_to_keep]
+long_data <- gather(FCTable_df_NotUnknown, key = "CellType", value = "Expression")
+long_data$CellType <- factor(long_data$CellType,levels=CTOrder[cols_to_keep])
+# Create the box plot
+dim(long_data)
+head(long_data)
+getwd()
+colorr <- c("#4F96C4","#84f5d9","#0bd43d","#d62744","#FDA33F","#060878","#62a888",
+            "#876b58","#800000", "#800075","#e8cf4f","#adafde","#DE9A89","#5703ff",
+            "#deadce","#fc53b6")
+ggplot(long_data, aes(x = CellType, y = Expression, fill = CellType)) +
+  geom_boxplot(size = 0.1) +  # Adjust size here for thinner lines
+  scale_fill_manual(values = colorr) +
+  labs(y = "log FC") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+        axis.title.x = element_blank(),
+        legend.title = element_blank()) +
+  guides(fill = guide_legend(override.aes = list(color = NULL)))
+  
+ggsave("dACR_withTAATIMOC_BoxPlot.pdf", width=15, height=15)
+
 my_palette <- colorRampPalette(c("blue", "white", "red"))(101)  # Adjusted to 101 colors
 breaks <- c(-2.1, seq(-2, 2, length.out = 100), 2.1)  # Adjusted breaks
 library(fields)

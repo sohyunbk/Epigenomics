@@ -245,16 +245,18 @@ image.plot(zlim = range(breaks),
 dev.off()
 
 ###
+cols_to_keep <- !grepl("Unknown|G2", colnames(ARF_GeneBody))
+ARF_GeneBody_NotUnknown <- ARF_GeneBody[, cols_to_keep]
 
-breaks <- seq(-max(abs(ARF_GeneBody)), 
-              max(abs(ARF_GeneBody)), length.out = 103)
+breaks <- seq(-max(abs(ARF_GeneBody_NotUnknown)), 
+              max(abs(ARF_GeneBody_NotUnknown)), length.out = 103)
 my_palette <- colorRampPalette(c("blue", "white", "red"))(102)  # Adjusted to 102 colors
 
 
 
 pdf("ARF_GenebodyACC_Heatmap.pdf", width = 30, height = 12)  # Specify the file name and dimensions
 # Create the heatmap with annotation
-heatmap(ARF_GeneBody,
+heatmap(ARF_GeneBody_NotUnknown,
         col = my_palette,
         breaks = breaks, # Specify color palette
         scale = "none",
@@ -275,8 +277,8 @@ image.plot(zlim = range(breaks),
            col = my_palette,
            legend.only = TRUE,
            horizontal = FALSE,
-           axis.args = list(at = c(-max(abs(ARF_GeneBody)), 0, max(abs(ARF_GeneBody))), 
-                            labels = c(-max(abs(ARF_GeneBody)), 0, max(abs(ARF_GeneBody))),
+           axis.args = list(at = c(-max(abs(ARF_GeneBody_NotUnknown)), 0, max(abs(ARF_GeneBody_NotUnknown))), 
+                            labels = c(-max(abs(ARF_GeneBody_NotUnknown)), 0, max(abs(ARF_GeneBody_NotUnknown))),
                             cex.axis = 0.5),  # Specify values for the legend
            legend.width = 0.8,  # Adjust the width of the legend box
            legend.shrink = 0.5)  # Adjust the size of the color legend bar

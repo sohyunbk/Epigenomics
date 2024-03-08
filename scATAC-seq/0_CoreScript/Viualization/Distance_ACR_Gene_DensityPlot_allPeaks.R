@@ -28,9 +28,9 @@ return(output)
 }
 
 PieChart <- function(DistanceTable,OutputName){
-  Genebody <- sum(DistanceTable$Distance <= 500)
-  Proximal <- sum(DistanceTable$Distance <= 2000 & DistanceTable$Distance>500)
-  Distal <- sum(DistanceTable$Distance > 0)
+  Genebody <- sum(DistanceTable$Distance == 0)
+  Proximal <- sum(DistanceTable$Distance <= 2000 & DistanceTable$Distance>0)
+  Distal <- sum(DistanceTable$Distance > 2000)
   
   ## plot data
   df <- data.frame(
@@ -59,14 +59,14 @@ PieChart <- function(DistanceTable,OutputName){
   
 # Print the output
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/Bif3")
-Peak <- "Bif3.500bp_peaks.bed"
+PeakFile <- "Bif3.500bp_peaks.bed"
 AnnBed <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene.bed"
-Peak <- read.table(DEGFile,fill=TRUE,header=FALSE)
+Peak <- read.table(PeakFile,fill=TRUE,header=FALSE)
 
 
-
-Bif3Peaks <- GetDistance(paste(Peak$V1,Peak$V2,Peak$V3,sep="_"),AnnBed)
-PieChart(Bif3Peaks,"Bif3Peaks.GeneDistancePieChart.pdf")
+Peaks <- GetDistance(paste(Peak$V1,Peak$V2,Peak$V3,sep="_"),AnnBed)
+DistanceTable <- Peaks
+PieChart(Peaks,"Bif3Peaks.GeneDistancePieChart.pdf")
 
 
 NonZeroTable <- rbind(
