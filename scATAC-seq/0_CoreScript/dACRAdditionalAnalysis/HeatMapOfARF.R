@@ -198,6 +198,9 @@ FCTable_ordered_geneSymbol
 FCTable_ordered_geneSymbol$ARFName <- rownames(FCTable_ordered_geneSymbol)
 ARF_all <- merge(ARF_ACR_Combined, FCTable_ordered_geneSymbol, by = "ARFName", all.x = TRUE)
 rownames(ARF_all) <- ARF_all$ARFName
+ARF_all <- ARF_all[rev(c("arftf4","arftf30","arftf18","arftf20","arftf3",
+                         "arftf25","arftf36","arftf10",
+                         "arftf23","arftf26"))]
 ARF_all <- ARF_all[rev(c("arftf4","arftf25","arftf30","arftf18","arftf23",
                      "arftf20","arftf26","arftf36","arftf3","arftf10")),]
 write.table(ARF_all,"ARF_logFC.txt",
