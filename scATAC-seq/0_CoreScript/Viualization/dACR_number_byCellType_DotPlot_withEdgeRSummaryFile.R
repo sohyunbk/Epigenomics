@@ -100,9 +100,9 @@ ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
         plot.title = element_text(size = 28), # Adjust plot title size if needed
         strip.text = element_text(size = 16), # Adjust facet strip text size if needed
         axis.ticks = element_blank(), # Remove axis tick marks
-        axis.line = element_line(colour = "black"), # Add axis lines
-        axis.line.x = element_line(), # Customize x-axis line separately
-        axis.line.y = element_line() # Customize y-axis line separately
+        axis.line = element_line(colour = "black") # Add axis lines
+        #axis.line.x = element_line(), # Customize x-axis line separately
+        #axis.line.y = element_line() # Customize y-axis line separately
   )+labs(color = " ")
 
 ggsave(OutFileName

@@ -88,7 +88,6 @@ DEGInfo_arf$FDR
 ARF_ACR <- data.frame(ACR = DEGInfo_arf$Peak,GeneName =DEGInfo_arf$locus_symbol,
                       geneid =DEGInfo_arf$gene_model,
                       ACR_logFC = DEGInfo_arf$logFC)
-head()
 
 head(qnorm_data)
 
@@ -198,11 +197,11 @@ FCTable_ordered_geneSymbol
 FCTable_ordered_geneSymbol$ARFName <- rownames(FCTable_ordered_geneSymbol)
 ARF_all <- merge(ARF_ACR_Combined, FCTable_ordered_geneSymbol, by = "ARFName", all.x = TRUE)
 rownames(ARF_all) <- ARF_all$ARFName
-ARF_all <- ARF_all[rev(c("arftf4","arftf30","arftf18","arftf20","arftf3",
-                         "arftf25","arftf36","arftf10",
-                         "arftf23","arftf26"))]
-ARF_all <- ARF_all[rev(c("arftf4","arftf25","arftf30","arftf18","arftf23",
-                     "arftf20","arftf26","arftf36","arftf3","arftf10")),]
+ARF_all <- ARF_all[rev(c("arftf4","arftf30","arftf18","arftf3","arftf20",     # Activator
+                         "arftf25","arftf10","arftf36",   # Repressor
+                         "arftf23","arftf26")),] ## ETTN-like
+#ARF_all <- ARF_all[rev(c("arftf4","arftf25","arftf30","arftf18","arftf23",
+#                     "arftf20","arftf26","arftf36","arftf3","arftf10")),]
 write.table(ARF_all,"ARF_logFC.txt",
             quote=F, row.names=F, col.names=T, sep="\t")
 ARF_GeneBody <- ARF_all[, !names(ARF_all) %in% c("ARFName", "ACR1_ACR", "ACR2_ACR","ACR1_ACR_logFC", "ACR2_ACR_logFC")]
@@ -215,7 +214,7 @@ breaks <- seq(-max(abs(ARF_dACR_rounded_matrix)),
               max(abs(ARF_dACR_rounded_matrix)), length.out = 103)
 my_palette <- colorRampPalette(c("#560e8f", "white", "red"))(102)  # Adjusted to 102 colors
 
-pdf("ARF_dACR_Heatmap.pdf", width = 8, height = 12)  # Specify the file name and dimensions
+pdf("ARF_dACR_Heatmap_ARFOrderbyClades.pdf", width = 8, height = 12)  # Specify the file name and dimensions
 # Create the heatmap with annotation
 heatmap(ARF_dACR_rounded_matrix,
         col = my_palette,
@@ -257,7 +256,7 @@ my_palette <- colorRampPalette(c("blue", "white", "red"))(102)  # Adjusted to 10
 
 
 
-pdf("ARF_GenebodyACC_Heatmap.pdf", width = 30, height = 12)  # Specify the file name and dimensions
+pdf("ARF_GenebodyACC_Heatmap_ARFOrderbyClades.pdf", width = 30, height = 12)  # Specify the file name and dimensions
 # Create the heatmap with annotation
 heatmap(ARF_GeneBody_NotUnknown,
         col = my_palette,
