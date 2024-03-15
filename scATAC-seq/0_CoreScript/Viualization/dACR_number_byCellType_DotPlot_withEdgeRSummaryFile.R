@@ -19,7 +19,7 @@ opt = parse_args(opt_parser);
 
 #WDir <- "/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"
 #CutOffFDR <- 0.05
-#OutFileName <- "dACRNumber_DotPlot_FDR0.05.pdf"
+#OutFileName <- "dACRNumber_DotPlot_FDR0.05_RunningManually.pdf"
 #CellOrders <-"/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse.txt"
 
 WDir <- opt$WD
@@ -100,9 +100,9 @@ ggplot(FigureTable, aes(x = Sig, y = Celltype, size = dACRRatio)) +
         plot.title = element_text(size = 28), # Adjust plot title size if needed
         strip.text = element_text(size = 16), # Adjust facet strip text size if needed
         axis.ticks = element_blank(), # Remove axis tick marks
-        axis.line = element_line(colour = "black") # Add axis lines
-        #axis.line.x = element_line(), # Customize x-axis line separately
-        #axis.line.y = element_line() # Customize y-axis line separately
+        axis.line = element_line(colour = "black"), # Add axis lines
+        axis.line.x = element_line(), # Customize x-axis line separately
+        axis.line.y = element_line() # Customize y-axis line separately
   )+labs(color = " ")
 
 ggsave(OutFileName
