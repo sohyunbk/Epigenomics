@@ -1,11 +1,4 @@
-# Assuming you have already installed the necessary packages
-library(ggplot2)
-
-# Sample data (replace with your actual data)
-set.seed(123) # For reproducibility
-## In RNA-seq, the dot size is persent expression and Color is average expression.
-## In ATAC-seq, the dot size is persent acc and Color is  average acc or zscore.
-# load libraries
+set.seed(123)
 library(dplyr)
 library("edgeR")
 library(Matrix)
@@ -81,21 +74,21 @@ catch <- merged_meta_cpm_information_copied  %>%
 
 caught_values <- as_tibble(catch)
 see <- ungroup(merged_meta_cpm_information_copied)
-merged_meta_cpm_information_copied<- bind_cols(merged_meta_cpm_information_copied,caught_values)  %>% 
+merged_meta_cpm_information_copied<- bind_cols(merged_meta_cpm_information_copied,caught_values)  %>%
   rename(grouped_CPM = value)
 
 
 message("Calculating ZScore Approximations...")
 head(merged_meta_cpm_information_copied)
-altered_deseq2 <- merged_meta_cpm_information_copied %>% 
-  dplyr::select(-counts) %>% 
-  pivot_wider(names_from = geneID, values_from = grouped_CPM, values_fill = 0) %>% 
-  pivot_longer(cols = -!!sym(slot_var), names_to = "geneID", values_to = "grouped_CPM") %>% 
-  group_by(geneID) %>% 
-  mutate(Zscore = scale(grouped_CPM)) %>% 
-  ungroup()  %>% 
-  #mutate(relative_accessability = rescale(Zscore, to = c(0,1))) %>% 
-  group_by(!!sym(slot_var))  %>% 
+altered_deseq2 <- merged_meta_cpm_information_copied %>%
+  dplyr::select(-counts) %>%
+  pivot_wider(names_from = geneID, values_from = grouped_CPM, values_fill = 0) %>%
+  pivot_longer(cols = -!!sym(slot_var), names_to = "geneID", values_to = "grouped_CPM") %>%
+  group_by(geneID) %>%
+  mutate(Zscore = scale(grouped_CPM)) %>%
+  ungroup()  %>%
+  #mutate(relative_accessability = rescale(Zscore, to = c(0,1))) %>%
+  group_by(!!sym(slot_var))  %>%
   mutate(Zscore_group = scale(Zscore))
 
 message("Calculating Proportion of cells marker is Accessible IN...")
@@ -105,21 +98,21 @@ take_unq_genes <- unique(merged_meta_cellID_values$geneID)
 
 head(merged_meta_cellID_values)
 
-merged_meta_cellID_values_all_genes <- merged_meta_cellID_values %>% 
-  select(cellID, !!sym(slot_var), accessability, geneID) 
+merged_meta_cellID_values_all_genes <- merged_meta_cellID_values %>%
+  select(cellID, !!sym(slot_var), accessability, geneID)
 
 
-wider_all_genes_altered <- merged_meta_cellID_values_all_genes %>% 
-  pivot_wider(names_from = geneID, 
-              values_from = accessability,  
-              values_fill = 0) %>% 
-  pivot_longer(cols = c(-!!sym(slot_var), -cellID), 
-               names_to = "geneID", 
-               values_to = "accessability") %>% 
+wider_all_genes_altered <- merged_meta_cellID_values_all_genes %>%
+  pivot_wider(names_from = geneID,
+              values_from = accessability,
+              values_fill = 0) %>%
+  pivot_longer(cols = c(-!!sym(slot_var), -cellID),
+               names_to = "geneID",
+               values_to = "accessability") %>%
   mutate(expression_bool = case_when(accessability < 1 ~ 0,
-                                     accessability >= 1 ~ 1)) %>% 
-  group_by(!!sym(slot_var), geneID) %>% 
-  summarise(total_cells = n(), 
+                                     accessability >= 1 ~ 1)) %>%
+  group_by(!!sym(slot_var), geneID) %>%
+  summarise(total_cells = n(),
             proportion_expressing = (sum(expression_bool)/total_cells * 100))
 wider_all_genes_altered
 altered_deseq2
@@ -129,7 +122,7 @@ wider_all_genes_altered <- wider_all_genes_altered %>% ungroup()
 altered_deseq2 <- altered_deseq2 %>% ungroup()
 
 # Combine the tables without duplicating the common columns "Ann_v3" and "geneID"
-combined_table <- left_join(wider_all_genes_altered, altered_deseq2, 
+combined_table <- left_join(wider_all_genes_altered, altered_deseq2,
                             by = c(slot_var, "geneID"))
 
 # Print the first few rows of the combined table
@@ -160,7 +153,7 @@ filtered_table$name <- factor(filtered_table$name,levels=MarkerOrder_vector)
 filtered_table <- subset(filtered_table, !Ann %in% c("Unknown1", "Unknown2", "Unknown_Sclerenchyma", "Unknown_lowFRiP"))
 
 # Print the resulting table
-ggplot(filtered_table, aes(x = name, y = Ann, 
+ggplot(filtered_table, aes(x = name, y = Ann,
                         size = proportion_expressing, color = Zscore[,1])) +
   geom_point() +
   #scale_size_continuous(range = c(1, 10)) +  # Adjust the range for the size of dots
@@ -173,13 +166,12 @@ ggplot(filtered_table, aes(x = name, y = Ann,
         axis.line = element_line(color = "black"),  # Add x-axis and y-axis lines
         panel.border = element_blank(),
         axis.text.x = element_text(angle = 45, hjust = 1)) +  # Remove the panel border
-  
+
   # Change the color scale to range from blue to white to red
   scale_color_gradient2(low = "blue",
-                        mid = "#e3f4fa", high = "red", 
+                        mid = "#e3f4fa", high = "red",
                         midpoint = mean(filtered_table$Zscore[,1]))
 
 
 ggsave(paste0(OutputPathandName,".pdf"), width=0.3*length(unique(filtered_table$geneID)),
        height=4)
-
