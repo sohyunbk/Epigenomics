@@ -7,6 +7,7 @@
 #SBATCH --time=20:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/Trimmomatic.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Trimmomatic.%j.err    # Standard error log
+#SBATCH --array=0-7
 
 module load Trimmomatic/0.39-Java-13
 
