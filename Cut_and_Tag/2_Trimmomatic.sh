@@ -14,7 +14,7 @@ module load Trimmomatic/0.39-Java-13
 cd /scratch/sb14489/7.DAPorChIP/CUTandTAG/
 
 SampleNames=(SRR21185825 SRR21228818 SRR21228819 SRR21228820 SRR21228821 SRR21228813 SRR21228814 SRR21228816 SRR21228817)
-java -jar trimmomatic-0.39.jar PE -threads 20 \
+java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE -threads 20 \
  ./1.RawData/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_1.fastq ./1.RawData/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_2.fastq \
  ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_forward_paired.fastq ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_forward_unpaired.fastq \
  ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_reverse_paired.fastq ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_reverse_unpaired.fastq \
