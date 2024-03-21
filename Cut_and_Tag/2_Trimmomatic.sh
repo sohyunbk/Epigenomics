@@ -18,4 +18,4 @@ java -jar $EBROOTTRIMMOMATIC/trimmomatic-0.39.jar PE -threads 20 \
  ./1.RawData/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_1.fastq ./1.RawData/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_2.fastq \
  ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_forward_paired.fastq ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_forward_unpaired.fastq \
  ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_reverse_paired.fastq ./2.Trimmomatic/"${SampleNames[SLURM_ARRAY_TASK_ID]}"_reverse_unpaired.fastq \
- ILLUMINACLIP:TruSeq3-PE.fa:2:30:10:2:True LEADING:3 TRAILING:3 MINLEN:36
+ ILLUMINACLIP:/apps/eb/Trimmomatic/0.39-Java-13/adapters/TruSeq3-PE.fa:2:30:10:2:True LEADING:3 TRAILING:3 MINLEN:36
