@@ -20,5 +20,5 @@ cd /scratch/sb14489/7.DAPorChIP/CUTandTAG/
 bowtie2 -x /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf \
 -1 ./2.Trimmomatic/"${Sample[SLURM_ARRAY_TASK_ID]}"_forward_paired.fastq \
 -2 ./2.Trimmomatic/"${Sample[SLURM_ARRAY_TASK_ID]}"_reverse_paired.fastq \
--S ./3.Bowtie2/"${Sample[SLURM_ARRAY_TASK_ID]}"_bowtie2_algn.sam -p 20 \
+-b ./3.Bowtie2/"${Sample[SLURM_ARRAY_TASK_ID]}"_bowtie2_algn.bam -p 20 \
 2> ./3.Bowtie2/"${Sample[SLURM_ARRAY_TASK_ID]}".log
