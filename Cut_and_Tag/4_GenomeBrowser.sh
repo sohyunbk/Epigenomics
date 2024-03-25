@@ -23,4 +23,4 @@ cd /scratch/sb14489/7.DAPorChIP/CUTandTAG/3.Bowtie2
 
 bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh -Step BamTobw  \
  -Fai /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa.fai \
-  -bam "${Sample[SLURM_ARRAY_TASK_ID]}"_unique_bowtie2_algn.bam
+  -bam "${Sample[SLURM_ARRAY_TASK_ID]}"_bowtie2_algn.bam
