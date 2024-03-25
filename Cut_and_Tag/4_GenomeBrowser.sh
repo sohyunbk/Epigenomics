@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=2            # Number of CPU cores per task
 #SBATCH --mem=100gb                   # Job memory request #For normal fastq : 600gb
-#SBATCH --time=10:00:00               # Time limit hrs:min:sec #For normal fastq : more than at least five days with 14 cpu 80 hours
+#SBATCH --time=3:00:00               # Time limit hrs:min:sec #For normal fastq : more than at least five days with 14 cpu 80 hours
 #SBATCH --output=/scratch/sb14489/0.log/Jbrowse.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Jbrowse.%j.err    # Standard error log
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
