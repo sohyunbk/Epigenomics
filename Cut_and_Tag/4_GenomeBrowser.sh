@@ -10,7 +10,7 @@
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --array=0-7
 
-ml Anaconda3/2020.02
+ml  Anaconda3/2023.09-0
 source activate /home/sb14489/.conda/envs/Jbrowse
 
 module load SAMtools/1.16.1-GCC-11.3.0
