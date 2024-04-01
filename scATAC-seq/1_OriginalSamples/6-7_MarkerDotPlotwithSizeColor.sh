@@ -39,7 +39,7 @@ Rel2_Annv4_InsituMarker
 A619_Annv4_DenovoGenes
 Bif3_Annv4_DenovoGenes
 Rel2_Annv4_DenovoGenes)
-CellOrderFiles=(Ann_v4_CellType_order_forA619Bif3_Reverse_RemoveUnknown.txt
+CellOrderFiles=(Ann_v4_CellType_order_forA619Bif3_RemoveUnknown.txt
 Ann_v4_CellType_order_forA619Bif3.txt
 Ann_v4_CellType_order_forrel2.txt
 Ann_v4_CellType_order_forA619Bif3.txt
