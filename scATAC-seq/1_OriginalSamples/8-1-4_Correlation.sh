@@ -34,11 +34,11 @@ CommonPeakIntergenic=(
 A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks_Intergenic.bed
 )
 OutfileName=(
-A619andBif3_CTNameReverse_RemoveUnknown
+A619andBif3_CTNameReverse_RemoveUnknown_All
 A619andrel2
 )
 CTNameOrder=(
-/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse.txt
+/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse_RemoveUnknown.txt
 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forrel2.txt
 )
 
