@@ -174,5 +174,5 @@ ggplot(filtered_table, aes(x = name, y = Ann,
                         midpoint = mean(filtered_table$Zscore[,1]))
 
 
-ggsave(paste0(OutputPathandName,".pdf"), width=0.6*length(unique(filtered_table$geneID)),
+ggsave(paste0(OutputPathandName,".pdf"), width=0.45*length(unique(filtered_table$geneID)),
        height=4)
