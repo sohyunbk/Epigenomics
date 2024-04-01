@@ -46,6 +46,7 @@ MarkerOrder <- opt$MarkerOrdertxt
 #MarkerOrder <-"/scratch/sb14489/3.scATAC/0.Data/MarkerGene/231113_Top5DenovoGenesinA619_GeneNameOrder.txt"
 
 message("Loading Data....")
+CellTypeOrder <- rev(readLines(CellOrder))
 meta_data <- read.delim(meta)
 gene_markers <- read.delim(gene)
 #gene_markers <- read.delim("/scratch/sb14489/3.scATAC/0.Data/MarkerGene/SelectedMarkerGeneForDotPlot.txt")
@@ -146,11 +147,11 @@ print(result_table,width=Inf)
 filtered_table <- result_table %>%
   filter(grepl(paste(gene_markers$name, collapse = "|"), name, ignore.case = TRUE))
 
-CellTypeOrder <- rev(readLines(CellOrder))
 MarkerOrder_vector <- readLines(MarkerOrder)
 filtered_table$name <- factor(filtered_table$name,levels=MarkerOrder_vector)
+filtered_table$Ann <- filtered_table[[slot_var]]
 filtered_table <- subset(filtered_table, Ann %in% CellTypeOrder)
-filtered_table$Ann <- factor(filtered_table[[slot_var]], levels = CellTypeOrder)
+filtered_table$Ann <- factor(filtered_table$Ann , levels = CellTypeOrder)
 
 # Print the resulting table
 ggplot(filtered_table, aes(x = name, y = Ann,
