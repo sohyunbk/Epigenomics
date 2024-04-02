@@ -32,12 +32,12 @@ opt = parse_args(opt_parser);
 #Replicate2_BulkPeak <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/1_A619_2/macs2_temp/bulk_peaks_peaks.narrowPeak"
 #Replicate1_AllReads <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/1_A619_Unique.bed"
 #Replicate2_AllReads <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/1_A619_2_Unique.bed"
-Replicate1_BulkPeak <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/3_bif3/macs2_temp/bulk_peaks_peaks.narrowPeak"
-Replicate2_BulkPeak <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/3_bif3_2/macs2_temp/bulk_peaks_peaks.narrowPeak"
-Replicate1_AllReads <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/3_bif3_Unique.bed"
-Replicate2_AllReads <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/3_bif3_2_Unique.bed"
+#Replicate1_BulkPeak <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/3_bif3/macs2_temp/bulk_peaks_peaks.narrowPeak"
+#Replicate2_BulkPeak <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/3_bif3_2/macs2_temp/bulk_peaks_peaks.narrowPeak"
+#Replicate1_AllReads <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/3_bif3_Unique.bed"
+#Replicate2_AllReads <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/3_bif3_2_Unique.bed"
 
-Replicate1_BulkPeak <- opt$Re1_pBulkPeak
+Replicate1_BulkPeak <- opt$Re1_BulkPeak
 Replicate2_BulkPeak <- opt$Re2_BulkPeak
 Replicate1_AllReads  <- opt$Re1_AllReads
 Replicate2_AllReads <- opt$Re2_AllReads
