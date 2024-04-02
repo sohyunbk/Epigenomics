@@ -12,14 +12,14 @@
 
 Re1=(1_A619 2_rel2 3_bif3)
 Re2=(1_A619_2 2_rel2_2 3_bif3_2)
-OutFileNames=(A619Re1andRe2 rel2Re1andRe2 Bif3Re1andRe2)
+OutFileNames=(A619Re1andRe2_Union rel2Re1andRe2 A619Re1andRe2_Union)
 
 ml Anaconda3/2022.10
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/Replicate1and2Correlation.R \
-  --Re1_Summit /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"${Re1[SLURM_ARRAY_TASK_ID]}"/macs2_temp/bulk_peaks_summits.bed \
-  --Re2_Summit /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"${Re2[SLURM_ARRAY_TASK_ID]}"/macs2_temp/bulk_peaks_summits.bed \
+Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/Replicate1and2Correlation_UnionPeaks.R \
+  --Re1_BulkPeak /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"${Re1[SLURM_ARRAY_TASK_ID]}"/macs2_temp/bulk_peaks_peaks.narrowPeak \
+  --Re2_BulkPeak /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/"${Re2[SLURM_ARRAY_TASK_ID]}"/macs2_temp/bulk_peaks_peaks.narrowPeak \
   --Re1_AllReads /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re1[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
   --Re2_AllReads /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Re2[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
   --OutFileName "${OutFileNames[SLURM_ARRAY_TASK_ID]}" \
