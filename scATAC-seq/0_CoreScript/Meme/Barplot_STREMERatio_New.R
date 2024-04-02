@@ -1,4 +1,8 @@
 ##For quick I ran it through my mac
+
+######## This is the previous version, and it's from STEME #####
+#### However,  the number of motif occurrence from STREME and fimo are different... I am following fimo
+
 setwd("/Users/sohyun/Documents/2.SingleCellATAC/")
 
 library(ggplot2)
@@ -57,4 +61,7 @@ ggplot(All, aes(y = Motif, x = Ratio,fill=Fill)) +
   scale_fill_manual(values = Color1)
 
 ggsave("A619HigherdACR_Motif_bar_plot.pdf", width = 6, height = 4)
+
+#################################################################
+setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4")
 

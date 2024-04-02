@@ -111,17 +111,18 @@ CorrTable <- data.frame(peak=paste(combined_table$seqnames,
 rownames(CorrTable) <- CorrTable$peak
 CorrTable <- CorrTable[,-1]
 # CPM Normalization
-#quantile_normalized <- normalize.quantiles(as.matrix(CorrTable))
-#quantile_normalized_df <- as.data.frame(quantile_normalized)
-#quantile_normalized_df$logRe1 <- log10(quantile_normalized_df$V1)
-#quantile_normalized_df$logRe2 <- log10(quantile_normalized_df$V2)
+quantile_normalized <- normalize.quantiles(as.matrix(CorrTable))
+quantile_normalized_df <- as.data.frame(quantile_normalized)
+quantile_normalized_df$logRe1 <- log10(quantile_normalized_df$V1)
+quantile_normalized_df$logRe2 <- log10(quantile_normalized_df$V2)
+
 calculateCPM <- function(countData) {
   totalCounts <- colSums(countData)
   cpm <- sweep(countData, 2, totalCounts, "/") * 1e6
   return(cpm)
 }
 CPMTable <- calculateCPM(CorrTable)
-correlation <- cor(CPMTable$Re1_count, CPMTable$Re2_count, method = "pearson")
+#correlation <- cor(CPMTable$Re1_count, CPMTable$Re2_count, method = "pearson")
 correlation <- cor(CPMTable$Re1_count, CPMTable$Re2_count, method = "spearman")
 
 

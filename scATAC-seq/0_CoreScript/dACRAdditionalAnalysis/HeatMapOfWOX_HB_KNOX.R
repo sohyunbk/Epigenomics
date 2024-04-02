@@ -27,6 +27,7 @@ library(magrittr) # needs to be run every time you start R and want to use %>%
 library("optparse")
 library(GenomicRanges)
 library(ggplot2)
+library(fields)
 
 
 ### 1) Get Gene body acc for all the genes 
