@@ -12,7 +12,7 @@
 
 Re1=(1_A619 2_rel2 3_bif3)
 Re2=(1_A619_2 2_rel2_2 3_bif3_2)
-OutFileNames=(A619Re1andRe2_Union rel2Re1andRe2 A619Re1andRe2_Union)
+OutFileNames=(A619Re1andRe2_Union rel2Re1andRe2 Bif3Re1andRe2_Union)
 
 ml Anaconda3/2022.10
 source activate r_env

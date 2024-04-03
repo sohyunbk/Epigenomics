@@ -39,6 +39,8 @@ DEGInfo <- read.table(DEGFile,fill=TRUE,header=TRUE)
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC")
 FimoWD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05A619Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/"
 
+Fimo_TAAT <-"/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/fimo_out_2/fimo.tsv"
+
 Fimo1 <- paste0(FimoWD,"/fimo_out_1/fimo.tsv")
 Fimo3 <- paste0(FimoWD,"/fimo_out_3/fimo.tsv")
 Fimo4 <- paste0(FimoWD,"/fimo_out_4/fimo.tsv")
@@ -46,15 +48,9 @@ Fimo5 <- paste0(FimoWD,"/fimo_out_5/fimo.tsv")
 Fimo7 <- paste0(FimoWD,"/fimo_out_7/fimo.tsv")
 
 
-Make_heatmap(Fimo1,"Fimo1_GCACAGCAGCR")
-Make_heatmap(Fimo3,"Fimo3_GCAGCATGC")
-Make_heatmap(Fimo4,"Fimo4_CGCGCCGCGCC")
-Make_heatmap(Fimo5,"Fimo5_YAGAGAGAGA")
-Make_heatmap(Fimo7,"Fimo7_GCTAGCTAGC")
-FimoFile <- Fimo1
-Make_heatmap <- function(FimoFile,OutputName){
 
-DEGInfo_A619Higher <- DEGInfo[(DEGInfo$FDR < 0.05) & (DEGInfo$logFC < 0),]
+Make_heatmap <- function(FimoFile,Motif,DEGInfo){
+
 FimoOut <- read.table(FimoFile,header=TRUE)
 ## Find overlap.
 DEGInfo$chr <- sapply(strsplit(as.character(DEGInfo$Peak), "_"), `[`, 1)
@@ -70,107 +66,86 @@ FimoOut_ranges <- GRanges(
   ranges = IRanges(start = FimoOut$start, end = FimoOut$stop)
 )
 overlaps <- findOverlaps(DEG_ranges, FimoOut_ranges)
-overlapping_DEGInfo <- DEGInfo_A619Higher[queryHits(overlaps), ]
-#overlapping_FimoOut <- FimoOut[subjectHits(overlaps), ]
-dim(overlapping_DEGInfo)
-head(overlapping_DEGInfo)
-overlapping_DEGInfo <- unique(overlapping_DEGInfo)
+overlapping_DEGInfo <- DEGInfo[queryHits(overlaps), ]
+overlapping_FimoOut <- FimoOut[subjectHits(overlaps), ]
+head(overlapping_DEGInfo$Peak)
+overlapping_FimoOut_locus <- paste(overlapping_FimoOut$sequence_name,
+                                   overlapping_FimoOut$start,
+                                   overlapping_FimoOut$stop,sep="_")
+OverlapTable <- data.frame(ACRLocus = overlapping_DEGInfo$Peak,overlapping_FimoOut_locus)
+OverlapTable_Unique <- aggregate(overlapping_FimoOut_locus ~ ACRLocus, 
+                                 data = OverlapTable, FUN = function(x) paste(x, collapse = ","))
 
-## load gene*cell table.
-colnames(Bif3_GeneXCT)[-1] <- paste("Bif3&", colnames(Bif3_GeneXCT)[-1], sep="")
-colnames(WT_GeneXCT)[-1] <- paste("A619&", colnames(WT_GeneXCT)[-1], sep="")
-head(Bif3_GeneXCT)
-head(WT_GeneXCT)
-GeneXCT <- merge(WT_GeneXCT, Bif3_GeneXCT, by = "gene")
-head(GeneXCT)
-## normalization
-GeneNames <- GeneXCT[, 1]
-gene_counts_df <- GeneXCT[, -1]
-## Set up the cut off to 50!
-GeneXCT_MoreThan50Tn5 <- GeneXCT %>%
-  filter_all(all_vars(. > 50))
-dim(GeneXCT_MoreThan50Tn5)
-GeneNames <- GeneXCT_MoreThan50Tn5[, 1]
-gene_counts_df <- GeneXCT_MoreThan50Tn5[, -1]
-cpm_data <- cpm(DGEList(counts = gene_counts_df), log = FALSE)
-qnorm_data <- normalize.quantiles(as.matrix(gene_counts_df))
-rownames(qnorm_data) <- GeneNames
-colnames(qnorm_data) <- colnames(GeneXCT[,-1])
-head(qnorm_data)
-dim(qnorm_data)
-##############
-SelectedGenes <- overlapping_DEGInfo$gene_model
+#DEGInfo[[Motif]][DEGInfo$Peak %in% OverlapTable_Unique$ACRLocus] <- "Test"
+OverlapTable_Unique_renamed <- OverlapTable_Unique
+names(OverlapTable_Unique_renamed)[1] <- "Peak"
+head(OverlapTable_Unique_renamed)
+DEGInfo <- merge(DEGInfo, OverlapTable_Unique_renamed, by = "Peak", all.x = TRUE)
+head(DEGInfo)
+names(DEGInfo)[which(names(DEGInfo) == "overlapping_FimoOut_locus")] <- Motif
 
-CTOrder <- gsub("-", ".", CTOrder)
-new_CTOrder <- unlist(lapply(CTOrder, function(x) c(paste("A619&", x, sep=""), paste("Bif3&", x, sep=""))))
-dim(qnorm_data)
-qnorm_data_orderd <- qnorm_data[,new_CTOrder]
-QNorm_SelectedGene <- qnorm_data_orderd[rownames(qnorm_data_orderd)%in%SelectedGenes,]
-dim(QNorm_SelectedGene)
-head(QNorm_SelectedGene)
-
-# Define color palette for the heatmap
-my_palette <- colorRampPalette(rev(brewer.pal(11, "RdYlBu")))(255)
-# Create heatmap
-
-
-###### logFC of gene bodyACC
-FCTable <- data.frame(
-  L1 = QNorm_SelectedGene[,"Bif3&L1"] / QNorm_SelectedGene[,"A619&L1"],
-  L1atFloralMeristem = QNorm_SelectedGene[,"Bif3&L1atFloralMeristem"] / QNorm_SelectedGene[,"A619&L1atFloralMeristem"],
-  FloralMeristem_SuppressedBract = QNorm_SelectedGene[,"Bif3&FloralMeristem_SuppressedBract"] / QNorm_SelectedGene[,"A619&FloralMeristem_SuppressedBract"],
-  IM_OC = QNorm_SelectedGene[,"Bif3&IM.OC"] / QNorm_SelectedGene[,"A619&IM.OC"],
-  SPM_base_SM_base = QNorm_SelectedGene[,"Bif3&SPM.base_SM.base"] / QNorm_SelectedGene[,"A619&SPM.base_SM.base"],
-  ProcambialMeristem_ProtoXylem_MetaXylem = QNorm_SelectedGene[,"Bif3&ProcambialMeristem_ProtoXylem_MetaXylem"] / QNorm_SelectedGene[,"A619&ProcambialMeristem_ProtoXylem_MetaXylem"],
-  PhloemPrecursor = QNorm_SelectedGene[,"Bif3&PhloemPrecursor"] / QNorm_SelectedGene[,"A619&PhloemPrecursor"],
-  ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma = QNorm_SelectedGene[,"Bif3&ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma"] / QNorm_SelectedGene[,"A619&ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma"],
-  XylemParenchyma_PithParenchyma = QNorm_SelectedGene[,"Bif3&XylemParenchyma_PithParenchyma"] / QNorm_SelectedGene[,"A619&XylemParenchyma_PithParenchyma"],
-  Unknown1 = QNorm_SelectedGene[,"Bif3&Unknown1"] / QNorm_SelectedGene[,"A619&Unknown1"],
-  Unknown2 = QNorm_SelectedGene[,"Bif3&Unknown2"] / QNorm_SelectedGene[,"A619&Unknown2"],
-  Unknown_Sclerenchyma = QNorm_SelectedGene[,"Bif3&Unknown_Sclerenchyma"] / QNorm_SelectedGene[,"A619&Unknown_Sclerenchyma"],
-  Unknown_lowFRiP = QNorm_SelectedGene[,"Bif3&Unknown_lowFRiP"] / QNorm_SelectedGene[,"A619&Unknown_lowFRiP"],
-  G2_M = QNorm_SelectedGene[,"Bif3&G2_M"] / QNorm_SelectedGene[,"A619&G2_M"]
-)
-head(FCTable)
-dim(FCTable)
-FCTable_matrix <- as.matrix(log2(FCTable))
-head(FCTable_matrix)
-IM_OC_column <- FCTable_matrix[,"IM_OC"]
-ordered_rows <- order(IM_OC_column)
-FCTable_ordered <- FCTable_matrix[ordered_rows, ]
-head(FCTable_ordered)
-tail(FCTable_ordered)
-### box plot ##########
-FCTable_df <- as.data.frame(FCTable_ordered)
-CTOrder <- gsub("\\.", "_", CTOrder)
-colnames(FCTable_df) <- factor(colnames(FCTable_df),levels=CTOrder)
-head(FCTable_df)
-cols_to_keep <- !grepl("Unknown|G2", colnames(FCTable_df))
-FCTable_df_NotUnknown <- FCTable_df[, cols_to_keep]
-long_data <- gather(FCTable_df_NotUnknown, key = "CellType", value = "Expression")
-long_data$CellType <- factor(long_data$CellType,levels=CTOrder[cols_to_keep])
-# Create the box plot
-dim(long_data)
-head(long_data)
-getwd()
-colorr <- c("#4F96C4","#84f5d9","#0bd43d","#d62744","#FDA33F","#060878","#62a888",
-            "#876b58","#800000", "#800075","#e8cf4f","#adafde","#DE9A89","#5703ff",
-            "#deadce","#fc53b6")
-ggplot(long_data, aes(x = CellType, y = Expression, fill = CellType)) +
-  geom_boxplot(size = 0.1) +  # Adjust size here for thinner lines
-  scale_fill_manual(values = colorr) +
-  labs(y = "log FC") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-        axis.title.x = element_blank(),
-        legend.title = element_blank()) +
-  guides(fill = guide_legend(override.aes = list(color = NULL))) +
-  scale_y_continuous(limits = c(-2, 2))
-  
-ggsave(paste0("BoxPlot_GeneBodyAcc_ClosestGene_withdACRA619Higher_",OutputName,".pdf"), width=15, height=15)
-
-write.table(FCTable_ordered,paste0("BoxPlot_GeneBodyAcc_ClosestGene_withdACRA619Higher_",OutputName,".txt"), 
-            quote=F, row.names=T, col.names=T, sep="\t")
-
+return(DEGInfo)
 }
 
+DEGInfo <- Make_heatmap(Fimo_TAAT,"CAATAATGC",DEGInfo)
+head(DEGInfo)
+DEGInfo <- Make_heatmap(Fimo1,"Fimo1_GCACAGCAGCR",DEGInfo)
+DEGInfo <- Make_heatmap(Fimo3,"Fimo3_GCAGCATGC",DEGInfo)
+DEGInfo <- Make_heatmap(Fimo4,"Fimo4_CGCGCCGCGCC",DEGInfo)
+DEGInfo <- Make_heatmap(Fimo5,"Fimo5_YAGAGAGAGA",DEGInfo)
+DEGInfo <- Make_heatmap(Fimo7,"Fimo7_GCTAGCTAGC",DEGInfo)
+
+setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/4.dfACR_TargetGene_MotifCombined")
+write.table(DEGInfo,paste0("dfACR_TargetGene_MotifCombined.txt"), 
+            quote=F, row.names=T, col.names=T, sep="\t")
+
+
+###### Make bar plot for motif ###########
+library(ggplot2)
+
+Total_Bif3Higher <- 1437
+Total_A619Higher <- 1757
+  
+CAATAATGC_Sum <- sum(!is.na(DEGInfo$CAATAATGC))
+GCACAGCAGCR_Sum <- sum(!is.na(DEGInfo$Fimo1_GCACAGCAGCR))
+GCAGCATGC_Sum <- sum(!is.na(DEGInfo$Fimo3_GCAGCATGC))
+CGCGCCGCGCC_Sum <- sum(!is.na(DEGInfo$Fimo4_CGCGCCGCGCC))
+YAGAGAGAGA_Sum <- sum(!is.na(DEGInfo$Fimo5_YAGAGAGAGA))
+GCTAGCTAGC_Sum <- sum(!is.na(DEGInfo$Fimo7_GCTAGCTAGC))
+Bif3Higher <- data.frame(Motif=c("CAATAATGC"),
+                         Ratio=c((CAATAATGC_Sum/Total_Bif3Higher)*100))
+
+Bif3Higher$Fill <- "Bif3Higher"
+
+######
+
+
+A619Higher <- data.frame(Motif=c("GCACAGCAGCR",
+                                 "GCAGCATGC",
+                                 "YAGAGAGAGA",
+                                 "CGCGCCGCGCC",
+                                 "GCTAGCTAGC"
+),
+Ratio=c((GCACAGCAGCR_Sum/Total_A619Higher)*100,
+        (GCAGCATGC_Sum/Total_A619Higher)*100,
+        (YAGAGAGAGA_Sum/Total_A619Higher)*100,
+        (CGCGCCGCGCC_Sum/Total_A619Higher)*100,
+        (GCTAGCTAGC_Sum/Total_A619Higher)*100
+        ))
+
+A619Higher$Fill <- "A619Higher"
+A619Higher_ordered <- A619Higher[order(A619Higher$Ratio), ]
+All <- rbind(A619Higher_ordered,Bif3Higher)
+Color1 <- c("#4559a1","#c9ac04")
+
+All$Motif <- factor(All$Motif,levels=c(All$Motif))
+ggplot(All, aes(y = Motif, x = Ratio,fill=Fill)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Ratio", y = "Motif") +
+  ggtitle("") +
+  theme_minimal()+
+  xlab("% of ACRs with the motif")+
+  coord_cartesian(xlim = c(0, 30))+
+  scale_fill_manual(values = Color1)
+
+ggsave("A619HigherdACR_Motif_bar_plot.pdf", width = 6, height = 4)
