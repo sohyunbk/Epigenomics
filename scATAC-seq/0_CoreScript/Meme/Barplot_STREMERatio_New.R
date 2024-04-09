@@ -64,4 +64,6 @@ ggsave("A619HigherdACR_Motif_bar_plot.pdf", width = 6, height = 4)
 
 #################################################################
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4")
+Fimo_TAAT <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/2.XSTREME/AnnV4/IM-OC.FDR0.05Bif3Higher.ControlfromIntergenicAllSameCTPeaks.XSTREME/fimo_out_2/fimo.tsv",header=TRUE)
+
 
