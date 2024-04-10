@@ -29,7 +29,7 @@ Make JBrowseUpload File.\
      module load BEDTools/2.29.2-GCC-8.3.0
      bash /home/sb14489/Epigenomics/Jbrowse/Make_JBrowseUploadFiles.sh -Step BamTobw  \
       -Fai /scratch/sb14489/0.Reference/TAIR10/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.fai \
-       -bam /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/2.Mapped/SRR8192661_unique_bowtie2_algn.bam
+      -bam /scratch/sb14489/7.DAPorChIP/CHIPseq_Ara_WUS/2.Mapped/SRR8192661_unique_bowtie2_algn.bam
 '
 
 function from_bdgfile_to_bwfile() {
