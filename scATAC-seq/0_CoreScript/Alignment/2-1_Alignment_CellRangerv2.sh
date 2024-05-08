@@ -13,8 +13,8 @@ Path=$1
 Reference=/scratch/sb14489/0.Reference/$2
 SampleName=$3
 OutDirName=$4
-
-module load CellRanger-ATAC/2.0.0
+module load CellRanger/7.2.0
+#module load CellRanger-ATAC/2.0.0
 cd "$Path"/"$OutDirName"
 
 cellranger-atac count \
