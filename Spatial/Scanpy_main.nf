@@ -8,20 +8,19 @@ params.output_name = 'Bif3_A'
 params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker_SelectedMarkerforDotPlot.txt'
 
 workflow {
-    Channel.fromPath(params.input_path)
-        | process_read_data(params.output_path, params.output_name, params.MarkerGene)
-        | process_qc_preprocessing(params.output_path, params.output_name)
-        | process_normalization()
-        | process_clustering()
-        | process_marker_gene_testing(params.MarkerGene, params.output_path, params.output_name)
+    process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
+    process_qc_preprocessing()
+    process_normalization()
+    process_clustering()
+    process_marker_gene_testing(params.MarkerGene, params.output_path, params.output_name)
 }
 
 process process_read_data {
     input:
-    path input_path
-    path output_path
-    path output_name
-    path MarkerGene
+    path input_path from params.input_path
+    path output_path from params.output_path
+    path output_name from params.output_name
+    path MarkerGene from params.MarkerGene
 
     output:
     path "adata.h5ad" into adata_channel
@@ -34,8 +33,8 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path output_path
-    path output_name
+    path output_path from params.output_path
+    path output_name from params.output_name
     path adata_channel
 
     output:
@@ -75,9 +74,9 @@ process process_clustering {
 
 process process_marker_gene_testing {
     input:
-    path MarkerGene
-    path output_path
-    path output_name
+    path MarkerGene from params.MarkerGene
+    path output_path from params.output_path
+    path output_name from params.output_name
     path adata_clustered_channel
 
     script:
