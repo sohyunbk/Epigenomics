@@ -1,7 +1,8 @@
-## This scrip is only used when you already know the cell barcode - cell type after annotation step
-## input data will be bed file --> Tn5 insertion postion per barcode
-## Meta data with annotation of cell types
-## outfile Name
+## This scrip is to call the peaks by cell types from scATAC-seq data
+## This script can only be used when you already know the cell barcode - cell type after annotation step
+## input data will be bed file
+## Meta data with annotation of cell types is needed
+
 import argparse
 import sys
 import os
@@ -150,8 +151,4 @@ if __name__ == "__main__":
     Outfile =args.Outfile
     FaiFile = args.fai
 
-    #Dic = MakeBarcode_CellTypeDic(MetaFile) #Dic -- Barcode : Cell type.
-    #AllDic = ReadTn5BedFile(BedFile,Dic)
-    #WriteBedFiles(Outfile,AllDic)
-    #RunMACS2(Outfile)
     Normalize_bdg(Outfile,FaiFile)
