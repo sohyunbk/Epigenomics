@@ -10,10 +10,6 @@ params.ScriptDir = '/home/sb14489/Epigenomics/Spatial/'
 
 workflow {
     process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
-    process_qc_preprocessing("${params.output_path}/adata.h5ad", params.output_path, params.output_name)
-    process_normalization("${params.output_path}/adata_qc.h5ad", params.output_path, params.output_name)
-    process_clustering("${params.output_path}/adata_norm.h5ad", params.output_path, params.output_name)
-    process_marker_gene_testing("${params.output_path}/adata_clustered.h5ad", params.MarkerGene, params.output_path, params.output_name)
 }
 
 process process_read_data {
