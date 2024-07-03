@@ -10,9 +10,6 @@ args = parser.parse_args()
 
 # Create the output directory if it does not exist
 adata = sq.read.visium(args.input_path)
-output_path = args.output_path
-output_name = args.output_name
-MarkerGene = args.MarkerGene
 
 pd.set_option('display.max_columns', None)
 sc.settings.figdir = output_path

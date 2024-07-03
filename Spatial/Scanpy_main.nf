@@ -18,6 +18,6 @@ process process_read_data {
 
     script:
     """
-    python "${params.ScriptDir}read_data.py" --input_path $input_path
+    python "${params.ScriptDir}"read_data.py --input_path $input_path
     """
 }
