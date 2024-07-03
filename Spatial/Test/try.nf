@@ -4,7 +4,7 @@ nextflow.enable.dsl=2
 
 process myProcess {
     output:
-    path 'output', emit: my_output
+    path '/scratch/sb14489/'
 
     script:
     """
