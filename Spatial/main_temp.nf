@@ -14,10 +14,10 @@ workflow {
 
 process process_read_data {
     input:
-    path input_path
-    path output_path
+    val input_path
+    val output_path
     val output_name
-    path MarkerGene
+    val MarkerGene
 
     output:
     path "${output_path}/adata.h5ad"
