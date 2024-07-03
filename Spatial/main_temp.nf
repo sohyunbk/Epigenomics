@@ -24,6 +24,7 @@ process process_read_data {
 
     script:
     """
+    cd $output_path
     python "${params.ScriptDir}read_data.py" --input_path $input_path --output_path $output_path --output_name $output_name --MarkerGene $MarkerGene
     """
 }
