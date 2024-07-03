@@ -8,11 +8,11 @@ params.output_name = 'Bif3_A'
 params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker_SelectedMarkerforDotPlot.txt'
 
 workflow {
-    adata = process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
-    adata_qc = process_qc_preprocessing(adata, params.output_path, params.output_name)
-    adata_norm = process_normalization(adata_qc)
-    adata_clustered = process_clustering(adata_norm)
-    process_marker_gene_testing(adata_clustered, params.MarkerGene, params.output_path, params.output_name,adata_clustered)
+    adata_channel = process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
+    adata_qc_channel = process_qc_preprocessing(adata_channel, params.output_path, params.output_name)
+    adata_norm_channel = process_normalization(adata_qc_channel)
+    adata_clustered_channel = process_clustering(adata_norm_channel)
+    process_marker_gene_testing(adata_clustered_channel, params.MarkerGene, params.output_path, params.output_name)
 }
 
 process process_read_data {
@@ -23,7 +23,7 @@ process process_read_data {
     path MarkerGene
 
     output:
-    path "adata.h5ad" into adata
+    path "adata.h5ad" into adata_channel
 
     script:
     """
@@ -35,9 +35,10 @@ process process_qc_preprocessing {
     input:
     path output_path
     path output_name
+    path adata_channel
 
     output:
-    path "adata_qc.h5ad" into adata_qc
+    path "adata_qc.h5ad" into adata_qc_channel
 
     script:
     """
@@ -47,10 +48,10 @@ process process_qc_preprocessing {
 
 process process_normalization {
     input:
-    path "adata_qc.h5ad"
+    path adata_qc_channel
 
     output:
-    path "adata_norm.h5ad" into adata_norm
+    path "adata_norm.h5ad" into adata_norm_channel
 
     script:
     """
@@ -60,10 +61,10 @@ process process_normalization {
 
 process process_clustering {
     input:
-    path "adata_norm.h5ad"
+    path adata_norm_channel
 
     output:
-    path "adata_clustered.h5ad" into adata_clustered
+    path "adata_clustered.h5ad" into adata_clustered_channel
 
     script:
     """
@@ -76,7 +77,8 @@ process process_marker_gene_testing {
     path MarkerGene
     path output_path
     path output_name
-    path "adata_clustered.h5ad"
+    path adata_clustered_channel
+
     script:
     """
     python marker_gene_testing.py --MarkerGene $MarkerGene --output_path $output_path --output_name $output_name --input_file adata_clustered.h5ad
