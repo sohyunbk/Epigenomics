@@ -45,7 +45,7 @@ process marker_gene_testing {
     val MarkerGene
     script:
     """
-    python "${params.ScriptDir}qc_normalization_clustering.py" --output_name $output_name --input_path $Dir_output --markergenelist $MarkerGene
+    python "${params.ScriptDir}marker_gene_testing.py" --output_name $output_name --input_path $Dir_output --markergenelist $MarkerGene
     mv * "${params.Dir_output}"
     """
 }
