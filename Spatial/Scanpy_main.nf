@@ -15,10 +15,9 @@ workflow {
 process process_read_data {
     input:
     val input_path
-    val output_name
 
     script:
     """
-    python "${params.ScriptDir}read_data.py" --input_path $input_path --output_path $output_path --output_name $output_name --MarkerGene $MarkerGene
+    python "${params.ScriptDir}read_data.py" --input_path $input_path
     """
 }
