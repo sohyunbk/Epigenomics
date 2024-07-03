@@ -9,6 +9,7 @@ parser.add_argument('--output_name', required=True)
 args = parser.parse_args()
 
 # Create the output directory if it does not exist
+adata = sc.read(adata.h5ad)
 
 fig, axs = plt.subplots(1, 4, figsize=(15, 4))
 sns.histplot(adata.obs["total_counts"], kde=False, ax=axs[0])
