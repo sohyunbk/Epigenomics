@@ -60,9 +60,6 @@ for j in range(i + 1, len(axes)):
 # Adjust layout
 plt.tight_layout()
 
-# Save the figure manually with the desired filename
-plt.savefig(f'{output_path}/MarkerGeneAll_{output_name}.pdf')
-
 # Close all figures to avoid the RuntimeWarning
 plt.savefig(f"MarkerGeneAll_{args.output_name}.pdf")
 plt.close('all')
