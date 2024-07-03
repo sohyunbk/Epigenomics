@@ -6,8 +6,9 @@ process myProcess {
     script:
     """
     python /home/sb14489/Epigenomics/Spatial/Test/ProduceTable.py
+    mv Test.txt /scratch/sb14489/
     """
-    mv "Test.txt" /scratch/sb14489
+
 }
 
 workflow {
