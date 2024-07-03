@@ -8,19 +8,22 @@ params.output_name = 'Bif3_A'
 params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker_SelectedMarkerforDotPlot.txt'
 
 workflow {
-    process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
-    process_qc_preprocessing()
-    process_normalization()
-    process_clustering()
-    process_marker_gene_testing(params.MarkerGene, params.output_path, params.output_name)
+    input_data = Channel.fromPath(params.input_path)
+    marker_gene = Channel.fromPath(params.MarkerGene)
+
+    adata_channel = process_read_data(input_data, params.output_path, params.output_name, marker_gene)
+    adata_qc_channel = process_qc_preprocessing(adata_channel, params.output_path, params.output_name)
+    adata_norm_channel = process_normalization(adata_qc_channel)
+    adata_clustered_channel = process_clustering(adata_norm_channel)
+    process_marker_gene_testing(adata_clustered_channel, marker_gene, params.output_path, params.output_name)
 }
 
 process process_read_data {
     input:
-    path input_path from params.input_path
-    path output_path from params.output_path
-    path output_name from params.output_name
-    path MarkerGene from params.MarkerGene
+    path input_path
+    path output_path
+    path output_name
+    path MarkerGene
 
     output:
     path "adata.h5ad" into adata_channel
@@ -33,9 +36,9 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path output_path from params.output_path
-    path output_name from params.output_name
     path adata_channel
+    path output_path
+    path output_name
 
     output:
     path "adata_qc.h5ad" into adata_qc_channel
@@ -74,10 +77,10 @@ process process_clustering {
 
 process process_marker_gene_testing {
     input:
-    path MarkerGene from params.MarkerGene
-    path output_path from params.output_path
-    path output_name from params.output_name
     path adata_clustered_channel
+    path MarkerGene
+    path output_path
+    path output_name
 
     script:
     """
