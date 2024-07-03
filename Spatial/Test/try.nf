@@ -8,7 +8,7 @@ process myProcess {
 
     script:
     """
-    python ProduceTable.py
+    python /home/sb14489/Epigenomics/Spatial/Test/ProduceTable.py
     """
 }
 
