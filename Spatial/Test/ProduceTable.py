@@ -1,3 +1,3 @@
-outfile =open("Test.txt","w")
+outfile = open("/scratch/sb14489/Test.txt", "w")
 outfile.write("Test")
 outfile.close()

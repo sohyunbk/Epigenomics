@@ -1,6 +1,6 @@
 process myProcess {
     output:
-    path '/scratch/sb14489/'
+    path '/scratch/sb14489/Test.txt'
 
     script:
     """
