@@ -9,7 +9,7 @@ params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarke
 params.ScriptDir = '/home/sb14489/Epigenomics/Spatial/'
 
 workflow {
-    process_read_data(params.input_path, params.output_name)
+    process_read_data(params.input_path)
 }
 
 process process_read_data {
