@@ -57,7 +57,7 @@ process process_normalization {
 
     script:
     """
-    python normalization.py --input_file ${params.output_path}/adata_qc.h5ad --output_file ${params.output_path}/adata_norm.h5ad --output_name $output_name
+    python normalization.py --input_file ${params.output_path}/adata_qc.h5ad --output_path $output_path --output_name $output_name
     """
 }
 
