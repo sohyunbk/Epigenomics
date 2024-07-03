@@ -21,3 +21,13 @@ process process_read_data {
     python "${params.ScriptDir}"read_data.py --input_path $input_path
     """
 }
+
+process process_qc_preprocessing {
+    input:
+    val output_name
+
+    script:
+    """
+    python "${params.ScriptDir}qc_preprocessing.py" --output_name $output_name
+    """
+}

@@ -26,7 +26,7 @@ sns.histplot(
     ax=axs[3],
 )
 
-plt.savefig(output_path+output_name+"_QC_Histogram.pdf") ## Save Figure
+plt.savefig(args.output_name+"_QC_Histogram.pdf") ## Save Figure
 
 print(f'Before filtering:\n cell - {adata.n_obs}; gene - {adata.n_vars}')       # check how many genes X cells
 
