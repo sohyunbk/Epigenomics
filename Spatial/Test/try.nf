@@ -4,10 +4,14 @@ nextflow.enable.dsl=2
 
 process myProcess {
     output:
-    path '/scratch/sb14489'
+    path 'output', emit: my_output
 
     script:
     """
     python ProduceTable.py
     """
+}
+
+workflow {
+    myProcess()
 }
