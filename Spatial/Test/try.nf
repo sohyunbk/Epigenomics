@@ -1,8 +1,9 @@
 process myProcess {
-    publishDir '/path/to/outputdir', mode: 'copy'  // or 'symlink', 'move'
+    output:
+    path '/scratch/sb14489'
 
     script:
     """
-    # Your script commands
+    python ProduceTable.py
     """
 }
