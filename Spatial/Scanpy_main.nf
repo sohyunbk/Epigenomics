@@ -9,12 +9,12 @@ params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarke
 params.ScriptDir = '/home/sb14489/Epigenomics/Spatial/'
 
 workflow {
-    process_read_data(params.input_path)
+    process_read_data(params.Dir)
 }
 
 process process_read_data {
     input:
-    val input_path
+    val Dir
 
     script:
     """
@@ -27,7 +27,7 @@ process process_read_data {
 process process_qc_preprocessing {
     input:
     val output_name
-    val input_path
+    val Dir
     script:
     """
     python "${params.ScriptDir}qc_preprocessing.py" --output_name $output_name --input_path $Dir
