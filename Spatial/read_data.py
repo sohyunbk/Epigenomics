@@ -21,4 +21,5 @@ adata.var['Mt'] = adata.var_names.str.startswith('chrMt')
 adata.var['PT'] = adata.var_names.str.startswith('chrPt')
 sc.pp.calculate_qc_metrics(adata, qc_vars=['Mt', 'PT'], inplace=True)
 
+print("Current working directory:", os.getcwd())
 adata.write("adata.h5ad")

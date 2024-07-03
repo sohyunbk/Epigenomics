@@ -7,7 +7,7 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument('--output_name', required=True)
 args = parser.parse_args()
-
+print("Current working directory:", os.getcwd())
 # Create the output directory if it does not exist
 adata = sc.read("adata.h5ad")
 
