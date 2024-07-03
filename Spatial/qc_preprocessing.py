@@ -5,15 +5,10 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--output_path', required=True)
 parser.add_argument('--output_name', required=True)
 args = parser.parse_args()
 
 # Create the output directory if it does not exist
-if not os.path.exists(args.output_path):
-    os.makedirs(args.output_path)
-
-adata = sc.read(f"{args.output_path}/adata.h5ad")
 
 fig, axs = plt.subplots(1, 4, figsize=(15, 4))
 sns.histplot(adata.obs["total_counts"], kde=False, ax=axs[0])
@@ -43,5 +38,5 @@ adata = adata[adata.obs["total_counts_PT"] < 20].copy()
 
 print(f"#cells after MT filter: {adata.n_obs}")
 
-plt.savefig(f"{args.output_path}/{args.output_name}_QC_Histogram.pdf")
-adata.write(f"{args.output_path}/adata_qc.h5ad")
+plt.savefig(f"{args.output_name}_QC_Histogram.pdf")
+adata.write(f"{adata_qc.h5ad")
