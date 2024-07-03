@@ -6,6 +6,7 @@ params.input_path = '/scratch/sb14489/9.spatialRNAseq/1.Rawdata/zma_ear_bif_A'
 params.output_path = '/scratch/sb14489/9.spatialRNAseq/2.QC_MarkerGene/Bif3_A/'
 params.output_name = 'Bif3_A'
 params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker_SelectedMarkerforDotPlot.txt'
+ScriptDir='/home/sb14489/Epigenomics/Spatial/'
 
 workflow {
     process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
@@ -27,7 +28,7 @@ process process_read_data {
 
     script:
     """
-    python read_data.py --input_path $input_path --output_path $output_path --output_name $output_name --MarkerGene $MarkerGene
+    python "$ScriptDir"read_data.py --input_path $input_path --output_path $output_path --output_name $output_name --MarkerGene $MarkerGene
     """
 }
 
@@ -42,7 +43,7 @@ process process_qc_preprocessing {
 
     script:
     """
-    python qc_preprocessing.py --output_path $output_path --output_name $output_name
+    python "$ScriptDir"qc_preprocessing.py --output_path $output_path --output_name $output_name
     """
 }
 
@@ -57,7 +58,7 @@ process process_normalization {
 
     script:
     """
-    python normalization.py --input_file ${params.output_path}/adata_qc.h5ad --output_file ${params.output_path}/adata_norm.h5ad --output_name $output_name
+    python "$ScriptDir"normalization.py --input_file ${params.output_path}/adata_qc.h5ad --output_file ${params.output_path}/adata_norm.h5ad --output_name $output_name
     """
 }
 
@@ -72,7 +73,7 @@ process process_clustering {
 
     script:
     """
-    python clustering.py --input_file ${params.output_path}/adata_norm.h5ad --output_file ${params.output_path}/adata_clustered.h5ad
+    python "$ScriptDir"clustering.py --input_file ${params.output_path}/adata_norm.h5ad --output_file ${params.output_path}/adata_clustered.h5ad
     """
 }
 
@@ -85,6 +86,6 @@ process process_marker_gene_testing {
 
     script:
     """
-    python marker_gene_testing.py --MarkerGene $MarkerGene --output_path $output_path --output_name $output_name --input_file ${params.output_path}/adata_clustered.h5ad
+    python "$ScriptDir"marker_gene_testing.py --MarkerGene $MarkerGene --output_path $output_path --output_name $output_name --input_file ${params.output_path}/adata_clustered.h5ad
     """
 }
