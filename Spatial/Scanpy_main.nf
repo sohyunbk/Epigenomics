@@ -10,19 +10,21 @@ params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarke
 workflow {
     input_data = Channel.fromPath(params.input_path)
     marker_gene = Channel.fromPath(params.MarkerGene)
+    output_path = Channel.value(params.output_path)
+    output_name = Channel.value(params.output_name)
 
-    process_read_data(input_data, params.output_path, params.output_name, marker_gene)
-    process_qc_preprocessing(params.output_path, params.output_name)
-    process_normalization()
-    process_clustering()
-    process_marker_gene_testing(marker_gene, params.output_path, params.output_name)
+    adata_channel = process_read_data(input_data, output_path, output_name, marker_gene)
+    adata_qc_channel = process_qc_preprocessing(adata_channel, output_path, output_name)
+    adata_norm_channel = process_normalization(adata_qc_channel)
+    adata_clustered_channel = process_clustering(adata_norm_channel)
+    process_marker_gene_testing(adata_clustered_channel, marker_gene, output_path, output_name)
 }
 
 process process_read_data {
     input:
     path input_path
     path output_path
-    path output_name
+    val output_name
     path MarkerGene
 
     output:
@@ -38,7 +40,7 @@ process process_qc_preprocessing {
     input:
     path adata_channel
     path output_path
-    path output_name
+    val output_name
 
     output:
     path "adata_qc.h5ad" into adata_qc_channel
@@ -80,7 +82,7 @@ process process_marker_gene_testing {
     path adata_clustered_channel
     path MarkerGene
     path output_path
-    path output_name
+    val output_name
 
     script:
     """
