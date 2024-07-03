@@ -13,8 +13,8 @@ workflow {
     output_path = Channel.value(params.output_path)
     output_name = Channel.value(params.output_name)
 
-    adata_channel = process_read_data(input_data, output_path, output_name, marker_gene)
-    adata_qc_channel = process_qc_preprocessing(adata_channel, output_path, output_name)
+    process_read_data(input_data, output_path, output_name, marker_gene)
+    adata_qc_channel = process_qc_preprocessing(output_path, output_name)
     adata_norm_channel = process_normalization(adata_qc_channel)
     adata_clustered_channel = process_clustering(adata_norm_channel)
     process_marker_gene_testing(adata_clustered_channel, marker_gene, output_path, output_name)
@@ -28,7 +28,7 @@ process process_read_data {
     path MarkerGene
 
     output:
-    path "adata.h5ad" into adata_channel
+    path 'adata.h5ad' into adata_channel
 
     script:
     """
@@ -38,12 +38,12 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path adata_channel
+    path 'adata.h5ad' from adata_channel
     path output_path
     val output_name
 
     output:
-    path "adata_qc.h5ad" into adata_qc_channel
+    path 'adata_qc.h5ad' into adata_qc_channel
 
     script:
     """
@@ -53,10 +53,10 @@ process process_qc_preprocessing {
 
 process process_normalization {
     input:
-    path adata_qc_channel
+    path 'adata_qc.h5ad' from adata_qc_channel
 
     output:
-    path "adata_norm.h5ad" into adata_norm_channel
+    path 'adata_norm.h5ad' into adata_norm_channel
 
     script:
     """
@@ -66,10 +66,10 @@ process process_normalization {
 
 process process_clustering {
     input:
-    path adata_norm_channel
+    path 'adata_norm.h5ad' from adata_norm_channel
 
     output:
-    path "adata_clustered.h5ad" into adata_clustered_channel
+    path 'adata_clustered.h5ad' into adata_clustered_channel
 
     script:
     """
@@ -79,7 +79,7 @@ process process_clustering {
 
 process process_marker_gene_testing {
     input:
-    path adata_clustered_channel
+    path 'adata_clustered.h5ad' from adata_clustered_channel
     path MarkerGene
     path output_path
     val output_name
