@@ -49,26 +49,30 @@ process process_qc_preprocessing {
 process process_normalization {
     input:
     path "${params.output_path}/adata_qc.h5ad"
+    path output_path
+    val output_name
 
     output:
-    path "${params.output_path}/adata_norm.h5ad"
+    path "${output_path}/adata_norm.h5ad"
 
     script:
     """
-    python normalization.py --input_file ${params.output_path}/adata_qc.h5ad
+    python normalization.py --input_file ${params.output_path}/adata_qc.h5ad --output_file ${params.output_path}/adata_norm.h5ad --output_name $output_name
     """
 }
 
 process process_clustering {
     input:
     path "${params.output_path}/adata_norm.h5ad"
+    path output_path
+    val output_name
 
     output:
-    path "${params.output_path}/adata_clustered.h5ad"
+    path "${output_path}/adata_clustered.h5ad"
 
     script:
     """
-    python clustering.py --input_file ${params.output_path}/adata_norm.h5ad
+    python clustering.py --input_file ${params.output_path}/adata_norm.h5ad --output_file ${params.output_path}/adata_clustered.h5ad
     """
 }
 
