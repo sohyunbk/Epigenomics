@@ -9,7 +9,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--MarkerGene', required=True)
 parser.add_argument('--input_path', required=True)
 parser.add_argument('--markergenelist', required=True)
-
 args = parser.parse_args()
 
 
