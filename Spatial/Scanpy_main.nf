@@ -23,7 +23,7 @@ process process_read_data {
     path MarkerGene
 
     output:
-    path "${output_path}/adata.h5ad"
+    path "${output_path}/adata.h5ad" into adata_channel
 
     script:
     """
@@ -33,7 +33,7 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path "${params.output_path}/adata.h5ad"
+    path adata_channel
     path output_path
     val output_name
 
