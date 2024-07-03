@@ -11,11 +11,11 @@ workflow {
     input_data = Channel.fromPath(params.input_path)
     marker_gene = Channel.fromPath(params.MarkerGene)
 
-    adata_channel = process_read_data(input_data, params.output_path, params.output_name, marker_gene)
-    adata_qc_channel = process_qc_preprocessing(adata_channel, params.output_path, params.output_name)
-    adata_norm_channel = process_normalization(adata_qc_channel)
-    adata_clustered_channel = process_clustering(adata_norm_channel)
-    process_marker_gene_testing(adata_clustered_channel, marker_gene, params.output_path, params.output_name)
+    process_read_data(input_data, params.output_path, params.output_name, marker_gene)
+    process_qc_preprocessing(params.output_path, params.output_name)
+    process_normalization()
+    process_clustering()
+    process_marker_gene_testing(marker_gene, params.output_path, params.output_name)
 }
 
 process process_read_data {
