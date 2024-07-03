@@ -12,6 +12,7 @@ parser.add_argument('--MarkerGene', required=True)
 args = parser.parse_args()
 
 # Create the output directory if it does not exist
+print(args.output_path)
 if not os.path.exists(args.output_path):
     os.makedirs(args.output_path)
 
