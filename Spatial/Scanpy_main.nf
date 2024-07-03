@@ -11,7 +11,7 @@ params.ScriptDir = '/home/sb14489/Epigenomics/Spatial/'
 workflow {
     process_read_data(params.input)
     process_qc_preprocessing(params.output_name, params.Dir_output)
-    process_qc_preprocessing(params.output_name, params.Dir_output, params.MarkerGene)
+    marker_gene_testing(params.output_name, params.Dir_output, params.MarkerGene)
 }
 
 process process_read_data {
