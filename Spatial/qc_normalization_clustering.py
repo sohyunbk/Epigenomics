@@ -62,7 +62,7 @@ sc.pl.umap(adata, color=["total_counts", "n_genes_by_counts", "clusters"], wspac
 plt.rcParams["figure.figsize"] = (8, 8)
 spatial_coords = adata.obsm['spatial'].astype(float)
 adata.obsm['spatial'] = spatial_coords
-sc.pl.spatial(adata, img_key="hires", color=["clusters","total_counts", "n_genes_by_counts"], wspace=0.4, save="_"+output_name)
+sc.pl.spatial(adata, img_key="hires", color=["clusters","total_counts", "n_genes_by_counts"], wspace=0.4, save="_"+args.output_name)
 sc.pl.spatial(
     adata,
     img_key="hires",
@@ -71,7 +71,7 @@ sc.pl.spatial(
     crop_coord=[700, 1000, 0, 600],
     alpha=0.5,
     size=1.3,
-    save="Magnify_"+output_name
+    save="Magnify_"+args.output_name
 )
 
 
