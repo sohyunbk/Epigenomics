@@ -1,12 +1,13 @@
+#!/usr/bin/env nextflow
+
+nextflow.enable.dsl=2
+
 process myProcess {
     output:
-    path '/scratch/sb14489/Test.txt'
+    path '/scratch/sb14489'
 
     script:
     """
-    echo "Running ProduceTable.py"
     python ProduceTable.py
-    echo "Script execution finished"
-    ls -l /scratch/sb14489/
     """
 }
