@@ -8,12 +8,11 @@ params.output_name = 'Bif3_A'
 params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker_SelectedMarkerforDotPlot.txt'
 
 workflow {
-    process_read_data()
-    process_qc_preprocessing()
-    process_normalization()
-    process_clustering()
-    process_visualization()
-    process_marker_gene_testing()
+    adata = process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
+    adata_qc = process_qc_preprocessing(adata, params.output_path, params.output_name)
+    adata_norm = process_normalization(adata_qc)
+    adata_clustered = process_clustering(adata_norm)
+    process_marker_gene_testing(adata_clustered, params.MarkerGene, params.output_path, params.output_name,adata_clustered)
 }
 
 process process_read_data {
