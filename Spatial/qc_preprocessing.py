@@ -40,4 +40,4 @@ adata = adata[adata.obs["total_counts_PT"] < 20].copy()
 print(f"#cells after MT filter: {adata.n_obs}")
 
 plt.savefig(f"{args.output_name}_QC_Histogram.pdf")
-adata.write(f"{adata_qc.h5ad")
+adata.write("adata_qc.h5ad")
