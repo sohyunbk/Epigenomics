@@ -7,21 +7,15 @@ import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--MarkerGene', required=True)
-parser.add_argument('--output_path', required=True)
-parser.add_argument('--output_name', required=True)
-parser.add_argument('--input_file', required=True)
+parser.add_argument('--input_path', required=True)
+parser.add_argument('--markergenelist', required=True)
 
 args = parser.parse_args()
 
-adata = sc.read(args.input_file)
-# Create the output directory if it does not exist
-if not os.path.exists(args.output_path):
-    os.makedirs(args.output_path)
 
-adata = sc.read(f"{args.output_path}/adata_clustered.h5ad")
-df = pd.read_csv(args.MarkerGene, sep='\t')
+adata = sc.read(f"{args.input_path}/adata_processed.h5ad")
+df = pd.read_csv(args.markergenelist, sep='\t')
 
-df = pd.read_csv(MarkerGene, sep='\t')
 gene_list = df['geneID'].tolist()
 #gene_symbols = dict(zip(df['geneID'], df['geneID']+"_"+df['name']))
 gene_symbols = dict(zip(df['geneID'], df['name']))
@@ -71,5 +65,5 @@ plt.tight_layout()
 plt.savefig(f'{output_path}/MarkerGeneAll_{output_name}.pdf')
 
 # Close all figures to avoid the RuntimeWarning
-plt.savefig(f"{args.output_path}/MarkerGeneAll_{args.output_name}.pdf")
+plt.savefig(f"MarkerGeneAll_{args.output_name}.pdf")
 plt.close('all')

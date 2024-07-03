@@ -11,6 +11,7 @@ params.ScriptDir = '/home/sb14489/Epigenomics/Spatial/'
 workflow {
     process_read_data(params.input)
     process_qc_preprocessing(params.output_name, params.Dir_output)
+    process_qc_preprocessing(params.output_name, params.Dir_output, params.MarkerGene)
 }
 
 process process_read_data {
@@ -31,6 +32,20 @@ process process_qc_preprocessing {
     val Dir_output
     script:
     """
-    python "${params.ScriptDir}qc_preprocessing.py" --output_name $output_name --input_path $Dir_output
+    python "${params.ScriptDir}qc_normalization_clustering.py" --output_name $output_name --input_path $Dir_output
+    mv * "${params.Dir_output}"
+    """
+}
+
+
+process marker_gene_testing {
+    input:
+    val output_name
+    val Dir_output
+    val MarkerGene
+    script:
+    """
+    python "${params.ScriptDir}qc_normalization_clustering.py" --output_name $output_name --input_path $Dir_output --markergenelist MarkerGene
+    mv * "${params.Dir_output}"
     """
 }
