@@ -12,7 +12,6 @@ args = parser.parse_args()
 adata = sq.read.visium(args.input_path)
 
 pd.set_option('display.max_columns', None)
-sc.settings.figdir = output_path
 
 adata.var_names_make_unique()
 adata.var.set_index('gene_ids', inplace=True)
