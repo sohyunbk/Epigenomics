@@ -9,10 +9,10 @@ params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarke
 
 workflow {
     process_read_data(params.input_path, params.output_path, params.output_name, params.MarkerGene)
-    process_qc_preprocessing("${params.output_path}/adata.h5ad", params.output_path, params.output_name)
-    process_normalization("${params.output_path}/adata_qc.h5ad", params.output_path)
-    process_clustering("${params.output_path}/adata_norm.h5ad", params.output_path)
-    process_marker_gene_testing("${params.output_path}/adata_clustered.h5ad", params.MarkerGene, params.output_path, params.output_name)
+    process_qc_preprocessing(params.output_path, params.output_name)
+    process_normalization(params.output_path)
+    process_clustering(params.output_path)
+    process_marker_gene_testing(params.MarkerGene, params.output_path, params.output_name)
 }
 
 process process_read_data {
@@ -23,7 +23,7 @@ process process_read_data {
     path MarkerGene
 
     output:
-    path "${output_path}/adata.h5ad"
+    path("${output_path}/adata.h5ad")
 
     script:
     """
@@ -33,12 +33,12 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path "${params.output_path}/adata.h5ad"
+    path("${params.output_path}/adata.h5ad")
     path output_path
     val output_name
 
     output:
-    path "${output_path}/adata_qc.h5ad"
+    path("${output_path}/adata_qc.h5ad")
 
     script:
     """
@@ -48,10 +48,10 @@ process process_qc_preprocessing {
 
 process process_normalization {
     input:
-    path "${params.output_path}/adata_qc.h5ad"
+    path("${params.output_path}/adata_qc.h5ad")
 
     output:
-    path "${params.output_path}/adata_norm.h5ad"
+    path("${params.output_path}/adata_norm.h5ad")
 
     script:
     """
@@ -61,10 +61,10 @@ process process_normalization {
 
 process process_clustering {
     input:
-    path "${params.output_path}/adata_norm.h5ad"
+    path("${params.output_path}/adata_norm.h5ad")
 
     output:
-    path "${params.output_path}/adata_clustered.h5ad"
+    path("${params.output_path}/adata_clustered.h5ad")
 
     script:
     """
@@ -74,7 +74,7 @@ process process_clustering {
 
 process process_marker_gene_testing {
     input:
-    path "${params.output_path}/adata_clustered.h5ad"
+    path("${params.output_path}/adata_clustered.h5ad")
     path MarkerGene
     path output_path
     val output_name
