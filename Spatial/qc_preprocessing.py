@@ -6,10 +6,12 @@ import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--output_name', required=True)
+parser.add_argument('--input_path', required=True)
+
 args = parser.parse_args()
 print("Current working directory:", os.getcwd())
 # Create the output directory if it does not exist
-adata = sc.read(f"adata.h5ad")
+adata = sc.read(f"{args.input_path}/adata.h5ad")
 
 fig, axs = plt.subplots(1, 4, figsize=(15, 4))
 sns.histplot(adata.obs["total_counts"], kde=False, ax=axs[0])

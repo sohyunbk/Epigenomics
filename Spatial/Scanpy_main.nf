@@ -2,7 +2,7 @@
 
 nextflow.enable.dsl=2
 
-params.input_path = '/scratch/sb14489/9.spatialRNAseq/1.Rawdata/zma_ear_bif_A'
+params.Dir = '/scratch/sb14489/9.spatialRNAseq/1.Rawdata/zma_ear_bif_A'
 params.output_path = '/scratch/sb14489/9.spatialRNAseq/2.QC_MarkerGene/Bif3_A/'
 params.output_name = 'Bif3_A'
 params.MarkerGene = '/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker_SelectedMarkerforDotPlot.txt'
@@ -18,8 +18,18 @@ process process_read_data {
 
     script:
     """
-    python "${params.ScriptDir}"read_data.py --input_path $input_path
+    python "${params.ScriptDir}"read_data.py --input_path $Dir
     mkdir -p "${params.output_path}"
     mv * "${params.output_path}"
+    """
+}
+
+process process_qc_preprocessing {
+    input:
+    val output_name
+    val input_path
+    script:
+    """
+    python "${params.ScriptDir}qc_preprocessing.py" --output_name $output_name --input_path $Dir
     """
 }
