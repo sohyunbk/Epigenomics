@@ -16,7 +16,7 @@ Ex <- function(){
   NumberOfPC <- as.character(100)
   NumbeerOfWindow <- as.character(0)
   #SampleName <- "A619_Re2"
-  WD <- "/scratch/sb14489/3.scATAC_flo/5.Socrates/"
+  WD <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/relk2_MappedToA619V4Annotation/"
   setwd(WD)
   getwd()
 }
@@ -379,7 +379,7 @@ mapQuery2 <- function(exp_query,
 
 
 #############===================================================================
-
+## Lucky me! sym.ref obj is the same umap with the annotation in manuscript
 sym.ref <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_RemoveBLonlyMitoChloroChIP.symphony.reference.rds")
 obj_A619_merged <- readRDS("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_RemoveBLonlyMitoChloroChIP.afterHarmony.processed.rds")
 
@@ -528,24 +528,29 @@ Control_PCs <- m.obj$PCA[which(m.obj$meta$SampleName=="A619"),]
 Query_PCs <- m.obj$PCA[which(m.obj$meta$SampleName!="A619"),]
 
 head(Control_PCs)
-head(Query_PCs)
+tail(Query_PCs)
 
 ## Change AnnotationName
-MetaData <- read.table(paste0(Path,"/Ref_AnnV3_metadata_withNAName.txt")
-  ,header=TRUE)
+MetaData <- read.table(paste0(Path,"/Ref_AnnV3_metadata_withNAName.txt"),header=TRUE)
+## Annotation V 4
+MetaData <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt",header=TRUE)
+head(MetaData)
 dim(MetaData)
 dim(Control_PCs)
 #rownames(MetaData)
 Control_PCs_Filtered  <- Control_PCs[rownames(MetaData),]
 dim(Control_PCs_Filtered)
-
-knn_pred = class::knn(Control_PCs_Filtered, Query_PCs, MetaData$Ann_v3, k = 5, prob = TRUE)
+str(Query_PCs)
+dim(Query_PCs)
+dim(Control_PCs)
+head(Query_PCs[,c(1:10)])
+knn_pred = class::knn(Control_PCs_Filtered, Query_PCs, MetaData$Ann_v4, k = 5, prob = TRUE)
 
 knn_prob = attributes(knn_pred)$prob
 head(MetaData)
 Query_meta <- m.obj$meta[which(m.obj$meta$SampleName!="A619"),]
 #Query_meta$Ann_V1 <- "NA"
-Query_meta$Ann_v3 <-  knn_pred
+Query_meta$Ann_v4 <-  knn_pred
 head(Query_meta)
 dim(Query_meta)
 
@@ -553,7 +558,7 @@ Ref_meta <- m.obj$meta[which(m.obj$meta$SampleName=="A619"),]
 Ref_meta  <- Ref_meta[rownames(MetaData),]
 head(Ref_meta)
 head(MetaData)
-MetaData_subset <- MetaData[c("Ann_v3")]
+MetaData_subset <- MetaData[c("Ann_v4")]
 head(MetaData_subset)
 
 Ref_Meta <- merge(Ref_meta, MetaData_subset, by=0)
@@ -563,7 +568,6 @@ dim(Ref_Meta)
 colnames(Ref_Meta)
 colnames(Query_meta)
 Ref_Meta <- Ref_Meta[-c(1)]
-
 Clusters_Predicted <- rbind(Ref_Meta,Query_meta)
 head(Clusters_Predicted)
 ClustersList <- list()
@@ -572,29 +576,31 @@ ClustersList[["Clusters_Mutant"]] <- Query_meta
 ClustersList[["Clusters_Control"]] <- Ref_Meta
 
 head(ClustersList[["Clusters"]])
+
+
 colorr <- c("#4F96C4","#84f5d9","#DE9A89","#FDA33F","#060878","#d62744","#62a888",
             "#876b58","#800000", "#800075","#e8cf4f","#f7366d","#0bd43d",
             "#deadce","#adafde","#5703ff")
 head(Ref_Meta)
 
-ggplot(Clusters_Predicted, aes(x=umap1, y=umap2, color=factor(Ann_v3))) +
+ggplot(Clusters_Predicted, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))
-ggsave("AnnotationV3_KnnPredictionCluster_Annotation_AllSamples.pdf", width=13, height=10)
+ggsave("AnnotationV4_KnnPredictionCluster_Annotation_AllSamples.pdf", width=13, height=10)
 
-ggplot(Query_meta, aes(x=umap1, y=umap2, color=factor(Ann_v3))) +
+ggplot(Query_meta, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))
-ggsave("AnnotationV3_KnnPredictionCluster_Annotation_Mutant.pdf", width=13, height=10)
+ggsave("AnnotationV4_KnnPredictionCluster_Annotation_Mutant.pdf", width=13, height=10)
 
 
-ggplot(Ref_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v3))) +
+ggplot(Ref_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))
-ggsave("AnnotationV3_KnnPredictionCluster_Annotation_Ref.pdf", width=13, height=10)
+ggsave("AnnotationV4_KnnPredictionCluster_Annotation_Ref.pdf", width=13, height=10)
 
 head(Query_meta)
 levels(factor(Query_meta$SampleName))
@@ -604,31 +610,36 @@ relk1_Meta <- Query_meta[which(Query_meta$SampleName=="relk1"),]
 
 head(Bif3_Meta)
 
-ggplot(Bif3_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v3))) +
+ggplot(Bif3_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))
-ggsave("AnnotationV3_KnnPredictionCluster_Annotation_Bif3.pdf", width=13, height=10)
-ggplot(rel2_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v3))) +
+ggsave("AnnotationV4_KnnPredictionCluster_Annotation_Bif3.pdf", width=13, height=10)
+ggplot(rel2_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))
-ggsave("AnnotationV3_KnnPredictionCluster_Annotation_rel2.pdf", width=13, height=10)
-ggplot(relk1_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v3))) +
+ggsave("AnnotationV4_KnnPredictionCluster_Annotation_rel2.pdf", width=13, height=10)
+ggplot(relk1_Meta, aes(x=umap1, y=umap2, color=factor(Ann_v4))) +
   geom_point(size=0.02) +
   scale_color_manual(values=colorr)+theme_minimal()+
   guides(colour = guide_legend(override.aes = list(size=10)))
-ggsave("AnnotationV3_KnnPredictionCluster_Annotation_relk1.pdf", width=13, height=10)
+ggsave("AnnotationV4_KnnPredictionCluster_Annotation_relk1.pdf", width=13, height=10)
+dim(relk1_Meta)
+head(relk1_Meta)
+relk1_Meta$LouvainClusters <- relk1_Meta$Ann_v4
+str(relk1_Meta)
 
+DrawUMAP_Ann_QC(relk1_Meta,relk1_Meta, "Ann_v4", CellOrder, "relk1_Re1", "relk1_Re2","relk1_V4_ColorOrder")
 
 # write data
-write.table(Clusters_Predicted, "AnnotationV3.All_CELLs.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
-write.table(Ref_Meta, "AnnotationV3.A619.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
-write.table(Bif3_Meta, "AnnotationV3.bif3.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
-write.table(rel2_Meta, "AnnotationV3.rel2.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
-write.table(relk1_Meta, "AnnotationV3.relk1.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
+write.table(Clusters_Predicted, "AnnotationV4.All_CELLs.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
+write.table(Ref_Meta, "AnnotationV4.A619.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
+write.table(Bif3_Meta, "AnnotationV4.bif3.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
+write.table(rel2_Meta, "AnnotationV4.rel2.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
+write.table(relk1_Meta, "AnnotationV4.relk1.metadata.txt", quote=F, row.names=T, col.names=T, sep="\t")
 setwd("/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100")
-Clusters_Predicted <- read.table("AnnotationV3.All_CELLs.metadata.txt")
+Clusters_Predicted <- read.table("AnnotationV4.All_CELLs.metadata.txt")
 head(Clusters_Predicted)
 #write.table(rd, file=paste0(out, ".REF_CELLs.reduced_dimensions.txt"), quote=F, row.names=T, col.names=T, sep="\t")
 levels(factor(Clusters_Predicted$Ann_v3))
@@ -637,7 +648,7 @@ library(ggplot2)
 ## Barplot
 CluterTable <- Clusters_Predicted
 head(CluterTable)
-levels(factor(CluterTable$Ann_v3))
+levels(factor(CluterTable$Ann_v4))
 
 i <- "6"
 table(CluterTable$SampleName)[["A619"]]
