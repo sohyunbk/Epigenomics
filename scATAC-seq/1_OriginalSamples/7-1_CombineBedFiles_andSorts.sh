@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=CombineBedfiles        # Job name
-#SBATCH --partition=highmem_p         # Partition (queue) name
+#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
 #SBATCH --mem=500gb                   # Job memory request
