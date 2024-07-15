@@ -11,8 +11,8 @@
 
 source activate r_env
 
-OutPutFilesDir=(A619_Bif3_500bpCommonPeak A619_rel2_500bpCommonPeak)
-OutPutFiles=(ComA619Bif3.unique500bpPeaks ComA619rel2.unique500bpPeaks)
+OutPutFilesDir=(A619_Bif3_500bpCommonPeak A619_rel2_500bpCommonPeak A619_relk1_500bpCommonPeak)
+OutPutFiles=(ComA619Bif3.unique500bpPeaks ComA619rel2.unique500bpPeaks ComA619relk1.unique500bpPeaks)
 
 ## It makes bw file too!
 
