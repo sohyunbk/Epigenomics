@@ -162,7 +162,7 @@ S1Name_aligned <- gsub(S1_Name, S2_Name, colnames(A619_Q))
 print("Bif3_Q object")
 print(CTOrder)
 head(Bif3_Q)
-Bif3_Q <- Bif3_Q[,paste0("Bif3",CTOrder)]
+Bif3_Q <- Bif3_Q[,paste0("relk1",CTOrder)]
 A619_Q <- A619_Q[,paste0("A619",CTOrder)]
 Correlation <- cor(A619_Q,Bif3_Q,  method = "pearson")
 
@@ -179,7 +179,7 @@ dim(A619_Bif3_Quantile_Top2000)
 A619_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c(1:count_A619)]
 Bif3_Q_Top2000 <- A619_Bif3_Quantile_Top2000[,c((count_A619+1):ncol(A619_Bif3_CPM))]
 ## I should edit this part!
-Bif3_Q_Top2000 <- Bif3_Q_Top2000[,paste0("Bif3",CTOrder)]
+Bif3_Q_Top2000 <- Bif3_Q_Top2000[,paste0("relk1",CTOrder)]
 A619_Q_Top2000 <- A619_Q_Top2000[,paste0("A619",CTOrder)]
 
 cols_to_keep <- !grepl("Unknown|G2", colnames(Bif3_Q_Top2000))
