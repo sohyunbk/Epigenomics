@@ -32,6 +32,7 @@ S2Metas=(
 CommonPeak=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3.unique500bpPeaks.bed
 /A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks.bed
+A619_relk1_500bpCommonPeak/ComA619relk1.unique500bpPeaks.bed 
 )
 CommonPeakIntergenic=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3.unique500bpPeaks_Intergenic.bed
