@@ -7,7 +7,7 @@
 #SBATCH --time=10:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/Correlation.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Correlation.%j.err    # Standard error log
-#SBATCH --array=0-1
+#SBATCH --array=0-2
 
 
 source activate r_env
