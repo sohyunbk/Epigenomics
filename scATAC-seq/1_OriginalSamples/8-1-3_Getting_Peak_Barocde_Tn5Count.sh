@@ -29,7 +29,7 @@ A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count
 /A619_rel2_500bpCommonPeak/ComPeakA619rel2_Rel2Barcode_Tn5Count
 /A619_rel2_500bpCommonPeak/ComPeakA619rel2_A619Barcode_Tn5Count
 /A619_relk1_500bpCommonPeak/ComPeakA619relk1_Relk1Barcode_Tn5Count
-/A619_relk1_500bpCommonPeak/ComPeakA619relk1_Relk1Barcode_Tn5Count)
+/A619_relk1_500bpCommonPeak/ComPeakA619relk1_A619Barcode_Tn5Count)
 
 ml Anaconda3/2022.10
 source activate r_env
