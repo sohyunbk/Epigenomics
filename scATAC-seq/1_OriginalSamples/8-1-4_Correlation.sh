@@ -13,17 +13,21 @@
 source activate r_env
 S1SampleSparse=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count.sparse
-/A619_rel2_500bpCommonPeak/ComPeakA619rel2_A619Barcode_Tn5Count.sparse)
+/A619_rel2_500bpCommonPeak/ComPeakA619rel2_A619Barcode_Tn5Count.sparse
+/A619_relk1_500bpCommonPeak/ComPeakA619relk1_A619Barcode_Tn5Count.sparse)
 S2SampleSparse=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3_Bif3Barcode_Tn5Count.sparse
-/A619_rel2_500bpCommonPeak/ComPeakA619rel2_Rel2Barcode_Tn5Count.sparse)
+/A619_rel2_500bpCommonPeak/ComPeakA619rel2_Rel2Barcode_Tn5Count.sparse
+/A619_relk1_500bpCommonPeak/ComPeakA619relk1_Relk1Barcode_Tn5Count.sparse)
 S2SampleName=(
 Bif3
 rel2
+relk1
 )
 S2Metas=(
 /Bif3/Bif3_AnnV4_metadata.txt
 /rel2/rel2_AnnV4.txt
+/relk1/AnnotationV4.relk1.metadata.txt
 )
 CommonPeak=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3.unique500bpPeaks.bed
@@ -32,14 +36,17 @@ CommonPeak=(
 CommonPeakIntergenic=(
 /A619_Bif3_500bpCommonPeak/ComA619Bif3.unique500bpPeaks_Intergenic.bed
 A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks_Intergenic.bed
+A619_relk1_500bpCommonPeak/ComA619relk1.unique500bpPeaks_Intergenic.bed
 )
 OutfileName=(
 A619andBif3_CTNameReverse_RemoveUnknown_All
 A619andrel2
+A619andrelk1
 )
 CTNameOrder=(
 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse_RemoveUnknown.txt
 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forrel2.txt
+/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse_RemoveUnknown.txt
 )
 
 Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Correlation/Correlation_Intergenic2000MostVariationACR_500pbCommonACR.R \
