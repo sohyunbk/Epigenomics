@@ -7,7 +7,7 @@
 #SBATCH --time=80:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
-#SBATCH --array=0-2                   # Array range
+#SBATCH --array=0-3                   # Array range
 
 List=(Sohyun-wt-1 Sohyun-wt-2 Sohyun-bif3-1 Sohyun-bif3-2)
 
