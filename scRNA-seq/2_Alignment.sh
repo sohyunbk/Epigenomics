@@ -2,8 +2,8 @@
 #SBATCH --job-name=Alignment_lowTime        # Job name
 #SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
-#SBATCH --cpus-per-task=32             # Number of CPU cores per task
-#SBATCH --mem=500gb                   # Job memory request
+#SBATCH --cpus-per-task=28             # Number of CPU cores per task
+#SBATCH --mem=400gb                   # Job memory request
 #SBATCH --time=80:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
