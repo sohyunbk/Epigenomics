@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=12             # Number of CPU cores per task
 #SBATCH --mem=300gb                   # Job memory request
 #SBATCH --time=18:00:00               # Time limit hrs:min:sec
-#SBATCH --output=/scratch/sb14489/4.scRNAseq/0.log/2_Mapping.%j.out   # Standard output log
-#SBATCH --error=/scratch/sb14489/4.scRNAseq/0.log/2_Mapping.%j.err    # Standard error log
+#SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
+#SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
 #SBATCH --array=0-2                   # Array range
 
 List=(B73re1 B73re2 B73re3)
