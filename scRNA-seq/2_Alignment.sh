@@ -9,7 +9,7 @@
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
 #SBATCH --array=0-2                   # Array range
 
-List=(Sohyun-wt-1_S9 Sohyun-wt-2_S10 Sohyun-bif3-1_S11 Sohyun-bif3-2_S12)
+List=(Sohyun-wt-1 Sohyun-wt-2 Sohyun-bif3-1 Sohyun-bif3-2)
 
 Path=/scratch/sb14489/4.scRNAseq/2.snRNA-seq/
 Reference=/scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNACellRanger/
