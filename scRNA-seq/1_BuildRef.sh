@@ -18,4 +18,4 @@ cd "$Path"
 cellranger mkref \
   --genome="$Reference" \
   --fasta=Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
-  --genes=Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_MtPtAdd.gtf --nthreads=10 --memgb=100
+  --genes=Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_MtPtAdd_Rsf.gtf --nthreads=10 --memgb=100
