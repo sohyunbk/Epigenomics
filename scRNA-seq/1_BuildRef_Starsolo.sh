@@ -11,6 +11,6 @@
 ml Anaconda3/2020.02
 source activate r_env
 #mkdir /scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNAstarsolo
-STAR  --runMode genomeGenerate --runThreadN 10 --genomeDir /scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNAstarsolo \
+STAR  --runMode genomeGenerate --runThreadN 100 --genomeDir /scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNAstarsolo \
  --genomeFastaFiles /scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNACellRanger/fasta/genome.fa \
   --sjdbGTFfile /scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNACellRanger/genes/genes.gtf
