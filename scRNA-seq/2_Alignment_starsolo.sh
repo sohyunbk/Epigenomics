@@ -21,7 +21,7 @@ Reference=/scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNAstar
 
 cd "$Path"/2.Mapped_starsolo
 
-STAR --runThreadN 30 --readFilesCommand zcat \
+STAR --runThreadN 28 --readFilesCommand zcat \
     --genomeDir $Reference \
     --outFileNamePrefix "${OutputName[SLURM_ARRAY_TASK_ID]}" \
     --readFilesIn $Path/1.Raw_Data/"${Read1[SLURM_ARRAY_TASK_ID]}" $Path/1.Raw_Data/"${Read2[SLURM_ARRAY_TASK_ID]}" \
