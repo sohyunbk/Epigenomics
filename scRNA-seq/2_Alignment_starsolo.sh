@@ -25,7 +25,7 @@ STAR --runThreadN 28 --readFilesCommand zcat \
     --genomeDir $Reference \
     --outFileNamePrefix "${OutputName[SLURM_ARRAY_TASK_ID]}" \
     --readFilesIn $Path/1.Raw_Data/"${Read1[SLURM_ARRAY_TASK_ID]}" $Path/1.Raw_Data/"${Read2[SLURM_ARRAY_TASK_ID]}" \
-    --sjdbGTFfile ./genome/glycine_max_v4_MtCp/wm82v4_1/Gmax_v4.0_MtCp.gtf \
+    --sjdbGTFfile /scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNACellRanger/genes/genes.gtf \
     --soloType Droplet --soloCBwhitelist /home/sb14489/cellranger-8.0.1/lib/python/cellranger/barcodes/3M-february-2018.txt \
     --soloUMIlen 12 --soloCBmatchWLtype 1MM_multi_Nbase_pseudocounts \
     --soloUMIfiltering MultiGeneUMI_CR \
