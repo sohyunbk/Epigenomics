@@ -36,5 +36,5 @@ STAR --runThreadN 30 --readFilesCommand zcat \
     --soloBarcodeReadLength 151 \
     --twopassMode Basic \
     --outSAMtype BAM SortedByCoordinate \
-    --limitBAMsortRAM 200000000000 \
+    --limitBAMsortRAM 400000000000 \
     --outSAMattributes NH HI nM AS CR UR CB UB GX GN sS sQ sM
