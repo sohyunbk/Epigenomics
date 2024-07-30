@@ -7,6 +7,7 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument('--output_name', required=True)
 parser.add_argument('--input_path', required=True)
+parser.add_argument('--outfileName', required=True)
 
 args = parser.parse_args()
 print("Current working directory:", os.getcwd())

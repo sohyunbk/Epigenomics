@@ -24,7 +24,7 @@ process process_qc_preprocessing {
 
     script:
     """
-    python "${params.ScriptDir}/qc_normalization_clustering.py" --input_path read_data_output --output_path qc_output
+    python "${params.ScriptDir}/qc_normalization_clustering.py" --input_path read_data_output --output_name qc_output
     """
 }
 
