@@ -20,11 +20,11 @@ process process_qc_preprocessing {
     path "read_data_output"
 
     output:
-    path "qc_output"
+    path "qc_data_output"
 
     script:
     """
-    python "${params.ScriptDir}/qc_normalization_clustering.py" --input_path read_data_output --output_name qc_output
+    python "${params.ScriptDir}/qc_normalization_clustering.py" --input_path read_data_output --output_name qc_data_output
     """
 }
 
