@@ -2,46 +2,58 @@
 
 nextflow.enable.dsl=2
 
-
 process process_read_data {
     input:
     val input_path
 
+    output:
+    path("${params.output_path}/read_data_output")
+
     script:
     """
     python "${params.ScriptDir}read_data.py" --input_path $input_path
-    mkdir -p "${params.output_path}"
-    mv * "${params.output_path}"
+    mkdir -p "${params.output_path}/read_data_output"
+    mv * "${params.output_path}/read_data_output"
     """
 }
 
 process process_qc_preprocessing {
     input:
-    val output_name
-    val output_path
+    path read_data_output
+
+    output:
+    path("${params.output_path}/qc_output")
 
     script:
     """
-    python "${params.ScriptDir}qc_normalization_clustering.py" --output_name $output_name --input_path $output_path
-    mv * "${params.output_path}"
+    python "${params.ScriptDir}qc_normalization_clustering.py" --input_path ${read_data_output}
+    mkdir -p "${params.output_path}/qc_output"
+    mv * "${params.output_path}/qc_output"
     """
 }
 
 process marker_gene_testing {
     input:
-    val output_name
-    val output_path
+    path qc_output
     val MarkerGene
+
+    output:
+    path("${params.output_path}/marker_output")
 
     script:
     """
-    python "${params.ScriptDir}marker_gene_testing.py" --output_name $output_name --input_path $output_path --markergenelist $MarkerGene
-    mv * "${params.output_path}"
+    python "${params.ScriptDir}marker_gene_testing.py" --input_path ${qc_output} --markergenelist $MarkerGene
+    mkdir -p "${params.output_path}/marker_output"
+    mv * "${params.output_path}/marker_output"
     """
 }
 
 workflow {
-    process_read_data(params.input_path)
-    process_qc_preprocessing(params.output_name, params.output_path)
-    marker_gene_testing(params.output_name, params.output_path, params.MarkerGene)
+    input_path = params.input_path
+    output_path = params.output_path
+    MarkerGene = params.MarkerGene
+
+    read_data_output = process_read_data(input_path)
+    qc_output = process_qc_preprocessing(read_data_output)
+    marker_output = marker_gene_testing(qc_output, MarkerGene)
 }
