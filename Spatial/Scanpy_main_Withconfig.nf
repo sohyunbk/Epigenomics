@@ -24,7 +24,7 @@ process process_qc_preprocessing {
 
     script:
     """
-    python "${params.ScriptDir}/qc_normalization_clustering.py" --input_path read_data_output --output_name qc_output
+    python "${params.ScriptDir}/qc_normalization_clustering.py" --input_path read_data_output --output_path qc_output
     """
 }
 
@@ -47,19 +47,17 @@ workflow {
     output_path = params.output_path
     MarkerGene = params.MarkerGene
 
-    // Create channels
-    read_data_input = Channel.value(input_path)
-    read_data_output_channel = Channel.fromPath("read_data_output")
-    qc_output_channel = Channel.fromPath("qc_output")
-    marker_output_channel = Channel.fromPath("marker_output")
+    // Step 1: Read data
+    read_data_out = process_read_data(input_path)
 
-    // Define the workflow steps
-    process_read_data(read_data_input).set { read_data_output_channel }
-    process_qc_preprocessing(read_data_output_channel).set { qc_output_channel }
-    marker_gene_testing(qc_output_channel, MarkerGene).set { marker_output_channel }
+    // Step 2: QC preprocessing
+    qc_out = process_qc_preprocessing(read_data_out)
 
-    // Move final output to the specified output path
-    marker_output_channel.view { path ->
+    // Step 3: Marker gene testing
+    marker_out = marker_gene_testing(qc_out, MarkerGene)
+
+    // Step 4: Move final output to the specified output path
+    marker_out.view { path ->
         exec """
         mkdir -p ${output_path}
         mv ${path}/* ${output_path}
