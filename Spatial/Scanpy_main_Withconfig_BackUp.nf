@@ -2,6 +2,11 @@
 
 nextflow.enable.dsl=2
 
+workflow {
+    process_read_data(params.input_path)
+    process_qc_preprocessing(params.output_name, params.output_path)
+    marker_gene_testing(params.output_name, params.output_path, params.MarkerGene)
+}
 
 process process_read_data {
     input:
@@ -38,10 +43,4 @@ process marker_gene_testing {
     python "${params.ScriptDir}marker_gene_testing.py" --output_name $output_name --input_path $output_path --markergenelist $MarkerGene
     mv * "${params.output_path}"
     """
-}
-
-workflow {
-    process_read_data(params.input_path)
-    process_qc_preprocessing(params.output_name, params.output_path)
-    marker_gene_testing(params.output_name, params.output_path, params.MarkerGene)
 }
