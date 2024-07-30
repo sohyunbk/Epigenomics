@@ -2,14 +2,12 @@
 
 nextflow.enable.dsl=2
 
-params.output_path
-
 process process_read_data {
     input:
     val input_path
 
     output:
-    path "read_data_output" into read_data_out
+    path("read_data_output") into read_data_out
 
     script:
     """
@@ -24,7 +22,7 @@ process process_qc_preprocessing {
     path read_data_out
 
     output:
-    path "qc_output" into qc_out
+    path("qc_output") into qc_out
 
     script:
     """
@@ -40,7 +38,7 @@ process marker_gene_testing {
     val MarkerGene
 
     output:
-    path "marker_output" into marker_out
+    path("marker_output") into marker_out
 
     script:
     """
@@ -52,12 +50,18 @@ process marker_gene_testing {
 
 workflow {
     input_path = params.input_path
+    output_path = params.output_path
     MarkerGene = params.MarkerGene
 
     read_data_out = process_read_data(input_path)
     qc_out = process_qc_preprocessing(read_data_out)
     marker_out = marker_gene_testing(qc_out, MarkerGene)
 
-    // Save final output to the specified output path
-    marker_out.view { path -> println "Final output: ${path}" }
+    // Move final output to the specified output path
+    marker_out.view { path ->
+        exec """
+        mkdir -p ${output_path}
+        mv ${path}/* ${output_path}
+        """
+    }
 }
