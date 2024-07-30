@@ -7,7 +7,7 @@ process process_read_data {
     val input_path
 
     output:
-    path "read_data_output" into read_data_out
+    path "read_data_output"
 
     script:
     """
@@ -17,10 +17,10 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path read_data_output
+    path "read_data_output"
 
     output:
-    path "qc_output" into qc_out
+    path "qc_output"
 
     script:
     """
@@ -30,11 +30,11 @@ process process_qc_preprocessing {
 
 process marker_gene_testing {
     input:
-    path qc_output
+    path "qc_output"
     val MarkerGene
 
     output:
-    path "marker_output" into marker_out
+    path "marker_output"
 
     script:
     """
@@ -47,16 +47,19 @@ workflow {
     output_path = params.output_path
     MarkerGene = params.MarkerGene
 
-    // Create the initial input channel
+    // Create channels
     read_data_input = Channel.value(input_path)
+    read_data_output_channel = Channel.fromPath("read_data_output")
+    qc_output_channel = Channel.fromPath("qc_output")
+    marker_output_channel = Channel.fromPath("marker_output")
 
     // Define the workflow steps
-    read_data_out = process_read_data(read_data_input)
-    qc_out = process_qc_preprocessing(read_data_out)
-    marker_out = marker_gene_testing(qc_out, MarkerGene)
+    process_read_data(read_data_input).set { read_data_output_channel }
+    process_qc_preprocessing(read_data_output_channel).set { qc_output_channel }
+    marker_gene_testing(qc_output_channel, MarkerGene).set { marker_output_channel }
 
     // Move final output to the specified output path
-    marker_out.view { path ->
+    marker_output_channel.view { path ->
         exec """
         mkdir -p ${output_path}
         mv ${path}/* ${output_path}
