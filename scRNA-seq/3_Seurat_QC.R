@@ -18,13 +18,13 @@ DataName <- "WT_Re1"
 InputFile <- "/scratch/sb14489/4.scRNAseq/2.snRNA-seq/2.Mapped_CellRanger/Sohyun-wt-1/outs/raw_feature_bc_matrix/"
 
 DataName <- "WT_Re2"
-InputFile <- "/scratch/sb14489/4.scRNAseq/2.snRNA-seq/2.Mapped_CellRanger/Sohyun-wt-2/outs/filtered_feature_bc_matrix/"
+InputFile <- "/scratch/sb14489/4.scRNAseq/2.snRNA-seq/2.Mapped_CellRanger/Sohyun-wt-2/outs/raw_feature_bc_matrix/"
 
 DataName <- "Bif3_Re1"
-InputFile <- "/scratch/sb14489/4.scRNAseq/2.snRNA-seq/2.Mapped_CellRanger/Sohyun-bif3-1/outs/filtered_feature_bc_matrix/"
+InputFile <- "/scratch/sb14489/4.scRNAseq/2.snRNA-seq/2.Mapped_CellRanger/Sohyun-bif3-1/outs/raw_feature_bc_matrix/"
 
 DataName <- "Bif3_Re2"
-InputFile <- "/scratch/sb14489/4.scRNAseq/2.snRNA-seq/2.Mapped_CellRanger/Sohyun-bif3-2/outs/filtered_feature_bc_matrix/"
+InputFile <- "/scratch/sb14489/4.scRNAseq/2.snRNA-seq/2.Mapped_CellRanger/Sohyun-bif3-2/outs/raw_feature_bc_matrix/"
 
 data <- Read10X(data.dir = InputFile)
 obj <- CreateSeuratObject(counts = data, project = DataName, min.cells = 0, min.features = 0)
@@ -150,7 +150,21 @@ ggsave(filename = paste0("QCPlot_", DataName, ".pdf"),
 # 4) Doublet 
 ####################################
 
+obj_filtered <- NormalizeData(obj_filtered)
+obj_filtered <- FindVariableFeatures(obj_filtered, selection.method = "vst", nfeatures = 2000)
+obj_filtered <- ScaleData(obj_filtered)
+obj_filtered <- RunPCA(obj_filtered)
 
+obj_filtered <- FindNeighbors(obj_filtered, dims = 1:10)
+obj_filtered <- FindClusters(obj_filtered, resolution = 0.5)
+
+obj_filtered <- RunUMAP(obj_filtered, dims = 1:10)
+
+DimPlot(obj_filtered, reduction = "umap")
+
+sweep.obj <- paramSweep(obj_filtered, PCs = 1:10, sct = FALSE)
+sweep.stats <- summarizeSweep(sweep.obj, GT = FALSE)
+bcmvn <- find.pK(sweep.stats)
 ## knee plot
 # Extract nCount_RNA values
 #nCount_RNA_values <- obj_Re1$nCount_RNA
