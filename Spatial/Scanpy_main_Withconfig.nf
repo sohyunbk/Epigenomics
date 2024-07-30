@@ -13,7 +13,7 @@ process process_read_data {
     """
     python "${params.ScriptDir}read_data.py" --input_path $input_path
     mkdir -p read_data_output
-    mv * read_data_output/
+    cp -r * read_data_output/
     """
 }
 
@@ -28,7 +28,7 @@ process process_qc_preprocessing {
     """
     python "${params.ScriptDir}qc_normalization_clustering.py" --input_path read_data_output
     mkdir -p qc_output
-    mv * qc_output/
+    cp -r * qc_output/
     """
 }
 
@@ -44,7 +44,7 @@ process marker_gene_testing {
     """
     python "${params.ScriptDir}marker_gene_testing.py" --input_path qc_output --markergenelist $MarkerGene
     mkdir -p marker_output
-    mv * marker_output/
+    cp -r * marker_output/
     """
 }
 
