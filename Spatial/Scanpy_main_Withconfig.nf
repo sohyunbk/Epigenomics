@@ -7,41 +7,38 @@ process process_read_data {
     val input_path
 
     output:
-    path "read_data_output"
+    path "read_data_output" into read_data_out
 
     script:
     """
-    python "${params.ScriptDir}read_data.py" --input_path $input_path
-
+    python "${params.ScriptDir}/read_data.py" --input_path $input_path --output_path read_data_output
     """
 }
 
 process process_qc_preprocessing {
     input:
-    path "read_data_output/*"
+    path read_data_output
 
     output:
-    path "qc_output"
+    path "qc_output" into qc_out
 
     script:
     """
-    python "${params.ScriptDir}qc_normalization_clustering.py" --input_path read_data_output
-
+    python "${params.ScriptDir}/qc_normalization_clustering.py" --input_path read_data_output --output_path qc_output
     """
 }
 
 process marker_gene_testing {
     input:
-    path "qc_output/*"
+    path qc_output
     val MarkerGene
 
     output:
-    path "marker_output"
+    path "marker_output" into marker_out
 
     script:
     """
-    python "${params.ScriptDir}marker_gene_testing.py" --input_path qc_output --markergenelist $MarkerGene
-
+    python "${params.ScriptDir}/marker_gene_testing.py" --input_path qc_output --markergenelist $MarkerGene --output_path marker_output
     """
 }
 
@@ -50,7 +47,11 @@ workflow {
     output_path = params.output_path
     MarkerGene = params.MarkerGene
 
-    read_data_out = process_read_data(input_path)
+    // Create the initial input channel
+    read_data_input = Channel.value(input_path)
+
+    // Define the workflow steps
+    read_data_out = process_read_data(read_data_input)
     qc_out = process_qc_preprocessing(read_data_out)
     marker_out = marker_gene_testing(qc_out, MarkerGene)
 
