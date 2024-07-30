@@ -7,7 +7,7 @@ process process_read_data {
     val input_path
 
     output:
-    path("read_data_output") into read_data_out
+    path "read_data_output"
 
     script:
     """
@@ -19,10 +19,10 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path read_data_out
+    path read_data_output
 
     output:
-    path("qc_output") into qc_out
+    path "qc_output"
 
     script:
     """
@@ -34,11 +34,11 @@ process process_qc_preprocessing {
 
 process marker_gene_testing {
     input:
-    path qc_out
+    path qc_output
     val MarkerGene
 
     output:
-    path("marker_output") into marker_out
+    path "marker_output"
 
     script:
     """
@@ -53,7 +53,9 @@ workflow {
     output_path = params.output_path
     MarkerGene = params.MarkerGene
 
-    read_data_out = process_read_data(input_path)
+    Channel.fromPath(input_path).set { read_data_input }
+
+    read_data_out = process_read_data(read_data_input)
     qc_out = process_qc_preprocessing(read_data_out)
     marker_out = marker_gene_testing(qc_out, MarkerGene)
 
