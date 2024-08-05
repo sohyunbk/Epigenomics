@@ -1,5 +1,4 @@
 library(stringi)
-library(SeuratData)
 library(Seurat)
 #library(Signac)
 library(ggplot2)
@@ -15,8 +14,8 @@ option_list = list(
               help="WD", metavar="character"),
   make_option(c("--Name"), type="character",
               help="Name", metavar="character"),
-  make_option(c("--UMICut"), type="character",
-              help="UMICut", metavar="character"),
+  make_option(c("--UMICut"), type="integer",
+              help="UMICut", metavar="integer"),
   make_option(c("--GeneCut"), type="character",
               help="GeneCut", metavar="character"),
   make_option(c("--InputDir"), type="character",
