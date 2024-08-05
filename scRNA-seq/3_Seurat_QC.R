@@ -315,4 +315,4 @@ combined_plot <- grid.arrange(
 
 # Save the combined plot
 ggsave(filename = paste0("QCPlotUMAPDoublet_", DataName, ".pdf"),
-       plot = combined_plot, width = 17, height = 7)
+       plot = combined_plot, width = 25, height = 7)
