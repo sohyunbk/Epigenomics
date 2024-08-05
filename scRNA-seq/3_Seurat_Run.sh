@@ -7,7 +7,7 @@
 #SBATCH --time=10:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/3_Seurat.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/3_Seurat.%j.err    # Standard error log
-#SBATCH --array=0-8                   # Array range
+#SBATCH --array=0-7                  # Array range
 
 Names=(WT_Re1_Gene1000_UMI1000 WT_Re2_Gene1000_UMI1000 Bif3_Re1_Gene1000_UMI1000 Bif3_Re2_Gene1000_UMI1000 WT_Re1 WT_Re2 Bif3_Re1 Bif3_Re2)
 UMICuts=(1000 1000 1000 1000 0 0 0 0)
