@@ -16,8 +16,8 @@ option_list = list(
               help="Name", metavar="character"),
   make_option(c("--UMICut"), type="integer",
               help="UMICut", metavar="integer"),
-  make_option(c("--GeneCut"), type="character",
-              help="GeneCut", metavar="character"),
+  make_option(c("--GeneCut"), type="integer",
+              help="GeneCut", metavar="integer"),
   make_option(c("--InputDir"), type="character",
               help="InputDir", metavar="character")
 );
