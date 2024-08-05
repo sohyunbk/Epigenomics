@@ -1,5 +1,5 @@
 library(stringi)
-library(SeuratData)
+#library(SeuratData)
 library(Seurat)
 #library(Signac)
 library(ggplot2)
@@ -27,7 +27,6 @@ InputFile <- ""
 ### 1) Starsolo file output make it as .gz file
 files <- c(paste0(InputFile,"/barcodes.tsv"), paste0(InputFile,"/features.tsv"),paste0(InputFile,"/matrix.mtx"))
 
-# Function to check and compress files if not already compressed
 compress_if_not_gz <- function(file) {
   if (!grepl("\\.gz$", file)) {
     gzip(file, destname = paste0(file, ".gz"))
@@ -36,11 +35,10 @@ compress_if_not_gz <- function(file) {
     message(paste(file, "is already compressed."))
   }
 }
-
-# Apply the function to each file
 lapply(files, compress_if_not_gz)
 
 
+### 2) Load through seurat Read10X
 
 data <- Read10X(data.dir = InputFile)
 obj <- CreateSeuratObject(counts = data, project = DataName, min.cells = 100, min.features = 200)
