@@ -25,8 +25,8 @@ setwd(opt$WD)
 #setwd("/scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony")
 
 DataName <- opt$Name
-Re1 <- opt$rds1
-Re2 <- opt$rds2
+Re1 <- readRDS(opt$rds1)
+Re2 <- readRDS(opt$rds2)
 
 Re1and2 <- merge(Re1,y=Re2,add.cell.ids=c("Re1","Re2"))
 Re1and2 <- JoinLayers(Re1and2)
