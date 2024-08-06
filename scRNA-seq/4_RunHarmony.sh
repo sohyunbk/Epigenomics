@@ -15,8 +15,8 @@ Re2Objects=(obj_afterDoubletWT_Re2.rds obj_afterDoubletWT_Re2_Gene1000_UMI1000.r
 
 source activate /home/sb14489/miniconda3/envs/Spatial
 
-Rscript /home/sb14489/Epigenomics/scRNA-seq/3_Seurat_QC.R \
+Rscript /home/sb14489/Epigenomics/scRNA-seq/4_Harmony.R  \
 --WD /scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony/ \
 --Name "${Names[SLURM_ARRAY_TASK_ID]}" \
 --rds1 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${UMICuts[SLURM_ARRAY_TASK_ID]}" \
---rds2 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${GeneCuts[SLURM_ARRAY_TASK_ID]}" 
+--rds2 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${GeneCuts[SLURM_ARRAY_TASK_ID]}"
