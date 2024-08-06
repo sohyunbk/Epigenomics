@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=2             # Number of CPU cores per task
 #SBATCH --mem=80gb                   # Job memory request
 #SBATCH --time=10:00:00               # Time limit hrs:min:sec
-#SBATCH --output=/scratch/sb14489/0.log/3_Seurat.%j.out   # Standard output log
-#SBATCH --error=/scratch/sb14489/0.log/3_Seurat.%j.err    # Standard error log
+#SBATCH --output=/scratch/sb14489/0.log/Harmony.%j.out   # Standard output log
+#SBATCH --error=/scratch/sb14489/0.log/Harmony.%j.err    # Standard error log
 #SBATCH --array=0-3                  # Array range
 
 Names=(WTRe1andRe2 WTRe1andRe2_UMI1000 Bif3Re1andRe2 Bif3Re1andRe2_UMI1000)
