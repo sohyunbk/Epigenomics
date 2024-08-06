@@ -18,5 +18,5 @@ source activate /home/sb14489/miniconda3/envs/Spatial
 Rscript /home/sb14489/Epigenomics/scRNA-seq/4_Harmony.R  \
 --WD /scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony/ \
 --Name "${Names[SLURM_ARRAY_TASK_ID]}" \
---rds1 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${UMICuts[SLURM_ARRAY_TASK_ID]}" \
---rds2 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${GeneCuts[SLURM_ARRAY_TASK_ID]}"
+--rds1 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${Re1Objects[SLURM_ARRAY_TASK_ID]}" \
+--rds2 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${Re2Objects[SLURM_ARRAY_TASK_ID]}"
