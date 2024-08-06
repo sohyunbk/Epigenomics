@@ -5,16 +5,28 @@ library(ggplot2)
 library(gridExtra)
 library(grid)  # Load the grid package
 library("RColorBrewer")
+library("optparse")
 
-DataName <- "WTRe1andRe2"
-Re1 <- readRDS("/scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/obj_afterDoubletWT_Re1_Gene1000_UMI1000.rds")
-Re2 <- readRDS("/scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/obj_afterDoubletWT_Re2_Gene1000_UMI1000.rds")
+option_list = list(
+  make_option(c("--WD"), type="character",
+              help="WD", metavar="character"),
+  make_option(c("--Name"), type="character",
+              help="Name", metavar="character"),
+  make_option(c("--rds1"), type="character",
+              help="rds1", metavar="character"),
+  make_option(c("--rds2"), type="character",
+              help="rds2", metavar="character")
+ 
+);
+opt_parser = OptionParser(option_list=option_list);
+opt = parse_args(opt_parser);
 
-DataName <- "Bif3Re1andRe2"
-Re1 <- readRDS("/scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/obj_afterDoubletBif3_Re1_Gene1000_UMI1000.rds")
-Re2 <- readRDS("/scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/obj_afterDoubletBif3_Re2_Gene1000_UMI1000.rds")
+setwd(opt$WD)
+#setwd("/scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony")
 
-setwd("/scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony")
+DataName <- opt$Name
+Re1 <- opt$rds1
+Re2 <- opt$rds2
 
 Re1and2 <- merge(Re1,y=Re2,add.cell.ids=c("Re1","Re2"))
 Re1and2 <- JoinLayers(Re1and2)

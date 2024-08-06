@@ -10,8 +10,13 @@ MarkerGenePlot <-
 ggsave(plot=MarkerGenePlot,"Temp.pdf", width = 10, height = 20)
 
 ########################################
-library(impute)
-library(destiny)
+library(tradeSeq)
+library(Seurat)
+
+Harmony
+
+
+
 
 gene_of_interest <- "Zm00001eb067310"
 
@@ -29,5 +34,5 @@ Harmony <- SetAssayData(Harmony, slot = "data", new.data = smoothed_data)
 
 # Visualize with FeaturePlot
 MarkerGenePlot <- 
-   FeaturePlot(Harmony, features = "Zm00001eb067310")
-ggsave(plot=MarkerGenePlot,"Temp.pdf", width = 4, height = 3)
+   FeaturePlot(Harmony, features = "Zm00001eb999999")
+ggsave(plot=MarkerGenePlot,"Temp.pdf", width = 10, height = 10)
