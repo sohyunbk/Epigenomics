@@ -3,7 +3,7 @@
 #SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=28             # Number of CPU cores per task
-#SBATCH --mem=400gb                   # Job memory request
+#SBATCH --mem=300gb                   # Job memory request
 #SBATCH --time=80:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/2_Mapping.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/2_Mapping.%j.err    # Standard error log
@@ -22,5 +22,5 @@ cellranger count --id="${List[SLURM_ARRAY_TASK_ID]}" \
                       --transcriptome=$Reference \
                       --fastqs=$Path/1.Raw_Data/ \
                       --sample="${List[SLURM_ARRAY_TASK_ID]}" \
-                      --localcores=32 \
-                      --localmem=500
+                      --localcores=28 \
+                      --localmem=300
