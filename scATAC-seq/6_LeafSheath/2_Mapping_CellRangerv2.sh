@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=Alignment        # Job name
-#SBATCH --partition=schmitz_hm_p         # Partition (queue) name
+#SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=24             # Number of CPU cores per task
 #SBATCH --mem=300gb                   # Job memory request #For normal fastq : 600gb
