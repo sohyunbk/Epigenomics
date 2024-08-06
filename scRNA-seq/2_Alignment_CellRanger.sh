@@ -12,7 +12,7 @@
 List=(Sohyun-wt-1 Sohyun-wt-2 Sohyun-bif3-1 Sohyun-bif3-2)
 
 Path=/scratch/sb14489/4.scRNAseq/2.snRNA-seq/
-Reference=/scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNACellRanger/
+Reference=/scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scRNACellRanger_ZmCLE7/
 
 module load CellRanger/7.0.0
 
