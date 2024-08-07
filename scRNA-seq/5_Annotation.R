@@ -98,8 +98,12 @@ generate_graph <- function(combined_df, GeneName, GeneID) {
 ############################
 ## smooth and imputation 
 ############################
-
-
+filename <- paste0(Name,".MarkovMatrix.rds")
+if (file_exists) {
+  message("The file ", filename, " exists in the current working directory.")
+  A <- readRDS(filename)
+} else {
+  
 k=25
 step=2 # originally 3
 npcs=19
@@ -138,7 +142,8 @@ dim(A)
 head(pca_embeddings[,c(1:10)])
 colnames(A) <- rownames(pca_embeddings)
 saveRDS(A,paste0(Name,".MarkovMatrix.rds"))
-
+message("The file ", filename, " does not exist in the current working directory.")
+}
 ############################################
 
 message("   * smoothing activity ...")
