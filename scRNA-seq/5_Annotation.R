@@ -99,6 +99,8 @@ generate_graph <- function(combined_df, GeneName, GeneID) {
 ## smooth and imputation 
 ############################
 filename <- paste0(Name,".MarkovMatrix.rds")
+file_exists <- file.exists(filename)
+
 if (file_exists) {
   message("The file ", filename, " exists in the current working directory.")
   A <- readRDS(filename)
