@@ -7,10 +7,10 @@ process runPipeline {
     // container 'python:3.8'
 
     input:
-    val inputPath from params.input_path
-    val outputPath from params.output_path
+    file inputPath from params.input_path
+    file outputPath from params.output_path
     val outputName from params.output_name
-    val markerGene from params.MarkerGene
+    file markerGene from params.MarkerGene
     val scriptDir from params.ScriptDir
 
     script:
