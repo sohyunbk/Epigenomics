@@ -105,7 +105,7 @@ if (file_exists) {
   message("The file ", filename, " exists in the current working directory.")
   A <- readRDS(filename)
 } else {
-  
+print("start smooth")
 k=25
 step=2 # originally 3
 npcs=19
