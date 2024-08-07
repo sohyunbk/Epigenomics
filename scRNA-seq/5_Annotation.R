@@ -155,7 +155,6 @@ head(out["Zm00001eb000010",])
 head(Harmony@meta.data)
 umap_embeddings <- Embeddings(Harmony, reduction = "umap")
 head(umap_embeddings)
-str(combined_df)
 
 
 #### Draw all Marker genes
