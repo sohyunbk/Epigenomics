@@ -2,8 +2,8 @@
 #SBATCH --job-name=scRNA-seq        # Job name
 #SBATCH --partition=schmitz_hm_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
-#SBATCH --cpus-per-task=2             # Number of CPU cores per task
-#SBATCH --mem=80gb                   # Job memory request
+#SBATCH --cpus-per-task=6             # Number of CPU cores per task
+#SBATCH --mem=200gb                   # Job memory request
 #SBATCH --time=10:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/Harmony.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Harmony.%j.err    # Standard error log
