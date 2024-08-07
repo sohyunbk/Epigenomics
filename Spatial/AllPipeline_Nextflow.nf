@@ -13,4 +13,5 @@ process runPipeline {
 
 workflow {
     runPipeline()
+    mv * "${params.output_path}"
 }

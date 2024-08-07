@@ -31,8 +31,8 @@ adata.var['PT'] = adata.var_names.str.startswith('chrPt')
 sc.pp.calculate_qc_metrics(adata, qc_vars=['Mt', 'PT'], inplace=True)
 
 # Write the output file to the specified output path
-output_file = os.path.join(args.output_path, "adata.h5ad")
-adata.write(output_file)
+#output_file = os.path.join(args.output_path, "adata.h5ad")
+#adata.write(output_file)
 
 
 ###
@@ -44,7 +44,7 @@ import os
 
 
 # Create the output directory if it does not exist
-adata = sc.read(f"{args.input_path}/adata.h5ad")
+#adata = sc.read(f"{args.input_path}/adata.h5ad")
 
 fig, axs = plt.subplots(1, 4, figsize=(15, 4))
 sns.histplot(adata.obs["total_counts"], kde=False, ax=axs[0])
@@ -108,13 +108,13 @@ sc.pl.spatial(
 )
 
 
-adata.write("./adata_processed.h5ad")
+#adata.write("./adata_processed.h5ad")
 
 ##
 
 
 
-adata = sc.read(f"{args.input_path}/adata_processed.h5ad")
+#adata = sc.read(f"{args.input_path}/adata_processed.h5ad")
 df = pd.read_csv(args.markergenelist, sep='\t')
 
 gene_list = df['geneID'].tolist()
