@@ -9,14 +9,12 @@
 #SBATCH --error=/scratch/sb14489/0.log/Harmony.%j.err    # Standard error log
 #SBATCH --array=0-3                  # Array range
 
-Names=(WTRe1andRe2 WTRe1andRe2_UMI1000 Bif3Re1andRe2 Bif3Re1andRe2_UMI1000)
-Re1Objects=(obj_afterDoubletWT_Re1.rds obj_afterDoubletWT_Re1_Gene1000_UMI1000.rds obj_afterDoubletBif3_Re1.rds obj_afterDoubletBif3_Re1_Gene1000_UMI1000.rds)
-Re2Objects=(obj_afterDoubletWT_Re2.rds obj_afterDoubletWT_Re2_Gene1000_UMI1000.rds obj_afterDoubletBif3_Re2.rds obj_afterDoubletBif3_Re2_Gene1000_UMI1000.rds)
+Rds_list=(obj_afterHarmony_WTRe1andRe2.rds  obj_afterHarmony_WTRe1andRe2_UMI1000.rds obj_afterHarmony_Bif3Re1andRe2.rds obj_afterHarmony_Bif3Re1andRe2_UMI1000.rds)
 
 source activate /home/sb14489/miniconda3/envs/Spatial
 
-Rscript /home/sb14489/Epigenomics/scRNA-seq/4_Harmony.R  \
---WD /scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony/ \
+Rscript /home/sb14489/Epigenomics/scRNA-seq/5_Annotation.R   \
+--WD /scratch/sb14489/4.scRNAseq/2.snRNA-seq/5.Annotation/ \
 --Name "${Names[SLURM_ARRAY_TASK_ID]}" \
---rds1 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${Re1Objects[SLURM_ARRAY_TASK_ID]}" \
---rds2 /scratch/sb14489/4.scRNAseq/2.snRNA-seq/3.Seurat/"${Re2Objects[SLURM_ARRAY_TASK_ID]}"
+--HarmonyRDS /scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony/ \
+--Markers /scratch/sb14489/3.scATAC/0.Data/MarkerGene/SeletedMarkergeneForDotPlot_RemoveUnknown.txt
