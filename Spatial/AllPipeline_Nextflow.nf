@@ -8,10 +8,11 @@ process runPipeline {
     script:
     """
     python "${params.ScriptDir}/AllPipeline.py" --input_path params.input_path --output_path params.output_path --output_name params.output_name --markergenelist params.MarkerGene
+    mv * "${params.output_path}"
     """
 }
 
 workflow {
     runPipeline()
-    mv * "${params.output_path}"
+
 }
