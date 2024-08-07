@@ -14,7 +14,7 @@ Names=(WTRe1andRe2  WTRe1andRe2_UMI1000  Bif3Re1andRe2  Bif3Re1andRe2_UMI1000)
 source activate /home/sb14489/miniconda3/envs/Spatial
 
 Rscript /home/sb14489/Epigenomics/scRNA-seq/5_Annotation.R   \
---WD /scratch/sb14489/4.scRNAseq/2.snRNA-seq/5.Annotation/ \
+--WD /scratch/sb14489/4.scRNAseq/2.snRNA-seq/5.MarkerGene/ \
 --Name "${Names[SLURM_ARRAY_TASK_ID]}" \
 --HarmonyRDS /scratch/sb14489/4.scRNAseq/2.snRNA-seq/4.Harmony/obj_afterHarmony_"${Names[SLURM_ARRAY_TASK_ID]}".rds \
 --Markers /scratch/sb14489/3.scATAC/0.Data/MarkerGene/SeletedMarkergeneForDotPlot_RemoveUnknown.txt
