@@ -117,7 +117,6 @@ sc.pl.spatial(
 )
 
 
-#adata.write("./adata_processed.h5ad")
 
 ##
 
@@ -174,3 +173,4 @@ plt.tight_layout()
 # Close all figures to avoid the RuntimeWarning
 plt.savefig(f"MarkerGeneAll_{args.output_name}.pdf")
 plt.close('all')
+adata.write("./adata_processed.h5ad")
