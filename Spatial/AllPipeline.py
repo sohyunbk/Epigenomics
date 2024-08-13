@@ -42,6 +42,7 @@ sc.pp.calculate_qc_metrics(adata, qc_vars=['Mt', 'PT'], inplace=True)
 # Write the output file to the specified output path
 #output_file = os.path.join(args.output_path, "adata.h5ad")
 #adata.write(output_file)
+adata.write("./adata_raw.h5ad")
 
 
 ###
