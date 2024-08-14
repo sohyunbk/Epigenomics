@@ -14,15 +14,42 @@ import matplotlib as mpl
 import scipy.sparse
 
 #### Designed for Pannel D - 2 WT and 2 bif3 together
-#### Cluster 6 - WT CZ / Cluster 5 - Bif3 CZ
-
+#### Cluster 12 - pink WT CZ / Cluster 5 - brown Bif3 CZ
+Adata_raw = sc.read("/scratch/sb14489/9.spatialRNAseq/2.QC_MarkerGene/A619_D/adata_raw.h5ad")
 Adata = sc.read("/scratch/sb14489/9.spatialRNAseq/2.QC_MarkerGene/A619_D/adata_processed.h5ad")
 Adata
-print(Adata.obs.head())
+Meta = Adata.obs
+
+print(Meta.head())
 print(Adata.obs['total_counts'])
+WT_CZ = Meta[Meta['clusters'] == '12']
+print(WT_CZ)
+Bif3_CZ = Meta[Meta['clusters'] == '5' ]
+print(Bif3_CZ)
+WT_CZ_Barcodeslist = WT_CZ.index.tolist()
+Bif3_CZ_Barcodeslist = Bif3_CZ.index.tolist()
+
+cell_gene_count_matrix = Adata_raw.X
+cell_gene_count_matrix_dense = cell_gene_count_matrix.toarray() if isinstance(cell_gene_count_matrix, scipy.sparse.spmatrix) else cell_gene_count_matrix
+cell_gene_count_raw = pd.DataFrame(cell_gene_count_matrix_dense, index=Adata.obs.index, columns=Adata.var.index)
+print(cell_gene_count_raw)
 
 cell_gene_count_matrix = Adata.X
 cell_gene_count_matrix_dense = cell_gene_count_matrix.toarray() if isinstance(cell_gene_count_matrix, scipy.sparse.spmatrix) else cell_gene_count_matrix
-cell_gene_count_df = pd.DataFrame(cell_gene_count_matrix_dense, index=Adata.obs.index, columns=Adata.var.index)
-print(cell_gene_count_matrix)
-print(cell_gene_count_df)
+cell_gene_count_normalized = pd.DataFrame(cell_gene_count_matrix_dense, index=Adata.obs.index, columns=Adata.var.index)
+print(cell_gene_count_normalized)
+
+#### Get the CZ cells from the table ###
+
+barcode_set = set(Bif3_CZ_Barcodeslist)
+Bif3CZ_Count = cell_gene_count_normalized.loc[cell_gene_count_normalized.index.isin(barcode_set)]
+
+barcode_set = set(WT_CZ_Barcodeslist)
+WTCZ_Count = cell_gene_count_normalized.loc[cell_gene_count_normalized.index.isin(barcode_set)]
+
+#### Load the target genes ###########
+#Markergenes = pd.read_csv('/scratch/sb14489/3.scATAC/0.Data/MarkerGene/SpatialMarkerFinal.txt', sep='\t')
+#filtered_genes = Markergenes[Markergenes['name'].str.startswith('arf')]
+#len(gene_ids)
+
+TargetGeneList=["","","",]
