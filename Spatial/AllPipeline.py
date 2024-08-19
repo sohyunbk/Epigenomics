@@ -22,7 +22,7 @@ parser.add_argument('--ClusterRes', required=True) ## Default is 1
 args = parser.parse_args()
 print("Current working directory:", os.getcwd())
 args = parser.parse_args()
-Res = int(args.ClusterRes)
+Res = float(args.ClusterRes)
 # Create the output directory if it does not exist
 os.makedirs(args.output_path+"Res"+str(args.ClusterRes), exist_ok=True)
 
