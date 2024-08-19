@@ -18,12 +18,13 @@ parser.add_argument('--input_path', required=True)
 parser.add_argument('--output_path', required=True)
 parser.add_argument('--output_name', required=True)
 parser.add_argument('--markergenelist', required=True)
+parser.add_argument('--ClusterRes', required=True) ## Default is 1
 args = parser.parse_args()
 print("Current working directory:", os.getcwd())
 args = parser.parse_args()
-
+Res = int(args.ClusterRes)
 # Create the output directory if it does not exist
-os.makedirs(args.output_path, exist_ok=True)
+os.makedirs(args.output_path+"Res"+str(args.ClusterRes), exist_ok=True)
 
 # Read the data
 adata = sq.read.visium(args.input_path)
@@ -94,7 +95,7 @@ sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=2000)
 # Manifold embedding and clustering based on transcriptional similarity
 sc.pp.pca(adata)
 sc.pp.neighbors(adata)
-sc.tl.umap(adata)
+sc.tl.umap(adata,resolution=)
 sc.tl.leiden(adata, key_added="clusters", flavor="igraph", directed=False, n_iterations=2)
 
 # Save UMAP plot
