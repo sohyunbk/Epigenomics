@@ -95,8 +95,8 @@ sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=2000)
 # Manifold embedding and clustering based on transcriptional similarity
 sc.pp.pca(adata)
 sc.pp.neighbors(adata)
-sc.tl.umap(adata,resolution=Res)
-sc.tl.leiden(adata, key_added="clusters", flavor="igraph", directed=False, n_iterations=2)
+sc.tl.umap(adata)
+sc.tl.leiden(adata,resolution=Res, key_added="clusters", flavor="igraph", directed=False, n_iterations=2)
 
 # Save UMAP plot
 plt.rcParams["figure.figsize"] = (4, 4)
