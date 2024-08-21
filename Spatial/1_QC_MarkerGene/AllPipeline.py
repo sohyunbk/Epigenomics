@@ -24,7 +24,7 @@ print("Current working directory:", os.getcwd())
 args = parser.parse_args()
 Res = float(args.ClusterRes)
 # Create the output directory if it does not exist
-#os.makedirs(args.output_path+"Res"+str(args.ClusterRes), exist_ok=True)
+os.makedirs(args.output_path), exist_ok=True)
 
 # Read the data
 adata = sq.read.visium(args.input_path)
