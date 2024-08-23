@@ -11,7 +11,7 @@ process process_read_data {
 
 process process_qc_preprocessing {
     input:
-    path outputname
+    val outputname
     path Diroutput
     script:
     """
@@ -23,7 +23,7 @@ process process_qc_preprocessing {
 
 process marker_gene_testing {
     input:
-    path outputname
+    val outputname
     path Diroutput
     path Marker
     script:
