@@ -57,6 +57,8 @@ lrt <- glmLRT(fit,coef = 2)
 Result_table <- topTags(lrt, n=dim(CountTable)[1], sort.by="none")$table
 head(Result_table)
 tmm_normalized_counts <- cpm(y, normalized.lib.sizes=TRUE,log=T)
+write.table(Result_table, file = "/scratch/sb14489/9.spatialRNAseq/3.TargetGene_IMOnly/DEGTestResult.csv",
+            sep = ",", col.names = TRUE, row.names = FALSE, quote = FALSE)
 
 
 AllPlotgenes_symbol <- c('arftf4', 'arftf30', 'arftf18', 'arftf3', 'arftf20', 'arftf25', 'arftf10', 'arftf36', 'arftf23', 'arftf26', 'knox1')

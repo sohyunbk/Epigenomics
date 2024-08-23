@@ -7,7 +7,6 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument('--output_name', required=True)
 parser.add_argument('--input_path', required=True)
-parser.add_argument('--output_path', required=True)
 
 args = parser.parse_args()
 print("Current working directory:", os.getcwd())
@@ -76,4 +75,4 @@ sc.pl.spatial(
 )
 
 
-adata.write(args.output_path+"/adata_processed.h5ad")
+adata.write("./adata_processed.h5ad")
