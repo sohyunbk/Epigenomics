@@ -33,5 +33,5 @@ process marker_gene_testing {
 }
 
 workflow {
-    process_read_data(params.input, params.output_path) | process_qc_preprocessing(params.output_name, params.output_path) | marker_gene_testing(params.output_name, params.output_path, params.MarkerGene)
+    process_read_data(params.input_path, params.output_path) | process_qc_preprocessing(params.output_name, params.output_path) | marker_gene_testing(params.output_name, params.output_path, params.MarkerGene)
 }
