@@ -109,7 +109,7 @@ process markergene {
     stdout
 
     """
-    python "${params.ScriptDir}marker_gene_testing.py" --output_name "$params.output_name" --input_path "$params.output_path" --markergenelist $MarkerGene "$params.MarkerGene"
+    python "${params.ScriptDir}marker_gene_testing.py" --output_name "$params.output_name" --input_path "$params.output_path" --markergenelist "$params.MarkerGene"
     """
     }
 
