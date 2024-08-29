@@ -42,34 +42,31 @@ process process_qc_preprocessing {
 
     """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
-    import scanpy as sc
+  import scanpy as sc
     import seaborn as sns
     import matplotlib.pyplot as plt
     import os
-
     print("Current working directory:", os.getcwd())
     # Create the output directory if it does not exist
-    adata = sc.read(f"{params.input_path}/adata.h5ad")
+    adata = sc.read(f"{"$params.input_path"}/adata.h5ad")
 
     fig, axs = plt.subplots(1, 4, figsize=(15, 4))
     sns.histplot(adata.obs["total_counts"], kde=False, ax=axs[0])
     sns.histplot(
-        adata.obs["total_counts"][adata.obs["total_counts"] < 10000],
-        kde=False,
-        bins=40,
-        ax=axs[1],
-    )
+    adata.obs["total_counts"][adata.obs["total_counts"] < 10000],
+    kde=False,
+    bins=40,
+    ax=axs[1], )
     sns.histplot(adata.obs["n_genes_by_counts"], kde=False, bins=60, ax=axs[2])
     sns.histplot(
-        adata.obs["n_genes_by_counts"][adata.obs["n_genes_by_counts"] < 4000],
-        kde=False,
-        bins=60,
-        ax=axs[3],
-    )
+    adata.obs["n_genes_by_counts"][adata.obs["n_genes_by_counts"] < 4000],
+    kde=False,
+    bins=60,
+    ax=axs[3], )
 
-    plt.savefig(params.output_name + "_QC_Histogram.pdf")  # Save Figure
+    plt.savefig($params.output_name+"_QC_Histogram.pdf") ## Save Figure
 
-    print(f'Before filtering:\n cell - {adata.n_obs}; gene - {adata.n_vars}')  # Check how many genes X cells
+    print(f'Before filtering:\n cell - {adata.n_obs}; gene - {adata.n_vars}')       # check how many genes X cells
 
     sc.pp.filter_cells(adata, min_counts=100)
     sc.pp.filter_cells(adata, min_genes=50)
@@ -78,9 +75,9 @@ process process_qc_preprocessing {
 
     print(f"#cells after MT filter: {adata.n_obs}")
 
-    plt.savefig(params.output_name + "_QC_Histogram.pdf")
+    plt.savefig(f"{$params.output_name}_QC_Histogram.pdf")
 
-    # Normalization
+    ## normalization
     sc.pp.normalize_total(adata, inplace=True)
     sc.pp.log1p(adata)
     sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=2000)
@@ -93,26 +90,27 @@ process process_qc_preprocessing {
 
     # Save UMAP plot
     plt.rcParams["figure.figsize"] = (4, 4)
-    sc.pl.umap(adata, color=["total_counts", "n_genes_by_counts", "clusters"], wspace=0.4, save="_" + params.output_name)
+    sc.pl.umap(adata, color=["total_counts", "n_genes_by_counts", "clusters"], wspace=0.4, save="_" + "$params.output_name")
 
     plt.rcParams["figure.figsize"] = (8, 8)
     spatial_coords = adata.obsm['spatial'].astype(float)
     adata.obsm['spatial'] = spatial_coords
-    sc.pl.spatial(adata, img_key="hires", color=["clusters", "total_counts", "n_genes_by_counts"], wspace=0.4, save="_" + params.output_name)
+    sc.pl.spatial(adata, img_key="hires", color=["clusters","total_counts", "n_genes_by_counts"], wspace=0.4, save="_"+"$params.output_name")
     sc.pl.spatial(
-        adata,
-        img_key="hires",
-        color="clusters",
-        groups=["5", "9"],
-        crop_coord=[700, 1000, 0, 600],
-        alpha=0.5,
-        size=1.3,
-        save="Magnify_" + params.output_name
-    )
-    adata.write(params.output_path + "/adata_processed.h5ad")
+    adata,
+    img_key="hires",
+    color="clusters",
+    groups=["5", "9"],
+    crop_coord=[700, 1000, 0, 600],
+    alpha=0.5,
+    size=1.3,
+    save="Magnify_"+"$params.output_name")
+    adata.write("$params.output_path"+"/adata_processed.h5ad")
+
     """
 }
 
+
 workflow {
-    process_read_data | process_qc_preprocessing
-}
+    process_read_data | process_qc_preprocessing | view
+    }
