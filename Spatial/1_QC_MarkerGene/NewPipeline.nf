@@ -48,7 +48,7 @@ process process_qc_preprocessing {
     import os
     print("Current working directory:", os.getcwd())
     # Create the output directory if it does not exist
-    adata = sc.read("$params.input_path"+"/adata.h5ad")
+    adata = sc.read("$params.output_path"+"/adata.h5ad")
 
 
     """
