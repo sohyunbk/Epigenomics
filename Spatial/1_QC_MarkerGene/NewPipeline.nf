@@ -46,6 +46,7 @@ process process_qc_preprocessing {
     import seaborn as sns
     import matplotlib.pyplot as plt
     import os
+    os.chdir("$params.output_path")
     print("Current working directory:", os.getcwd())
     # Create the output directory if it does not exist
     adata = sc.read("$params.output_path"+"/adata.h5ad")
