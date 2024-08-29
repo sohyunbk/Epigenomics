@@ -43,7 +43,14 @@ process process_qc_preprocessing {
     """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
     import scanpy as sc
-    
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    import os
+    print("Current working directory:", os.getcwd())
+    # Create the output directory if it does not exist
+    adata = sc.read(f"{"$params.input_path"}/adata.h5ad")
+
+
     """
 }
 
