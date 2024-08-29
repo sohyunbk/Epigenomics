@@ -71,7 +71,7 @@ process process_qc_preprocessing {
     adata = adata[adata.obs["total_counts_Mt"] < 20].copy()
     adata = adata[adata.obs["total_counts_PT"] < 20].copy()
     #print(f"#cells after MT filter: {adata.n_obs}")
-    plt.savefig(f"{$params.output_name}_QC_Histogram.pdf")
+    plt.savefig("$params.output_name"+"_QC_Histogram.pdf")
     ## normalization
     sc.pp.normalize_total(adata, inplace=True)
     sc.pp.log1p(adata)
