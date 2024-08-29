@@ -42,7 +42,7 @@ process process_qc_preprocessing {
 
     """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
-    print("Error")
+    import scanpy as sc
     """
 }
 
