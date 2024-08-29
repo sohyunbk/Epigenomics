@@ -109,55 +109,7 @@ process markergene {
     stdout
 
     """
-    #!/home/sb14489/miniconda3/envs/Spatial/bin/python
-    import scanpy as sc
-    import pandas as pd
-    import matplotlib.pyplot as plt
-    import math
-    import os
-    import math
-    import matplotlib as mpl
-
-
-    adata = sc.read("$params.output_path"+"/adata_processed.h5ad")
-    df = pd.read_csv("$params.MarkerGene", sep='\t')
-
-    gene_list = df['geneID'].tolist()
-    gene_symbols = dict(zip(df['geneID'], df['name']))
-
-    gene_ids_in_adata = adata.var.index.values
-    filtered_gene_list = [gene for gene in gene_list if gene in gene_ids_in_adata]
-
-    num_genes = len(filtered_gene_list)
-    ncols = 10  # Increase the number of columns to fit more plots in each row
-    nrows = math.ceil(num_genes / ncols)
-
-    # Create the spatial plot with larger figure size
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(20, nrows * 2.5))  # Adjust figsize for larger plots
-    axes = axes.flatten()  # Flatten the axes array for easy iteration
-    for i, gene in enumerate(filtered_gene_list):
-        sc.pl.spatial(adata,color=gene,ax=axes[i],show=False)
-        if gene in gene_symbols:
-            axes[i].set_title(gene+"\n"+gene_symbols[gene], fontsize=8)
-        else:
-            axes[i].set_title(gene, fontsize=8)
-        for child in axes[i].get_children(): # scalebar
-            if isinstance(child, mpl.collections.PatchCollection):
-                for path in child.get_paths():
-                    if path.vertices.shape[0] == 5:
-                        path.vertices *= 0.1
-                        break
-
-    # Hide any unused subplots
-    for j in range(i + 1, len(axes)):
-        fig.delaxes(axes[j])
-
-    # Adjust layout
-    plt.tight_layout()
-
-    # Close all figures to avoid the RuntimeWarning
-    plt.savefig("MarkerGeneAll_"+"$params.output_name"+".pdf")
-    plt.close('all')
+    python "${params.ScriptDir}marker_gene_testing.py" --output_name "$params.output_name" --input_path "$params.output_path" --markergenelist $MarkerGene "$params.MarkerGene"
     """
     }
 
