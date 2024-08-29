@@ -1,6 +1,6 @@
 process process_read_data {
     input:
-    path input_path
+    path input_file from file(params.input_path) // Read input file from config parameter
     path output_path
     script:
     """
@@ -35,5 +35,5 @@ process process_read_data {
 
 
 workflow {
-    process_read_data(params.input_path, params.output_path)
+    process_read_data
     }
