@@ -63,5 +63,5 @@ for j in range(i + 1, len(axes)):
 plt.tight_layout()
 
 # Close all figures to avoid the RuntimeWarning
-plt.savefig(f"MarkerGeneAll_{args.output_name}.pdf")
+plt.savefig(f"{args.input_path}MarkerGeneAll_{args.output_name}.pdf")
 plt.close('all')
