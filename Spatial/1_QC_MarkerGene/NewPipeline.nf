@@ -35,5 +35,5 @@ process process_read_data {
 
 
 workflow {
-    process_read_data | view
+    process_read_data 
     }
