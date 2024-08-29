@@ -136,15 +136,9 @@ process markergene {
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(20, nrows * 2.5))  # Adjust figsize for larger plots
     axes = axes.flatten()  # Flatten the axes array for easy iteration
     for i, gene in enumerate(filtered_gene_list):
-        sc.pl.spatial(
-            adata,
-            color=gene,
-            ax=axes[i],  # Plot on the specific subplot axis
-            show=False  # Do not show immediately, we will save it manually
-        )
-        # Set custom title using gene_symbols dictionary with smaller font size
+        sc.pl.spatial( adata,  color=gene,  ax=axes[i], show=False)
         if gene in gene_symbols:
-            axes[i].set_title(f'{gene}\n{gene_symbols[gene]}', fontsize=8)  # Smaller font size
+            axes[i].set_title(gene+"\n"+gene_symbols[gene], fontsize=8)  # Smaller font size
         else:
             axes[i].set_title(gene, fontsize=8)  # Use gene ID if symbol not found, with smaller font size
         # Customize the scale bar
