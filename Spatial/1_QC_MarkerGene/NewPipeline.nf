@@ -37,6 +37,7 @@ process process_read_data {
 process process_qc_preprocessing {
     input:
     stdin
+
     output:
     stdout
 
