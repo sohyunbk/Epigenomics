@@ -46,10 +46,9 @@ process process_qc_preprocessing {
     import seaborn as sns
     import matplotlib.pyplot as plt
     import os
-
     print("Current working directory:", os.getcwd())
     # Create the output directory if it does not exist
-    adata = sc.read(f"{$params.input_path}/adata.h5ad")
+    adata = sc.read(f"{"$params.input_path"}/adata.h5ad")
 
     fig, axs = plt.subplots(1, 4, figsize=(15, 4))
     sns.histplot(adata.obs["total_counts"], kde=False, ax=axs[0])
@@ -68,7 +67,6 @@ process process_qc_preprocessing {
     plt.savefig($params.output_name+"_QC_Histogram.pdf") ## Save Figure
 
     print(f'Before filtering:\n cell - {adata.n_obs}; gene - {adata.n_vars}')       # check how many genes X cells
-
 
     sc.pp.filter_cells(adata, min_counts=100)
     sc.pp.filter_cells(adata, min_genes=50)
@@ -94,7 +92,6 @@ process process_qc_preprocessing {
     plt.rcParams["figure.figsize"] = (4, 4)
     sc.pl.umap(adata, color=["total_counts", "n_genes_by_counts", "clusters"], wspace=0.4, save="_" + $params.output_name)
 
-
     plt.rcParams["figure.figsize"] = (8, 8)
     spatial_coords = adata.obsm['spatial'].astype(float)
     adata.obsm['spatial'] = spatial_coords
@@ -107,7 +104,7 @@ process process_qc_preprocessing {
     crop_coord=[700, 1000, 0, 600],
     alpha=0.5,
     size=1.3,
-    save="Magnify_"+$params.output_name)
+    save="Magnify_"+"$params.output_name")
     adata.write($params.output_path+"/adata_processed.h5ad")
 
     """
