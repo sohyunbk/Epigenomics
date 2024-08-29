@@ -135,20 +135,18 @@ process markergene {
     # Create the spatial plot with larger figure size
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(20, nrows * 2.5))  # Adjust figsize for larger plots
     axes = axes.flatten()  # Flatten the axes array for easy iteration
-    for i, gene in enumerate(filtered_gene_list):
-        sc.pl.spatial( adata,  color=gene,  ax=axes[i], show=False)
-        if gene in gene_symbols:
-            axes[i].set_title(gene+"\n"+gene_symbols[gene], fontsize=8)  # Smaller font size
-        else:
-            axes[i].set_title(gene, fontsize=8)  # Use gene ID if symbol not found, with smaller font size
-        for child in axes[i].get_children(): # scalebar
-            if isinstance(child, mpl.collections.PatchCollection):
-                for path in child.get_paths():
-                    if path.vertices.shape[0] == 5:  # Typical of the scale bar
-                        path.vertices *= 0.1  # Scale down the size
-                        break
 
-  
+
+    # Hide any unused subplots
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    # Adjust layout
+    plt.tight_layout()
+
+    # Close all figures to avoid the RuntimeWarning
+    plt.savefig("MarkerGeneAll_"+"$params.output_name"+".pdf")
+    plt.close('all')
     """
     }
 
