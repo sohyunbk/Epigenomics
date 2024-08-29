@@ -64,11 +64,7 @@ process process_qc_preprocessing {
     ax=axs[3], )
     plt.savefig("$params.output_name"+"_QC_Histogram.pdf") ## Save Figure
 
-    print(f'Before filtering:\n cell - {adata.n_obs}; gene - {adata.n_vars}')       # check how many genes X cells
-    sc.pp.filter_cells(adata, min_counts=100)
-    sc.pp.filter_cells(adata, min_genes=50)
-    adata = adata[adata.obs["total_counts_Mt"] < 20].copy()
-    adata = adata[adata.obs["total_counts_PT"] < 20].copy()
+    
     """
 }
 
