@@ -59,14 +59,6 @@ process process_qc_preprocessing {
     ax=axs[1], )
 
     sns.histplot(adata.obs["n_genes_by_counts"], kde=False, bins=60, ax=axs[2])
-    sns.histplot(
-    adata.obs["n_genes_by_counts"][adata.obs["n_genes_by_counts"] < 4000],
-    kde=False,
-    bins=60,
-    ax=axs[3], )
-
-    plt.savefig("$params.output_name"+"_QC_Histogram.pdf") ## Save Figure
-    print(f'Before filtering:\n cell - {adata.n_obs}; gene - {adata.n_vars}')       # check how many genes X cells
 
 
 
