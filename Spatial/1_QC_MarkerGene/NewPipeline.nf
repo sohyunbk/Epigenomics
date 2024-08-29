@@ -66,48 +66,6 @@ process process_qc_preprocessing {
     bins=60,
     ax=axs[3], )
 
-    plt.savefig("$params.output_name"+"_QC_Histogram.pdf") ## Save Figure
-    print(f'Before filtering:\n cell - {adata.n_obs}; gene - {adata.n_vars}')       # check how many genes X cells
-
-    sc.pp.filter_cells(adata, min_counts=100)
-    sc.pp.filter_cells(adata, min_genes=50)
-    adata = adata[adata.obs["total_counts_Mt"] < 20].copy()
-    adata = adata[adata.obs["total_counts_PT"] < 20].copy()
-    print(f"#cells after MT filter: {adata.n_obs}")
-
-    plt.savefig(f"{$params.output_name}_QC_Histogram.pdf")
-
-    ## normalization
-    sc.pp.normalize_total(adata, inplace=True)
-    sc.pp.log1p(adata)
-    sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=2000)
-
-    # Manifold embedding and clustering based on transcriptional similarity
-    sc.pp.pca(adata)
-    sc.pp.neighbors(adata)
-    sc.tl.umap(adata)
-    sc.tl.leiden(adata, key_added="clusters", flavor="igraph", directed=False, n_iterations=2)
-
-    # Save UMAP plot
-    plt.rcParams["figure.figsize"] = (4, 4)
-    sc.pl.umap(adata, color=["total_counts", "n_genes_by_counts", "clusters"], wspace=0.4, save="_" + "$params.output_name")
-
-    plt.rcParams["figure.figsize"] = (8, 8)
-    spatial_coords = adata.obsm['spatial'].astype(float)
-    adata.obsm['spatial'] = spatial_coords
-    sc.pl.spatial(adata, img_key="hires", color=["clusters","total_counts", "n_genes_by_counts"], wspace=0.4, save="_"+"$params.output_name")
-    sc.pl.spatial(
-    adata,
-    img_key="hires",
-    color="clusters",
-    groups=["5", "9"],
-    crop_coord=[700, 1000, 0, 600],
-    alpha=0.5,
-    size=1.3,
-    save="Magnify_"+"$params.output_name")
-    adata.write("$params.output_path"+"/adata_processed.h5ad")
-
-
     """
 }
 
