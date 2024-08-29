@@ -50,6 +50,15 @@ process process_qc_preprocessing {
     # Create the output directory if it does not exist
     adata = sc.read("$params.output_path"+"/adata.h5ad")
 
+    fig, axs = plt.subplots(1, 4, figsize=(15, 4))
+    sns.histplot(adata.obs["total_counts"], kde=False, ax=axs[0])
+    sns.histplot(
+    adata.obs["total_counts"][adata.obs["total_counts"] < 10000],
+    kde=False,
+    bins=40,
+    ax=axs[1], )
+    
+
 
     """
 }
