@@ -43,6 +43,7 @@ process process_qc_preprocessing {
     script:
     """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
+    print("Here")
     import scanpy as sc
     import seaborn as sns
     import matplotlib.pyplot as plt
