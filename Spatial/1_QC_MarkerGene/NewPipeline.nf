@@ -96,7 +96,7 @@ process process_qc_preprocessing {
     crop_coord=[700, 1000, 0, 600],
     alpha=0.5,
     size=1.3,
-    save="$params.output_path"+"Magnify_"+"$params.output_name")
+    save="Magnify_"+"$params.output_name")
     adata.write("$params.output_path"+"/adata_processed.h5ad")
     """
 }

@@ -17,6 +17,8 @@ args = parser.parse_args()
 adata = sc.read(f"{args.input_path}/adata_processed.h5ad")
 df = pd.read_csv(args.markergenelist, sep='\t')
 
+os.chdir(args.input_path)
+
 gene_list = df['geneID'].tolist()
 #gene_symbols = dict(zip(df['geneID'], df['geneID']+"_"+df['name']))
 gene_symbols = dict(zip(df['geneID'], df['name']))
