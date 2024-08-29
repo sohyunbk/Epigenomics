@@ -63,8 +63,6 @@ process process_qc_preprocessing {
     bins=60,
     ax=axs[3], )
     plt.savefig("$params.output_name"+"_QC_Histogram.pdf") ## Save Figure
-
-    
     """
 }
 
