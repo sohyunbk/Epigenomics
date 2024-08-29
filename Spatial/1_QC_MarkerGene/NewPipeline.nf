@@ -1,7 +1,4 @@
 process process_read_data {
-    input:
-    stdin
-
     output:
     stdout
 
