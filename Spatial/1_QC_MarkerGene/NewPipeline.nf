@@ -3,7 +3,7 @@ process process_read_data {
     path input_path
     path output_path
     script:
-    """"
+    """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
     import scanpy as sc
     import squidpy as sq
