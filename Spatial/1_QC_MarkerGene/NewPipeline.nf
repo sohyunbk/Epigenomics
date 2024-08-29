@@ -42,9 +42,7 @@ process process_qc_preprocessing {
 
     """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
-    print("Here")
-
-    #import scanpy as sc
+    import scanpy as sc
     import seaborn as sns
     import matplotlib.pyplot as plt
     import os
@@ -59,15 +57,13 @@ process process_qc_preprocessing {
         adata.obs["total_counts"][adata.obs["total_counts"] < 10000],
         kde=False,
         bins=40,
-        ax=axs[1],
-    )
+        ax=axs[1], )
     sns.histplot(adata.obs["n_genes_by_counts"], kde=False, bins=60, ax=axs[2])
     sns.histplot(
         adata.obs["n_genes_by_counts"][adata.obs["n_genes_by_counts"] < 4000],
         kde=False,
         bins=60,
-        ax=axs[3],
-    )
+        ax=axs[3], )
 
     plt.savefig($params.output_name+"_QC_Histogram.pdf") ## Save Figure
 
@@ -111,10 +107,7 @@ process process_qc_preprocessing {
         crop_coord=[700, 1000, 0, 600],
         alpha=0.5,
         size=1.3,
-        save="Magnify_"+$params.output_name
-    )
-
-
+        save="Magnify_"+$params.output_name)
     adata.write($params.output_path+"/adata_processed.h5ad")
 
     """
