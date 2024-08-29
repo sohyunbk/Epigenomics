@@ -1,7 +1,10 @@
 process process_read_data {
     input:
-    path input_file from file(params.input_path) // Read input file from config parameter
-    path output_path
+    stdin
+
+    output:
+    stdout
+
     script:
     """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
@@ -11,10 +14,10 @@ process process_read_data {
     import os
 
     # Create the output directory if it does not exist
-    os.makedirs($output_path, exist_ok=True)
+    os.makedirs($params.output_path, exist_ok=True)
 
     # Read the data
-    adata = sq.read.visium($input_path)
+    adata = sq.read.visium($params.input_path)
 
     pd.set_option('display.max_columns', None)
 
@@ -28,7 +31,7 @@ process process_read_data {
     sc.pp.calculate_qc_metrics(adata, qc_vars=['Mt', 'PT'], inplace=True)
 
     # Write the output file to the specified output path
-    output_file = os.path.join($output_path, "adata.h5ad")
+    output_file = os.path.join($params.output_path, "adata.h5ad")
     adata.write(output_file)
     """
 }
