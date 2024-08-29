@@ -136,21 +136,21 @@ process markergene {
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(20, nrows * 2.5))  # Adjust figsize for larger plots
     axes = axes.flatten()  # Flatten the axes array for easy iteration
     for i, gene in enumerate(filtered_gene_list):
-      sc.pl.spatial(adata,color=gene,ax=axes[i],show=False)
-      if gene in gene_symbols:
-        axes[i].set_title(gene+"\n"+gene_symbols[gene], fontsize=8)
-      else:
-        axes[i].set_title(gene, fontsize=8)
-      for child in axes[i].get_children(): # scalebar
-        if isinstance(child, mpl.collections.PatchCollection):
-          for path in child.get_paths():
-            if path.vertices.shape[0] == 5:
-              path.vertices *= 0.1
-              break
+        sc.pl.spatial(adata,color=gene,ax=axes[i],show=False)
+        if gene in gene_symbols:
+            axes[i].set_title(gene+"\n"+gene_symbols[gene], fontsize=8)
+        else:
+            axes[i].set_title(gene, fontsize=8)
+        for child in axes[i].get_children(): # scalebar
+            if isinstance(child, mpl.collections.PatchCollection):
+                for path in child.get_paths():
+                    if path.vertices.shape[0] == 5:
+                        path.vertices *= 0.1
+                        break
 
     # Hide any unused subplots
     for j in range(i + 1, len(axes)):
-      fig.delaxes(axes[j])
+        fig.delaxes(axes[j])
 
     # Adjust layout
     plt.tight_layout()
