@@ -43,6 +43,7 @@ process process_qc_preprocessing {
     """
     #!/home/sb14489/miniconda3/envs/Spatial/bin/python
     import scanpy as sc
+    '''
     import seaborn as sns
     import matplotlib.pyplot as plt
     import os
@@ -104,7 +105,7 @@ process process_qc_preprocessing {
     size=1.3,
     save="Magnify_"+"$params.output_name")
     adata.write("$params.output_path"+"/adata_processed.h5ad")
-
+    '''
     """
 }
 
