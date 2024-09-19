@@ -34,7 +34,9 @@ ncols = 10  # Increase the number of columns to fit more plots in each row
 nrows = math.ceil(num_genes / ncols)
 
 # Create the spatial plot with larger figure size
-fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(20, nrows * 2.5))  # Adjust figsize for larger plots
+#fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(20, nrows * 2.5))  # Adjust figsize for larger plots
+fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(80, nrows * 10))  # Adjust figsize for larger plots
+
 axes = axes.flatten()  # Flatten the axes array for easy iteration
 
 for i, gene in enumerate(filtered_gene_list):
