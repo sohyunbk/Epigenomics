@@ -62,14 +62,18 @@ write.table(Result_table, file = "/scratch/sb14489/9.spatialRNAseq/3.TargetGene_
             sep = ",", col.names = TRUE, row.names = FALSE, quote = FALSE)
 
 
-AllPlotgenes_symbol <- c('arftf4', 'arftf23','arftf30', 'arftf18',
-                         'arftf3', 'arftf20', 'arftf25',
-                         'arftf10', 'arftf36', 
-                         'arftf26', 'knox1')
-AllPlotgenes <- c('Zm00001eb067270','Zm00001eb292830', 'Zm00001eb433460', 'Zm00001eb224680',
-                  'Zm00001eb066640', 'Zm00001eb232120', 'Zm00001eb363810', 
-                  'Zm00001eb142540', 'Zm00001eb243930',  
-                  'Zm00001eb370810', 'Zm00001eb001720')
+AllPlotgenes_symbol <- c('wox4', 'wox5b','wox2a', 'wox13a',
+                         'wox9b', 'wox3a', 'wox9c',
+                         'wox12a', 'wox3b', 
+                         'wox9a', 'wox5a',
+                         'wox2b','wox13b','wox11',
+                         'ZmWUS2')
+AllPlotgenes <- c('Zm00001eb432140','Zm00001eb147630', 'Zm00001eb148390', 'Zm00001eb149680',
+                  'Zm00001eb157360', 'Zm00001eb265710', 'Zm00001eb295920', 
+                  'Zm00001eb330990', 'Zm00001eb355310',  
+                  'Zm00001eb359810', 'Zm00001eb367200',
+                  'Zm00001eb367990','Zm00001eb368970','Zm00001eb395430',
+                  'Zm00001eb433010')
 
 tmm_normalized_selected <- tmm_normalized_counts[AllPlotgenes,]
 RawCount_Selected <- CountTable[AllPlotgenes,]
@@ -84,7 +88,7 @@ AllPlotgenes_symbol
 log_cpm_selected2 <- data.frame(log_cpm_selected)
 log_cpm_selected2$geneName <- c(AllPlotgenes_symbol)
 
-write.table(log_cpm_selected2, file = "/scratch/sb14489/9.spatialRNAseq/3.TargetGene_IMOnly/CPMValues_TargetGene.csv",
+write.table(log_cpm_selected2, file = "/scratch/sb14489/9.spatialRNAseq/3.TargetGene_IMOnly/CPMValues_WOXgenes.csv",
             sep = ",", col.names = TRUE, row.names = FALSE, quote = FALSE)
 
 
@@ -108,16 +112,16 @@ for (i in c(1:nrow(log_cpm_selected))) {
     labs(title = paste0(AllPlotgenes_symbol[[i]],"\nPvalue:",PValue,"\nFDR:",FDR),
          x = "Group", y = "log CPM") +
     theme_minimal()+
-    ylim(0, NA)
+    ylim(0, 7)
   Plotlist[[i]] <- p
 }
 
 library(cowplot)
 
-final_plot <- plot_grid(plotlist = Plotlist, ncol = 6)
-output_name <- "/scratch/sb14489/9.spatialRNAseq/3.TargetGene_IMOnly/LogCPM_Spatial_BoxPlot_11Genes_MannuallySelectedCells.pdf"
+final_plot <- plot_grid(plotlist = Plotlist, ncol = 7)
+output_name <- "/scratch/sb14489/9.spatialRNAseq/3.TargetGene_IMOnly/WOXLogCPM_Spatial_BoxPlot_MannuallySelectedCells.pdf"
 ggsave(output_name, plot = final_plot,
-       width = 14, height = 4,
+       width = 14, height = 7,
        units = c('in'), limitsize = FALSE,
        dpi = 300)
 

@@ -1,7 +1,7 @@
 ## 202208 Got it from Pablo
 ## 202209 Edited by Sohyun
 ## Dotplot for all / part of markers
-
+##
 # load libraries
 library(dplyr)
 library("edgeR")
@@ -13,7 +13,7 @@ library(proxy)
 library(png)
 library(tidyverse)
 library(tidyr)
-library(pheatmap) 
+library(pheatmap)
 library(RColorBrewer)
 library("optparse")
 library(preprocessCore)
@@ -30,7 +30,7 @@ library(ggplot2)
 library(fields)
 
 
-### 1) Get Gene body acc for all the genes 
+### 1) Get Gene body acc for all the genes
 ## load gene*cell table.
 WT_GeneXCT <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC/A619_AnnV4.GeneBodyACC.byGeneXCT.txt",header=TRUE)
 Bif3_GeneXCT <- read.table("/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC/Bif3_AnnV4.GeneBodyACC.byGeneXCT.txt",header=TRUE)
@@ -72,11 +72,11 @@ DEGInfo <- read.table(DEGFile,fill=TRUE,header=TRUE)
 #head(GeneInfo)
 GeneID_GeneSymbol <- data.frame(GeneInfo$gene_model,GeneInfo$locus_symbol)
 head(GeneID_GeneSymbol)
-GeneID_GeneSymbol_wox <- GeneID_GeneSymbol[grep("^wox", GeneID_GeneSymbol$GeneInfo.locus_symbol, 
+GeneID_GeneSymbol_wox <- GeneID_GeneSymbol[grep("^wox", GeneID_GeneSymbol$GeneInfo.locus_symbol,
                                                 ignore.case = TRUE), ]
-GeneID_GeneSymbol_hb <- GeneID_GeneSymbol[grep("^hb", GeneID_GeneSymbol$GeneInfo.locus_symbol, 
+GeneID_GeneSymbol_hb <- GeneID_GeneSymbol[grep("^hb", GeneID_GeneSymbol$GeneInfo.locus_symbol,
                                                 ignore.case = TRUE), ]
-GeneID_GeneSymbol_knox <- GeneID_GeneSymbol[grep("^knox", GeneID_GeneSymbol$GeneInfo.locus_symbol, 
+GeneID_GeneSymbol_knox <- GeneID_GeneSymbol[grep("^knox", GeneID_GeneSymbol$GeneInfo.locus_symbol,
                                                 ignore.case = TRUE), ]
 GeneID_GeneSymbol_knox <- GeneID_GeneSymbol_knox[-1,]
 
@@ -158,7 +158,7 @@ FCTable_ordered_geneSymbol
 cols_to_keep <- !grepl("Unknown|G2", colnames(FCTable_ordered_geneSymbol))
 FCTable_ordered_geneSymbol <- FCTable_ordered_geneSymbol[, cols_to_keep]
 
-breaks <- seq(-max(abs(FCTable_ordered_geneSymbol)), 
+breaks <- seq(-max(abs(FCTable_ordered_geneSymbol)),
               max(abs(FCTable_ordered_geneSymbol)), length.out = 103)
 my_palette <- colorRampPalette(c("blue", "white", "red"))(102)  # Adjusted to 102 colors
 
@@ -188,7 +188,7 @@ image.plot(zlim = range(breaks),
            col = my_palette,
            legend.only = TRUE,
            horizontal = FALSE,
-           axis.args = list(at = c(-max(abs(numeric_matrix)), 0, max(abs(numeric_matrix))), 
+           axis.args = list(at = c(-max(abs(numeric_matrix)), 0, max(abs(numeric_matrix))),
                             labels = c(-max(abs(numeric_matrix)), 0, max(abs(numeric_matrix))),
                             cex.axis = 0.5),  # Specify values for the legend
            legend.width = 0.8,  # Adjust the width of the legend box
