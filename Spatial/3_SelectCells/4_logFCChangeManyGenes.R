@@ -11,24 +11,28 @@ TargeneGeneList <- TargetGene_Filtered$gene_model
 
 TargeneGeneList
 length(TargeneGeneList)
-NonTargetGeneList <- setdiff(OCCells$genes, TargeneGeneList)
-RandomGenes <- sample(NonTargetGeneList, size = 381, replace = FALSE)
 TargetGenes <- OCCells[OCCells$genes %in% TargeneGeneList, ]$logFC
+
+NonTargetGeneList <- setdiff(OCCells$genes, TargeneGeneList)
+RandomGenes <- sample(NonTargetGeneList, size = length(TargetGenes), replace = FALSE)
 NontargetGenes <- OCCells[OCCells$genes %in% RandomGenes, ]$logFC
 mean(TargetGenes)
 mean(NontargetGenes)
-NontargetGenes$GeneType <- 
+t_test_result <- t.test(TargetGenes, NontargetGenes, paired = FALSE)
+print(t_test_result$p.value)
 gene_data <- data.frame(
   Expression = c(TargetGenes, NontargetGenes),
   GeneType = c(rep("TAATMotifGenes", length(TargetGenes)), rep("RandomGenes", length(NontargetGenes)))
 )
-
+gene_data$GeneType <- factor(gene_data$GeneType,levels=c("RandomGenes","TAATMotifGenes"))
+  
 # Create the box plot using ggplot2
 PlotList <- list()
 PlotList[[1]] <- ggplot(gene_data, aes(x = GeneType, y = Expression, group = GeneType)) +
   geom_boxplot(fill=NA) +
   labs(title = " ", y = "logFC") +
-  theme_minimal()
+  theme_minimal()+
+  ylim(-6, 10.5) 
 
 #ggsave("/scratch/sb14489/9.spatialRNAseq/3.TargetGene_IMOnly/TAATmotif_violetplot_spatialRNAseq.pdf", width = 8, height = 6)
 
@@ -51,11 +55,15 @@ gene_data <- data.frame(
   Expression = c(TargetGenes, NontargetGenes),
   GeneType = c(rep(ConditionName, length(TargetGenes)), rep("RandomGenes", length(NontargetGenes)))
 )
+t_test_result <- t.test(TargetGenes, NontargetGenes, paired = FALSE)
+print(t_test_result)
+gene_data$GeneType <- factor(gene_data$GeneType,levels=c("RandomGenes",ConditionName))
 
 plot <- ggplot(gene_data, aes(x = GeneType, y = Expression, group = GeneType)) +
   geom_boxplot(fill=NA) +
   labs(title = " ", y = "logFC") +
-  theme_minimal()
+  theme_minimal()+
+  ylim(-6, 10.5) 
 
 return(plot)
 }
@@ -68,9 +76,11 @@ PlotList[[6]] <- MakePlot("BoxPlot_GeneBodyAcc_ClosestGene_withdACRA619Higher_Fi
 
 library(cowplot)
 
+
 final_plot <- plot_grid(plotlist = PlotList, ncol = 6)
 output_name <- "/scratch/sb14489/9.spatialRNAseq/3.TargetGene_IMOnly/LogFC_fordACRwithTAATforOtherFimos.pdf"
 ggsave(output_name, plot = final_plot,
        width = 14, height = 4,
        units = c('in'), limitsize = FALSE,
        dpi = 300)
+

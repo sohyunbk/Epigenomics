@@ -153,6 +153,7 @@ rownames(FCTable_ordered_geneSymbol) <- FCTable_ordered_geneSymbol[,1]
 FCTable_ordered_geneSymbol <- FCTable_ordered_geneSymbol[,-1]
 head(FCTable_ordered_geneSymbol)
 FCTable_ordered_geneSymbol
+write.table(FCTable_ordered_geneSymbol, file = "WOX_FCTable_ordered_geneSymbol.txt", sep = "\t", row.names = TRUE, col.names = TRUE, quote = FALSE)
 
 ###
 cols_to_keep <- !grepl("Unknown|G2", colnames(FCTable_ordered_geneSymbol))

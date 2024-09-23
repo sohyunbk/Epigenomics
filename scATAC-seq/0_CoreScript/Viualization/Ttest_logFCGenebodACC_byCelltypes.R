@@ -16,3 +16,6 @@ LogFC_long <- LogFC_cleaned %>%
 
 pairwise_results <- pairwise.t.test(LogFC_long$logFC, LogFC_long$CellType, p.adjust.method = "BH")
 print(pairwise_results)
+pairwise_results_table <- as.data.frame(pairwise_results$p.value)
+
+write.table(pairwise_results_table, file = "/scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC/GeneBodyACC_nearTAAT_pairwise_Ttest_FDRValues.txt", sep = "\t", row.names = TRUE, col.names = NA, quote = FALSE)
