@@ -3,12 +3,12 @@
 #SBATCH --partition=highmem_p         # Partition (queue) name
 #SBATCH --ntasks=1                    # Run a single task
 #SBATCH --cpus-per-task=1             # Number of CPU cores per task
-#SBATCH --mem=90gb                   # Job memory request ## Should have more than 300 here
-#SBATCH --time=10:00:00               # Time limit hrs:min:sec
+#SBATCH --mem=80gb                   # Job memory request ## Should have more than 300 here
+#SBATCH --time=7:00:00               # Time limit hrs:min:sec
 #SBATCH --output=/scratch/sb14489/0.log/Fimo.%j.out   # Standard output log
 #SBATCH --error=/scratch/sb14489/0.log/Fimo.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
-#SBATCH --array=0-2
+#SBATCH --array=0-12
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
 
 Celltype=(FloralMeristem_SuppressedBract G2_M IM-OC L1 L1atFloralMeristem PhloemPrecursor ProcambialMeristem_ProtoXylem_MetaXylem ProtoPhloem_MetaPhloem_CompanionCell_PhloemParenchyma SPM-base_SM-base Unknown1 Unknown2 Unknown_Sclerenchyma Unknown_lowFRiP XylemParenchyma_PithParenchyma)
