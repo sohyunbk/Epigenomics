@@ -16,9 +16,9 @@ Celltype=(FloralMeristem_SuppressedBract G2_M IM-OC L1 L1atFloralMeristem Phloem
 module load MEME/5.5.0-gompi-2021b
 module load BEDTools/2.30.0-GCC-11.3.0
 
-MemeMotifDB=/scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/TGAATGAA_TAAT.txt
+MemeMotifDB=/scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/CentralZone_TAAT.txt
 Infile_bed=/scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${Celltype[SLURM_ARRAY_TASK_ID]}".FDR0.05Bif3Higher.bed
-OutfilePathName=/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/3.fimo/Revision_"${Celltype[SLURM_ARRAY_TASK_ID]}"
+OutfilePathName=/scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/3.fimo/Revision_"${Celltype[SLURM_ARRAY_TASK_ID]}".FDR0.05Bif3Higher
 Infile_fasta="${Infile_bed%.bed}.fasta"
 
 bedtools getfasta -fi /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa -bed "$Infile_bed" -fo "$Infile_fasta"
