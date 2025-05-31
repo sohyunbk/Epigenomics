@@ -9,7 +9,6 @@
 #SBATCH --error=/scratch/sb14489/0.log/Denovo.%j.err    # Standard error log
 #SBATCH --mail-type=END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=Sohyun.Bang@uga.edu  # Where to send mail
-#SBATCH --array=0-1
 
 ### Wanted to add other sample too!
 ml Anaconda3/2020.02
