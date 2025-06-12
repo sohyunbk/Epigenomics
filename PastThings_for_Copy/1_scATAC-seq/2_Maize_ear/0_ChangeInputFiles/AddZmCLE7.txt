@@ -1,9 +1,0 @@
-$ grep "GRMZM2G372364" Zea_mays.AGPv3.21.gff3
-chr4	ensembl	gene	7570324	7571104	.	-	.	ID=GRMZM2G372364;biotype=low_confidence;logic_name=genebuilder
-chr4	ensembl	transcript	7570324	7571104	.	-	.	ID=GRMZM2G372364_T01;Parent=GRMZM2G372364;biotype=low_confidence;description=abinitio;logic_name=genebuilder
-chr4	.	CDS	7570324	7570554	.	-	0	ID=GRMZM2G372364_P01;Parent=GRMZM2G372364_T01;rank=3
-chr4	.	exon	7570324	7570554	.	-	.	ID=GRMZM2G372364_E02;Parent=GRMZM2G372364_T01;constitutive=1;ensembl_end_phase=-1;rank=3
-chr4	.	CDS	7570669	7570757	.	-	0	ID=GRMZM2G372364_P01;Parent=GRMZM2G372364_T01;rank=2
-chr4	.	exon	7570669	7570757	.	-	.	ID=GRMZM2G372364_E03;Parent=GRMZM2G372364_T01;constitutive=1;ensembl_phase=1;rank=2
-chr4	.	CDS	7571014	7571104	.	-	0	ID=GRMZM2G372364_P01;Parent=GRMZM2G372364_T01;rank=1
-chr4	.	exon	7571014	7571104	.	-	.	ID=GRMZM2G372364_E01;Parent=GRMZM2G372364_T01;constitutive=1;ensembl_end_phase=1;rank=1

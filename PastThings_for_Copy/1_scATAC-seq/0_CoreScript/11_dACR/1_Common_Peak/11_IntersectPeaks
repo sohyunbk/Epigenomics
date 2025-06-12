@@ -1,1 +1,0 @@
-bedtools intersect -wo -a /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V3_SeparateAnn_Mutant/bif3/IM-OC/bif3_IM-OC.pool.bed -b /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_v3/A619/IM-OC/A619_IM-OC.pool.bed > /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_Peaks/IM_OC.txt
