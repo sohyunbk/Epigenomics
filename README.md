@@ -4,8 +4,8 @@ They can be used for more than two genotype comparisions in scRNA-seq, spatial R
 Omics analyses such as ChIP-seq and DAP-seq are also integrated.
 
 # Repository Structure 
-## Spatial RNA-seq Analysis
-This repository contains scripts used for spatial transcriptomics analysis (10X Visium) in maize inflorescence tissue. 
+## Spatial Transcriptome Analysis
+`Spatial` dir contains scripts used for spatial transcriptomics analysis (10X Visium) in maize inflorescence tissue. 
 We used spaceranger to produce spot level gene expression data with spatial coordinates.
 
 The pipeline is organized by analysis stages:
@@ -15,11 +15,19 @@ The pipeline is organized by analysis stages:
 * `3_SelectCells/`:
 domain selection and position-based extraction of gene counts. Includes DE analysis for selected gene sets (e.g., WOX genes), with interactive notebooks and R scripts for plotting and statistics.
 
+## scRNA-seq Analysis
+`scRNA-seq` dir has scripts used for scRNA-seq analysis. 
+It includes reference preparation, read alignment, quality control, data integration, and cell type annotation. The pipeline supports both `Cell Ranger` and `STARsolo` aligners and uses `Seurat` and `Harmony` for downstream analyses. 
+The pipeline is structured with both:
+  - Shell (.sh) scripts: For SLURM submission.
+  - R (.R) scripts: For data analysis and visualization within R, including quality control, normalization, integration, and annotation.
+
 ## scATAC-seq Analysis
+`scATAC-seq` dir contains scripts used for scATAC-seq analysis. 
 ### submission_scripts
-* `submission_scripts` directory includes SLURM submission scripts for running the pipeline steps on a compute cluster. Each script wraps a specific component in handling resource allocation, environment setup, and job execution.
+* `submission_scripts` is main directory includes SLURM submission scripts for running the pipeline steps on a compute cluster. Each script wraps a specific component in handling resource allocation, environment setup, and job execution.
 They are organized numerically to reflect the order of execution.
-* `submission_scripts_additionalsamples` directory exists because I did several trials and fails. First, we produced more libaraies before so tried to combine all libraries together. Second, to compare the mutant and wild type there are several method we can use and one of them is to use wild type as reference and project mutant cells to the reference. `3_A619andBif3ToBif3Ref` has the reference based mutant projection method.
+* `submission_scripts_additionalsamples` directory has several trials and fails. First, we produced more libaraies before so tried to combine all libraries together. Second, to compare the mutant and wild type there are several method we can use and one of them is to use wild type as reference and project mutant cells to the reference. `3_A619andBif3ToBif3Ref` has the reference based mutant projection method.
 
 ### workflow_scripts
 `workflow_scripts` directory contains core R, Python, and shell scripts that perform specific analyses in a modular and reusable fashion. Each subdirectory represents a distinct step or module of the analysis pipeline.
