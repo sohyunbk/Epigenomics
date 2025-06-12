@@ -34,7 +34,7 @@ A619_Bif3_500bpCommonPeak/ComA619Bif3_A619Barcode_Tn5Count
 ml Anaconda3/2022.10
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/Peak_Barcode_Tn5NotBianry_Sparse.R \
+Rscript ../workflow_scripts/PeakCalling_byCellTypes/Peak_Barcode_Tn5NotBianry_Sparse.R \
  --Peak /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${PeakFiles[SLURM_ARRAY_TASK_ID]}" \
  --Re1_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Tn5BedNames[SLURM_ARRAY_TASK_ID]}"_Unique.bed \
  --Re2_bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Tn5BedNames[SLURM_ARRAY_TASK_ID]}"_2_Unique.bed \

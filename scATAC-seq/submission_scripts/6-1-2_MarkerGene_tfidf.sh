@@ -63,7 +63,7 @@ Markers=(230426_EarMarker.txt
 ARF_WOX.txt
 ARF_WOX.txt)
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/MarkerGenes_UMAPVisual.R \
+Rscript ../workflow_scripts/Annotation_Cluster/MarkerGenes_UMAPVisual.R \
 --WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/"${WDNames[SLURM_ARRAY_TASK_ID]}" \
 --Name "${FileNames[SLURM_ARRAY_TASK_ID]}" \
 --meta /scratch/sb14489/3.scATAC/2.Maize_ear/"${Metas[SLURM_ARRAY_TASK_ID]}" \

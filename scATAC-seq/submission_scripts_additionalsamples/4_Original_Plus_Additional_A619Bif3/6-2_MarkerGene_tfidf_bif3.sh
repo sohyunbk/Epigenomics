@@ -13,7 +13,7 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MarkerGenes_Tfidf_SubmitScript.R \
+Rscript ../workflow_scripts/MarkerGenes_Tfidf_SubmitScript.R \
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/bif3_Re1Re2Re3Re4 \
  --Name bif3_Re1Re2Re3Re4 \
  --meta /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/4Replicates/bif3/bif3_Re1234_FeaturesN163511_k50_res0.9.AfterHarmony.metadata.txt \

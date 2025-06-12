@@ -16,6 +16,6 @@ Samples=(1_A619, 1_A619_2, 2_rel2, 2_rel2_2, 3_bif3, 3_bif3_2)
 ml Anaconda3/2022.10
 source activate r_env
 
-Rscript  /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Viualization/Organelle_QC_Plot.R \
+Rscript  ../workflow_scripts/Viualization/Organelle_QC_Plot.R \
 --SampleName "${Samples[SLURM_ARRAY_TASK_ID]}" \
 --Path /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Organelle5Per_CombineLater/

@@ -16,7 +16,7 @@ List=(A619_Re3 A619_Re4 bif3_Re3 bif3_Re4)
 ml Anaconda3/2022.10
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MakeSocratesObject_QCFilterCells.R  \
+Rscript ../workflow_scripts/MakeSocratesObject_QCFilterCells.R  \
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55_PeakClustering/ \
  --BinSize peak --Name "${List[SLURM_ARRAY_TASK_ID]}" \
  --bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_Unique.bed \

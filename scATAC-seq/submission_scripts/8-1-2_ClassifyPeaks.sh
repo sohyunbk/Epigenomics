@@ -16,7 +16,7 @@ OutPutFiles=(ComA619Bif3.unique500bpPeaks ComA619rel2.unique500bpPeaks ComA619re
 
 ## It makes bw file too!
 
-~/.conda/envs/r_env/bin/python /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/0_Functions/ClassifyPeaks_Intergenic_Genic.py \
+~/.conda/envs/r_env/bin/python /home/sb14489/1.scATAC-seq/1_scATAC-seq/workflow_scripts/functionss/ClassifyPeaks_Intergenic_Genic.py \
  -PeakFile /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${OutPutFilesDir[SLURM_ARRAY_TASK_ID]}"/"${OutPutFiles[SLURM_ARRAY_TASK_ID]}".bed  \
  -BlackListFile /scratch/sb14489/0.Reference/Maize_B73/Zm.final_blaclist.Mito_Chloro_Chip.txt \
  -FaiFile /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_OnlyChr.fa.fai \

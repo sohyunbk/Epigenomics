@@ -52,7 +52,7 @@ SelectedMarkerGeneForDotPot_GeneNameOrder.txt
 231113_Top5DenovoGenesinA619_GeneNameOrder.txt
 231113_Top5DenovoGenesinA619_GeneNameOrder.txt)
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/DotPlot_MarkerGenes_withColorandDotSize.R \
+Rscript ../workflow_scripts/Annotation_Cluster/DotPlot_MarkerGenes_withColorandDotSize.R \
 --GA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${GAFiles[SLURM_ARRAY_TASK_ID]}" \
 --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${MetaFiles[SLURM_ARRAY_TASK_ID]}" \
 --MarkerGene /scratch/sb14489/3.scATAC/0.Data/MarkerGene/"${MarkerGenes[SLURM_ARRAY_TASK_ID]}" \

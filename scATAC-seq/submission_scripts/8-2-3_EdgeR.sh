@@ -17,7 +17,7 @@ Unknown_lowFRiP L1 SPM-base_SM-base  XylemParenchyma_PithParenchyma)
 ml Anaconda3/2023.09-0
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/dACR/Differential_ACR_PseudoBulk.R \
+Rscript ../workflow_scripts/dACR/Differential_ACR_PseudoBulk.R \
  --Sparse_S1 /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${ClusterN[SLURM_ARRAY_TASK_ID]}"_PeaksCount_byA619Barcode.txt \
  --Sparse_S2 /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${ClusterN[SLURM_ARRAY_TASK_ID]}"_PeaksCount_byBif3Barcode.txt \
  --Meta_S1 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/A619/Ref_AnnV4_metadata.txt  \

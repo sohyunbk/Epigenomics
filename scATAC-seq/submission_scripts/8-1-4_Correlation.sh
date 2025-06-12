@@ -50,7 +50,7 @@ CTNameOrder=(
 /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Ann_v4_CellType_order_forA619Bif3_Reverse_RemoveUnknown.txt
 )
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Correlation/Correlation_Intergenic2000MostVariationACR_500pbCommonACR.R \
+Rscript ../workflow_scripts/Correlation/Correlation_Intergenic2000MostVariationACR_500pbCommonACR.R \
   --S1_Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${S1SampleSparse[SLURM_ARRAY_TASK_ID]}" \
   --S2_Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${S2SampleSparse[SLURM_ARRAY_TASK_ID]}" \
   --S1Name A619 \

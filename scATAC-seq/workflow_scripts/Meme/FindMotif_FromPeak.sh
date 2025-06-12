@@ -18,7 +18,7 @@ get_parser() {
     module load MEME/5.4.1-foss-2019b-Python-3.7.4
     module load BEDTools/2.30.0-GCC-10.2.0
 
-    sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/FindMotif_FromPeak.sh
+    sh ../workflow_scripts/FindMotif_FromPeak.sh
     Options:
         -BedFile, --BedFile  BedFile
         -Ref, --Ref  Ref.FaFile

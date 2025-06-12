@@ -11,7 +11,7 @@ for i in ${peaks[@]}; do
 
 	id=$( echo "$i" | cut -d'.' -f1-2 )
 
-	perl ~/1.scATAC-seq/1_scATAC-seq/0_CoreScript/8_FindCommonACRPos/8-2_normalize_score.pl $i \
+	perl ~/1.scATAC-seq/1_scATAC-seq/workflow_scripts/8_FindCommonACRPos/8-2_normalize_score.pl $i \
 	| perl -ne 'chomp;my@col=split("\t",$_);
 		$col[1] = $col[1] - 250;
 		$col[2] = $col[2] + 250;
@@ -23,5 +23,5 @@ done
 cat *.temp | sort -k1,1 -k2,2n - > $1.temp2
 
 # actually merge
-bedtools merge -i $1.temp2 -c 5 -o collapse | perl ~/1.scATAC-seq/1_scATAC-seq/0_CoreScript/8_FindCommonACRPos/8-2_selectNonOverlapping.pl - > $1.unique500bpPeaks.bed
+bedtools merge -i $1.temp2 -c 5 -o collapse | perl ~/1.scATAC-seq/1_scATAC-seq/workflow_scripts/8_FindCommonACRPos/8-2_selectNonOverlapping.pl - > $1.unique500bpPeaks.bed
 rm *.temp *.temp2

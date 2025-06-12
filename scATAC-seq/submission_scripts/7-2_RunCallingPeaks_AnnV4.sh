@@ -17,7 +17,7 @@ ml Anaconda3/2022.10
 source activate r_env
 
 cd $Path
-~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/Call_scACRs_byCellTypes_WithoutFakePeak.py \
+~/.conda/envs/r_env/bin/python ../workflow_scripts/PeakCalling_byCellTypes/Call_scACRs_byCellTypes_WithoutFakePeak.py \
  -bed /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${Combined[SLURM_ARRAY_TASK_ID]}"_Combined_Sorted_k12.bed_OnlyChr \
  -meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${Sample[SLURM_ARRAY_TASK_ID]}"/"${MetaData[SLURM_ARRAY_TASK_ID]}" \
  -col Ann_v4 -base "${Sample[SLURM_ARRAY_TASK_ID]}" -outdir "${Sample[SLURM_ARRAY_TASK_ID]}" \

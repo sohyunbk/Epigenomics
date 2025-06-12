@@ -35,7 +35,7 @@ Cluesters=(1
 
 module load CellRanger-ATAC/2.0.0
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/Subclustering.R \
+Rscript ../workflow_scripts/Annotation_Cluster/Subclustering.R \
 --SampleName "${SampleNames[SLURM_ARRAY_TASK_ID]}" \
 --MetaFile "${MetaFiles[SLURM_ARRAY_TASK_ID]}" \
 --ObjAfterHarmony "${RDS[SLURM_ARRAY_TASK_ID]}" \

@@ -13,7 +13,7 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MarkerGenes_Tfidf_SubmitScript.R \
+Rscript ../workflow_scripts/MarkerGenes_Tfidf_SubmitScript.R \
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/1.MarkerGene/bif3_Re3Re4_TSS35_FRiP55_MinT0.007_MaxT0.005 \
  --Name bif3_Re3Re4_TSS35_FRiP55_MinT0.007_MaxT0.005 \
  --meta //scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/bif3/bif3_Tn5Cut1000_Binsize500_MinT0.007_MaxT0.005_PC100_FeaturesN2e+05_k50_res0.9.AfterHarmony.metadata.txt \

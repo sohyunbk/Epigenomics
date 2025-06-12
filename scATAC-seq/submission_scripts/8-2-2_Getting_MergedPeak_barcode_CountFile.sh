@@ -41,5 +41,5 @@ module load BEDTools/2.30.0-GCC-10.2.0
 bedtools intersect -a /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${bedFiles[SLURM_ARRAY_TASK_ID]}"  \
   -b /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619_Bif3_MergedDifferentSizePeak/A619Bif3_"${ClusterN[SLURM_ARRAY_TASK_ID]}"_MergedPeak_Intergenic.bed  \
   -wa -wb \
-  -sorted  | perl /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/dACR/FastSparse.nonbinary.peak.pl \
+  -sorted  | perl ../workflow_scripts/dACR/FastSparse.nonbinary.peak.pl \
    - > /scratch/sb14489/3.scATAC/2.Maize_ear/8.Comparative_Analysis/2.dACR/A619_vs_Bif3_AnnV4/"${ClusterN[SLURM_ARRAY_TASK_ID]}"_PeaksCount_"${OutFileName[SLURM_ARRAY_TASK_ID]}".txt

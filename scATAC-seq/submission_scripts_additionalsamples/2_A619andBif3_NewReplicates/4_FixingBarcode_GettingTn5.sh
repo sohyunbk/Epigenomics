@@ -21,11 +21,11 @@ module load  SAMtools/1.10-iccifort-2019.5.281
 #samtools index -@ 20 /scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${SampleNameList[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam
 
 #FixingBarcode
-python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/FixingBarcodeName.py \
+python ../workflow_scripts/FixingBarcodeName.py \
  -BAM /scratch/sb14489/3.scATAC/2.Maize_ear/3.SortedBam/"${List[SLURM_ARRAY_TASK_ID]}"_Rmpcr.bam \
  -exp_name "${List[SLURM_ARRAY_TASK_ID]}" | samtools view -@ 12 - > /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_BarcodeFixed.sam
 
  #FixingBarcode
- python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MakeTn5bed_fromBam.py \
+ python ../workflow_scripts/MakeTn5bed_fromBam.py \
  -sam /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_BarcodeFixed.sam \
  -output_file /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/"${List[SLURM_ARRAY_TASK_ID]}"_Unique.bed

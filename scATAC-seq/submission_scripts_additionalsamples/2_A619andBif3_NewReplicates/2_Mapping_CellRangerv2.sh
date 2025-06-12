@@ -14,6 +14,6 @@ Sample=(Sohyun_A619-1 Sohyun_A619-2 Sohyun_BIF3-1 Sohyun_BIF3-2)
 
 module load CellRanger-ATAC/2.0.0
 
-sh /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Mapping.sh -SampleName "${Sample[SLURM_ARRAY_TASK_ID]}" \
+sh ../workflow_scripts/Mapping.sh -SampleName "${Sample[SLURM_ARRAY_TASK_ID]}" \
 -Ref /scratch/sb14489/0.Reference/Maize_B73/Maize_B73_V5_withMtPt_scATACCellRangerv2 \
 -InputPath /scratch/sb14489/3.scATAC/2.Maize_ear/1.Rawdata/ -OutfilePath /scratch/sb14489/3.scATAC/2.Maize_ear/2.Mapped_CellRangerv2/

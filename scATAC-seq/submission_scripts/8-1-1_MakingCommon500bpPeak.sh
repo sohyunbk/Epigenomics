@@ -16,7 +16,7 @@ Path1=(A619 A619 A619)
 Path2=(Bif3 rel2 relk1)
 OutPutFilesNames=(A619_Bif3_500bpCommonPeak/ComA619Bif3.unique500bpPeaks.bed A619_rel2_500bpCommonPeak/ComA619rel2.unique500bpPeaks.bed A619_relk1_500bpCommonPeak/ComA619relk1.unique500bpPeaks.bed)
 
-~/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/MergingACRs_500bpFixed_withHighestTn5.py \
+~/.conda/envs/r_env/bin/python ../workflow_scripts/PeakCalling_byCellTypes/MergingACRs_500bpFixed_withHighestTn5.py \
  -Path1_forCellPeak /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${Path1[SLURM_ARRAY_TASK_ID]}" \
  -Path2_forCellPeak /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${Path2[SLURM_ARRAY_TASK_ID]}" \
  -OutPutFile /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${OutPutFilesNames[SLURM_ARRAY_TASK_ID]}"

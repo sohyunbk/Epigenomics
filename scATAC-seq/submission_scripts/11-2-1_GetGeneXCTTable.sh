@@ -14,7 +14,7 @@
 SampleNames=(A619 Bif3)
 MetaFiles=(A619/Ref_AnnV4_metadata.txt Bif3/Bif3_AnnV4_metadata.txt)
 
-~/.conda/envs/r_env/bin/Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/dACRAdditionalAnalysis/GetGeneXCellTable.R \
+~/.conda/envs/r_env/bin/Rscript ../workflow_scripts/dACRAdditionalAnalysis/GetGeneXCellTable.R \
 --GA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_"${SampleNames[SLURM_ARRAY_TASK_ID]}"_includingZmCLE7.txt \
 --meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${MetaFiles[SLURM_ARRAY_TASK_ID]}" \
 --OutputDir /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACR_Character/2.dACR_GeneBodyACC \

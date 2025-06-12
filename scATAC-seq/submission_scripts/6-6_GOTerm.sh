@@ -14,7 +14,7 @@
 ml Anaconda3/2022.10
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Annotation_Cluster/GOTerm_forDenovoMarkers.R \
+Rscript ../workflow_scripts/Annotation_Cluster/GOTerm_forDenovoMarkers.R \
  --OutPutDir /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/6.GOTerm/AnnV4/ \
  --FileNameFix _deseq_2_results.tsv \
  --WDir_forDenovo /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/ \

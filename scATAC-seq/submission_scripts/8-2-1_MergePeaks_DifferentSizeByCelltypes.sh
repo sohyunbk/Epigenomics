@@ -13,7 +13,7 @@
 ml Anaconda3/2023.09-0
 source activate r_env
 
-/home/sb14489/.conda/envs/r_env/bin/python /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/PeakCalling_byCellTypes/MergeCutPeaks_toFixHumpedPeaks.py \
+/home/sb14489/.conda/envs/r_env/bin/python ../workflow_scripts/PeakCalling_byCellTypes/MergeCutPeaks_toFixHumpedPeaks.py \
     -method Method1 \
     -inputpath1 /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/A619 \
     -inputpath2 /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/Bif3 \

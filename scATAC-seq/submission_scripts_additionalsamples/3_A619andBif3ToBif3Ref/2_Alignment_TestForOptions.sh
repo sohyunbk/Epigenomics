@@ -10,7 +10,7 @@
 #SBATCH --mail-type=BEGIN,END,FAIL          # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --array=0-3                   # Array range
 
-#sbatch /home/sb14489/1.scATAC-seq/1_scATAC-seq/0_CoreScript/2_Alignment/2-1_Alignment_CellRangerv2.sh
+#sbatch /home/sb14489/1.scATAC-seq/1_scATAC-seq/workflow_scripts/2_Alignment/2-1_Alignment_CellRangerv2.sh
 cd /scratch/sb14489/3.scATAC/4.Bif3Ref_Ki3/1.Mapped
 Sample=(1_A619 3_bif3 1_A619_2 3_bif3_2)
 module load CellRanger-ATAC/2.1.0

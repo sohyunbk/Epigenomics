@@ -16,13 +16,13 @@ List=(A619_Re3 A619_Re4 bif3_Re3 bif3_Re4)
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/CleanFeatures_DetectDoublets.R \
+Rscript ../workflow_scripts/CleanFeatures_DetectDoublets.R \
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/ \
  --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.05 --MaxT 0.05 --nPC 100
 
 # --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.007 --MaxT 0.005 --nPC 100
 # --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.001 --MaxT 0.05 --nPC 100
 
-#Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/CleanFeatures_DetectDoublets.R \
+#Rscript ../workflow_scripts/CleanFeatures_DetectDoublets.R \
 # --WD /scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/AdditionalSample_TSS35_FRiP55/ \
 # --Name "${List[SLURM_ARRAY_TASK_ID]}" --PreFix Tn5Cut1000_Binsize500 --MinT 0.01 --MaxT 0.05 --nPC 100

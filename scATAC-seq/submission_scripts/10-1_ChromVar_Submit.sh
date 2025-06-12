@@ -59,7 +59,7 @@ A619_Bif3_500bpCommonPeak/ComA619Bif3.unique500bpPeaks_Intergenic.bed
 A619/A619.500bp_peaks_Intergenic.bed
 Bif3/Bif3.500bp_peaks_Intergenic.bed
 )
-Rscript /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/MotifDeviation/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R  \
+Rscript ../workflow_scripts/MotifDeviation/MotifAnalysis_ChromVar_AllMotifs_SmoothData.R  \
  --WD /scratch/sb14489/3.scATAC/2.Maize_ear/10.MotifAnalysis/1.ChromVar/"${WDs[SLURM_ARRAY_TASK_ID]}"  \
  --Sparse /scratch/sb14489/3.scATAC/2.Maize_ear/7.PeakCalling/Ann_V4/"${Sparses[SLURM_ARRAY_TASK_ID]}" \
  --Meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/"${Metas[SLURM_ARRAY_TASK_ID]}" \

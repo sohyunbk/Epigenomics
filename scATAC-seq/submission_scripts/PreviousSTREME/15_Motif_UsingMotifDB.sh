@@ -18,13 +18,13 @@ module load BEDTools/2.30.0-GCC-11.3.0
 #MemeMotifDB="/scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt"
 #OutfilePathName="/scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/IM_OC_dACR_JASPARMotif"
 
-bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Motif_Meme_FromACRBed.sh \
+bash ../workflow_scripts/Motif_Meme_FromACRBed.sh \
 --infile_Bed /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.A619Higher.Bed \
 --Fa /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --MemeMotifDB /scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt \
 --OutfilePath /scratch/sb14489/3.scATAC/2.Maize_ear/15.MEME_Motif/IM_OC_dACR_A619Higher_JASPARMotif \
 
-bash /home/sb14489/Epigenomics/scATAC-seq/0_CoreScript/Motif_Meme_FromACRBed.sh \
+bash ../workflow_scripts/Motif_Meme_FromACRBed.sh \
 --infile_Bed /scratch/sb14489/3.scATAC/2.Maize_ear/11.dACRs/A619_vs_Bif3_BiggerPeaks_AllIntergenic_SeedOn/IM-OC.Bif3Higher.Bed \
 --Fa /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_MtPtAdd_Rsf.fa \
 --MemeMotifDB /scratch/sb14489/3.scATAC/0.Data/Plant_Motif_PWM/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt \
