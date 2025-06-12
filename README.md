@@ -6,14 +6,15 @@ Omics analyses such as ChIP-seq and DAP-seq are also integrated.
 # Repository Structure 
 ## Spatial RNA-seq Analysis
 This repository contains scripts used for spatial transcriptomics analysis (10X Visium) in maize inflorescence tissue. 
-The pipeline is organized by analysis stages:
+We used spaceranger to produce spot level gene expression data with spatial coordinates.
 
+The pipeline is organized by analysis stages:
 * `1_QC_MarkerGene/`: Quality control, normalization, and marker gene identification pipeline using `Scanpy`.
-* `2_TargetGene_Replicates/`: Scripts for extracting metadata, summarizing gene counts, and performing differential expression (DE) tests on selected target genes across replicates. Includes both Python and R scripts.
+  In the begining, QC & MarkerGene finding step was 
+* `2_TargetGene_Replicates/`: Scripts for extracting metadata, summarizing gene counts, and performing differential expression tests on selected target genes across replicates. Includes both Python and R scripts.
 * `3_SelectCells/`:
-Cell/dot selection and position-based extraction of gene counts. Includes DE analysis for selected gene sets (e.g., WOX genes), with interactive notebooks and R scripts for plotting and statistics.
-4_QCTable.ipynb:
-Jupyter notebook summarizing QC metrics and output tables.
+domain selection and position-based extraction of gene counts. Includes DE analysis for selected gene sets (e.g., WOX genes), with interactive notebooks and R scripts for plotting and statistics.
+
 ## scATAC-seq Analysis
 ### submission_scripts
 `submission_scripts` directory includes SLURM submission scripts for running the pipeline steps on a compute cluster. Each script wraps a specific component in handling resource allocation, environment setup, and job execution.
