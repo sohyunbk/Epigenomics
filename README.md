@@ -17,9 +17,10 @@ domain selection and position-based extraction of gene counts. Includes DE analy
 
 ## scATAC-seq Analysis
 ### submission_scripts
-`submission_scripts` directory includes SLURM submission scripts for running the pipeline steps on a compute cluster. Each script wraps a specific component in handling resource allocation, environment setup, and job execution.
+* `submission_scripts` directory includes SLURM submission scripts for running the pipeline steps on a compute cluster. Each script wraps a specific component in handling resource allocation, environment setup, and job execution.
 They are organized numerically to reflect the order of execution.
-  
+* `submission_scripts_additionalsamples` directory exists because I did several trials and fails. First, we produced more libaraies before so tried to combine all libraries together. Second, to compare the mutant and wild type there are several method we can use and one of them is to use wild type as reference and project mutant cells to the reference. `3_A619andBif3ToBif3Ref` has the reference based mutant projection method.
+
 ### workflow_scripts
 `workflow_scripts` directory contains core R, Python, and shell scripts that perform specific analyses in a modular and reusable fashion. Each subdirectory represents a distinct step or module of the analysis pipeline.
 
