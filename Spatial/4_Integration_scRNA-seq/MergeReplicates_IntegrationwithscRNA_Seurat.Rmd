@@ -1,0 +1,160 @@
+---
+title: "Merge replicates & integrate with scRNA-seq"
+author: "Sohyun Bang"
+output: 
+  github_document
+---
+```{r setopts, echo=FALSE}
+library(Seurat)
+library(ggplot2)
+library(patchwork)
+library(dplyr)
+library(harmony)
+library(scCustomize)
+#library(MERINGUE)
+library(qs)
+
+rm(list = ls())
+## Save figures as pdf files for illustrator. Save figures as png files for md visualization. 
+knitr::opts_chunk$set(
+  echo = TRUE,
+  dev = c("png", "pdf"),
+  fig.keep = "all"
+)
+options(getClass.msg = FALSE)
+
+set_fig_path <- function(options) {
+  options$fig.path <- "output/fig-"
+  options
+}
+knitr::opts_hooks$set(dev = set_fig_path)
+```
+Define the Read10X_Image_2 function.. I the error to use "Read10X_Image" is from the version match error of the spaceranger...
+
+```{r Define re-read10Xfunction}
+
+Read10X_Image_2 <- function(
+  image.dir,
+  image.name = "tissue_lowres_image.png",
+  assay = "Spatial",
+  slice = "slice1",
+  filter.matrix = TRUE
+) {
+  image <- png::readPNG(
+    source = file.path(
+      image.dir,
+      image.name
+    )
+  )
+
+  scale.factors <- Read10X_ScaleFactors(
+    filename = file.path(image.dir, "scalefactors_json.json")
+  )
+
+  coordinates <- Read10X_Coordinates(
+    filename = Sys.glob(file.path(image.dir, "*tissue_positions*")),
+    filter.matrix
+  )
+
+  coordinates$imagerow <- as.numeric(coordinates$imagerow)
+  coordinates$imagecol <- as.numeric(coordinates$imagecol)
+
+  fov <- CreateFOV(
+    coordinates[, c("imagerow", "imagecol")],
+    type = "centroids",
+    radius = scale.factors[["spot"]],
+    assay = assay,
+    key = Key(slice, quiet = TRUE)
+  )
+
+  visium.fov <- new(
+    Class = "VisiumV2",
+    boundaries = fov@boundaries,
+    molecules = fov@molecules,
+    assay = fov@assay,
+    key = fov@key,
+    image = image,
+    scale.factors = scale.factors
+  )
+
+  return(visium.fov)
+}
+```
+
+Load 10X info - image coordinates.
+Here we do not use Load10X_Spatial... because of version mismatch issue to read "png" file
+```{r Load gene Info data & QC - Feature and count number}
+#expr_matrix <- Read10X_h5("./Slide1_WT_Replicate1/filtered_feature_bc_matrix.h5")
+features <- read.table("./features.tsv",
+                       sep = "\t", header = FALSE, stringsAsFactors = FALSE)
+
+CreateSpatialSeuratObject <- function(
+  matrix_h5_path,
+  image_dir,
+  slice = "slice1",
+  assay = "Spatial",
+  image_function = Read10X_Image_2  # pass your custom image loader
+) {
+  counts <- Read10X_h5(matrix_h5_path)
+  rownames(counts) <- features$V1
+  counts <- counts[rownames(counts) != "", ]                    
+  counts <- counts[!duplicated(rownames(counts)), ]             
+  seurat_obj <- CreateSeuratObject(counts = counts, assay = assay)
+  spatial_img <- image_function(image.dir = image_dir, slice = slice)
+  DefaultAssay(spatial_img) <- assay
+  seurat_obj[[slice]] <- spatial_img
+  return(seurat_obj)
+  
+  }
+re1_spatial <- CreateSpatialSeuratObject(
+  matrix_h5_path = "./Slide1_WT_Replicate1/filtered_feature_bc_matrix.h5",
+  image_dir = "./Slide1_WT_Replicate1/spatial/",
+  slice = "Slide1")
+re1_spatial$orig.ident <- "re1"
+
+re2_spatial <- CreateSpatialSeuratObject(
+  matrix_h5_path = "./Slide2_WT_Replicate2/filtered_feature_bc_matrix.h5",
+  image_dir = "./Slide2_WT_Replicate2/spatial/",
+  slice = "Slide2")
+re2_spatial$orig.ident <- "re2"
+
+SpatialFeaturePlot(re1_spatial, features = c("nCount_Spatial", "nFeature_Spatial")) + theme(legend.position = "right") 
+SpatialFeaturePlot(re2_spatial, features = c("nCount_Spatial", "nFeature_Spatial")) + theme(legend.position = "right") 
+```
+Normalization & draw UMAP
+```{r Normalization & draw UMAP}
+suppressWarnings({
+  re1_filt <- SCTransform(re1_spatial, assay = "Spatial", verbose = FALSE)
+  re2_filt <- SCTransform(re2_spatial, assay = "Spatial", verbose = FALSE)
+})
+
+Merge <- merge(re1_filt, y = re2_filt, add.cell.ids = c("Re1", "Re2"), project = 'maize_visium')
+features <- SelectIntegrationFeatures(object.list = c(re1_filt, re2_filt), nfeatures = 3000)
+VariableFeatures(Merge) <- features
+
+## Dimensionality reduction and clustering
+Merge <- Merge %>% 
+  RunPCA(assay = "SCT", verbose = FALSE) %>% 
+  FindNeighbors(reduction = "pca", dims = 1:30) %>% 
+  FindClusters(verbose = FALSE, resolution = 0.50) %>% 
+  RunUMAP(reduction = "pca", dims = 1:30)
+
+DimPlot(Merge, reduction = "umap")
+DimPlot(Merge, reduction = "umap", group.by = c("orig.ident"))
+```
+
+Find anchors and prediction scores between snRNA-seq and spatial RNA-seq
+```{r Find anchors and prediction scores between snRNA-seq and spatial RNA-seq}
+snrna_seurat <- readRDS("obj_afterHarmony_WTRe1andRe2_UMI1000.rds")
+
+query_snRNA <- SCTransform(snrna_seurat, verbose = FALSE)
+
+anchors <- FindTransferAnchors(reference = Merge, query = query_snRNA,normalization.method = "SCT")
+
+predictions <- TransferData(
+  anchorset = anchors,
+  refdata = Merge$seurat_clusters,  # or whatever your annotation column is
+  dims = 1:30
+)
+
+```
