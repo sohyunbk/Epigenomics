@@ -7,13 +7,13 @@ Omics analyses such as ChIP-seq and DAP-seq are also integrated.
 ## Spatial Transcriptome Analysis
 `Spatial` dir contains scripts used for spatial transcriptomics analysis (10X Visium) in maize inflorescence tissue. 
 We used spaceranger to produce spot level gene expression data with spatial coordinates.
-
+`Scanpy` and `Seurat` are used for the analysis - visualization, merging, deconvolution analysis with snRNA-seq.
 The pipeline is organized by analysis stages:
 * `1_QC_MarkerGene/`: Quality control, normalization, and marker gene identification pipeline using `Scanpy`.
   In the begining, QC & MarkerGene finding step was 
 * `2_TargetGene_Replicates/`: Scripts for extracting metadata, summarizing gene counts, and performing differential expression tests on selected target genes across replicates. Includes both Python and R scripts.
 * `3_SelectCells/`:
-domain selection and position-based extraction of gene counts. Includes DE analysis for selected gene sets (e.g., WOX genes), with interactive notebooks and R scripts for plotting and statistics.
+domain selection and position-based extraction of gene counts. Includes DE analysis for selected gene sets with R scripts.
 
 ## scRNA-seq Analysis
 `scRNA-seq` dir has scripts used for scRNA-seq analysis. 
