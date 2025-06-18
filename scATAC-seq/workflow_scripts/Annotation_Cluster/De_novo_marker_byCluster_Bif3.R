@@ -640,7 +640,7 @@ wrapper_function_updated <- function(meta_data, sparse_matrix, column_name,
     group_by(!!sym(annotation_col_quick_ref))  %>% 
     summarise(cell_counts = n())  %>% 
     dplyr::filter(!!sym(annotation_col_quick_ref) == cluster_name)
-  
+  head(count_number_cells)
   
   if (count_number_cells$cell_counts < 200) {
     sample_cluster_test <- sample_cluster(meta_data, sparse_matrix, column_name, cluster_name)
