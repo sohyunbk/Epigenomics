@@ -14,7 +14,7 @@
 ml Anaconda3/2020.02
 source activate r_env
 
-Rscript ../workflow_scripts/Annotation_Cluster/De_novo_marker_byCluster.R \
+Rscript ../workflow_scripts/Annotation_Cluster/De_novo_marker_byCluster_Bif3.R \
 --meta /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Bif3/Bif3_AnnV4_metadata.txt \
 --GeneBA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_Bif3_includingZmCLE7Extended500bp.txt \
 --marker /scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt \
