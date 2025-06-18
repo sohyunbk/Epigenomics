@@ -19,6 +19,6 @@ Rscript ../workflow_scripts/Annotation_Cluster/De_novo_marker_byCluster.R \
 --GeneBA /scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_Bif3_includingZmCLE7Extended500bp.txt \
 --marker /scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt \
 --bed /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr_AddZmCLE7.bed \
---Ann_ColumnName Ann_v4_Bif3 \
+--Ann_ColumnName Ann_v4 \
 --Species maize --OutputBaseName Bif3_v4 \
 --OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/Bif3
