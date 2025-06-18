@@ -138,7 +138,8 @@ max(FCTable_ordered)
 dim(FCTable_ordered)
 ### Let's match it with the gene symbol
 head(InterestedGeneID_GeneSymbol)
-FCTable_ordered_geneSymbol <- merge(InterestedGeneID_GeneSymbol, FCTable_ordered, by.x = "GeneInfo.gene_model", by.y = "row.names", all.y = TRUE)
+FCTable_ordered_geneSymbol <- merge(InterestedGeneID_GeneSymbol, 
+                                    FCTable_ordered, by.x = "GeneInfo.gene_model", by.y = "row.names", all.y = TRUE)
 head(FCTable_ordered_geneSymbol)
 
 FCTable_ordered_geneSymbol$GeneInfo.gene_model <- ifelse(is.na(FCTable_ordered_geneSymbol$GeneInfo.locus_symbol),

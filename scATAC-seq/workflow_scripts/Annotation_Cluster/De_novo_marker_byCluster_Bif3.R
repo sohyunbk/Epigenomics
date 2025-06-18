@@ -1,5 +1,4 @@
 library(dplyr)
-library(here)
 library(DESeq2)
 library(tidyverse)
 library(rlang)
@@ -40,16 +39,17 @@ species <- opt$Species
 output_base <- opt$OutputBaseName
 output_location <- opt$OutputPath
 
+#meta_data_file_wt <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV4_metadata.txt"
+#loaded_meta_data_wt <- read.table(meta_data_file_wt, header = TRUE) #%>% 
 
-
-#meta_data_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/5.CellClustering/Ref_AfterMt0.5Cutoff/Tn5Cut1000_Binsize500_Mt0.05_MinT0.01_MaxT0.05_PC100/Ref_AnnV4_metadata.txt"
-#gene_accessability_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_A619.txt"
+#meta_data_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/0.AnnotatedMeta/Bif3/Bif3_AnnV4_metadata.txt"
+#gene_accessability_file <- "/scratch/sb14489/3.scATAC/2.Maize_ear/4.Bam_FixingBarcode/GA_Bif3_includingZmCLE7Extended500bp.txt"
 #marker_gene_file <- "/scratch/sb14489/3.scATAC/0.Data/MarkerGene/230426_EarMarker.txt"
-#all_genes_bed <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed"
+#all_genes_bed <- "/scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr_AddZmCLE7.bed"
 #column_name_inp <- "Ann_v4"
 #species <- "maize"
-#output_base <- "Ref_AnnV4"
-#output_location <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4"
+#output_base <- "Bif3_v4"
+#output_location <- "/scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/Bif3"
 
 if (!dir.exists(paste0(output_location))){
   dir.create(paste0(output_location))
@@ -375,9 +375,9 @@ sample_cluster_replicate_aware <- function(meta_data, sparse_matrix, slot_name, 
   #cluster <- "1_NA"
   slot_var <- c(slot_name)
   subsampled_meta_data <- meta_data %>% 
-    dplyr::select(cellID, sampleID, !!sym(slot_var)) %>% 
+    dplyr::select(cellID, library, !!sym(slot_var)) %>% 
     dplyr::filter(!!sym(slot_var) == cluster) %>%
-    group_by(sampleID) %>% 
+    group_by(library) %>% 
     group_split()
   
   
@@ -392,24 +392,24 @@ sample_cluster_replicate_aware <- function(meta_data, sparse_matrix, slot_name, 
   rep_1_group_1 <- rep_1_shuffled %>% 
     sample_n(nrow(.)) %>% 
     slice_head(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), sampleID, "QQQQQ", sep = "."))
+    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), library, "QQQQQ", sep = "."))
   
   rep_1_group_2 <- rep_1_shuffled  %>% 
     sample_n(nrow(.)) %>% 
     slice_tail(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), sampleID, "CCCCC", sep = "."))
+    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), library, "CCCCC", sep = "."))
   
   
   rep_2_group_1 <- rep_2_shuffled %>% 
     sample_n(nrow(.)) %>% 
     slice_head(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), sampleID, "QQQQQ", sep = "."))
+    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), library, "QQQQQ", sep = "."))
   
   
   rep_2_group_2 <- rep_2_shuffled %>% 
     sample_n(nrow(.)) %>% 
     slice_tail(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), sampleID, "CCCCC", sep = "."))
+    mutate(louvain_grouping_sample = str_c(!!sym(slot_var), library, "CCCCC", sep = "."))
   
   
   ## Bind all data together
@@ -490,7 +490,7 @@ generate_null_sample_replicate_aware <- function(meta_data, sparse_matrix, slot_
   
   
   generated_subsample_rep_split <- generated_subsample  %>% 
-    group_by(sampleID) %>% 
+    group_by(library) %>% 
     group_split()
   
   generated_subsample_rep_split_rep_1_shuffle <- generated_subsample_rep_split[[1]]  %>% 
@@ -503,20 +503,20 @@ generate_null_sample_replicate_aware <- function(meta_data, sparse_matrix, slot_
   rep_1_sub_sample_group_1 <- generated_subsample_rep_split_rep_1_shuffle %>% 
     sample_n(nrow(.))  %>% 
     slice_head(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(sampled_slot, sampleID, "QQQQQ", sep = "."))
+    mutate(louvain_grouping_sample = str_c(sampled_slot, library, "QQQQQ", sep = "."))
   
   rep_1_sub_sample_group_2 <- generated_subsample_rep_split_rep_1_shuffle %>% 
     slice_tail(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(sampled_slot, sampleID, "CCCCC", sep = "."))
+    mutate(louvain_grouping_sample = str_c(sampled_slot, library, "CCCCC", sep = "."))
   
   
   rep_2_sub_sample_group_1 <- generated_subsample_rep_split_rep_2_shuffle %>% 
     slice_head(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(sampled_slot, sampleID, "QQQQQ", sep = "."))
+    mutate(louvain_grouping_sample = str_c(sampled_slot, library, "QQQQQ", sep = "."))
   
   rep_2_sub_sample_group_2 <- generated_subsample_rep_split_rep_2_shuffle %>% 
     slice_tail(prop = .5) %>% 
-    mutate(louvain_grouping_sample = str_c(sampled_slot, sampleID, "CCCCC", sep = "."))
+    mutate(louvain_grouping_sample = str_c(sampled_slot, library, "CCCCC", sep = "."))
   
   combined_null <- bind_rows(rep_1_sub_sample_group_1, rep_1_sub_sample_group_2,
                              rep_2_sub_sample_group_1, rep_2_sub_sample_group_2)

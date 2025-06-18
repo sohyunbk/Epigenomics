@@ -21,4 +21,4 @@ Rscript ../workflow_scripts/Annotation_Cluster/De_novo_marker_byCluster_Bif3.R \
 --bed /scratch/sb14489/0.Reference/Maize_B73/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr_AddZmCLE7.bed \
 --Ann_ColumnName Ann_v4 \
 --Species maize --OutputBaseName Bif3_v4 \
---OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/Bif3
+--OutputPath /scratch/sb14489/3.scATAC/2.Maize_ear/6.Annotation/3.Denovo/AnnV4/Bif3_Retry
