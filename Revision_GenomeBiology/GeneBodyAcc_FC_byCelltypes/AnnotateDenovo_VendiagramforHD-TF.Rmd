@@ -11,6 +11,11 @@ library(preprocessCore)
 library(dplyr)
 library(tidyr)
 library(ggVennDiagram)
+library(ggplot2)
+library(VennDiagram)
+library(tibble)
+library(forcats)  # for fct_reorder
+library(tidyverse)
 
 rm(list = ls())
 ## Save figures as pdf files for illustrator. Save figures as png files for md visualization. 
@@ -30,11 +35,53 @@ knitr::opts_hooks$set(dev = set_fig_path)
 ### Load Gene Info data
 ```{r Load gene Info data}
 GeneInfo <- read.delim("../maizev5_data/Zm00001eb.1.fulldata_Curated2.txt", stringsAsFactors = FALSE)
+Gene <- read.delim("../maizev5_data/Zm-B73-REFERENCE-NAM-5.0_Zm00001eb.1_OnlyGene_Chr.bed",
+                   stringsAsFactors = FALSE, header = FALSE)
+colnames(Gene)[1:10] <- c("chr", "start", "end", "gene_id", "dot", "strand", "source", "feature", "dot2", "attributes")
+Gene$length_kb <- (Gene$end - Gene$start) / 1000
+gene_length_vec <- setNames(Gene$length_kb, Gene$gene_id)
+
 ```
 
 
-### 1) Get Gene body acc for all the genes & normalize the value & calculate logFC
-```{r Load Data - GeneBodyACC for all cell types}
+### 1) Load Homemodomain TFs and match from V3 to V5
+```{r check the types of TFs}
+TFlist <- read.delim("./Zma_TF_list.txt", stringsAsFactors = FALSE) ## This data is from https://planttfdb.gao-lab.org/index.php?sp=Zma
+
+## Filter TFs with HD
+
+V3_V5 <- read.delim("B73v3_to_B73v5.tsv", stringsAsFactors = FALSE)
+
+TFs_merged <- merge(TFlist, V3_V5, by.x = "Gene_ID", by.y = "V3", all.x = TRUE)
+TFs_expanded <- TFs_merged %>% ## This is because to make V5 gene id as the key
+  separate_rows(V5, sep = ",") %>%
+  rename(gene_model=V5) 
+
+TFs_V5Key <- TFs_expanded %>%
+  group_by(gene_model) %>%
+  summarise(Family = paste(sort(unique(Family)), collapse = ","), .groups = "drop") %>%
+  filter(gene_model != "") 
+
+TFs_V5Key_re <- TFs_V5Key %>%
+  separate_rows(Family, sep = ",") 
+
+
+HD_TFs <- TFs_V5Key %>%
+  separate_rows(Family, sep = ",") %>% # This is because some gene model has two families 
+    filter(Family %in% c("ZF-HD", "HD-ZIP", "WOX", "HB-PHD", "HB-other","TALE")) 
+
+#TFs_V5Key %>%
+#  filter(gene_model == "Zm00001eb001720")
+
+#HD_TFs %>%
+#  filter(gene_model=="Zm00001eb395430")
+unique_HD_TFs<- unique(HD_TFs$gene_model)
+length(unique_HD_TFs)
+
+```
+
+### 2) Get Gene body acc for all the genes & normalize the value & calculate logFC
+```{r CheckTn5CountsDistributions}, fig.width=3.5, fig.height=3}
 ### 1) Get Gene body acc for all the genes
 ## load gene*cell table.
 WT_GeneXCT <- read.table("./A619_AnnV4.GeneBodyACC.byGeneXCT.txt",header=TRUE)
@@ -54,12 +101,61 @@ gene_counts_df <- GeneXCT[, -1]
 #head(GeneXCT)
 #dim(GeneXCT)
 
-GeneXCT_MoreThan50Tn5 <- GeneXCT %>%
-  filter_all(all_vars(. > 50))
-dim(GeneXCT_MoreThan50Tn5)
 
-GeneNames <- GeneXCT[, 1]
-gene_counts_df <- GeneXCT[, -1]
+GeneXCT_long <- GeneXCT %>%
+  pivot_longer(cols = -gene, names_to = "CellType", values_to = "Tn5")
+
+ggplot(GeneXCT_long, aes(x = Tn5)) +
+  geom_density(fill = "skyblue", alpha = 0.5) +
+  labs(title = "Density Plot of Tn5 Values",
+       x = "Tn5 Signal",
+       y = "Density") +
+  theme_minimal() 
+
+ggplot(GeneXCT_long, aes(x = Tn5)) +
+  geom_density(fill = "skyblue", alpha = 0.5) +
+  labs(title = "Density Plot of Tn5 Values",
+       x = "Tn5 Signal",
+       y = "Density") +
+  theme_minimal() +
+  coord_cartesian(xlim = c(0, 500)) 
+
+
+#GeneXCT %>%
+#  filter(gene == "Zm00001eb067310")
+#176
+#GeneXCT %>%
+#  filter(gene == "Zm*00001eb395430")
+```
+
+Normalization - TPM considering gene length - due to the cut off.
+```{r Normalization}
+## Here only filter the genes that are less than 50 counts in central zone..
+GeneXCT_MoreThan50Tn5 <- subset(GeneXCT, `A619&IM.OC` > 50 & `Bif3&IM.OC` > 50)
+expr <- GeneXCT_MoreThan50Tn5
+matched_genes <- intersect(expr$gene, names(gene_length_vec))
+expr <- expr[expr$gene %in% matched_genes, ]
+gene_lengths_kb <- gene_length_vec[expr$gene]
+stopifnot(all(expr$gene == names(gene_lengths_kb))) 
+count_matrix <- as.matrix(expr[, -1]) 
+
+calculateTPM <- function(counts, gene_lengths_kb) {
+  rate <- counts / gene_lengths_kb
+  tpm <- sweep(rate, 2, colSums(rate), FUN = "/") * 1e6
+  return(tpm)
+}
+
+tpm_matrix <- calculateTPM(count_matrix, gene_lengths_kb)
+rownames(tpm_matrix) <- expr$gene
+
+#check ZmWUS1
+tpm_matrix["Zm00001eb067310", ] # itss tpm value is 90.60476
+
+Genes_higherTPMthanBif3CZ <- rownames(tpm_matrix[tpm_matrix[,"Bif3&IM.OC"] >= 90.50476, ])
+ 
+
+GeneNames <- GeneXCT_MoreThan50Tn5[, 1]
+gene_counts_df <- GeneXCT_MoreThan50Tn5[, -1]
 
 cpm_data <- cpm(DGEList(counts = gene_counts_df), log = FALSE)
 QNorm <- normalize.quantiles(as.matrix(gene_counts_df))
@@ -80,43 +176,26 @@ FCTable_with_id <- FCTable %>%
   tibble::rownames_to_column(var = "gene_model")
 
 FCTable_annotated <- FCTable_with_id %>%
-  left_join(GeneInfo[, c("gene_model", "locus_symbol")], by = "gene_model")
+  left_join(GeneInfo[, c("gene_model", "locus_symbol")], by = "gene_model") %>%
+  left_join(TFs_V5Key[, c("gene_model", "Family")], by = "gene_model")
+
 write.table(FCTable_annotated, file = "GeneBodyACC_FC_Bif3WT_byCelltypes.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
 CentralZone_Increased <- FCTable_annotated %>%
   filter(IM.OC > 0.5)
 
-```
-### 2) Load Homemodomain TFs and match from V3 to V5
-```{r check the types of TFs}
-TFlist <- read.delim("./Zma_TF_list.txt", stringsAsFactors = FALSE) ## This data is from https://planttfdb.gao-lab.org/index.php?sp=Zma
+CentralZone_Increased_morethanBif3CZ_HD <- CentralZone_Increased %>%
+  filter(gene_model %in% Genes_higherTPMthanBif3CZ) %>%
+  filter(gene_model %in% unique_HD_TFs)
 
-## Filter TFs with HD
-Temp <- TFlist %>%
-  filter(Family %in% c("ZF-HD", "HD-ZIP", "WOX", "HB0PHD", "HB-other"))
+write.table(CentralZone_Increased_morethanBif3CZ_HD, file = "CentralZone_Increased_morethanBif3CZ_HD.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-V3_V5 <- read.delim("B73v3_to_B73v5.tsv", stringsAsFactors = FALSE)
-
-TFs_merged <- merge(TFlist, V3_V5, by.x = "Gene_ID", by.y = "V3", all.x = TRUE)
-TFs_expanded <- TFs_merged %>% ## This is because to make V5 gene id as the key
-  separate_rows(V5, sep = ",") %>%
-  rename(gene_model=V5) 
-
-TFs_V5Key <- TFs_expanded %>%
-  group_by(gene_model) %>%
-  summarise(Family = paste(sort(unique(Family)), collapse = ","), .groups = "drop") %>%
-  filter(gene_model != "") %>%
-  separate_rows(Family, sep = ",") # This is because some gene model has two families
-
-HD_TFs <- TFs_V5Key %>%
-    filter(Family %in% c("ZF-HD", "HD-ZIP", "WOX", "HB0PHD", "HB-other")) 
-
-unique_HD_TFs<- unique(HD_TFs$gene_model)
-length(unique_HD_TFs)
+#CentralZone_Increased_morethanBif3CZ %>%
+#  filter(gene_model == "Zm00001eb067310")
 
 ```
 
-### 3) Load De novo marker gene list
+### 3) Load De novo marker gene list <<- its not used 
 ```{r check De novo marker gene list}
 DeNovo <- read.delim("A619_v4.IM.OC_deseq_2_results.tsv", stringsAsFactors = FALSE)
 Sig_DeNovo <- DeNovo[!is.na(DeNovo$padj) & 
@@ -132,13 +211,63 @@ write.table(Sig_DeNovo_annotated, file = "Sig_DeNovo_p0.01_genesymbol.txt", sep 
 ```
 
 
-### 4) Venn diagram
-```{r Venn diagram , fig.width=3, fig.height=3}
-common_elements <- intersect(intersect(unique_HD_TFs, CentralZone_Increased$gene_model), Sig_DeNovo_annotated$gene_model)
-print(common_elements)
-venn_list <- list(HD_TF = unique_HD_TFs, 
-                  IncreasedinBif3 = CentralZone_Increased$gene_model,
-                  DeNovoCentralzone = Sig_DeNovo_annotated$gene_model)
-ggVennDiagram(venn_list, label="count")
+### 4) barplot
+```{r barplot , fig.width=4, fig.height=6.5}
+#common_elements <- intersect(intersect(unique_HD_TFs, CentralZone_Increased$gene_model), Sig_DeNovo_annotated$gene_model)
+common_elements <- intersect(unique_HD_TFs, CentralZone_Increased$gene_model)
 
+temp <- TFs_V5Key_re[TFs_V5Key_re$gene_model %in% CentralZone_Increased$gene_model,]
+full_table <- table(TFs_V5Key_re$Family)
+temp_table <- table(temp$Family)
+
+all_families <- names(full_table)
+temp_vector <- setNames(rep(0, length(all_families)), all_families)
+temp_vector[names(temp_table)] <- temp_table
+
+ratio <- temp_vector / full_table * 100
+
+ratio_df <- data.frame(
+  Family = names(ratio),
+  Temp_Count = temp_vector,
+  Full_Count = as.numeric(full_table),
+  Ratio = as.numeric(ratio)
+)
+#print(ratio_df)
+ratio_df_filtered <- ratio_df %>% 
+  filter(Ratio > 0)
+
+# Plot
+ggplot(ratio_df_filtered, aes(x = fct_reorder(Family, Ratio), y = Ratio)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = Temp_Count), 
+            hjust = -0.2, size = 4) +  # Adjust size and position as needed
+  coord_flip() +
+  labs(title = "Ratio of Temp_Count to Full_Count by TF Family (Non-zero Only)",
+       x = "Transcription Factor Family",
+       y = "Ratio (%)") +
+  theme_minimal(base_size = 14) +
+  ylim(0, max(ratio_df_filtered$Ratio) * 1.1)  
+```
+### 5) Venn diagram
+
+```{r Venn diagram , fig.width=3, fig.height=3}
+venn_list <- list(HD_TF = unique_HD_TFs, 
+                  IncreasedinBif3 = CentralZone_Increased$gene_model)
+#ggVennDiagram(venn_list, label="count")
+venn.plot <- venn.diagram(
+  x = venn_list,
+  category.names = c("HD_TF", "IncreasedinBif3"),
+  filename = NULL,  # Plot to R graphics window
+  output = TRUE,
+  imagetype = "png",
+  height = 480,
+  width = 480,
+  resolution = 300,
+  fill = c("cornflowerblue", "darkorchid1"),
+  alpha = 0.5,
+  cex = 1.5,
+  cat.cex = 1.5,
+  cat.pos = 0
+)
+grid::grid.draw(venn.plot)
 ```
